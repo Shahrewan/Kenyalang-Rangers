@@ -74,7 +74,7 @@ The remaining values and verification below carry forward from the W00b approval
 | D-010 | **PROVISIONAL** | Final restoration payouts and separate first-species discovery award are `TBD`. Test the three-species gate, fourth-species visitor, offline midpoint and one-time collection. | Garden balancing |
 | D-011 | **MISSING / VERIFICATION PENDING** | Verify all adopted eligibility predicates and author numeric stacking and rounding for overlaps beyond explicit source rules. | Chaos validation |
 | D-012 | **VALIDATION PENDING** | Battle-size pilot, final import/export tooling, part dimensions, atlas settings, palette and pivots. | Mass art production |
-| D-013 | **VALIDATION PENDING** | Confirm the matching export template installation, named physical phone, measured smoke results and later benchmark. | Android verification |
+| D-013 | **VALIDATION PENDING** | Record the named physical phone, offline/touch/safe-area smoke results and later benchmark. Matching templates and debug APK export are verified. | Android verification |
 | D-014 | **MISSING** | Name the assigned reviewers and record actual source, provenance and sign-offs as the content becomes available. | Content release |
 | D-015 | **MISSING / VERIFICATION PENDING** | Confirm release namespace and custodians. Verify signed update and save continuity. | Supported demo delivery |
 | D-016 | **MISSING / PROVISIONAL** | Final grade payouts, Records counts and per-question/per-chapter awards remain `TBD`. Verify clock jumps, persisted orders and low-balance deductions. | Education and economy |
@@ -86,3 +86,22 @@ The remaining values and verification below carry forward from the W00b approval
 | Date | Decision | Authority and effect |
 |---|---|---|
 | 2026-11-21 | Use Godot 4.7.2, GDScript project configuration, offline Android landscape and the two named PDFs for W00 reconciliation. | User's project instructions and W00 request. |
+
+## D-013 C01 platform verification — 2026-11-21
+
+| Item | Record |
+|---|---|
+| Editor pin | Godot 4.7.2 stable. Cloud verification used the official Linux x86-64 build `4.7.2.stable.official.ed1daf0bf`. |
+| Export template pin | Checksum-verified `4.7.2.stable` standard Android debug and release APK templates installed in the local editor profile. |
+| Rendering and layout | GDScript, Compatibility renderer, 1280×720 logical baseline, landscape with expanding canvas and Android safe-area margins. |
+| Provisional Android target | ARM64, OpenGL ES 3, Android 9 and 3 GB RAM. Android 11+ and 4 GB preferred. |
+| First physical test phone | Model, Android/API, RAM/GPU, display and cutout, and installed build details TBD. USB is unavailable in the cloud workspace and ADB cannot initialize its default directory on the read-only home filesystem. |
+| Evidence | Headless editor import, runtime startup, 9 automated checks and Linux/X11 pointer navigation passed. Debug APK export then succeeded with JDK 17.0.21.1, SDK 36, Build-Tools 36.1.0 and Platform-Tools 37.0.3. Android tools verified v2/v3 signatures, alignment and the ARM64 landscape manifest for `com.shahrewan.kenyalangrangers.dev` version `0.1.0-dev`, code 1, min API 24 and target API 36. See [the phone smoke procedure](../../export/README.md). |
+
+## D-006 C02 fixture evidence — 2026-11-21
+
+The T01 fixture keeps the D-006 counts and cadence. C02 uses test-only values of 0.65 tiles per combat second and 10 Integrity per real escape. The deterministic runner resolved all 14 enemies as a perfect clear at tick 4021 in the no-delay defeat case. It also verified a normal clear with an escape, defeat at zero Integrity and a separate cinematic withdrawal with no combat changes. Final stage timings, path speeds and escape costs remain open.
+
+## D-008 C03 input fixture — 2026-11-21
+
+The deployment preview uses the approved 350 ms real-time hold and 10/12 Token Patrolman/Scout costs. The 60-Token test budget, five-combat-second retreat cooldown, illustrative ranges and extra test card prices are fixture-only values. Touch sets facing from the half of the anchor tile under the release. A targeted skill requires a covered tile tap plus explicit confirmation. See the [C03 phone check](../../export/README.md#c03-deployment-smoke-test) for pending device calibration.

@@ -1,0 +1,189 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/sample_board.gd" id="1"]
+
+[ext_resource type="Script" path="res://scripts/battle/battle_scene.gd" id="2"]
+[ext_resource type="Resource" path="res://data/stages/c02_first_contact.tres" id="3"]
+
+[ext_resource type="Script" path="res://scripts/ui/deployment_controller.gd" id="4"]
+[ext_resource type="Resource" path="res://data/rangers/c03_preview.tres" id="5"]
+
+[node name="SampleBattle" type="Control"]
+script = ExtResource("2")
+stage = ExtResource("3")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="BackToMenu" type="Button" parent="Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Back to menu"
+
+[node name="Title" type="Label" parent="Content/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.953, 0.922, 0.867, 1)
+theme_override_font_sizes/font_size = 32
+text = "Sample battle"
+
+[node name="Board" type="Control" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="Legend" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Placeholder art · Sand route · Raised platforms · Enemy markers"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 2
+
+[node name="Controls" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Pause" type="Button" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(120, 54)
+text = "Pause"
+
+[node name="Speed" type="Button" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(72, 54)
+text = "1×"
+
+[node name="OpenDialogue" type="Button" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(170, 54)
+text = "Dialogue preview"
+
+[node name="DefeatEnemy" type="Button" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(185, 54)
+text = "Defeat enemy (test)"
+
+[node name="Retry" type="Button" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(120, 54)
+text = "Restart"
+
+[node name="DeploymentTray" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlacementControls" type="HBoxContainer" parent="Content"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PreviewTokens" type="Label" parent="Content/PlacementControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test Tokens: 60"
+
+[node name="PlacementFeedback" type="Label" parent="Content/PlacementControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+
+[node name="ConfirmSkill" type="Button" parent="Content/PlacementControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(130, 48)
+text = "Confirm skill"
+
+[node name="CancelSkill" type="Button" parent="Content/PlacementControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(90, 48)
+text = "Cancel"
+
+[node name="Retreat" type="Button" parent="Content/Board"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+custom_minimum_size = Vector2(100, 54)
+text = "Retreat"
+
+[node name="DeploymentController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4")
+roster = ExtResource("5")
+
+[node name="Dialogue" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.10, 0.14, 0.11, 1)
+
+[node name="Center" type="CenterContainer" parent="Dialogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Body" type="VBoxContainer" parent="Dialogue/Center"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Note" type="Label" parent="Dialogue/Center/Body"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+text = "Dialogue preview"
+horizontal_alignment = 1
+
+[node name="Text" type="Label" parent="Dialogue/Center/Body"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "The messenger withdraws off the battlefield."
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="Dialogue/Center/Body"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Continue" type="Button" parent="Dialogue/Center/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(145, 54)
+text = "Continue"
+
+[node name="Skip" type="Button" parent="Dialogue/Center/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(145, 54)
+text = "Skip"

@@ -30,3 +30,28 @@
 - Compared both PDF hashes and checked the 116 matching candidate SVGs and their 483 relative references. The [source inventory](SOURCE_INVENTORY.md) and art spec limit this archive to candidate sources. Final production art and unauthored content remain missing or pending validation.
 - Verified owner approvals D-001, D-002, D-008 and D-013 for the Starter Post, opening validation, C1-01 touch model and Godot 4.7.2 before C01–C05. The 350 ms threshold applies to the C1-01 fixture.
 - Godot 4.7.2 passed a headless editor import of the merged project at `ad86cb6`. Android template, APK and physical-device checks are tracked for C01.
+## C01 Godot project foundation — 2026-11-21
+
+- Added the stable version pin and landscape project settings, launcher and placeholder screens under `scenes/`, with safe-area projection and navigation in `scripts/ui/`.
+- Added a debug Android preset, private build/signing ignores, data conventions and the GDScript smoke runner. The [README](../../README.md) records launch and test commands. The [export guide](../../export/README.md) records debug APK and phone steps.
+- Godot `4.7.2.stable.official.ed1daf0bf` passed headless import and startup. The automated smoke script passed all nine checks. Pointer input opened Sample Battle and returned to Main Menu under Linux/X11 with Compatibility and Mesa llvmpipe.
+- Android export failed validation because the 4.7.2.stable templates and Android SDK tools were missing and the Java SDK path was unset in the editor. APK installation, offline boot, touch and safe areas on physical Android remain unverified.
+
+## C01 Android debug export follow-up — 2026-11-21
+
+- Verified archive checksums, installed and configured the matching Godot Android templates, JDK 17 and SDK tools in the ignored workspace-local profile. Enabled Android ETC2/ASTC texture imports and added an original labeled development icon.
+- Exported the signed `0.1.0-dev` ARM64 APK. APK signatures, alignment, archive integrity and manifest checks passed. Godot headless import, startup and all nine smoke checks passed after the project changes.
+- Physical installation remains open. The workspace exposes no USB device bus, and ADB cannot create its default user directory on the read-only home filesystem. See the [phone procedure](../../export/README.md).
+
+## C02 tactical battle foundation — 2026-11-21
+
+- The sample battle now runs a reusable scene with editable map, waypoints, wave groups and an E01 trial definition. The T01 fixture uses 6/8 enemies, 3.5 seconds between spawns and 25 seconds of rest. The moving markers and manual defeat control are for this milestone's tests.
+- A 60-step combat clock drives movement and wave scheduling, with independent pause and dialogue holds. Real exits debit Integrity. Scripted withdrawal emits a separate event and preserves the combat registry and counters.
+- Godot 4.7.2 passed headless import and launch, nine project smoke checks and 29 deterministic battle checks. Native Linux pointer input opened the battle, held time across pause and dialogue, resumed and resolved a live marker. Physical Android playtesting remains pending.
+- The C02 ARM64 debug APK passed signing, alignment and package-content checks. See the [C02 on-device procedure](../../export/README.md#c02-battle-smoke-test).
+
+## C03 deployment and touch gestures — 2026-11-21
+
+- Added separate placement and gesture logic, a touch-first tray, legal-footprint and attack previews, locked melee direction, elevated and reserved occupancy, targeted confirmation and contextual Retreat. Redeploy deadlines use combat ticks.
+- Godot 4.7.2 passed editor import, startup, 9 project checks, 29 battle checks and 44 deployment checks. Synthetic native touch exercised invalid and valid drops, holds, and target selection. Linux/X11 pointer testing exercised drag placement, locked facing, Retreat and the confirmation button.
+- The signed C03 ARM64 debug APK passed signature, alignment, archive and packaged-resource checks. Physical-phone input and safe-area evidence remain pending because the cloud workspace exposes no USB devices. See the [phone checklist](../../export/README.md#c03-deployment-smoke-test).
