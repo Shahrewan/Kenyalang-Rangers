@@ -95,6 +95,7 @@ func _gestures() -> void:
 
 func _touch_scene() -> void:
 	var scene := SCENE.instantiate() as BattleScene
+	scene.get_node("%DeploymentController").preview_budget = 60
 	root.add_child(scene)
 	scene.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scene.set_physics_process(false)

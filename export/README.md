@@ -71,3 +71,9 @@ adb install -r build/android/kenyalang-rangers-c03-debug.apk
 Open **Sample battle** in airplane mode. Drag Patrolman off the board and onto an elevated tile. The budget and board should remain unchanged in both cases. Drop it on a ground tile, choosing a half of the tile to set its facing. Drag the two-cell Ranger into an overlap and then onto two empty ground cells. Verify only the valid placement charges Tokens.
 
 Quick-tap Scout Sniper to arm its skill. Drag across the board and release to check that this does not activate it. Tap a covered tile, then tap **Confirm skill**. Hold a Ranger until **Retreat** appears, use it, and check that its cooldown freezes when paused and allows redeployment afterward. Confirm that the tray, Retreat and confirmation controls fit inside the phone's safe area.
+
+## C04 logistics smoke test
+
+Install the signed C04 build with `adb install -r build/android/kenyalang-rangers-c04-debug.apk`. In **Sample battle**, check the zero-Token First Contact opening. Drag the Starter Post onto two adjacent elevated tiles. It should build instantly and pay 9 Tokens after ten combat seconds. Pause before the payout, wait, then resume to check that pause holds the timer.
+
+Select **D05 Fixed Stockpile**. Verify 120 Tokens and an absent Post card. Place Sonic Turret for 35 Tokens, tap the unfinished Facility and choose **Cancel build** before its seven seconds elapse. The wallet should return to 120 and both cells should be free. Place it again and let it finish. The completed Facility should remain stationary. Use **Normal loadout** to check that later Posts display a paid cost and build time.

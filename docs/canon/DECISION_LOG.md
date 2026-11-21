@@ -105,3 +105,7 @@ The T01 fixture keeps the D-006 counts and cadence. C02 uses test-only values of
 ## D-008 C03 input fixture — 2026-11-21
 
 The deployment preview uses the approved 350 ms real-time hold and 10/12 Token Patrolman/Scout costs. The 60-Token test budget, five-combat-second retreat cooldown, illustrative ranges and extra test card prices are fixture-only values. Touch sets facing from the half of the anchor tile under the release. A targeted skill requires a covered tile tap plus explicit confirmation. See the [C03 phone check](../../export/README.md#c03-deployment-smoke-test) for pending device calibration.
+
+## D-007/D-008 C04 logistics fixture — 2026-11-21
+
+First Contact supplies one free Starter Post and applies D01, so Level 1 earns 9 Tokens per 10 combat seconds. The ordinary loadout fixture uses 20 Tokens for the second accepted Post and adds 5 for each following accepted Post, with a six-second build and eight-second deployment cooldown. A cancelled repeat build refunds its full cost and retains the cooldown and next price tier. These repeat-Post values and cancellation policy are provisional. The separate D05 fixture grants 120 Tokens and excludes all Posts. Sonic Turret uses the documented seven-second base build at every level.

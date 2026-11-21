@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/sample_board.gd" id="1"]
 
@@ -7,6 +7,8 @@
 
 [ext_resource type="Script" path="res://scripts/ui/deployment_controller.gd" id="4"]
 [ext_resource type="Resource" path="res://data/rangers/c03_preview.tres" id="5"]
+
+[ext_resource type="Resource" path="res://data/stages/c04_logistics_rules.tres" id="6"]
 
 [node name="SampleBattle" type="Control"]
 script = ExtResource("2")
@@ -93,6 +95,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 54)
 text = "Restart"
 
+[node name="Opening" type="OptionButton" parent="Content/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(180, 54)
+
 [node name="DeploymentTray" type="HBoxContainer" parent="Content"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -106,7 +113,7 @@ theme_override_constants/separation = 12
 [node name="PreviewTokens" type="Label" parent="Content/PlacementControls"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Test Tokens: 60"
+text = "Logistic Tokens: 0"
 
 [node name="PlacementFeedback" type="Label" parent="Content/PlacementControls"]
 unique_name_in_owner = true
@@ -139,6 +146,7 @@ text = "Retreat"
 unique_name_in_owner = true
 script = ExtResource("4")
 roster = ExtResource("5")
+opening_rules = ExtResource("6")
 
 [node name="Dialogue" type="ColorRect" parent="."]
 unique_name_in_owner = true

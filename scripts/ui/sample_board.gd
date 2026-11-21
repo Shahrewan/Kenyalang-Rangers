@@ -94,9 +94,16 @@ func _draw_deployments() -> void:
 			draw_rect(_tile_rect(cell), Color(0.55, 0.82, 0.88, 0.33))
 		if deployments.pending_target != DeploymentState.NO_CELL:
 			draw_rect(_tile_rect(deployments.pending_target), Color("#E8F9FF"), false, 4.0)
-	for unit: DeploymentState.Placement in deployments.placed.values():
+	for id: StringName in deployments.placed:
+		var unit := deployments.placed[id]
+		var remaining := deployments.build_ticks_left(id)
+		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):
-			draw_rect(_tile_rect(cell).grow(-8.0), Color("#245567"))
+			draw_rect(_tile_rect(cell).grow(-8.0), color)
+		if remaining > 0:
+			var font := get_theme_default_font()
+			var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
+			draw_string(font, cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
 		for cell in unit.spec.reserved(unit.anchor):
 			draw_rect(_tile_rect(cell), Color("#D3B681"), false, 2.0)
 		if unit.spec.is_melee():

@@ -17,7 +17,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C01 Version-pinned Godot repo, PC smoke and Android debug export verified. Physical-phone install pending.
 - [x] C02 Resource-driven grid and routes, shared combat clock and deterministic waves/Integrity verified. Deployment occupancy is tracked in C03.
 - [~] C03 Touch input, facing, footprints, cooldowns and retreat verified in Godot. Physical-phone smoke test pending.
-- [ ] C04 Logistic Tokens, first-free Post, D05 alternate opening, construction
+- [x] C04 Logistic Tokens, first-free Post, D05 and construction/refunds verified in Godot. Physical-phone smoke test pending.
 - [ ] C05 C1-01 vertical slice with Android playtest
 - [ ] W06 Sprite technical specifications and one Ranger cutout kit
 - [ ] C07 Skeleton2D/Bone2D rig experiment + states in Godot

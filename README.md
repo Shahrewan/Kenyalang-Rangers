@@ -12,7 +12,7 @@ Godot **4.7.2 stable** (GDScript) game project for Android landscape, offline si
 - `docs/qa/`: test evidence and device validation.
 - `docs/STRUCTURE.md`: folder map and placement guidelines.
 
-**Implementation status:** **Open sample battle** runs the C03 deployment preview on T01. Drag a card onto a highlighted tile. Drop on the left or right half of the anchor to set melee facing. Tap Patrolman to activate its test skill. Tap Scout Sniper, select a covered tile, and use **Confirm skill**. Hold a Ranger for 350 ms to reveal **Retreat**. Its card shows the remaining combat-time redeploy cooldown. The preview has a separate 60-Token test budget. The campaign logistics economy and autonomous attacks are later milestones.
+**Implementation status:** **Open sample battle** runs the C04 logistics preview on T01. First Contact starts at zero with a free Starter Post. The opening selector restarts in First Contact, an ordinary loadout for repeat Posts, or D05 Fixed Stockpile for paid construction without Posts. Tap an unfinished Facility to cancel and refund it. Drag a card onto a highlighted tile. Drop on the left or right half of the anchor to set melee facing. Tap Patrolman to activate its test skill. Tap Scout Sniper, select a covered tile, and use **Confirm skill**. Hold a Ranger for 350 ms to reveal **Retreat**. Its card shows the remaining combat-time redeploy cooldown. Autonomous attacks and full Campaign progression are later milestones.
 
 ## Source of truth
 Implemented code in this Git repository; approved decisions and canonical game specifications govern design. Keep major feature changes on branches, review pull requests before merging into `main`, and prioritize playable C1-01 combat.
@@ -35,9 +35,10 @@ godot --headless --path . --quit-after 30
 godot --headless --path . --script res://tests/smoke/project_smoke.gd
 godot --headless --path . --script res://tests/unit/battle_simulation_test.gd
 godot --headless --path . --script res://tests/unit/deployment_test.gd
+godot --headless --path . --script res://tests/unit/logistics_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, no script errors during import or startup, and zero failures in all three test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into UI margins. The two screens use Godot controls and labeled drawn tiles.
+Expect `4.7.2.stable` in the version, no script errors during import or startup, and zero failures in all four test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into UI margins. The two screens use Godot controls and labeled drawn tiles.
 
 ## Android export prerequisites
 

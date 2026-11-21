@@ -11,6 +11,10 @@ enum Skill { NONE, IMMEDIATE, TARGETED }
 @export var attack_range: int
 @export var targets_aerial := false
 @export var skill: Skill
+@export var logistics_post := false
+@export_range(1, 100) var level := 1
+@export var build_seconds := 0.0
+@export var build_cooldown_seconds := 0.0
 @export var redeploy_seconds := 5.0
 
 func footprint(anchor: Vector2i) -> Array[Vector2i]:

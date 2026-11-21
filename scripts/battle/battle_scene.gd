@@ -11,6 +11,7 @@ extends Control
 @onready var _dialogue_button: Button = %OpenDialogue
 @onready var _defeat: Button = %DefeatEnemy
 @onready var _retry: Button = %Retry
+@onready var _opening: OptionButton = %Opening
 @onready var _dialogue: ColorRect = %Dialogue
 
 var battle: BattleSimulation
@@ -23,6 +24,14 @@ func _ready() -> void:
 	_retry.pressed.connect(_restart)
 	%Continue.pressed.connect(close_dialogue)
 	%Skip.pressed.connect(close_dialogue)
+	_opening.add_item("First Contact")
+	_opening.add_item("Normal loadout")
+	_opening.add_item("D05 Fixed Stockpile")
+	_opening.item_selected.connect(_change_opening)
+	_restart()
+
+func _change_opening(index: int) -> void:
+	%DeploymentController.mode = index
 	_restart()
 
 func _physics_process(_delta: float) -> void:
@@ -76,7 +85,12 @@ func _defeat_first() -> void:
 	_refresh()
 
 func _refresh() -> void:
-	var label := "%s · Wave %d/%d" % [stage.stage_id, battle.wave_number, battle.wave_count]
+	var opening_label := String(stage.stage_id)
+	if _opening.selected == 1:
+		opening_label = "Normal fixture"
+	elif _opening.selected == 2:
+		opening_label = "D05 fixture"
+	var label := "%s · Wave %d/%d" % [opening_label, battle.wave_number, battle.wave_count]
 	match battle.outcome:
 		BattleSimulation.Outcome.WON:
 			label = "Perfect clear" if battle.is_perfect() else "Clear"
@@ -94,5 +108,6 @@ func _refresh() -> void:
 	_dialogue_button.disabled = clock.stopped or clock.dialogue_open
 	_defeat.disabled = not clock.is_running() or battle.active.is_empty()
 	_retry.disabled = clock.dialogue_open
+	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open
 	_board.queue_redraw()
