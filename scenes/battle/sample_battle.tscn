@@ -34,7 +34,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 23
 text = "Back to menu"
 
-[node name="Title" type="Label" parent="Content/Header"]
+[node name="MissionTitle" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.953, 0.922, 0.867, 1)
 theme_override_font_sizes/font_size = 32
@@ -142,6 +143,11 @@ layout_mode = 0
 custom_minimum_size = Vector2(100, 54)
 text = "Retreat"
 
+[node name="MissionTip" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
 [node name="DeploymentController" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4")
@@ -167,15 +173,19 @@ anchor_bottom = 1.0
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Note" type="Label" parent="Dialogue/Center/Body"]
+[node name="DialogueTitle" type="Label" parent="Dialogue/Center/Body"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 27
 text = "Dialogue preview"
 horizontal_alignment = 1
 
-[node name="Text" type="Label" parent="Dialogue/Center/Body"]
+[node name="DialogueText" type="Label" parent="Dialogue/Center/Body"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
+custom_minimum_size = Vector2(620, 0)
+autowrap_mode = 3
 text = "The messenger withdraws off the battlefield."
 horizontal_alignment = 1
 

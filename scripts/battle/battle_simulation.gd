@@ -7,6 +7,7 @@ signal cinematic_withdrawal
 
 enum Outcome { RUNNING, WON, LOST }
 
+var deployment: DeploymentState
 var clock := CombatClock.new()
 var integrity := 100
 var defeated := 0
@@ -32,7 +33,7 @@ func _init(stage: BattleStage) -> void:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
 	clock.stepped.connect(_step)
-	_begin_next_wave(1)
+	_begin_next_wave(1 + CombatClock.ticks_for(stage.opening_delay_seconds))
 
 func defeat_enemy(id: int) -> bool:
 	if not clock.is_running() or not active.has(id):
@@ -58,9 +59,11 @@ func is_perfect() -> bool:
 
 func _step(tick: int, seconds: float) -> void:
 	# Stable insertion order makes simultaneous arrivals deterministic.
+	var block_counts: Dictionary[StringName, int] = {}
 	for id: int in active.keys():
 		var enemy := active[id]
-		if enemy.advance(seconds):
+		var arrived := _advance_enemy(enemy, tick, seconds, block_counts)
+		if arrived:
 			active.erase(id)
 			escaped += 1
 			lose_integrity(enemy.definition.escape_penalty)
@@ -69,7 +72,54 @@ func _step(tick: int, seconds: float) -> void:
 				return
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
 		_spawn(tick)
+	if deployment != null:
+		_attack_with_rangers(tick)
 	_try_finish_wave(tick)
+
+func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:
+	if deployment == null or enemy.definition.aerial:
+		return enemy.advance(seconds)
+	var next := enemy.distance + enemy.definition.tiles_per_second * seconds
+	var stop_at := INF
+	var blocker: StringName
+	for id: StringName in deployment.placed:
+		var unit := deployment.placed[id]
+		if unit.spec.block_capacity <= int(block_counts.get(id, 0)):
+			continue
+		var route_index := enemy.route.cells.find(unit.anchor)
+		# The enemy stays on the approach tile, facing the Ranger on the next tile.
+		var approach := float(route_index) - 0.51
+		if route_index > 0 and enemy.distance <= approach and next >= approach and approach < stop_at:
+			stop_at = approach
+			blocker = id
+	if blocker != enemy.blocked_by:
+		enemy.blocked_by = blocker
+		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
+	if not blocker.is_empty():
+		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
+		if tick >= enemy.next_attack_tick:
+			deployment.damage_ranger(blocker, enemy.definition.attack_damage)
+			enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
+	return enemy.advance(seconds, stop_at)
+
+func _attack_with_rangers(tick: int) -> void:
+	for unit: DeploymentState.Placement in deployment.placed.values():
+		if tick < unit.next_attack_tick or unit.spec.attack_damage <= 0:
+			continue
+		var target := -1
+		var progress := -1.0
+		for id: int in active:
+			var enemy := active[id]
+			var cell := Vector2i(enemy.grid_position().round())
+			if enemy.distance > progress and deployment.can_attack(unit, cell, enemy.definition.aerial):
+				target = id
+				progress = enemy.distance
+		if target < 0:
+			continue
+		unit.next_attack_tick = tick + CombatClock.ticks_for(unit.spec.attack_seconds)
+		active[target].hp -= unit.spec.attack_damage
+		if active[target].hp <= 0:
+			defeat_enemy(target)
 
 func _spawn(tick: int) -> void:
 	var group := _groups[_group_index]

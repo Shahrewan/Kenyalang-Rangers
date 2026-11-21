@@ -17,6 +17,7 @@ const MOUSE_POINTER := -1
 
 var state: DeploymentState
 var mode := 0
+var preview_skills := true
 var _simulation: BattleSimulation
 var _gesture := DeploymentGesture.new()
 var _cards: Array[PanelContainer] = []
@@ -158,7 +159,7 @@ func _release(at: Vector2) -> void:
 			if state.occupancy.get(cell, &"") == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
 					_show_retreat(_gesture.unit)
-				elif state.quick_tap(_gesture.unit) and not state.armed.is_empty():
+				elif preview_skills and state.quick_tap(_gesture.unit) and not state.armed.is_empty():
 					_hint.text = "Tap a covered tile, then confirm the skill."
 		DeploymentGesture.Release.HOLD:
 			_show_retreat(_gesture.unit)

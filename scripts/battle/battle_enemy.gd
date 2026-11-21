@@ -3,15 +3,19 @@ extends RefCounted
 
 var definition: BattleEnemyDefinition
 var route: BattleRoute
+var hp: int
+var next_attack_tick := 0
+var blocked_by: StringName
 var distance := 0.0
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute) -> void:
 	definition = enemy_definition
+	hp = definition.max_hp
 	route = enemy_route
 
-func advance(seconds: float) -> bool:
+func advance(seconds: float, stop_at: float = INF) -> bool:
 	var end := float(route.cells.size() - 1)
-	distance = minf(end, distance + definition.tiles_per_second * seconds)
+	distance = minf(minf(end, stop_at), distance + definition.tiles_per_second * seconds)
 	if is_equal_approx(distance, end):
 		distance = end
 	return distance == end

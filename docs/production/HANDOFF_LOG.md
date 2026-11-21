@@ -61,3 +61,9 @@
 - The sample battle now has a transient Logistic Token wallet, the mission-issued Starter Post, a separate ordinary repeat-Post fixture and D05 Fixed Stockpile. Construction and payouts use the combat clock. Unfinished Facilities refund the exact paid cost on cancellation.
 - Godot 4.7.2 passed headless import and startup and all 119 assertions across the project, battle, deployment and logistics runners. The C04 tests include synthetic touch placement and cancellation.
 - The signed C04 ARM64 APK passed signature, alignment, ZIP integrity and logistics-resource checks. Physical-phone validation remains open. See the [C04 installation and smoke steps](../../export/README.md#c04-logistics-smoke-test).
+
+## C05 First Contact vertical slice — 2026-11-21
+
+- Added a Campaign entry for C1-01, a skippable opening tutorial, automatic Ranger targeting and attacks, Patrolman blocking, HP bars, result feedback and the versioned C05 local save with one-time provisional Funds.
+- Godot 4.7.2 passed editor import, startup and 144 automated checks. The C05 fixtures covered all 14 enemies in a perfect clear, a clear with one escape, defeat, save reload, pause, Retreat, and touch under simulated cutout margins. Native X11 at 960×540 verified opening the mission, tutorial Continue, the Post drag and pause.
+- The signed ARM64 APK passed signature, alignment, archive and packaged-resource checks. No USB phone was available. The [physical-phone procedure](../../export/README.md#c05-first-contact-phone-playtest) remains the no-go gate before expansion.
