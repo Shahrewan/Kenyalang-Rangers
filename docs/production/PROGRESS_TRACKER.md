@@ -2,6 +2,12 @@
 
 Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after real verification.
 
+## Repository preparation
+- [x] GitHub directory scaffolding aligned to the requested design (structure verified on a feature branch; no playable game code implied).
+- [ ] Approved canonical files reconciled against complete source PDFs (new canon files are explicitly placeholders).
+- [ ] C01 launch/parsing and Android smoke tests completed.
+
+## Development milestones
 - [ ] W00 Source inventory, canonical rulebook, decision log, backlog
 - [ ] C01 Version-pinned Godot repo, PC + Android smoke test
 - [ ] C02 Combat grid, paths, occupancy, deterministic wave simulator
