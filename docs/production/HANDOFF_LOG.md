@@ -23,3 +23,10 @@
 - [GAME_RULES.md](../canon/GAME_RULES.md) carries the approved gameplay choices. The data contract, activity index and starter backlog now reference the same decisions.
 - First Contact's 6/8-enemy and 350 ms settings are approved fixture defaults. The 9,999,999 Funds cap is for the prototype. Shipping values, unresolved content and verification are tracked in [Open decisions](../canon/DECISION_LOG.md#open-decisions).
 - This change covers documentation. Godot 4.7.2 passed a headless editor import of the existing project in an isolated checkout. Matching Android export templates, offline APK install and physical-device checks remain in C01.
+
+## W00 and W00b exit check — 2026-11-21
+
+- Verified 137 unique documented [content IDs](../canon/DATA_CONTRACTS.md#identity-units-and-revisions). Preserved all 43 namespaced IDs from the W00 catalog and documented stable IDs for the existing quiz chapters, species and other authored records.
+- Compared both PDF hashes and checked the 116 matching candidate SVGs and their 483 relative references. The [source inventory](SOURCE_INVENTORY.md) and art spec limit this archive to candidate sources. Final production art and unauthored content remain missing or pending validation.
+- Verified owner approvals D-001, D-002, D-008 and D-013 for the Starter Post, opening validation, C1-01 touch model and Godot 4.7.2 before C01–C05. The 350 ms threshold applies to the C1-01 fixture.
+- Godot 4.7.2 passed a headless editor import of the merged project at `ad86cb6`. Android template, APK and physical-device checks are tracked for C01.

@@ -5,6 +5,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 ## Repository preparation
 - [x] GitHub directory scaffolding aligned to the requested design (structure verified on a feature branch; no playable game code implied).
 - [x] Both PDFs reconciled into the six requested Markdown files. Catalog and frame coverage checked against source pages.
+- [x] W00 exit check verified 137 unique [content IDs](../canon/DATA_CONTRACTS.md#identity-units-and-revisions) and checked [source availability](SOURCE_INVENTORY.md) against the reference and candidate archives.
 - [x] Owner approved all 18 W00b choices on 21 November 2026. Final balance values and validation are tracked in the [decision log](../canon/DECISION_LOG.md#open-decisions).
 - [ ] C01 launch/parsing and Android smoke tests completed.
 
