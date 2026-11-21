@@ -2,7 +2,7 @@
 
 **Prepared:** 20 November 2026  
 **Source authority:** `SimSimi.pdf` (GDD v1.0 pp. 2–33; gameplay mini-storyboard pp. 34–39) and `Kenyalang_Rangers_Tileset_UI_Storyboard.pdf` (127 pages).  
-**Goal:** A real, installable, offline, single-player, landscape Android game in Godot 4, completing the documented 15-mission Campaign, 12 Rangers, 13 Facilities, 11-room Headquarters, Rainforest Chaos, Outreach, Records, Habitat Restoration, save system, UI, art, audio, and tested APK.
+**Goal:** A real, installable, offline, single-player, landscape Android game in Godot 4.7.2, completing the documented 15-mission Campaign, 12 Rangers, 13 Facilities, 11-room Headquarters, Rainforest Chaos, Outreach, Records, Habitat Restoration, save system, UI, art, audio, and tested APK.
 
 This is a production guide and prompt library, not a claim that any game code, sprite rig or playable build already exists. Phase names and implementation architecture are recommendations; documented gameplay requirements are taken from the provided PDFs. The PDFs name some additional source assets that were NOT included in the uploaded ZIP.
 
