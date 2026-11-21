@@ -7,7 +7,7 @@ Godot **4.7.2** (GDScript) game project for Android landscape, offline single-pl
 - `AGENTS.md`: development and Codex working rules.
 - `README_FIRST.md`: Work/Codex onboarding and handoff pack.
 - `docs/production/`: existing work plan, progress tracking, source inventory and unresolved decisions.
-- `docs/canon/`: approved implementation rules and data contracts (currently scaffolds; reconcile against the GDD before implementing mechanics).
+- [Canonical specifications](docs/canon/README.md): source-cited game rules, data contracts, art and UI spec, systems catalog and open decisions.
 - `docs/reference/`: reference-file handling instructions.
 - `docs/qa/`: test evidence and device validation.
 - `docs/STRUCTURE.md`: folder map and placement guidelines.

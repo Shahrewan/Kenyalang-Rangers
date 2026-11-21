@@ -1,9 +1,64 @@
-# DECISION_LOG
+# Kenyalang Rangers decision log
 
-**Status:** Initialized. No new gameplay decision is approved by this repository-reorganization commit.
+Source reconciliation for review on 21 November 2026. **GDD** means *SimSimi.pdf*, Task 1 (GDD v1.0). **UI** means *Kenyalang_Rangers_Tileset_UI_Storyboard.pdf*. References use PDF pages. The status definitions in [GAME_RULES.md](GAME_RULES.md) apply here. The existing [production decision IDs](../production/DECISIONS_TO_LOCK.md) are retained. Decision IDs `D-001` and onward are distinct from in-game debuffs `D01`–`D15`.
 
-| Date | Decision | Source / approver | Consequences |
+## Source identity
+
+The hashes identify the copies used for this pass.
+
+| Reference | PDF pages | SHA-256 |
+|---|---:|---|
+| `SimSimi.pdf` | 39 | `19e1b63d9f6872bf658a8ca197c715617d9f1bd77acac575c7a28eb726c0fb57` |
+| `Kenyalang_Rangers_Tileset_UI_Storyboard.pdf` | 127 | `fd07f38b582f2b64b9cd81b0eede8923fe681c9b6fb07aa16800ad8ec7360a39` |
+
+## Verified source reconciliations
+
+| Status | Subject | Resolution for this specification | Evidence |
 |---|---|---|---|
-| — | Add approved decisions here after review | — | — |
+| **FIXED** | Design authority | Use approved explicit project revisions, then GDD rules and the storyboard's visual/navigation intent. Prior concept images provide style. | UI pp. 2, 11; repository AGENTS.md, Sources and precedence |
+| **FIXED** | Target and scope | Godot 4.7.2/GDScript per explicit project configuration. Android landscape, touchscreen-first, offline single player and a local save. This pass documents the design and production work. | GDD pp. 4, 28–29 §§ C, O.1–3; UI pp. 2–3, 12 S01; project configuration and request |
+| **FIXED** | Combat silhouettes and board | Current roster sizes are 12 Rangers and 13 Facilities. Choose melee facing at deployment and lock it. Facilities generally use two side-by-side elevated cells. Current **Sentry Tower** uses one and reserves the cell above. Original tree-veiled tunnel, numeric Integrity and punched-ticket Tokens are the visual direction. | GDD pp. 7–11 §§ G.1–4, H.1; pp. 15–17 §§ I.3, J.1–2, K; UI pp. 2, 4–5, 25, 66 S12/S32 |
+| **FIXED** | Defense and damage | Use the Ranger **Defense class** name and HP. There is no universal Defense stat. The named effects and attack-scoped Siege permission in the GDD apply even to Facility construction. | GDD pp. 9–13 §§ G.4, H.1–3; p. 17 § J.2; UI pp. 2, 28, 30 S15/S17 |
+| **FIXED intent / MISSING mechanism** | **C1-01 Starter Post** | C1-01 begins with Scout Sniper, Patrolman and a Starter Post. Mechanical is unbuilt on a clean save. S10 explicitly calls it “Starter Post” and distinguishes it from the later two regular Facility slots. The source requires the tutorial allowance. Slot/lifetime behavior still needs D-001. D05 prohibits Posts and starts with 120 Tokens, including C1-05. | GDD pp. 8–9 §§ G.3, H.1; pp. 18–19, 22, 24 §§ M.1, M.4, M.6; UI pp. 10, 22, 39, 62, 101 S10/S26/S28/S59 |
+| **FIXED** | Story and Chaos escape accounting | Story perfect uses zero combat escapes and positive Integrity. Heat loss can coexist with perfection. The cinematic messenger is outside the roster. A qualifying Chaos run defeats all configured enemies at positive Integrity. An escaped configured enemy gives no Chaos payout, trophy, unlock or record. | GDD pp. 6–9 §§ F.2, G.1, G.5; pp. 24–25 § M.7; UI pp. 8–9, 34–36, 76 S21–S23/S40 |
+| **FIXED** | Chaos scoring and trophy | Filled slots deduct 100 points each. An unused slot gives zero. Threshold score cutoffs are 1,000, 2,000 and 3,000. The tier look stops at 3,000 and the numeric record can rise. Retain piecewise-linear Funds with jumps. | GDD pp. 24–25 § M.7; UI pp. 9, 71–76 S35–S40 |
+| **FIXED rule / PROVISIONAL figure** | **Funds cap** | One hard held-Funds cap and permanent discard above it, with a visible warning. The numeric **9,999,999** cap is an example pending agreement. Preserve the cap rule for all earned Funds and keep the actual cap setting open. | GDD pp. 21, 25, 28–29 §§ M.3, M.7, N, O.4; UI pp. 10, 100 S58 |
+| **PROVISIONAL / MISSING** | **Story stage rewards and combat tuning** | Stage result, planning and replay artwork show examples. First-clear and first-perfect one-time eligibility are sourced. Exact stage and replay reward tables are missing. The design includes prototype combat counts, damage/HP/interval figures and representative costs, with final balances marked `TBD`. | GDD pp. 2, 21–22, 33 §§ A, M.3–4, T.4; UI pp. 10, 15, 34–35, 125 S04/S21–S22/M06 |
+| **FIXED** | Outreach cadence and Garden access | The Outreach UI's daily language describes the GDD's **20-hour** clock interval and up to five distinct four-option questions from 20. Use the current batch across sessions. Main menu and Ecology open one Garden. Plot capacity is upgraded in Ecology. Five Best/Acceptable responses and 60% restoration are the respective Lv.5 participation gates, alongside their Funds costs. | GDD pp. 14, 19–20, 25–27, 29 §§ I.1, M.1, M.8–10, O.3; UI pp. 48–51, 77–84, 89, 93, 110 H05–U06/S41–P05/S47/S51/V08 |
+| **FIXED** | Save and menu | Auto-load one continuous save. Confirm reset only from Settings. Wipe progress and the Leader name, invalidate the old backup and return to naming. If the active file is unreadable and the backup is valid, restore the same save. | GDD pp. 28–29 §§ O.1, O.3; UI pp. 12–13, 94–97 S01–S02/S52–S55 |
+| **PROVISIONAL** | Animation, accessibility measurements and device target | Approximate 60 FPS sampling replaces the older 18 FPS note. Gameplay 60 FPS, 1280×720 logical layout and 48 dp hit targets are targets/proposals pending physical Android checks. | GDD pp. 4, 28–29, 33 §§ C, O.1, O.4, Q, T.4; UI pp. 2–3 |
+| **MISSING from PDF handoff and GitHub main / candidate located** | **116 editable SVG frames and companion sources** | The described files are separate from the two PDFs. `Kenyalang_Rangers_Design_Pack_v2.zip` in the working materials contains a byte-identical UI PDF, all 116 matching SVG and PNG frame IDs, four tile source files, the offline viewer, ten illustration files and `PROJECT_MEMORY.md`. All 116 SVGs parsed with editable text and vector shapes, and their relative image references resolve in the archive. Editor and viewer checks, production validation and delivery remain open. | UI pp. 2, 6–7, 10, 12–127; repository docs/production/SOURCE_INVENTORY.md; direct archive inventory |
+| **MISSING** | **External story and quiz banks** | Ingest the separate `dialog&story(test).docx` Chapter 2 script, the Restoration team brief named `M.9 Habitat Restoration (Garden).docx`, final 20-question Outreach and final Records bank plus reviewed explanations. The ~40 Records count is provisional. Neither the PDF sample lines nor the separate design archive supplies the finished banks. | GDD pp. 2, 7, 25–27, 33 §§ A, F.3–4, M.8–10, T.3–4; UI pp. 8, 10, 85–88, 98 |
 
-Open questions remain in `docs/production/DECISIONS_TO_LOCK.md`. Preserve the original GDD and authorized subsequent changes as design authority.
+## Open decisions
+
+All rows require source evidence or project approval before the affected implementation is locked. A source rule can be fixed while its numerical value or production details are open.
+
+| ID | Status | Unresolved detail / evidence to close | Gate | Source |
+|---|---|---|---|---|
+| D-001 | **MISSING** | Define the C1-01 Starter Post allowance while Mechanical is unbuilt, its regular-slot accounting, permanence and replay behavior. Demonstrate a clean save with the correct starting loadout and the independently functional Mechanical room. | C1-01 planning and vertical slice | GDD pp. 8–9, 18–19, 22 §§ G.3, H.1, M.1, M.4; UI pp. 10, 22, 39, 62 |
+| D-002 | **MISSING** | Define validation or any legal alternate opening for a normal zero-Token loadout that omits the Post. Preserve ordinary optional Posts, D05, and the written B13 effect. | General loadout validation | GDD p. 8 § G.3; pp. 23–24 §§ M.5–6; UI pp. 17, 101 |
+| D-003 | **MISSING in handoff / candidate located** | Recover the exact editable UI and tile sources from the identified candidate bundle. Verify opening the SVGs and their image dependencies, the viewer, import settings, and approved source delivery. Validate finished runtime assets separately. | Production art handoff | UI pp. 6, 10–11; archive inventory |
+| D-004 | **MISSING** | Obtain the authored Chapter 2 script, complete Outreach/Records banks, supplemental Restoration brief and approved factual copy. Bind full opening, mid-wave/boss, victory and defeat triggers. | Full campaign and education | GDD pp. 2, 7, 25–27, 33 §§ A, F.3–4, M.8–10, T.3; UI pp. 8, 10, 85–88, 98 |
+| D-005 | **PROVISIONAL** | Approve the exact Funds wallet cap; current test fixture 9,999,999. Retain overflow disposal and visible disclosure. Specify which rewards are interactive claims and which acknowledge auto-credit. | Economy lock | GDD pp. 21, 28–29 §§ M.3, N, O.4; UI pp. 10, 68, 100 |
+| D-006 | **MISSING / PROVISIONAL** | Approve per-stage first-clear, perfect, replay and final completion amounts, normal enemy escape penalties, individual spawn groups and intervals. Current per-wave counts and cadence are first-pass. | Full campaign authoring | GDD pp. 7–8, 21–22, 33 §§ G.1, M.3–4, T.4; UI pp. 8, 10, 34–35, 125 |
+| D-007 | **MISSING / PROVISIONAL** | Confirm the suggested cumulative price curve and exact Lv.1–100 stat curves, intermediate Post yield and rounding. Preserve 1M Funds endpoint, 10/15 base Post endpoints and fixed skill geometry/build times. | Permanent level balancing | GDD pp. 8, 20, 33 §§ G.3, M.2, T.4; UI pp. 64, 66, 69, 116 |
+| D-008 | **MISSING / PROVISIONAL** | Lock ability radii, target tie-breaks, deploy costs, extra Post pricing, cooldowns, build times, statuses and stacking. Clarify Sentry Tower's “one ranged mount” in J.1 against J.1a's zero direct damage for other Facilities. Define Heat gain, threshold and loss, and boss phase/escape details. | Tactical roster and effects | GDD pp. 8–13 §§ G.2–5, H.1–3; pp. 15–17, 33 §§ J.1–2, T.4; UI pp. 28–31, 66 |
+| D-009 | **MISSING** | Define later guided tutorial loadouts, pre-HQ exceptions beyond C1-01, C2-07 Firebreak Beacon grant/supply mechanics and permanence, and loadout-preset persistence. Preserve published HR and Mechanical tiers. | Planning and mission grants | GDD pp. 9, 14, 19, 22 §§ H.1, I.2, M.1, M.4; UI pp. 10, 16–17, 22, 62 |
+| D-010 | **MISSING / PROVISIONAL** | Define % restoration calculation, exact watering checkpoints, first species payout and nest-box trigger, pre-Ecology shortcut state and retained scenery/replant bookkeeping. Preserve no wilt and plot reuse at completion. Approve payout balance. | Garden production | GDD pp. 14, 19–20, 27 §§ I.1, M.1, M.10; UI pp. 89–93, 111 |
+| D-011 | **MISSING** | Approve the effect eligibility/capability matrix and deterministic combination order. Include D05 with B13, whether D05 is meaningful for the selected loadout, D01/D10 gating and Heat/Aerial/Siege cases. | Chaos validation | GDD pp. 23–25 §§ M.5–7; UI pp. 9, 73, 101 |
+| D-012 | **MISSING / PROVISIONAL** | Standardize cutout part dimensions, pivots, palette and rig axes after one battle-size export/playtest. Confirm final atlas packing, audio assets and landscape measurements on device. | Production sprite/atlas/UI specification | GDD pp. 17–18, 28–31 §§ K–L, O.1, Q, S.1–3; UI pp. 2–6, 10 |
+| D-013 | **FIXED engine / MISSING validation** | Pin matching Android export templates for Godot 4.7.2. Record validated device/OS matrix, renderer, scale, FPS scenario, FPS reporting and actual phone results. | Android smoke then release QA | GDD pp. 4, 28–29, 33 §§ C, O.1, O.4, T.4; UI pp. 2–3; project configuration |
+| D-014 | **MISSING** | Record the owner approving final conservation facts, audio/illustration provenance and usage rights. Validate content references before distribution. | Production content release | GDD pp. 29–33 §§ P, R, S.2, T.3; UI pp. 10–11, 95, 102 |
+| D-015 | **MISSING** | Set Android package identifier, signing ownership, channel and verified export settings. | Android distribution | GDD pp. 28–30 §§ O.1, O.4, S.1; repository export/README.md |
+| D-016 | **MISSING / PROVISIONAL** | Define harmful PR reply settlement when available Funds are below the signed penalty, final grade payouts and exact rotation/clock handling. Final question-level Records rewards and chapter split are also open. | Education and Funds settlement | GDD pp. 25–27, 29, 33 §§ M.8–9, O.3–4, T.4; UI pp. 10, 77–88 |
+| D-017 | **MISSING** | Specify whether a first eligible Chaos clear above several tiers settles each crossed first-time award in one transaction. Preserve the three stated thresholds and repeatable payout formula. | Chaos settlement | GDD p. 25 § M.7; UI pp. 9, 71, 75 |
+| D-018 | **MISSING** | Set save schema/migration, fallback when neither copy reads, behavior on mid-battle app closure and exact PR/garden recovery semantics. Verify reset does not offer the old backup. | Persistence and Android QA | GDD pp. 28–29 §§ O.1–4; UI pp. 94–97 S52–S55 |
+
+## Approval record
+
+| Date | Decision | Authority and effect |
+|---|---|---|
+| 2026-11-21 | Use Godot 4.7.2, GDScript project configuration, offline Android landscape and the two named PDFs for a documentation-only reconciliation. | User's active project instructions and task. The source statuses above record this reconciliation. No final balance values or absent content have been approved by it. |
+
+Add future owner approvals with date, exact rule or value, affected catalog and ticket, and evidence. Carry the resolved decision into the rules or data contract before marking the corresponding gate complete.

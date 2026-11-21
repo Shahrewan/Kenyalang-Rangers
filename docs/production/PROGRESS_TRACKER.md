@@ -4,11 +4,13 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 
 ## Repository preparation
 - [x] GitHub directory scaffolding aligned to the requested design (structure verified on a feature branch; no playable game code implied).
-- [ ] Approved canonical files reconciled against complete source PDFs (new canon files are explicitly placeholders).
+- [x] Both PDFs reconciled into the six requested Markdown files. Catalog and frame coverage checked against source pages.
+- [ ] Review the reconciled rules and approve the open implementation and balance choices.
 - [ ] C01 launch/parsing and Android smoke tests completed.
 
 ## Development milestones
-- [ ] W00 Source inventory, canonical rulebook, decision log, backlog
+- [x] W00 Source inventory, canonical rulebook, decision log and 36 acceptance-based tickets assembled. See [BACKLOG.md](BACKLOG.md).
+- [ ] W00b Resolve implementation blockers, starting with D-001.
 - [ ] C01 Version-pinned Godot repo, PC + Android smoke test
 - [ ] C02 Combat grid, paths, occupancy, deterministic wave simulator
 - [ ] C03 Drag/touch input, melee facing, footprint, cooldowns, retreat
