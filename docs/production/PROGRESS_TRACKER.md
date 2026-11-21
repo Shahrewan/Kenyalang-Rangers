@@ -5,12 +5,12 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 ## Repository preparation
 - [x] GitHub directory scaffolding aligned to the requested design (structure verified on a feature branch; no playable game code implied).
 - [x] Both PDFs reconciled into the six requested Markdown files. Catalog and frame coverage checked against source pages.
-- [ ] Review the reconciled rules and approve the open implementation and balance choices.
+- [x] Owner approved all 18 W00b choices on 21 November 2026. Final balance values and validation are tracked in the [decision log](../canon/DECISION_LOG.md#open-decisions).
 - [ ] C01 launch/parsing and Android smoke tests completed.
 
 ## Development milestones
 - [x] W00 Source inventory, canonical rulebook, decision log and 36 acceptance-based tickets assembled. See [BACKLOG.md](BACKLOG.md).
-- [ ] W00b Resolve implementation blockers, starting with D-001.
+- [x] W00b Approved the implementation choices and recorded their rationale and scope. See [the approval record](../canon/DECISION_LOG.md#approved-decisions).
 - [ ] C01 Version-pinned Godot repo, PC + Android smoke test
 - [ ] C02 Combat grid, paths, occupancy, deterministic wave simulator
 - [ ] C03 Drag/touch input, melee facing, footprint, cooldowns, retreat

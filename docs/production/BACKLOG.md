@@ -4,7 +4,7 @@ These are future testable tickets. **GDD** is *SimSimi.pdf* Task 1 (GDD v1.0). *
 
 | Milestone | Exit condition | Existing tracker work |
 |---|---|---|
-| M0 · Source and boot | Decide the starter allowance and verify a pinned editor/export smoke build. | W00, C01 |
+| M0 · Source and boot | Record the starter allowance and verify a pinned editor/export smoke build. | W00, W00b, C01 |
 | M1 · First Contact | Play a complete C1-01 on a phone with touch deployment, wave resolution, results and retry. | C02–C05, core of C09 |
 | M2 · Tactical roster and art | Verify all tactical registries, source asset coverage, original boards and a battle-sized rig. | W06, C07, W08, C10–C12, part of W21 |
 | M3 · Regional Campaign | Verify ordered progression, all 15 operation records and authored dialogue triggers. | W13, C14 |
@@ -16,9 +16,9 @@ Downstream catalogs may use deterministic tests for dependencies pending integra
 
 ## M0 · Source and boot
 
-### KR-01 · Starter loadout decision
+### KR-01 · Verify the starter loadout
 
-- Record the approved D-001 rule for the **Starter Post** while Mechanical is unbuilt. The reviewed rule specifies whether it consumes a slot, its grant lifetime and replay behavior. A new-save fixture lists Scout Sniper, Patrolman and the Starter Post at the C1-01 opening.
+- Implement and verify the [approved D-001 rule](../canon/DECISION_LOG.md#approved-decisions). A new save and a later replay list Scout Sniper, Patrolman and one mission-issued Starter Post outside Mechanical capacity. The supply ends with the operation.
 - Verify the fixture leaves Mechanical unbuilt and its separately purchased Lv.1 two-slot capacity intact. Demonstrate that D05 denies the Post regardless of a tutorial grant.
 - **Evidence.** GDD pp. 8–9, 18–19, 22, 24 §§ G.3, H.1, M.1, M.4, M.6; UI pp. 10, 22, 39, 62, 101 S10/S26/S28/S59.
 
