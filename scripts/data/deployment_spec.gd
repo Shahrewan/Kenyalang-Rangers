@@ -8,6 +8,10 @@ enum Skill { NONE, IMMEDIATE, TARGETED }
 @export var label: String
 @export var kind: Kind
 @export var cost: int
+@export var max_hp := 100
+@export var attack_damage := 0
+@export var attack_seconds := 1.0
+@export var block_capacity := 0
 @export var attack_range: int
 @export var targets_aerial := false
 @export var skill: Skill

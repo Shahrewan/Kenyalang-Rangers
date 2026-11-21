@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="BattleStage" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_stage.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/t01_forgotten_patrol.tres" id="2"]
+[ext_resource type="Resource" path="res://data/stages/t01_route.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/data/battle_spawn_group.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/data/battle_wave.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/data/battle_route.gd" id="7"]
+
+[sub_resource type="Resource" id="Enemy"]
+script = ExtResource("4")
+enemy_id = &"E01"
+tiles_per_second = 0.29
+escape_penalty = 10
+
+[sub_resource type="Resource" id="Group1"]
+script = ExtResource("5")
+enemy = SubResource("Enemy")
+count = 6
+interval_seconds = 3.5
+
+[sub_resource type="Resource" id="Group2"]
+script = ExtResource("5")
+enemy = SubResource("Enemy")
+count = 8
+interval_seconds = 3.5
+
+[sub_resource type="Resource" id="Wave1"]
+script = ExtResource("6")
+groups = Array[ExtResource("5")]([SubResource("Group1")])
+rest_after_seconds = 25.0
+
+[sub_resource type="Resource" id="Wave2"]
+script = ExtResource("6")
+groups = Array[ExtResource("5")]([SubResource("Group2")])
+
+[resource]
+script = ExtResource("1")
+stage_id = &"C1-01"
+opening_delay_seconds = 10.0
+first_clear_funds = 100
+first_perfect_funds = 50
+map = ExtResource("2")
+routes = Array[ExtResource("7")]([ExtResource("3")])
+waves = Array[ExtResource("6")]([SubResource("Wave1"), SubResource("Wave2")])

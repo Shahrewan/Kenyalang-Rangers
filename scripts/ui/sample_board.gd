@@ -3,6 +3,7 @@ extends Control
 
 var battle_map: BattleMap
 var battle: BattleSimulation
+var show_combat_hp := false
 var deployments: DeploymentState
 var preview_spec: DeploymentSpec
 var preview_cell := DeploymentState.NO_CELL
@@ -58,10 +59,17 @@ func _draw() -> void:
 	if deployments != null:
 		_draw_deployments()
 	if battle != null:
+		var stacked: Dictionary[StringName, int] = {}
 		for enemy: BattleEnemy in battle.active.values():
 			var center := origin + (enemy.grid_position() + Vector2(0.5, 0.5)) * cell
+			if show_combat_hp and not enemy.blocked_by.is_empty():
+				var slot: int = stacked.get(enemy.blocked_by, 0)
+				center.y += (-0.20 if slot == 0 else 0.20) * cell
+				stacked[enemy.blocked_by] = slot + 1
 			draw_circle(center, cell * 0.18, Color("#8B3E2C"), true, -1, true)
 			draw_circle(center, cell * 0.18, Color("#F3EBDD"), false, 2.0, true)
+			if show_combat_hp:
+				_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
 
 func _draw_gate(at: Vector2, cell: float, label: String, color: Color) -> void:
 	draw_rect(Rect2(at, Vector2.ONE * cell).grow(-2.0), color)
@@ -108,6 +116,17 @@ func _draw_deployments() -> void:
 			draw_rect(_tile_rect(cell), Color("#D3B681"), false, 2.0)
 		if unit.spec.is_melee():
 			_draw_direction(unit.anchor, unit.facing, Color("#F3EBDD"))
+		if show_combat_hp:
+			var center := cell_center(unit.anchor)
+			if unit.spec.footprint(unit.anchor).size() == 2:
+				center.x += tile_size() / 2.0
+			_draw_health(center + Vector2(0, tile_size() * 0.40), tile_size() * 0.5, unit.hp, unit.spec.max_hp)
+
+func _draw_health(center: Vector2, width: float, hp: int, maximum: int) -> void:
+	var bar := Rect2(center - Vector2(width / 2.0, 0), Vector2(width, 4))
+	draw_rect(bar, Color("#202825"))
+	bar.size.x *= clampf(float(hp) / maximum, 0.0, 1.0)
+	draw_rect(bar, Color("#C6DB87"))
 
 func _tile_rect(cell: Vector2i) -> Rect2:
 	return Rect2(grid_origin() + Vector2(cell) * tile_size(), Vector2.ONE * tile_size()).grow(-3.0)

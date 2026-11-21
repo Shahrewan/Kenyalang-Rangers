@@ -9,6 +9,8 @@ class Placement:
 	var spec: DeploymentSpec
 	var anchor: Vector2i
 	var paid_cost: int
+	var hp: int
+	var next_attack_tick := 0
 	var build_deadline: int
 	var next_payout_tick: int
 	var yield_remainder := 0
@@ -19,6 +21,7 @@ class Placement:
 
 	func _init(definition: DeploymentSpec, cell: Vector2i, direction: int, paid: int, deadline: int) -> void:
 		spec = definition
+		hp = spec.max_hp
 		anchor = cell
 		paid_cost = paid
 		build_deadline = deadline
@@ -147,6 +150,14 @@ func retreat(id: StringName) -> bool:
 	if armed == id:
 		cancel_skill()
 	return true
+
+func damage_ranger(id: StringName, damage: int) -> void:
+	var unit: Placement = placed.get(id)
+	if unit == null or not unit.spec.is_ranger():
+		return
+	unit.hp = maxi(0, unit.hp - damage)
+	if unit.hp == 0:
+		retreat(id)
 
 func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []

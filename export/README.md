@@ -77,3 +77,11 @@ Quick-tap Scout Sniper to arm its skill. Drag across the board and release to ch
 Install the signed C04 build with `adb install -r build/android/kenyalang-rangers-c04-debug.apk`. In **Sample battle**, check the zero-Token First Contact opening. Drag the Starter Post onto two adjacent elevated tiles. It should build instantly and pay 9 Tokens after ten combat seconds. Pause before the payout, wait, then resume to check that pause holds the timer.
 
 Select **D05 Fixed Stockpile**. Verify 120 Tokens and an absent Post card. Place Sonic Turret for 35 Tokens, tap the unfinished Facility and choose **Cancel build** before its seven seconds elapse. The wallet should return to 120 and both cells should be free. Place it again and let it finish. The completed Facility should remain stationary. Use **Normal loadout** to check that later Posts display a paid cost and build time.
+
+## C05 First Contact phone playtest
+
+Install the signed C05 build with `adb install -r build/android/kenyalang-rangers-c05-debug.apk` from the project root on a PC connected to an ARM64 phone. Open **First Contact** in airplane mode. Confirm that both Continue and Skip leave the briefing, that the clock waits behind it, and that the field and tray fit around the phone's cutout. Note the model, Android version, resolution and safe-area behavior.
+
+Start by dragging the Starter Post off the board once and checking that Tokens stay at zero. Place it on the top-left pair of raised tiles. At nine Tokens, Scout placement should be rejected without spending. After the next payout, place Scout on the raised tile beside the bend. After one more payout, place Patrolman on the lower path facing left. A reproducible perfect-clear layout uses zero-based anchors Post (1, 0), Scout (5, 2), Patrolman (6, 3). Check HP bars, attacks, blocking, pause and the result.
+
+Restart and test hold-to-Retreat and redeploy cooldown. In an undefended run, inspect the 10-Integrity escape penalty and defeat. Close and relaunch after a clear, replay it, and confirm that the first-clear or perfect bonus cannot be awarded twice. Record the installed build and results in the decision log. The phone evidence is required before work expands beyond C05.

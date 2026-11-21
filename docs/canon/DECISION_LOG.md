@@ -109,3 +109,7 @@ The deployment preview uses the approved 350 ms real-time hold and 10/12 Token P
 ## D-007/D-008 C04 logistics fixture — 2026-11-21
 
 First Contact supplies one free Starter Post and applies D01, so Level 1 earns 9 Tokens per 10 combat seconds. The ordinary loadout fixture uses 20 Tokens for the second accepted Post and adds 5 for each following accepted Post, with a six-second build and eight-second deployment cooldown. A cancelled repeat build refunds its full cost and retains the cooldown and next price tier. These repeat-Post values and cancellation policy are provisional. The separate D05 fixture grants 120 Tokens and excludes all Posts. Sonic Turret uses the documented seven-second base build at every level.
+
+## D-006 C05 First Contact tuning — 2026-11-21
+
+The C05 mission keeps T01, 6/8 sequential Forest Trespassers, 3.5-second spawning, 25-second rest and D01. It trials a 10-second opening allowance, 0.29 tiles per combat second and 10 Integrity per ordinary escape. The scope is First Contact. The C02 fixture keeps its independent timings. Local C05 test rewards are provisional: 100 Funds for first clear and 50 additional Funds for first perfect clear. A replay cannot repeat either credit. This pilot save is separate from future Campaign progression and economy tuning. The phone playtest remains the C05 exit gate.
