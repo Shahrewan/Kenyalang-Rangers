@@ -22,3 +22,11 @@ The C03 runner checks transactional occupancy and Token costs, attack geometry, 
 The C04 tests check opening legality, Post payouts and cooldowns, D05 exclusivity, construction deadlines and exact refunds. The scene checks send synthetic touch through the viewport.
 
 The C05 runner checks blocking and damage, an actual two-wave perfect clear, ordinary clear, defeat, tutorial skip, touch under simulated small-screen safe margins, Retreat, replay rewards and local reload. It writes to an isolated test save.
+
+Run the optional C07 rig check after editor import:
+
+```sh
+godot --headless --path . --script res://tests/unit/scout_rig_test.gd
+```
+
+The test reads the W06 manifest and checks neutral registration, real AnimationPlayer motion, clock pause/speed and mirrored or locked facing. The standalone clip preview supports visual joint checks.

@@ -20,7 +20,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [x] C04 Logistic Tokens, first-free Post, D05 and construction/refunds verified in Godot. Physical-phone smoke test pending.
 - [~] C05 First Contact playable slice and debug APK verified off-device. Physical-phone playtest is required before expanding beyond C05.
 - [x] W06 [Reference-matched specs for 12 Rangers and the redrawn Scout Sniper v0.2.0 kit](W06_RANGER_SPRITE_SPEC.md) verified off-device. C07 covers rigging and phone review.
-- [ ] C07 Skeleton2D/Bone2D rig experiment + states in Godot
+- [~] C07 Scout Sniper rig, seven states and standalone APK verified off-device. Phone review remains open.
 - [ ] W08 UI style guide, map geometry and asset delivery plan
 - [ ] C09 Common battle HUD, dialogue and planning shell
 - [ ] C10 12 Rangers: data + all behavior + tests

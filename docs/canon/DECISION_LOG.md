@@ -113,3 +113,7 @@ First Contact supplies one free Starter Post and applies D01, so Level 1 earns 9
 ## D-006 C05 First Contact tuning — 2026-11-21
 
 The C05 mission keeps T01, 6/8 sequential Forest Trespassers, 3.5-second spawning, 25-second rest and D01. It trials a 10-second opening allowance, 0.29 tiles per combat second and 10 Integrity per ordinary escape. The scope is First Contact. The C02 fixture keeps its independent timings. Local C05 test rewards are provisional: 100 Funds for first clear and 50 additional Funds for first perfect clear. A replay cannot repeat either credit. This pilot save is separate from future Campaign progression and economy tuning. The phone playtest remains the C05 exit gate.
+
+## D-012 C07 pilot evidence — 2026-11-21
+
+The W06 Scout v0.2.0 kit runs in a 19-bone standalone preview at its authored scale. Linux checks covered pivots, ordering, both facings, clip timing and sampled joint readability. Physical-phone readability, touch and performance remain pending before the rig pattern is adopted for the rest of the roster.
