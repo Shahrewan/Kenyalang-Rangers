@@ -1,0 +1,28 @@
+class_name DeploymentSpec
+extends Resource
+
+enum Kind { GROUND, GROUND_PAIR, ELEVATED, FACILITY_PAIR, SENTRY }
+enum Skill { NONE, IMMEDIATE, TARGETED }
+
+@export var id: StringName
+@export var label: String
+@export var kind: Kind
+@export var cost: int
+@export var attack_range: int
+@export var targets_aerial := false
+@export var skill: Skill
+@export var redeploy_seconds := 5.0
+
+func footprint(anchor: Vector2i) -> Array[Vector2i]:
+	if kind == Kind.GROUND_PAIR or kind == Kind.FACILITY_PAIR:
+		return [anchor, anchor + Vector2i.RIGHT]
+	return [anchor]
+
+func reserved(anchor: Vector2i) -> Array[Vector2i]:
+	return [anchor + Vector2i.UP] if kind == Kind.SENTRY else []
+
+func is_ranger() -> bool:
+	return kind != Kind.FACILITY_PAIR and kind != Kind.SENTRY
+
+func is_melee() -> bool:
+	return kind == Kind.GROUND or kind == Kind.GROUND_PAIR

@@ -7,14 +7,16 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [x] Both PDFs reconciled into the six requested Markdown files. Catalog and frame coverage checked against source pages.
 - [x] W00 exit check verified 137 unique [content IDs](../canon/DATA_CONTRACTS.md#identity-units-and-revisions) and checked [source availability](SOURCE_INVENTORY.md) against the reference and candidate archives.
 - [x] Owner approved all 18 W00b choices on 21 November 2026. Final balance values and validation are tracked in the [decision log](../canon/DECISION_LOG.md#open-decisions).
-- [ ] C01 launch/parsing and Android smoke tests completed.
+- [x] C01 Godot 4.7.2 stable editor import, PC launch, 9 automated checks and desktop pointer navigation verified.
+- [x] C01 signed ARM64 debug APK exported and passed signature, alignment and manifest checks.
+- [ ] C01 install and smoke test on a physical Android phone. See [the procedure and device blocker](../../export/README.md).
 
 ## Development milestones
 - [x] W00 Source inventory, canonical rulebook, decision log and 36 acceptance-based tickets assembled. See [BACKLOG.md](BACKLOG.md).
 - [x] W00b Approved the implementation choices and recorded their rationale and scope. See [the approval record](../canon/DECISION_LOG.md#approved-decisions).
-- [ ] C01 Version-pinned Godot repo, PC + Android smoke test
-- [ ] C02 Combat grid, paths, occupancy, deterministic wave simulator
-- [ ] C03 Drag/touch input, melee facing, footprint, cooldowns, retreat
+- [~] C01 Version-pinned Godot repo, PC smoke and Android debug export verified. Physical-phone install pending.
+- [x] C02 Resource-driven grid and routes, shared combat clock and deterministic waves/Integrity verified. Deployment occupancy is tracked in C03.
+- [~] C03 Touch input, facing, footprints, cooldowns and retreat verified in Godot. Physical-phone smoke test pending.
 - [ ] C04 Logistic Tokens, first-free Post, D05 alternate opening, construction
 - [ ] C05 C1-01 vertical slice with Android playtest
 - [ ] W06 Sprite technical specifications and one Ranger cutout kit

@@ -10,21 +10,31 @@ config_version=5
 
 [application]
 
-config/name="Kenyalang-Rangers"
+config/name="Kenyalang Rangers"
+run/main_scene="res://scenes/menus/launcher.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://assets/placeholders/dev_icon.png"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/window_width_override=1152
+window/size/window_height_override=648
+window/handheld/orientation=0
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
-[physics]
+[input_devices]
 
-3d/physics_engine="Jolt Physics"
+pointing/emulate_mouse_from_touch=true
 
 [rendering]
 
-rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+
+[physics]
+
+common/physics_ticks_per_second=60

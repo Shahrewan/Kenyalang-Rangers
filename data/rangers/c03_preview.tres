@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="DeploymentRoster" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/deployment_roster.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/deployment_spec.gd" id="2"]
+
+[sub_resource type="Resource" id="patrolman"]
+script = ExtResource("2")
+id = &"patrolman"
+label = "Patrolman"
+kind = 0
+cost = 10
+attack_range = 1
+targets_aerial = false
+skill = 1
+
+[sub_resource type="Resource" id="two_cell"]
+script = ExtResource("2")
+id = &"two_cell"
+label = "Two-cell Ranger"
+kind = 1
+cost = 14
+attack_range = 2
+targets_aerial = false
+skill = 0
+
+[sub_resource type="Resource" id="scout"]
+script = ExtResource("2")
+id = &"scout"
+label = "Scout Sniper"
+kind = 2
+cost = 12
+attack_range = 2
+targets_aerial = true
+skill = 2
+
+[sub_resource type="Resource" id="facility"]
+script = ExtResource("2")
+id = &"facility"
+label = "Facility"
+kind = 3
+cost = 8
+attack_range = 0
+targets_aerial = false
+skill = 0
+
+[sub_resource type="Resource" id="sentry"]
+script = ExtResource("2")
+id = &"sentry"
+label = "Sentry footprint"
+kind = 4
+cost = 8
+attack_range = 0
+targets_aerial = false
+skill = 0
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([SubResource("patrolman"), SubResource("two_cell"), SubResource("scout"), SubResource("facility"), SubResource("sentry")])

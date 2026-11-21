@@ -1,4 +1,32 @@
+# Generated Godot and local Gradle data
 .godot/
+.import/
+tracking image for GitHub upload.jpg.import
+.android/
+.gradle/
 /android/
+*.tmp
+
+# Local builds and device logs
+/build/
+/export/build/
 *.apk
 *.aab
+*.apks
+*.idsig
+*.log
+
+# Private signing settings and keys
+export_credentials.cfg
+local.properties
+keystore.properties
+key.properties
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.key
+*.pem
+.env
+.env.*
+!.env.example
