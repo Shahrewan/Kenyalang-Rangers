@@ -67,3 +67,10 @@
 - Added a Campaign entry for C1-01, a skippable opening tutorial, automatic Ranger targeting and attacks, Patrolman blocking, HP bars, result feedback and the versioned C05 local save with one-time provisional Funds.
 - Godot 4.7.2 passed editor import, startup and 144 automated checks. The C05 fixtures covered all 14 enemies in a perfect clear, a clear with one escape, defeat, save reload, pause, Retreat, and touch under simulated cutout margins. Native X11 at 960×540 verified opening the mission, tutorial Continue, the Post drag and pause.
 - The signed ARM64 APK passed signature, alignment, archive and packaged-resource checks. No USB phone was available. The [physical-phone procedure](../../export/README.md#c05-first-contact-phone-playtest) remains the no-go gate before expansion.
+
+## W06 Ranger sprite production pilot — 2026-11-21
+
+- Started from merged C05 at `33726d5`. Pilot v0.2.0 follows the owner’s specific style reference. The [W06 specification](W06_RANGER_SPRITE_SPEC.md) uses that lineup's head and boot proportions, warm ink, olive and oat cloth, and simplified gear for all 12 Ranger briefs. Heights, accents and technical dimensions are pilot choices under D-012.
+- The Scout uses the upper-left Ranger's broad brim, ponytail and mantle. The SVG has 19 editable vector layers with separate ponytail and mantle pivots. All 19 transparent PNGs map to the 96 × 96 canvas and fixed ground anchor in the manifest. The reference sheet assembles the actual cutouts and labels their pivots. The isolated style study is a separate illustration.
+- All 19 crop registrations, alpha edges and hashes passed. All 18 joints overlap in the neutral assembly. The neutral and two static pose renders stayed connected. Godot 4.7.2 passed editor import, texture load checks, startup and 144 existing checks across `project_smoke`, `battle_simulation`, `deployment`, `logistics` and `first_contact`.
+- C05's physical-phone playtest remains open. C07 will use the manifest for the running rig, state animation, flipped facing and phone-scale readability checks before producing the remaining Ranger kits.
