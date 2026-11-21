@@ -85,3 +85,15 @@ Install the signed C05 build with `adb install -r build/android/kenyalang-ranger
 Start by dragging the Starter Post off the board once and checking that Tokens stay at zero. Place it on the top-left pair of raised tiles. At nine Tokens, Scout placement should be rejected without spending. After the next payout, place Scout on the raised tile beside the bend. After one more payout, place Patrolman on the lower path facing left. A reproducible perfect-clear layout uses zero-based anchors Post (1, 0), Scout (5, 2), Patrolman (6, 3). Check HP bars, attacks, blocking, pause and the result.
 
 Restart and test hold-to-Retreat and redeploy cooldown. In an undefended run, inspect the 10-Integrity escape penalty and defeat. Close and relaunch after a clear, replay it, and confirm that the first-clear or perfect bonus cannot be awarded twice. Record the installed build and results in the decision log. The phone evidence is required before work expands beyond C05.
+
+## C07 Scout rig phone review
+
+Install the standalone preview beside the C05 build:
+
+```sh
+adb install -r build/android/kenyalang-rangers-c07-rig-preview.apk
+```
+
+Run the C05 First Contact playtest first and record its result. Then open **Kenyalang Rangers (Scout Rig)** in landscape. Watch Idle, Deploy, Attack, Skill, Hit, Retreat and Defeat at normal phone scale. Flip facing and compare the tool grip, joints, feet and HP reference against the raised tile. Check that **Lock facing** prevents another flip, and that Pause and 1×/2× act on a running clip. Record the model, Android version, build and any joint gaps or scale/readability issues.
+
+To reproduce the standalone APK, use a temporary project copy. Point its main scene to `res://scenes/qa/scout_rig_preview.tscn`. In its Android Debug preset select the preview scene and `res://scripts/battle/combat_clock.gd` as export resources, and set the package ID to `com.shahrewan.kenyalangrangers.rigpreview`. Run the pinned editor import and standard debug export from that copy. The shipped C05 preset stays in the original checkout.

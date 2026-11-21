@@ -74,3 +74,9 @@
 - The Scout uses the upper-left Ranger's broad brim, ponytail and mantle. The SVG has 19 editable vector layers with separate ponytail and mantle pivots. All 19 transparent PNGs map to the 96 × 96 canvas and fixed ground anchor in the manifest. The reference sheet assembles the actual cutouts and labels their pivots. The isolated style study is a separate illustration.
 - All 19 crop registrations, alpha edges and hashes passed. All 18 joints overlap in the neutral assembly. The neutral and two static pose renders stayed connected. Godot 4.7.2 passed editor import, texture load checks, startup and 144 existing checks across `project_smoke`, `battle_simulation`, `deployment`, `logistics` and `first_contact`.
 - C05's physical-phone playtest remains open. C07 will use the manifest for the running rig, state animation, flipped facing and phone-scale readability checks before producing the remaining Ranger kits.
+
+## C07 Scout Sniper rig pilot — 2026-11-21
+
+- Built an isolated Skeleton2D/Bone2D preview using the 19 W06 cutouts and manifest. Added seven AnimationPlayer states, ground-anchor mirroring, a locked-facing demonstration, clock pause and 1×/2×.
+- Godot 4.7.2 passed editor import, preview launch, 14 rig checks and 144 existing checks. A 1280×720 Linux render visually checked sampled poses from all seven states and mirrored Idle.
+- Exported a standalone signed ARM64 preview APK and verified archive alignment and the 19 packaged textures. The standard C05 project and APK remain separate. The C05 and C07 physical-phone checks are still open. See the [rig guide](C07_SCOUT_RIG.md).
