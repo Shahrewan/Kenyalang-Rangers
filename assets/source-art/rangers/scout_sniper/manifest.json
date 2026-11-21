@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.2.0",
+  "ranger_id": "ranger.scout_sniper",
+  "display_name": "Scout Sniper",
+  "status": "W06 pilot cutout, C07 rig and physical-phone validation pending",
+  "source_svg": "assets/source-art/rangers/scout_sniper/scout_sniper.svg",
+  "source_sha256": "94df8b84d2883616781950d4bcfc4ef4510cb466f2da426d9cfa50d0976ce5b6",
+  "reference_sheet": "assets/source-art/rangers/scout_sniper/scout_sniper_reference.png",
+  "coordinate_system": "Top-left origin, +x right, +y down",
+  "canvas_units": [
+    96,
+    96
+  ],
+  "normalized_raster_canvas_px": [
+    384,
+    384
+  ],
+  "pixels_per_unit": 4,
+  "godot_units_per_png_pixel": 0.25,
+  "tile_units": 80,
+  "ground_anchor_units": [
+    48,
+    84
+  ],
+  "ground_anchor_normalized": [
+    0.5,
+    0.875
+  ],
+  "target_visible_height_units": 72,
+  "measured_visible_height_units": 72.157,
+  "art_bounds_units": [
+    11.0447,
+    11.9176,
+    70.8288,
+    72.1574
+  ],
+  "neutral_facing": "right",
+  "horizontal_mirror_origin": "Ground anchor on the facing root",
+  "export": {
+    "format": "PNG RGBA",
+    "minimum_padding_px": 4,
+    "filter": "linear",
+    "rasterizer": "Inkscape 1.4",
+    "crop_offset_origin": "top-left of normalized raster canvas"
+  },
+  "palette": {
+    "outline": "#2B2622",
+    "olive": "#8E895E",
+    "dark_olive": "#6F6C4A",
+    "sand": "#B5A17B",
+    "ochre": "#B19159",
+    "cream": "#F0DEC2",
+    "skin": "#F8C9A6",
+    "hair": "#5B4941",
+    "pants": "#5E584A",
+    "boot": "#5B594A",
+    "metal": "#514D48",
+    "lens": "#625C55"
+  },
+  "provenance": {
+    "runtime_and_editable_art": "Editable vector redraw of the user-supplied Scout style and silhouette. All hidden portions were drawn as independent filled paths.",
+    "style_references": [
+      "GDD pp. 17, 29–30",
+      "UI storyboard pp. 2–3, 11 and 22 (S10)",
+      "User-supplied character lineup b69016e9-403d-410a-bce7-d72884d602d6.png, upper-left ranger"
+    ],
+    "concept_study": "A separate image edit isolated the Scout design for visual comparison. The SVG and cutouts use editable paths and fills.",
+    "license_status": "Original project pilot. Final release sign-off is tracked under D-014."
+  },
+  "parts": [
+    {
+      "id": "pack",
+      "label": "Tan utility roll",
+      "svg_layer_id": "part_pack",
+      "parent": "torso",
+      "draw_order": 1,
+      "png": "assets/imported/rangers/scout_sniper/pack.png",
+      "sha256": "f3c041488a04afd509bdf7c23a731e784d039010ca3a868407cc1b4d403cf285",
+      "canvas_rect_px": [
+        68,
+        240,
+        105,
+        92
+      ],
+      "pivot_canvas_units": [
+        38.5,
+        65.5
+      ],
+      "pivot_canvas_normalized": [
+        0.40104167,
+        0.68229167
+      ],
+      "pivot_local_px": [
+        86.0,
+        22.0
+      ]
+    },
+    {
+      "id": "ponytail",
+      "label": "Ponytail",
+      "svg_layer_id": "part_ponytail",
+      "parent": "head",
+      "draw_order": 2,
+      "png": "assets/imported/rangers/scout_sniper/ponytail.png",
+      "sha256": "bada1b045f5b954a0bb98418d31ef38d89a10eca0fd9de7cd0e0370c92736721",
+      "canvas_rect_px": [
+        39,
+        125,
+        104,
+        120
+      ],
+      "pivot_canvas_units": [
+        30.5,
+        39.5
+      ],
+      "pivot_canvas_normalized": [
+        0.31770833,
+        0.41145833
+      ],
+      "pivot_local_px": [
+        83.0,
+        33.0
+      ]
+    },
+    {
+      "id": "thigh_far",
+      "label": "Far thigh",
+      "svg_layer_id": "part_thigh_far",
+      "parent": "torso",
+      "draw_order": 3,
+      "png": "assets/imported/rangers/scout_sniper/thigh_far.png",
+      "sha256": "15771ac4bbfc8033c48dcb4d544224892af0fa576044d9b56aa74810e8c146e6",
+      "canvas_rect_px": [
+        189,
+        264,
+        58,
+        58
+      ],
+      "pivot_canvas_units": [
+        55.25,
+        73.0
+      ],
+      "pivot_canvas_normalized": [
+        0.57552083,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        32.0,
+        28.0
+      ]
+    },
+    {
+      "id": "shin_far",
+      "label": "Far shin",
+      "svg_layer_id": "part_shin_far",
+      "parent": "thigh_far",
+      "draw_order": 4,
+      "png": "assets/imported/rangers/scout_sniper/shin_far.png",
+      "sha256": "73b5de1e04c1c4b09f860bdd5e83670c7e56492fcd4366b68616cb8acf5b1233",
+      "canvas_rect_px": [
+        195,
+        283,
+        55,
+        53
+      ],
+      "pivot_canvas_units": [
+        55.75,
+        76.5
+      ],
+      "pivot_canvas_normalized": [
+        0.58072917,
+        0.796875
+      ],
+      "pivot_local_px": [
+        28.0,
+        23.0
+      ]
+    },
+    {
+      "id": "boot_far",
+      "label": "Far boot",
+      "svg_layer_id": "part_boot_far",
+      "parent": "shin_far",
+      "draw_order": 5,
+      "png": "assets/imported/rangers/scout_sniper/boot_far.png",
+      "sha256": "2eb6378abf05eaa1f81cb79f25d059cd466b64c1cc790fe0294595dd99b01f2b",
+      "canvas_rect_px": [
+        188,
+        290,
+        66,
+        52
+      ],
+      "pivot_canvas_units": [
+        56.0,
+        79.0
+      ],
+      "pivot_canvas_normalized": [
+        0.58333333,
+        0.82291667
+      ],
+      "pivot_local_px": [
+        36.0,
+        26.0
+      ]
+    },
+    {
+      "id": "thigh_near",
+      "label": "Near thigh",
+      "svg_layer_id": "part_thigh_near",
+      "parent": "torso",
+      "draw_order": 6,
+      "png": "assets/imported/rangers/scout_sniper/thigh_near.png",
+      "sha256": "6a75c4fc884be78483d64298518f9154358b8ba3878ac1bfa0e6748fe997cad6",
+      "canvas_rect_px": [
+        136,
+        265,
+        54,
+        54
+      ],
+      "pivot_canvas_units": [
+        41.0,
+        73.0
+      ],
+      "pivot_canvas_normalized": [
+        0.42708333,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        28.0,
+        27.0
+      ]
+    },
+    {
+      "id": "shin_near",
+      "label": "Near shin",
+      "svg_layer_id": "part_shin_near",
+      "parent": "thigh_near",
+      "draw_order": 7,
+      "png": "assets/imported/rangers/scout_sniper/shin_near.png",
+      "sha256": "6156cb8e0081cbf14d39d7b65f8a35e70240705a5c8238a7ad09be35f9a51883",
+      "canvas_rect_px": [
+        131,
+        285,
+        55,
+        51
+      ],
+      "pivot_canvas_units": [
+        40.6,
+        76.5
+      ],
+      "pivot_canvas_normalized": [
+        0.42291667,
+        0.796875
+      ],
+      "pivot_local_px": [
+        31.400000000000006,
+        21.0
+      ]
+    },
+    {
+      "id": "boot_near",
+      "label": "Near boot",
+      "svg_layer_id": "part_boot_near",
+      "parent": "shin_near",
+      "draw_order": 8,
+      "png": "assets/imported/rangers/scout_sniper/boot_near.png",
+      "sha256": "e66a765326b810def02327dc5cb4a5a3f901bcb828a8fe30b9644bbe1774640d",
+      "canvas_rect_px": [
+        124,
+        291,
+        65,
+        51
+      ],
+      "pivot_canvas_units": [
+        39.9,
+        79.0
+      ],
+      "pivot_canvas_normalized": [
+        0.415625,
+        0.82291667
+      ],
+      "pivot_local_px": [
+        35.599999999999994,
+        25.0
+      ]
+    },
+    {
+      "id": "upper_arm_far",
+      "label": "Far upper arm",
+      "svg_layer_id": "part_upper_arm_far",
+      "parent": "torso",
+      "draw_order": 9,
+      "png": "assets/imported/rangers/scout_sniper/upper_arm_far.png",
+      "sha256": "5d0b531aff5db0c0cea61169af06cfcb3a8de826be2b593ac2080119b9a7a454",
+      "canvas_rect_px": [
+        195,
+        191,
+        65,
+        58
+      ],
+      "pivot_canvas_units": [
+        54.5,
+        53.0
+      ],
+      "pivot_canvas_normalized": [
+        0.56770833,
+        0.55208333
+      ],
+      "pivot_local_px": [
+        23.0,
+        21.0
+      ]
+    },
+    {
+      "id": "forearm_far",
+      "label": "Far forearm",
+      "svg_layer_id": "part_forearm_far",
+      "parent": "upper_arm_far",
+      "draw_order": 10,
+      "png": "assets/imported/rangers/scout_sniper/forearm_far.png",
+      "sha256": "15b9d68c430b14b09aa2dbba4f46ac53f51b6fd502b4694d30c6de6155dfda9d",
+      "canvas_rect_px": [
+        209,
+        209,
+        50,
+        75
+      ],
+      "pivot_canvas_units": [
+        59.25,
+        56.5
+      ],
+      "pivot_canvas_normalized": [
+        0.6171875,
+        0.58854167
+      ],
+      "pivot_local_px": [
+        28.0,
+        17.0
+      ]
+    },
+    {
+      "id": "torso",
+      "label": "Jacket and belt",
+      "svg_layer_id": "part_torso",
+      "parent": null,
+      "draw_order": 11,
+      "png": "assets/imported/rangers/scout_sniper/torso.png",
+      "sha256": "93d5fee97dccfb9ad2402cbf200a99f67adcf177679ef34a1844e08e64f97c1a",
+      "canvas_rect_px": [
+        132,
+        179,
+        126,
+        142
+      ],
+      "pivot_canvas_units": [
+        48.0,
+        73.25
+      ],
+      "pivot_canvas_normalized": [
+        0.5,
+        0.76302083
+      ],
+      "pivot_local_px": [
+        60.0,
+        114.0
+      ]
+    },
+    {
+      "id": "upper_arm_near",
+      "label": "Near upper arm",
+      "svg_layer_id": "part_upper_arm_near",
+      "parent": "torso",
+      "draw_order": 12,
+      "png": "assets/imported/rangers/scout_sniper/upper_arm_near.png",
+      "sha256": "ef66ef723d7c9bec7df4b7cf8a234325c33c9080b11cca04e62e38505f923545",
+      "canvas_rect_px": [
+        128,
+        193,
+        65,
+        69
+      ],
+      "pivot_canvas_units": [
+        42.75,
+        53.25
+      ],
+      "pivot_canvas_normalized": [
+        0.4453125,
+        0.5546875
+      ],
+      "pivot_local_px": [
+        43.0,
+        20.0
+      ]
+    },
+    {
+      "id": "forearm_near",
+      "label": "Near forearm",
+      "svg_layer_id": "part_forearm_near",
+      "parent": "upper_arm_near",
+      "draw_order": 13,
+      "png": "assets/imported/rangers/scout_sniper/forearm_near.png",
+      "sha256": "bd6d1728c36a23caeaeffba0bcd74dea15ebdef4b5af994637bfbb401b969eac",
+      "canvas_rect_px": [
+        129,
+        223,
+        70,
+        53
+      ],
+      "pivot_canvas_units": [
+        37.25,
+        60.5
+      ],
+      "pivot_canvas_normalized": [
+        0.38802083,
+        0.63020833
+      ],
+      "pivot_local_px": [
+        20.0,
+        19.0
+      ]
+    },
+    {
+      "id": "mantle",
+      "label": "Patterned mantle",
+      "svg_layer_id": "part_mantle",
+      "parent": "upper_arm_near",
+      "draw_order": 14,
+      "png": "assets/imported/rangers/scout_sniper/mantle.png",
+      "sha256": "2e135774c2093d7bc2420b3cef8341061d1b092c10e9049c222e2c2bffe2e277",
+      "canvas_rect_px": [
+        83,
+        192,
+        124,
+        116
+      ],
+      "pivot_canvas_units": [
+        42.75,
+        53.25
+      ],
+      "pivot_canvas_normalized": [
+        0.4453125,
+        0.5546875
+      ],
+      "pivot_local_px": [
+        88.0,
+        21.0
+      ]
+    },
+    {
+      "id": "tranq_tool",
+      "label": "Scoped tranq tool",
+      "svg_layer_id": "part_tranq_tool",
+      "parent": "hand_near",
+      "draw_order": 15,
+      "png": "assets/imported/rangers/scout_sniper/tranq_tool.png",
+      "sha256": "ddc179fa3a53f9f0d66f090fb50c061b6a67993665e2b268f076878f5dce2cb5",
+      "canvas_rect_px": [
+        157,
+        197,
+        176,
+        137
+      ],
+      "pivot_canvas_units": [
+        48.5,
+        61.75
+      ],
+      "pivot_canvas_normalized": [
+        0.50520833,
+        0.64322917
+      ],
+      "pivot_local_px": [
+        37.0,
+        50.0
+      ]
+    },
+    {
+      "id": "hand_far",
+      "label": "Far hand",
+      "svg_layer_id": "part_hand_far",
+      "parent": "forearm_far",
+      "draw_order": 16,
+      "png": "assets/imported/rangers/scout_sniper/hand_far.png",
+      "sha256": "f1e7b6d92c0bd3a1d8215befaaa33a487e68a4423bf1121e3dc817b73a8d446e",
+      "canvas_rect_px": [
+        213,
+        247,
+        41,
+        40
+      ],
+      "pivot_canvas_units": [
+        58.25,
+        66.25
+      ],
+      "pivot_canvas_normalized": [
+        0.60677083,
+        0.69010417
+      ],
+      "pivot_local_px": [
+        20.0,
+        18.0
+      ]
+    },
+    {
+      "id": "hand_near",
+      "label": "Near hand",
+      "svg_layer_id": "part_hand_near",
+      "parent": "forearm_near",
+      "draw_order": 17,
+      "png": "assets/imported/rangers/scout_sniper/hand_near.png",
+      "sha256": "d2c0a7a65c9f95583c08c9feface1b36a489034a3684bd4b2d478600b958632e",
+      "canvas_rect_px": [
+        163,
+        231,
+        48,
+        46
+      ],
+      "pivot_canvas_units": [
+        45.25,
+        63.25
+      ],
+      "pivot_canvas_normalized": [
+        0.47135417,
+        0.65885417
+      ],
+      "pivot_local_px": [
+        18.0,
+        22.0
+      ]
+    },
+    {
+      "id": "head",
+      "label": "Head and bangs",
+      "svg_layer_id": "part_head",
+      "parent": "torso",
+      "draw_order": 18,
+      "png": "assets/imported/rangers/scout_sniper/head.png",
+      "sha256": "cc0787c7bfd9bb037c76dec49cde70c836ff528addde7436bf7291fafb8a89d4",
+      "canvas_rect_px": [
+        99,
+        86,
+        194,
+        131
+      ],
+      "pivot_canvas_units": [
+        49.5,
+        49.0
+      ],
+      "pivot_canvas_normalized": [
+        0.515625,
+        0.51041667
+      ],
+      "pivot_local_px": [
+        99.0,
+        110.0
+      ]
+    },
+    {
+      "id": "hat",
+      "label": "Broad olive field hat",
+      "svg_layer_id": "part_hat",
+      "parent": "head",
+      "draw_order": 19,
+      "png": "assets/imported/rangers/scout_sniper/hat.png",
+      "sha256": "b94ca8177ab8556c41ed04342affee9365df657243a5089e58ee9de69ed255b9",
+      "canvas_rect_px": [
+        73,
+        42,
+        235,
+        143
+      ],
+      "pivot_canvas_units": [
+        47.75,
+        26.25
+      ],
+      "pivot_canvas_normalized": [
+        0.49739583,
+        0.2734375
+      ],
+      "pivot_local_px": [
+        118.0,
+        63.0
+      ]
+    }
+  ]
+}
