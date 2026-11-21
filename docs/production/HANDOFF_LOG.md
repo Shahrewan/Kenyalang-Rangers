@@ -55,3 +55,9 @@
 - Added separate placement and gesture logic, a touch-first tray, legal-footprint and attack previews, locked melee direction, elevated and reserved occupancy, targeted confirmation and contextual Retreat. Redeploy deadlines use combat ticks.
 - Godot 4.7.2 passed editor import, startup, 9 project checks, 29 battle checks and 44 deployment checks. Synthetic native touch exercised invalid and valid drops, holds, and target selection. Linux/X11 pointer testing exercised drag placement, locked facing, Retreat and the confirmation button.
 - The signed C03 ARM64 debug APK passed signature, alignment, archive and packaged-resource checks. Physical-phone input and safe-area evidence remain pending because the cloud workspace exposes no USB devices. See the [phone checklist](../../export/README.md#c03-deployment-smoke-test).
+
+## C04 Logistic Tokens and construction — 2026-11-21
+
+- The sample battle now has a transient Logistic Token wallet, the mission-issued Starter Post, a separate ordinary repeat-Post fixture and D05 Fixed Stockpile. Construction and payouts use the combat clock. Unfinished Facilities refund the exact paid cost on cancellation.
+- Godot 4.7.2 passed headless import and startup and all 119 assertions across the project, battle, deployment and logistics runners. The C04 tests include synthetic touch placement and cancellation.
+- The signed C04 ARM64 APK passed signature, alignment, ZIP integrity and logistics-resource checks. Physical-phone validation remains open. See the [C04 installation and smoke steps](../../export/README.md#c04-logistics-smoke-test).

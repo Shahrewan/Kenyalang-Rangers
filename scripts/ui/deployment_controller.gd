@@ -1,7 +1,8 @@
 extends Node
 
+@export var opening_rules: LogisticsRules
 @export var roster: DeploymentRoster
-@export var preview_budget := 60
+@export var preview_budget := -1
 
 @onready var _board: BattleBoard = %Board
 @onready var _tray: HBoxContainer = %DeploymentTray
@@ -15,6 +16,7 @@ const NO_POINTER := -2
 const MOUSE_POINTER := -1
 
 var state: DeploymentState
+var mode := 0
 var _simulation: BattleSimulation
 var _gesture := DeploymentGesture.new()
 var _cards: Array[PanelContainer] = []
@@ -41,13 +43,28 @@ func _ready() -> void:
 
 func setup(simulation: BattleSimulation, map: BattleMap) -> void:
 	_simulation = simulation
-	state = DeploymentState.new(map, simulation.clock, preview_budget)
+	var rules := opening_rules.duplicate() as LogisticsRules
+	rules.starter_only = mode == 0 and preview_budget < 0
+	rules.yield_percent = 90 if rules.starter_only else 100
+	rules.fixed_stockpile = mode == 2
+	state = DeploymentState.new(map, simulation.clock, maxi(0, preview_budget), rules)
 	state.skill_fired.connect(_skill_fired)
 	_board.deployments = state
 	_cancel_pointer()
 	_hide_retreat()
-	_hint.text = "Drag a card onto the grid. Drop on the left or right half to face that way."
+	_hint.text = "Drag the free Starter Post onto two adjacent elevated tiles." if rules.starter_only else "Drag a card onto the grid."
+	var offered: Array[DeploymentSpec] = []
+	for spec in roster.entries:
+		if _can_show_card(spec):
+			offered.append(spec)
+	if state.clock.is_running() and not state.has_legal_opening(offered):
+		state.clock.stopped = true
+		_hint.text = "No affordable legal opening. Choose a different setup."
 	_refresh()
+
+func _can_show_card(spec: DeploymentSpec) -> bool:
+	var starter_card := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
+	return (not state.rules.starter_only or starter_card) and not (state.rules.fixed_stockpile and spec.logistics_post)
 
 func _process(_delta: float) -> void:
 	if state == null:
@@ -105,7 +122,7 @@ func _press(id: int, at: Vector2) -> bool:
 	var actor: StringName = state.occupancy.get(cell, &"")
 	var card: DeploymentSpec
 	for i in _cards.size():
-		if _cards[i].get_global_rect().has_point(at):
+		if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
 			card = roster.entries[i]
 			break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
@@ -138,8 +155,11 @@ func _release(at: Vector2) -> void:
 			var error := state.deploy(spec, cell, _board.facing_at(at))
 			_hint.text = "%s deployed." % spec.label if error.is_empty() else error
 		DeploymentGesture.Release.TAP:
-			if state.occupancy.get(cell, &"") == _gesture.unit and state.quick_tap(_gesture.unit) and not state.armed.is_empty():
-				_hint.text = "Tap a covered tile, then confirm the skill."
+			if state.occupancy.get(cell, &"") == _gesture.unit:
+				if state.build_ticks_left(_gesture.unit) > 0:
+					_show_retreat(_gesture.unit)
+				elif state.quick_tap(_gesture.unit) and not state.armed.is_empty():
+					_hint.text = "Tap a covered tile, then confirm the skill."
 		DeploymentGesture.Release.HOLD:
 			_show_retreat(_gesture.unit)
 		DeploymentGesture.Release.TARGET:
@@ -152,20 +172,24 @@ func _cancel_pointer() -> void:
 
 func _show_retreat(id: StringName) -> void:
 	var unit: DeploymentState.Placement = state.placed.get(id)
-	if unit == null or not unit.spec.is_ranger():
+	var building := state.build_ticks_left(id) > 0
+	if unit == null or (not unit.spec.is_ranger() and not building):
 		return
 	_retreat_unit = id
 	var at: Vector2 = _board.cell_center(unit.anchor) + Vector2(20, 10)
 	_retreat.position = at.clamp(Vector2.ZERO, (_board.size - _retreat.size).max(Vector2.ZERO))
+	_retreat.text = "Cancel build" if building else "Retreat"
 	_retreat.show()
-	_hint.text = "Choose Retreat to remove this Ranger."
+	_hint.text = "Cancel to refund the paid Tokens." if building else "Choose Retreat to remove this Ranger."
 
 func _hide_retreat() -> void:
 	_retreat.hide()
 	_retreat_unit = &""
 
 func _retreat_ranger() -> void:
-	if state.retreat(_retreat_unit):
+	if state.cancel_construction(_retreat_unit):
+		_hint.text = "Construction cancelled. Paid Tokens refunded."
+	elif state.retreat(_retreat_unit):
 		_hint.text = "Ranger retreated. Redeploy after the cooldown."
 	_hide_retreat()
 
@@ -190,7 +214,9 @@ func _skill_fired(id: StringName, target: Vector2i) -> void:
 	_hint.text = "%s skill activated." % unit.spec.label
 
 func _refresh() -> void:
-	_budget.text = "Test Tokens: %d" % state.tokens
+	_budget.text = "Logistic Tokens: %d" % state.tokens
+	if _retreat.visible and _retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0:
+		_hide_retreat()
 	var armed := not state.armed.is_empty()
 	_confirm.visible = armed
 	_cancel.visible = armed
@@ -199,9 +225,17 @@ func _refresh() -> void:
 	for i in _labels.size():
 		var spec := roster.entries[i]
 		var ticks := state.cooldown_ticks(spec.id)
-		var detail := "%d Tokens" % spec.cost
-		if state.placed.has(spec.id):
+		_cards[i].visible = _can_show_card(spec)
+		var detail := "%d Tokens" % state.cost_for(spec)
+		var build := state.build_ticks_left(spec.id)
+		if build > 0:
+			detail = "Building %ds" % ceili(float(build) / CombatClock.TICKS_PER_SECOND)
+		elif state.placed.has(spec.id):
 			detail = "Deployed"
+		elif spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
+			detail = "Starter deployed"
+		elif spec.logistics_post and state.posts_deployed == 0:
+			detail = "Free · instant"
 		elif ticks > 0:
 			detail = "Cooldown %ds" % ceili(float(ticks) / CombatClock.TICKS_PER_SECOND)
 		_labels[i].text = "%s\n%s" % [spec.label, detail]

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LogisticsRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/logistics_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+starter_only = true
+yield_percent = 90
+later_post_base_cost = 20
+later_post_cost_step = 5
