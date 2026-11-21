@@ -1,6 +1,6 @@
 # Kenyalang Rangers systems index and catalogs
 
-**GDD** is *SimSimi.pdf*, Task 1 (GDD v1.0). **UI** is *Kenyalang_Rangers_Tileset_UI_Storyboard.pdf*. All citations use PDF pages. See the [rulebook](GAME_RULES.md) for precedence and status definitions and the [data contracts](DATA_CONTRACTS.md) for record shapes. **FIXED** entries reflect an explicit source rule. **PROVISIONAL** figures retain the printed balance values. **MISSING** fields are `TBD`. The **provisional keys** below are stable reference IDs for the review draft where the PDFs supply names only. Source IDs are preserved wherever the PDFs provide them. [GDD pp. 28–29 § O.2; UI p. 4]
+**GDD** is *SimSimi.pdf*, Task 1 (GDD v1.0). **UI** is *Kenyalang_Rangers_Tileset_UI_Storyboard.pdf*. All citations use PDF pages. See the [rulebook](GAME_RULES.md) for precedence and status definitions and the [data contracts](DATA_CONTRACTS.md) for record shapes. **FIXED** entries reflect an explicit source rule. **PROVISIONAL** figures retain the printed balance values. **MISSING** fields are `TBD`. The IDs below are stable, case-sensitive content references. Keep printed source IDs. For entries the PDFs identify only by name, use the project-assigned ID shown here. Use the [identity contract](DATA_CONTRACTS.md#identity-units-and-revisions) for maps, quiz chapters, tree species and other authored records. [GDD pp. 28–29 § O.2; UI p. 4]
 
 | System | Source inventory | Primary reference |
 |---|---|---|
@@ -12,9 +12,9 @@
 
 ## Rangers
 
-**FIXED**. Three Rangers in each of Offense, Defense, Support and Specialist. The named Records enhancements are separate from permanent levels. All per-action intervals are combat seconds at 1×. The same source tables explicitly designate the **PROVISIONAL** Lv.1 HP, damage, outputs and skill balance figures below. Published block count, charge limit and deployment geometry are part of each unit's written kit. **MISSING**. Canonical Ranger IDs, final level scaling, deployment/cooldown figures and exact ability parameters not given below are `TBD`. [GDD pp. 9–11 §§ H.1–1a; pp. 20, 26–27, 33 §§ M.2, M.9, T.4]
+**FIXED**. Three Rangers in each of Offense, Defense, Support and Specialist. The named Records enhancements are separate from permanent levels. All per-action intervals are combat seconds at 1×. The same source tables explicitly designate the **PROVISIONAL** Lv.1 HP, damage, outputs and skill balance figures below. Published block count, charge limit and deployment geometry are part of each unit's written kit. **MISSING**. Final level scaling, deployment/cooldown figures and exact ability parameters not given below are `TBD`. [GDD pp. 9–11 §§ H.1–1a; pp. 20, 26–27, 33 §§ M.2, M.9, T.4]
 
-| Class | Ranger | Tile | Lv.1 HP / basic output (provisional) | Source ability and provisional supplemental values | Provisional key | Source |
+| Class | Ranger | Tile | Lv.1 HP / basic output (provisional) | Source ability and provisional supplemental values | Stable ID | Source |
 | --- | --- | --- | --- | --- | --- | --- |
 | Offense | Scout Sniper | Elevated | 100 / 24 direct per 2.0 s | Moderate square, focus-marked target priority. Focus tranq 24 HP plus brief immobilize. Records Steady Aim strengthens marked attacks and adds tap-target Focus. | `ranger.scout_sniper` | GDD pp. 9, 11 §§ H.1–1a; p. 26 § M.9; UI p. 26 S13 |
 | Offense | Crowd Controller | Elevated | 120 / 30 AoE per 3.0 s | EMP extra versus Technological (proposed +30% basic bonus). Empowered EMP 50 AoE HP and a slowing field. | `ranger.crowd_controller` | GDD pp. 9, 11 §§ H.1–1a |
@@ -31,9 +31,9 @@
 
 ## Facilities
 
-**FIXED**. The roster includes 4 Resource, 3 Sentry, 3 Strategist and 3 Status Facilities. All 13 deploy on elevated cells. The default footprint is two horizontal cells. Sentry Tower uses one and reserves the cell above. Only explicit Siege can damage a Facility, including during construction. Non-Siege attacks cannot. **PROVISIONAL**. Lv.1 HP, non-Logistics Token costs and proposed outputs are source baselines. **MISSING**. Canonical Facility IDs and unlisted build/cooldown, targeting, storage or escalation data are `TBD`. [GDD pp. 8–9 §§ G.2–4; pp. 15–17 §§ J.1–2; p. 33 § T.4; UI pp. 4, 66 S32]
+**FIXED**. The roster includes 4 Resource, 3 Sentry, 3 Strategist and 3 Status Facilities. All 13 deploy on elevated cells. The default footprint is two horizontal cells. Sentry Tower uses one and reserves the cell above. Only explicit Siege can damage a Facility, including during construction. Non-Siege attacks cannot. **PROVISIONAL**. Lv.1 HP, non-Logistics Token costs and proposed outputs are source baselines. **MISSING**. Unlisted build/cooldown, targeting, storage or escalation data are `TBD`. [GDD pp. 8–9 §§ G.2–4; pp. 15–17 §§ J.1–2; p. 33 § T.4; UI pp. 4, 66 S32]
 
-| Class | Facility | Lv.1 HP / Token cost | Source behavior and baseline | Provisional key | Source |
+| Class | Facility | Lv.1 HP / Token cost | Source behavior and baseline | Stable ID | Source |
 | --- | --- | --- | --- | --- | --- |
 | Resource | Logistics Post | 160 / first normal 0, later escalating | Optional in ordinary loadout. First normal Post instant and no first cooldown. **Fixed base output** 10 Tokens/10 s at Lv.1 → 15/10 s at Lv.100. C1-01 Starter Post and D05 are documented separately. | `facility.logistics_post` | GDD pp. 8–9 §§ G.3, H.1; pp. 15, 20, 22, 24 §§ J.1, M.2, M.4, M.6; UI pp. 22, 101 S10/S59 |
 | Resource | Medic Cabin | 170 / 22 | Generates and stores manual medic kits. Pick an eligible ally and confirm. Proposed 65 HP per kit. | `facility.medic_cabin` | GDD pp. 15, 17 §§ J.1–1a; UI p. 29 S16 |
@@ -75,9 +75,9 @@ Only the offensive turret outputs are specified as direct enemy HP damage. Other
 
 ## Bosses
 
-**FIXED** names, mission assignments, threats and Chaos points. Bosses have no Siege unless explicitly authored. **PROVISIONAL** HP and direct attack values. **MISSING** canonical boss IDs, Danger numbers, phases, triggers, summons, exact timings and exact escape outcomes where unstated are `TBD`. [GDD pp. 7, 13 §§ F.3–4, H.3; pp. 22, 25 §§ M.4, M.7]
+**FIXED** names, mission assignments, threats and Chaos points. Bosses have no Siege unless explicitly authored. **PROVISIONAL** HP and direct attack values. **MISSING** Danger numbers, phases, triggers, summons, exact timings and exact escape outcomes where unstated are `TBD`. [GDD pp. 7, 13 §§ F.3–4, H.3; pp. 22, 25 §§ M.4, M.7]
 
-| Boss | Story mission | HP / damage / interval (provisional) | Source behavior | Chaos points | Provisional key | Source |
+| Boss | Story mission | HP / damage / interval (provisional) | Source behavior | Chaos points | Stable ID | Source |
 | --- | --- | --- | --- | ---: | --- | --- |
 | Diversion Captain | C1-05 | 2,500 / 28 HP / 1.8 s | Normal Ranger attack, movement support/speed aura, modest reinforcements. Capture ends introductory operation. | 200 | `boss.diversion_captain` | GDD pp. 6–7 §§ F.2–3; p. 13 § H.3; pp. 22, 25 §§ M.4, M.7 |
 | Illegal Logging Foreman | C2-08 | 8,000 / 42 HP / 2.5 s | Normal Ranger attack, Technological, increased Heat and optional temporary extra HP active effect. | 300 | `boss.illegal_logging_foreman` | GDD pp. 7, 13 §§ F.3, H.3; pp. 22, 25 §§ M.4, M.7 |
@@ -107,9 +107,9 @@ Only the offensive turret outputs are specified as direct enemy HP damage. Other
 
 ## Headquarters rooms
 
-**FIXED** room names, current opening/upgrade price schedule, Lv.1–5 structure and capacity/unlock ladder. `k` means 1,000 Funds and `M` means 1,000,000 Funds. The sum is 16.160M. Only the three free Lv.1 rooms exist in a new save. **PROVISIONAL** Finance rates/storage and economic payout assumptions are retained for modeling. UI frame IDs H01–H11 identify screens. **MISSING** canonical room data IDs are `TBD`. [GDD pp. 18–21 §§ M.1–3; p. 33 § T.4; UI pp. 38–62, 68, 110 S25–H11/S28/S34/V08]
+**FIXED** room names, current opening/upgrade price schedule, Lv.1–5 structure and capacity/unlock ladder. `k` means 1,000 Funds and `M` means 1,000,000 Funds. The sum is 16.160M. Only the three free Lv.1 rooms exist in a new save. **PROVISIONAL** Finance rates/storage and economic payout assumptions are retained for modeling. UI frame IDs H01–H11 identify screens. [GDD pp. 18–21 §§ M.1–3; p. 33 § T.4; UI pp. 38–62, 68, 110 S25–H11/S28/S34/V08]
 
-| Room | Open / Lv.2 / Lv.3 / Lv.4 / Lv.5 | Total | Benefits from Lv.1 to Lv.5 | Provisional key | Source |
+| Room | Open / Lv.2 / Lv.3 / Lv.4 / Lv.5 | Total | Benefits from Lv.1 to Lv.5 | Stable ID | Source |
 | --- | --- | ---: | --- | --- | --- |
 | Control Room | Free / 20k / 80k / 300k / 900k | 1.300M | Reveals ranges C1-01–03 / C1-04–05 / C2-01–04 / C2-05–08 / C2-09–10. Ordered clears still apply. | `room.control_room` | GDD pp. 18–19 § M.1; UI pp. 40–41 H01/S27 |
 | Human Resources | Free / 25k / 110k / 350k / 1,000k | 1.485M | 3 / 4 / 5 / 6 / 8 Ranger slots. Ranger upgrades enter here. | `room.human_resources` | GDD pp. 18–20 §§ M.1–2; UI pp. 42–43, 63–64 H02/U02/S29/S30 |
@@ -169,7 +169,7 @@ Only the offensive turret outputs are specified as direct enemy HP damage. Other
 
 ## Four side activities
 
-| Activity | Entry | Fixed loop and relationship to progress | Provisional or missing content | Provisional key | Source |
+| Activity | Entry | Fixed loop and relationship to progress | Provisional or missing content | Stable ID | Source |
 | --- | --- | --- | --- | --- | --- |
 | Rainforest Chaos | Main menu or Headquarters Chaos entrance | Custom routes, five wave slots, distinct effects, Medal Score and qualifying clears. Trophy and three exclusive Facility thresholds. | Numeric modifier overlaps are `TBD`. See [approved eligibility rules](GAME_RULES.md#rainforest-chaos). | `activity.rainforest_chaos` | GDD pp. 15, 23–25 §§ I.4, M.5–7; UI pp. 9, 38, 71–76 S25/S35–S40 |
 | PR Outreach | HQ → Outreach → Answer questions | Up to five four-option responses per 20-hour batch from 20 unique questions. Manager feedback, Funds and Lv.5 participation. | Payout tuning and final bank `TBD`. | `activity.pr_outreach` | GDD pp. 25–26 § M.8; UI pp. 50, 77–84, 103–105 H06/S41–P05/V01–V03 |

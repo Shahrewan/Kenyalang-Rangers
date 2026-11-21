@@ -6,10 +6,12 @@
 
 | Contract | Required relationship | Status and evidence |
 |---|---|---|
-| Source IDs | Preserve E01–E15, B01–B15, D01–D15, C1-01–C1-05 and C2-01–C2-10 exactly. Keep T01–T06 as template references. | **FIXED**. GDD pp. 11–13, 22–24 §§ H.2, M.4–6; UI pp. 4, 8 |
-| Content identities | Rangers, Facilities, bosses, HQ rooms, dialogue, questions, facts and individual tree cycles need stable references for unlocks and saves. The catalog assigns a reproducible provisional key to each named unit, Facility, boss, room and activity without a PDF ID. Preserve the exact name alongside it. Approval of final serialized IDs, any duplicate-name migration, asset UIDs and serialization paths is `TBD`. H/U/F/S/M/V/P labels refer to storyboard frames. | **MISSING / PROVISIONAL**. GDD pp. 9–13 §§ H.1–3; pp. 15–20 §§ J.1, M.1–2; pp. 26–29 §§ M.9–10, O.2–3; UI pp. 7, 12–127 |
+| Source IDs | Preserve `E01`–`E15`, `B01`–`B15`, `D01`–`D15`, `C1-01`–`C1-05`, and `C2-01`–`C2-10` exactly. Use `C1` and `C2` for the two Campaign chapters and `T01`–`T06` for the map templates. | **FIXED**. GDD pp. 6–8, 11–13, 22–24 §§ F.2–4, H.2, M.4–6; UI pp. 4, 8 |
+| Content IDs | Use the exact case-sensitive IDs in the [systems index](SYSTEMS_INDEX.md) and in this contract for authored content references. Keep them across display-name, order and file path changes. Assign IDs to new records when authored, and check uniqueness before using them in unlock, save, stage or quiz references. | **FIXED** identity contract. GDD pp. 9–13, 15–20, 26–29 §§ H.1–3, J.1, M.1–2, M.9–10, O.2–3 |
+| Stage grants and fixture | `stage_supply.c1_01_starter_post` references `facility.logistics_post`. `stage_supply.c2_07_firebreak_beacon` references `facility.firebreak_beacon`. `fixture.c1_01_first_contact` refers to the approved isolated test setup for `C1-01` on `T01` and its `E01` waves. | **FIXED** IDs. [D-001, D-006 and D-009](DECISION_LOG.md#approved-decisions). GDD pp. 8–9, 21–23 §§ G.3, H.1, M.4–6; UI pp. 8, 22 |
+| Reference labels | Preserve the H/U/F/S/M/V/P identifiers in the [storyboard frame index](ART_AND_UI_SPEC.md#storyboard-frame-index) and piece indices `01`–`56` in the tile geometry inventory. Use them for design references. Gameplay content IDs are listed in the source and content rows above. | **FIXED** reference labels. UI pp. 6–7, 12–127 |
 | Units | Express attacks/heals/repairs in HP per action, intervals in combat seconds at 1×, real-world PR and plant durations in local-clock hours, and room and level purchases in integer Funds. World grid uses discrete cells. Battle Tokens, Funds and Medal Score are distinct quantities. | **FIXED** semantics. GDD pp. 8–13 §§ G.3–5, H.1a, H.2a; pp. 19–21, 24–29 §§ M.1–3, M.7–10, O.2–4 |
-| Versioning | Use stable references rather than display labels or row positions in saved records. Proposed separation of authored content revision, versioned save schema and runtime operation state. Exact field names, version numbers, migration map and file naming are `TBD`. | **PROVISIONAL / MISSING**. GDD pp. 28–29 §§ O.1–3; repository AGENTS.md, Coding practice |
+| Save and runtime identity | Save authored content references by their stable IDs. Save field names, asset UIDs, serialization paths, version numbers, migration mapping and runtime instance IDs remain `TBD`. Final dialogue, questions and facts are identified on authoring or ingestion. | **FIXED** content references. **MISSING** schema details and unauthored content. GDD pp. 28–29 §§ O.1–3. [D-004 and D-018](DECISION_LOG.md#approved-decisions) |
 
 ## Combat definitions
 
@@ -46,7 +48,7 @@ Represent the normal 0-Token opening, first-free Post effect, and C1-01 Starter 
 - **Wallet and transactions.** One integer Funds wallet takes stage, Chaos, Outreach, Records, Restoration and Finance activity results. When crediting a reward, `headroom = hard cap − current Funds`, `credited = min(incoming, headroom)` and `discarded = incoming − credited`. The fixed cap rule never grows and creates no overflow account. For manual overflow claims, preview credited and discarded amounts before confirmation. Report both amounts in the result for immediate rewards. UI's **provisional** cap fixture is 9,990,000 held + 54,000 incoming under a 9,999,999 cap, giving 9,999 credited and 44,001 discarded. The approved prototype cap is configurable. The shipping cap is `TBD`. Apply the Harmful deduction in [PR Outreach](#pr-outreach). [GDD pp. 19, 21, 25–29 §§ M.1, M.3, M.7–10, N, O.2–4; UI pp. 68, 100 S34/S58]
 - **Deployable progression.** Each purchased level is an integer Lv.1–100. Fixed milestone levels are 20/40/60/80/100 and baseline cumulative cost is exactly 1,000,000. The approved cumulative price is `x = (L − 1) / 99`, `C(L) = round(1,000,000 × (0.15x + 0.85x²))`. The next level is `C(L + 1) − C(L)`. Published examples at levels 1/20/40/60/80/100 are 0/60,096/191,001/391,287/660,953/1,000,000. Every purchase retains skill behavior, geometry, charges and base build time. Interpolate linearly between reviewed endpoints and round integral outputs once, halves up. Carry fractional Post yield across 10 s payouts. Unauthored raw-stat endpoints are `TBD`. [GDD pp. 20, 33 §§ M.2, T.4; UI pp. 64, 66, 69–70, 116 S30/S32/F01–F02/V14]
 - **Story rewards.** Fields for first-clear Funds, first-perfect Funds, replay Funds, unlock refs and final completion grant. Eligibility is one-time per stage for the first two even if earned on the same run. Stage reward amounts and any final completion grant are `TBD`. For the C1-04 mockup, S21 shows 50,000 first-clear plus 20,000 first-perfect for 70,000 credited. S22 shows the 50,000 eligible clear award, with one escape and 95 Integrity. These provisional examples do not set per-stage payouts or escape penalties. [GDD pp. 21–22 § M.3–4; UI pp. 10, 15, 34–35, 125 S04/S21–S22/M06]
-- **Chaos settlement.** Keep personal best and first-tier award flags distinct from repeatable winnings within one qualifying-result transaction. Grant each newly crossed tier and apply one payout. Include filled slot counts, signed contribution breakdown, enemy outcomes, Integrity and trophy appearance tier in the report. Use the [exact score and payout rules](GAME_RULES.md#rainforest-chaos). At 999/1,000, qualifying gross Funds are 19,980/40,000. At 1,999/2,000 they are 79,960/130,000. At 2,999/3,000 they are 199,930/300,000. The PDF fixture is 1,350/54,000. An escape prevents related record or tier writes. [GDD pp. 24–25 § M.7; UI pp. 9, 71–76 S35–S40]
+- **Chaos settlement.** Record first-tier awards by `chaos_tier.1000`, `chaos_tier.2000` and `chaos_tier.3000`. Keep these flags and the personal best distinct from repeatable winnings within one qualifying-result transaction. Grant each newly crossed tier and apply one payout. Include filled slot counts, signed contribution breakdown, enemy outcomes, Integrity and trophy appearance tier in the report. Use the [exact score and payout rules](GAME_RULES.md#rainforest-chaos). At 999/1,000, qualifying gross Funds are 19,980/40,000. At 1,999/2,000 they are 79,960/130,000. At 2,999/3,000 they are 199,930/300,000. The PDF fixture is 1,350/54,000. An escape prevents related record or tier writes. [GDD pp. 24–25 § M.7; UI pp. 9, 71–76 S35–S40]
 - **60-day balance scenario, provisional.** Keep this analysis separate from per-stage or per-activity award fields. Campaign 7.42M, PR 5.00M, Restoration 5.30M, Chaos 5.20M, Records 1.55M, Finance and replays 0.55M. Total 25.02M versus 16.16M HQ and 8.0M for eight maxed deployables, 24.16M planned spend. Proposed start is 10,000 Funds. [GDD pp. 18, 21, 27, 31, 33 §§ M.1, M.3, M.9–10, S.2, T.4]
 
 ## PR Outreach
@@ -66,37 +68,37 @@ Represent the normal 0-Token opening, first-free Post effect, and C1-01 Starter 
 
 - **Quiz and facts definitions.** Separate read-only article and quiz records. A quiz needs chapter, Records room level, stable question ID, prompt, four answers, correct answer, explanation and factual source attribution. Use a 15-second timer. Wrong or timeout gives explanatory feedback with no Funds. Persist first-correct flags independent of per-attempt accuracy, and separate a first perfect chapter's completion and named enhancement from question awards. Facts are freely readable with no timer or recurring Funds. [GDD pp. 19, 26–27, 30, 32–33 §§ M.1, M.9, R, T.3; UI pp. 85–88, 102, 106–108 S43–S46/S60/V04–V06]
 
-| Records Lv. | Chapter and enhancement | Source |
-|---|---|---|
-| 2 | Scout Sniper, Steady Aim and Focus enhancements | GDD pp. 9, 26 §§ H.1, M.9; UI p. 26 S13 |
-| 3 | Patrolman, Reinforced Patrol | GDD pp. 9, 26 §§ H.1, M.9 |
-| 4 | Combat Medic, Emergency Treatment | GDD pp. 10–11, 26 §§ H.1–1a, M.9 |
-| 5 | Woods Tracker, improved HP and reduced redeployment cooldown | GDD pp. 10, 26 §§ H.1, M.9 |
+| Stable chapter ID | Records Lv. | Chapter and enhancement | Source |
+|---|---|---|---|
+| `records_chapter.scout_sniper` | 2 | Scout Sniper, Steady Aim and Focus enhancements | GDD pp. 9, 26 §§ H.1, M.9; UI p. 26 S13 |
+| `records_chapter.patrolman` | 3 | Patrolman, Reinforced Patrol | GDD pp. 9, 26 §§ H.1, M.9 |
+| `records_chapter.combat_medic` | 4 | Combat Medic, Emergency Treatment | GDD pp. 10–11, 26 §§ H.1–1a, M.9 |
+| `records_chapter.woods_tracker` | 5 | Woods Tracker, improved HP and reduced redeployment cooldown | GDD pp. 10, 26 §§ H.1, M.9 |
 
 **PROVISIONAL** about 40 unique questions at 30,000 Funds first-correct each and four one-time chapter bonuses totaling 350,000 Funds (about 1.55M in the scenario). **MISSING** final questions, chapter split and reward authoring. Storyboard sample content and mockup counts cannot fill this bank. [GDD pp. 26–27, 33 §§ M.9, T.3–4; UI pp. 85–88 S43–S46]
 
 ## Habitat Restoration
 
-- **Species, plot and milestone records.** Species ID and validated fact refs, base duration, visual by stage, base-duration midpoint checkpoint and cycle reward. Plot needs its Ecology capacity gate, species ref, progress through checkpoints, local timestamps, collection flag and a link to retained mature-tree scenery. Logical availability is separate from the retained visual. Persist first collected species, the additional collection flag, milestone claims, facts and the single nest-box visitor flag. Use the [approved restoration rules](GAME_RULES.md#outreach-records-and-habitat-restoration). First-species discovery reward and final payout tuning are `TBD`. [GDD pp. 14, 19–20, 27, 29 §§ I.1, M.1, M.10, O.3; UI pp. 48–49, 89–93, 111 H05/U05/S47–S51/V09]
+- **Species, plot and milestone records.** Species ID and validated fact refs, base duration, visual by stage, base-duration midpoint checkpoint and cycle reward. The fixed plot slots use `garden_plot.01`–`garden_plot.06`. Each plot needs its Ecology capacity gate, species ref, progress through checkpoints, local timestamps, collection flag and a link to retained mature-tree scenery. Logical availability is separate from the retained visual. Persist first collected species, the additional collection flag, milestone claims, facts and the single nest-box visitor flag. Use the [approved restoration rules](GAME_RULES.md#outreach-records-and-habitat-restoration). First-species discovery reward and final payout tuning are `TBD`. [GDD pp. 14, 19–20, 27, 29 §§ I.1, M.1, M.10, O.3; UI pp. 48–49, 89–93, 111 H05/U05/S47–S51/V09]
 
-| Tree type | GDD base duration | Provisional repeat-completion Funds |
-|---|---:|---:|
-| Strangler Fig | 18 hours | 3,000 |
-| Belian / Bornean Ironwood | 36 hours | 8,000 |
-| Red Meranti | 48 hours | 11,000 |
-| Mengaris | 72 hours | 18,000 |
+| Stable species ID | Tree type | GDD base duration | Provisional repeat-completion Funds |
+|---|---|---:|---:|
+| `species.strangler_fig` | Strangler Fig | 18 hours | 3,000 |
+| `species.belian` | Belian / Bornean Ironwood | 36 hours | 8,000 |
+| `species.red_meranti` | Red Meranti | 48 hours | 11,000 |
+| `species.mengaris` | Mengaris | 72 hours | 18,000 |
 
 The values and visuals come from GDD p. 27 § M.10 and UI pp. 90–92 S48–S50. Times are in-game, with growth checked against device time and capped at the next unmet watering checkpoint. [GDD pp. 27, 30 §§ M.10, R; UI pp. 90–91 S48–S49]
 
-| One-time milestone | Published Funds baseline | Design gate |
-|---|---:|---|
-| 20% | 50,000 | — |
-| 40% | 150,000 | — |
-| 60% | 350,000 | Ecology Lv.5 participation plus Funds cost |
-| 80% | 750,000 | — |
-| 100% | 1,250,000 | — |
+| Stable milestone ID | One-time milestone | Published Funds baseline | Design gate |
+|---|---|---:|---|
+| `restoration_milestone.20` | 20% | 50,000 | — |
+| `restoration_milestone.40` | 40% | 150,000 | — |
+| `restoration_milestone.60` | 60% | 350,000 | Ecology Lv.5 participation plus Funds cost |
+| `restoration_milestone.80` | 80% | 750,000 | — |
+| `restoration_milestone.100` | 100% | 1,250,000 | — |
 
-The five milestone awards sum to 2.55M. Treat payout amounts as the published economy baseline for the prototype. D-010 triggers the separate nest-box event on the fourth distinct mature species collection. [GDD pp. 2, 20, 27 §§ A, M.1, M.10; UI p. 93 S51]
+The five milestone awards sum to 2.55M. Treat payout amounts as the published economy baseline for the prototype. D-010 triggers `restoration_event.nest_box` on the fourth distinct mature species collection. [GDD pp. 2, 20, 27 §§ A, M.1, M.10; UI p. 93 S51]
 
 ## Persistent save contract
 
