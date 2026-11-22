@@ -3,6 +3,7 @@ extends VBoxContainer
 
 signal back_requested
 signal room_requested(room: HeadquartersRoom)
+signal chaos_requested
 
 var progress: CampaignProgress
 
@@ -24,6 +25,16 @@ func _ready() -> void:
 	var blank := HeadquartersOfficeArt.new()
 	blank.custom_minimum_size.y = 98
 	grid.add_child(blank)
+	var entry := StoryUI.row(StoryUI.panel(floor_plan), 14)
+	var trophy := ChaosTrophy.new()
+	trophy.personal_best = progress.chaos_personal_best()
+	trophy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	entry.add_child(trophy)
+	var chaos := StoryUI.action("Rainforest Chaos →")
+	chaos.name = "HeadquartersChaos"
+	chaos.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	chaos.pressed.connect(func() -> void: chaos_requested.emit())
+	entry.add_child(chaos)
 	var lobby := ColorRect.new()
 	lobby.custom_minimum_size.y = 20
 	lobby.color = Color("#a69473")

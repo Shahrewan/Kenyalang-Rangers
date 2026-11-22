@@ -1,6 +1,8 @@
 class_name BattleEnemy
 extends RefCounted
 
+var reinforcement := false
+
 const MAX_DAMAGE_MARKS := 10
 
 class DamageMark:

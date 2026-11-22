@@ -75,6 +75,7 @@ func _story(app: Control) -> void:
 
 func _trial(app: Control) -> void:
 	app.show_menu()
+	_button(app, "OpenChaos").pressed.emit()
 	_button(app, "OpenModifierTrial").pressed.emit()
 	_button(app, "OpenModifiers").pressed.emit()
 	await process_frame

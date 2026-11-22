@@ -112,8 +112,11 @@ func _build(data: Dictionary, id: StringName, previous: StringName, order: int, 
 		return _fail("Opening budget does not match the fixed effects.")
 	for unlock in meta.clear_unlock_ids:
 		var unlock_id := StringName(unlock)
-		if DeployableLevels.definition(unlock_id) == null:
+		var spec := DeployableLevels.definition(unlock_id)
+		if spec == null:
 			return _fail("Unknown recruit or Facility unlock.")
+		if spec is FacilitySpec and spec.chaos_threshold > 0:
+			return _fail("Chaos reward Facilities cannot be unlocked by Story.")
 		result.clear_unlock_ids.append(unlock_id)
 	for supply in meta.mission_supply:
 		var supply_id := StringName(supply.id)

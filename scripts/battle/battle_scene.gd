@@ -128,7 +128,7 @@ func close_dialogue() -> void:
 	_boss_briefing = false
 	battle.clock.dialogue_open = false
 	_refresh()
-	if campaign or sandbox:
+	if _uses_combat_presentation():
 		_pause.grab_focus()
 	else:
 		_dialogue_button.grab_focus()
@@ -164,7 +164,7 @@ func _restart() -> void:
 	_reported = false
 	_tips = true
 	_tip.text = ""
-	if campaign or sandbox:
+	if _uses_combat_presentation():
 		battle.deployment = %DeploymentController.state
 		_board.show_combat_hp = true
 	if campaign:
@@ -181,7 +181,7 @@ func _toggle_pause() -> void:
 		_resume()
 	else:
 		battle.clock.paused = true
-		if campaign or sandbox:
+		if _uses_combat_presentation():
 			_pause_overlay.show_battle(stage, battle, operation_plan != null)
 		_refresh()
 
@@ -265,7 +265,7 @@ func _refresh() -> void:
 	_speed.text = "%d×" % clock.get_speed()
 	_back.disabled = clock.dialogue_open
 	_pause.disabled = clock.stopped or clock.dialogue_open
-	_speed.disabled = clock.stopped or clock.dialogue_open or ((campaign or sandbox) and clock.paused)
+	_speed.disabled = clock.stopped or clock.dialogue_open or (_uses_combat_presentation() and clock.paused)
 	_dialogue_button.disabled = clock.stopped or clock.dialogue_open
 	_defeat.disabled = not clock.is_running() or battle.active.is_empty()
 	if sandbox_practice_hits and _active_boss_id() == 0:
@@ -273,8 +273,11 @@ func _refresh() -> void:
 	_retry.disabled = clock.dialogue_open
 	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open
-	_pause_overlay.visible = (campaign or sandbox) and clock.paused and not clock.dialogue_open and not clock.stopped
+	_pause_overlay.visible = _uses_combat_presentation() and clock.paused and not clock.dialogue_open and not clock.stopped
 	_board.queue_redraw()
+
+func _uses_combat_presentation() -> bool:
+	return campaign or sandbox or operation_plan != null
 
 func _outcome_label() -> String:
 	if battle.outcome == BattleSimulation.Outcome.LOST:

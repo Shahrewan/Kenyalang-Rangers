@@ -9,11 +9,9 @@ var plan: OperationPlan
 var funds := 0
 var _start: Button
 var _feedback: Label
-var _ranger_heading: Label
-var _facility_heading: Label
+var _loadout: LoadoutPicker
 var _modifier_summary: Label
 var _fixed_labels: Dictionary[StringName, Label] = {}
-var _loadout_buttons: Dictionary[DeploymentSpec, CheckBox] = {}
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 14)
@@ -23,18 +21,16 @@ func _ready() -> void:
 	var content := StoryUI.row(self, 16)
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var tactics := StoryUI.scroll_column(content)
-	var loadout := StoryUI.row(tactics, 10)
-	var rangers := StoryUI.panel(loadout, true)
-	_ranger_heading = StoryUI.label("Rangers", 24, StoryUI.INK)
-	rangers.add_child(_ranger_heading)
-	var facilities := StoryUI.panel(loadout, true)
-	_facility_heading = StoryUI.label("Facilities", 24, StoryUI.INK)
-	facilities.add_child(_facility_heading)
+	_loadout = LoadoutPicker.new()
+	_loadout.plan = plan
+	_loadout.selection_changed.connect(_refresh_plan)
+	_loadout.selection_blocked.connect(show_error)
+	_loadout.headquarters_requested.connect(func() -> void: access_requested.emit())
+	tactics.add_child(_loadout)
 	if operation.campaign_spec:
-		_add_campaign_loadout(rangers, facilities)
 		_add_modifiers(tactics)
 	else:
-		_add_legacy_plan(rangers, facilities, tactics)
+		_add_legacy_plan(tactics)
 
 	var incoming := StoryUI.scroll_column(content)
 	incoming.add_child(StoryUI.label("Incoming waves", 27))
@@ -78,13 +74,7 @@ func _add_modifiers(parent: Control) -> void:
 	edit.pressed.connect(func() -> void: modifiers_requested.emit())
 	effects.add_child(edit)
 
-func _add_legacy_plan(rangers: VBoxContainer, facilities: VBoxContainer, parent: Control) -> void:
-	for spec in plan.deployment_entries():
-		if spec.is_ranger():
-			rangers.add_child(StoryUI.label("%s · %d Tokens" % [spec.label, spec.cost], 18, StoryUI.INK))
-		else:
-			facilities.add_child(StoryUI.label("Starter Post · Free", 18, StoryUI.INK))
-	facilities.add_child(StoryUI.label("Mission supply · Regular slots require Mechanical.", 16, StoryUI.INK))
+func _add_legacy_plan(parent: Control) -> void:
 	var fixed := StoryUI.panel(parent)
 	fixed.add_child(StoryUI.label(plan.operation.fixed_debuff, 21, StoryUI.AMBER))
 	fixed.add_child(StoryUI.label("Fixed · Post yield reduced by %d%%" % (100 - plan.operation.opening_rules.yield_percent), 17))
@@ -125,40 +115,6 @@ func _add_legacy_plan(rangers: VBoxContainer, facilities: VBoxContainer, parent:
 		_refresh_plan()
 	)
 
-func _add_campaign_loadout(rangers: VBoxContainer, facilities: VBoxContainer) -> void:
-	for spec in plan.deployment_entries():
-		if spec.id not in plan.operation.supply_ids:
-			continue
-		var panel := rangers if spec.is_ranger() else facilities
-		var price := "free first drop" if spec.logistics_post else "%d Tokens" % spec.cost
-		var label := "Starter Post" if spec.logistics_post else spec.label
-		panel.add_child(StoryUI.label("%s · %s\nMission supply" % [label, price], 18, StoryUI.INK))
-	if plan.operation.opening_rules.starter_only:
-		return
-	for spec in plan.choices:
-		var panel := rangers if spec.is_ranger() else facilities
-		var choice := CheckBox.new()
-		choice.add_theme_font_size_override("font_size", 16)
-		choice.add_theme_color_override("font_color", StoryUI.INK)
-		choice.add_theme_color_override("font_hover_color", StoryUI.INK)
-		choice.add_theme_color_override("font_pressed_color", StoryUI.INK)
-		choice.name = "Equip_" + String(spec.id).replace(".", "_")
-		choice.button_pressed = spec.id in plan.selected_ids
-		choice.toggled.connect(func(selected: bool) -> void:
-			if not plan.select_unit(spec, selected):
-				choice.set_pressed_no_signal(false)
-				_feedback.text = "Remove an equipped %s to free a slot." % ("Ranger" if spec.is_ranger() else "Facility")
-				return
-			_refresh_plan()
-		)
-		panel.add_child(choice)
-		_loadout_buttons[spec] = choice
-	if plan.facility_limit == 0:
-		var access := StoryUI.action("Open Headquarters")
-		access.name = "OpenHeadquarters"
-		facilities.add_child(access)
-		access.pressed.connect(func() -> void: access_requested.emit())
-
 func _update_legacy_note(view: Label, buffs: Array[BattleModifier]) -> void:
 	if plan.selected_buff != null:
 		view.text = plan.selected_buff.description
@@ -171,7 +127,7 @@ func _refresh_plan() -> void:
 	_start.disabled = not result.can_start()
 	if plan.operation.campaign_spec:
 		_refresh_modifiers(result)
-		_refresh_loadout(result)
+		_loadout.refresh(result)
 	if not result.selection_error.is_empty():
 		_feedback.text = result.selection_error
 	elif not result.opening_error.is_empty():
@@ -201,18 +157,6 @@ func _refresh_modifiers(result: ModifierResolution) -> void:
 		_modifier_summary.text = "R&D buffs · %d/%d" % [plan.modifier_count(true), plan.operation.optional_buff_limit]
 	if not selected.is_empty():
 		_modifier_summary.text += "\n" + ", ".join(selected)
-
-func _refresh_loadout(result: ModifierResolution) -> void:
-	if plan.operation.opening_rules.starter_only:
-		return
-	_ranger_heading.text = "Rangers · %d/%d" % [plan.selected_count(true), plan.ranger_limit]
-	_facility_heading.text = "Facilities · %d/%d" % [result.facility_slots, plan.facility_limit]
-	for spec: DeploymentSpec in _loadout_buttons:
-		var effective := plan.effective_spec(spec)
-		var price := "free first drop" if spec.logistics_post else "%d Tokens" % effective.cost
-		if spec.logistics_post and result.opening != null and result.opening.fixed_stockpile:
-			price = "Excluded by Fixed Stockpile"
-		_loadout_buttons[spec].text = "%s\nLv.%d · %s" % [spec.label, effective.level, price]
 
 func _start_operation() -> void:
 	_refresh_plan()

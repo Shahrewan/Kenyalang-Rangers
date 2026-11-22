@@ -2,8 +2,10 @@ class_name ModifierPicker
 extends VBoxContainer
 
 signal back_requested
+signal apply_requested
 
 var plan: OperationPlan
+var confirm_changes := false
 var _show_buffs := true
 var _list: VBoxContainer
 var _summary: Label
@@ -12,7 +14,10 @@ var _reasons: Dictionary[StringName, Label] = {}
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
-	StoryUI.header(self, "Battle modifiers", func() -> void: back_requested.emit())
+	var back := StoryUI.header(self, "Battle modifiers", func() -> void: back_requested.emit())
+	back.name = "BackFromModifiers"
+	if confirm_changes:
+		back.text = "Cancel"
 	if plan.chaos:
 		var tabs := StoryUI.row(self)
 		var buffs := StoryUI.action("R&D buffs")
@@ -27,6 +32,13 @@ func _ready() -> void:
 	_summary.name = "ModifierSummary"
 	add_child(_summary)
 	_list = StoryUI.scroll_column(self)
+	if confirm_changes:
+		var actions := StoryUI.row(self)
+		actions.alignment = BoxContainer.ALIGNMENT_END
+		var apply := StoryUI.action("Apply modifiers", true)
+		apply.name = "ApplyModifiers"
+		apply.pressed.connect(func() -> void: apply_requested.emit())
+		actions.add_child(apply)
 	_show_catalog(true)
 
 func _show_catalog(buffs: bool) -> void:
@@ -46,7 +58,7 @@ func _show_catalog(buffs: bool) -> void:
 		check.add_theme_color_override("font_color", StoryUI.INK)
 		check.add_theme_color_override("font_hover_color", StoryUI.INK)
 		check.add_theme_color_override("font_pressed_color", StoryUI.INK)
-		check.add_theme_color_override("font_disabled_color", Color("#5f6253"))
+		check.add_theme_color_override("font_disabled_color", StoryUI.BEIGE)
 		check.toggled.connect(_toggle.bind(modifier))
 		card.add_child(check)
 		card.add_child(StoryUI.label(modifier.description, 18, StoryUI.INK))
@@ -69,7 +81,11 @@ func _refresh() -> void:
 	if not current.selection_error.is_empty():
 		_summary.text += "   ·   " + current.selection_error
 	elif plan.chaos and current.can_start():
-		_summary.text += "   ·   Modifier points %+d" % current.modifier_points()
+		if confirm_changes:
+			var score := ChaosScore.new(current).points()
+			_summary.text += "   ·   %s Medal Score   ·   %s Funds on qualifying victory" % [StoryUI.funds(score), StoryUI.funds(ChaosScore.payout(score))]
+		else:
+			_summary.text += "   ·   Modifier points %+d" % current.modifier_points()
 	for id: StringName in _rows:
 		var check := _rows[id]
 		var selected := plan.modifier_selected(id)

@@ -11,6 +11,7 @@ var load_notice := ""
 var _path: String
 var _data: Dictionary
 var _finance_dirty := false
+var _chaos_attempt: ChaosRun
 
 func _init(path := DEFAULT_PATH) -> void:
 	_path = path
@@ -141,7 +142,7 @@ func access_error(operation: StoryOperation) -> String:
 	return ""
 
 func begin_attempt(operation: StoryOperation) -> bool:
-	if not access_error(operation).is_empty():
+	if _chaos_attempt != null or not access_error(operation).is_empty():
 		return false
 	var id := String(operation.stage.stage_id)
 	if not _data.pending_attempt.is_empty() and _data.pending_attempt != id:
@@ -192,6 +193,72 @@ func complete(operation: StoryOperation, perfect: bool) -> Dictionary:
 		"first_clear": first_clear, "first_perfect": first_perfect, "awards": awards,
 		"pending_awards": pending, "unlocked": unlocked, "credited": credit.credited,
 		"discarded": credit.discarded,
+	}
+
+func chaos_personal_best() -> int:
+	return int(_data.chaos.personal_best)
+
+func pending_chaos_configuration() -> Dictionary:
+	return _data.chaos.pending_configuration.duplicate(true)
+
+func begin_chaos(configuration: ChaosConfiguration, plan: ModifierResolution, selected_ids: Array[StringName], modifiers: Array[StringName]) -> ChaosRun:
+	if not can_play() or _chaos_attempt != null or plan == null or not plan.can_start():
+		return null
+	var draft := configuration.save_data()
+	draft.loadout = selected_ids.map(func(id: StringName) -> String: return String(id))
+	draft.modifiers = modifiers.map(func(id: StringName) -> String: return String(id))
+	var next := snapshot()
+	next.chaos.pending_configuration = draft
+	if not _commit(next):
+		return null
+	_chaos_attempt = ChaosRun.new(configuration.route_label(), plan)
+	return _chaos_attempt
+
+func abandon_chaos(run: ChaosRun) -> bool:
+	if run != null and _chaos_attempt == run:
+		_chaos_attempt = null
+		return close_chaos_configuration()
+	return true
+
+func close_chaos_configuration() -> bool:
+	if _data.chaos.pending_configuration.is_empty():
+		return true
+	var next := snapshot()
+	next.chaos.pending_configuration = {}
+	return _commit(next)
+
+func settle_chaos(run: ChaosRun) -> Dictionary:
+	if run == null or _chaos_attempt != run or not run.finished:
+		return {}
+	var unlocked: Array[StringName] = []
+	var previous := chaos_personal_best()
+	var score := run.score.points()
+	var funds_earned := ChaosScore.payout(score) if run.qualifies() else 0
+	if funds_earned == 0:
+		if not close_chaos_configuration():
+			return {}
+		_chaos_attempt = null
+		return {"credited": 0, "discarded": 0, "unlocked": unlocked, "new_best": false}
+
+	var next := snapshot()
+	next.chaos.pending_configuration = {}
+	next.chaos.personal_best = maxi(previous, score)
+	for facility in ChaosScore.tier_facilities():
+		var threshold := facility.chaos_threshold
+		var tier := ChaosScore.tier_id(threshold)
+		if score < threshold or tier in next.chaos.earned_thresholds:
+			continue
+		next.chaos.earned_thresholds.append(tier)
+		if String(facility.id) not in next.owned:
+			next.owned.append(String(facility.id))
+			unlocked.append(facility.id)
+	var credit := FundsWallet.apply(next, funds_earned)
+	if not _commit(next):
+		return {}
+	_chaos_attempt = null
+	return {
+		"credited": credit.credited, "discarded": credit.discarded, "unlocked": unlocked,
+		"new_best": next.chaos.personal_best > previous,
 	}
 
 func finance_rate() -> int:
@@ -344,6 +411,7 @@ func reset_profile() -> bool:
 		load_notice = "Could not finish the confirmed reset. Check local storage and retry."
 		return false
 	_data = empty
+	_chaos_attempt = null
 	_finance_dirty = false
 	load_status = LoadStatus.READY
 	load_notice = ""
