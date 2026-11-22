@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="BattleStage" load_steps=21 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_stage.gd" id="Stage"]
+[ext_resource type="Resource" path="res://data/stages/t01_forgotten_patrol.tres" id="Map"]
+[ext_resource type="Resource" path="res://data/stages/t01_route.tres" id="Route"]
+[ext_resource type="Script" path="res://scripts/data/battle_route.gd" id="RouteType"]
+[ext_resource type="Script" path="res://scripts/data/battle_wave.gd" id="Wave"]
+[ext_resource type="Script" path="res://scripts/data/battle_spawn_group.gd" id="Spawn"]
+[ext_resource type="Resource" path="res://data/enemies/e01_forest_trespasser.tres" id="E01"]
+[ext_resource type="Resource" path="res://data/enemies/e06_smoke_infiltrator.tres" id="E06"]
+[ext_resource type="Resource" path="res://data/enemies/e08_recon_drone.tres" id="E08"]
+[ext_resource type="Resource" path="res://data/enemies/e11_demolitionist.tres" id="E11"]
+[ext_resource type="Resource" path="res://data/enemies/e14_ignition_operator.tres" id="E14"]
+[ext_resource type="Resource" path="res://data/enemies/e13_heavy_breacher.tres" id="E13"]
+
+[sub_resource type="Resource" id="Group_E01"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E01")
+count = 3
+interval_seconds = 2.5
+
+[sub_resource type="Resource" id="Group_E06"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E06")
+count = 2
+interval_seconds = 2.5
+
+[sub_resource type="Resource" id="Group_E08"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E08")
+count = 2
+interval_seconds = 2.5
+
+[sub_resource type="Resource" id="Group_E11"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E11")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Group_E14"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E14")
+count = 2
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Group_E13"]
+script = ExtResource("Spawn")
+enemy = ExtResource("E13")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Wave1"]
+script = ExtResource("Wave")
+groups = Array[ExtResource("Spawn")]([SubResource("Group_E01"), SubResource("Group_E06"), SubResource("Group_E08")])
+rest_after_seconds = 18.0
+
+[sub_resource type="Resource" id="Wave2"]
+script = ExtResource("Wave")
+groups = Array[ExtResource("Spawn")]([SubResource("Group_E11"), SubResource("Group_E14"), SubResource("Group_E13")])
+
+[resource]
+script = ExtResource("Stage")
+stage_id = &"C16-TRIAL"
+map = ExtResource("Map")
+routes = Array[ExtResource("RouteType")]([ExtResource("Route")])
+opening_delay_seconds = 18.0
+heat_capacity = 100.0
+heat_integrity_loss = 10
+waves = Array[ExtResource("Wave")]([SubResource("Wave1"), SubResource("Wave2")])

@@ -221,10 +221,9 @@ func _marks_and_buff() -> void:
 	roster.entries = [basic]
 	operation.roster = roster
 	operation.ranger_ids = [SCOUT.id]
+	operation.opening_tokens = basic.cost
 	var plan := OperationPlan.new(operation, [&"B05"])
-	for choice in operation.buff_choices:
-		if choice.id == &"B05":
-			plan.select_buff(choice)
+	plan.select_buff(BattleModifiers.CATALOG.definition(&"B05"))
 	var enhanced := plan.deployment_entries()[0]
 	battle.deployment.deploy(enhanced, Vector2i(0, 1), 1)
 	_frames(battle, 1)

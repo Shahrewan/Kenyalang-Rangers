@@ -61,10 +61,16 @@ func _draw() -> void:
 			var faint := Color("#887356")
 			draw_line(back + perpendicular * cell * 0.06, tip, faint, 2.0, true)
 			draw_line(tip, back - perpendicular * cell * 0.06, faint, 2.0, true)
+	var forecast: Array[Vector2i] = []
+	if battle != null:
+		forecast = battle.recon_entries()
 	for i in battle_map.spawns.size():
 		var spawn := battle_map.spawns[i]
 		var label := "Entry" if battle_map.spawns.size() == 1 else "Entry %s" % char(65 + i)
 		_draw_gate(origin + Vector2(spawn) * cell, cell, label, Color("#894534"))
+		if spawn in forecast:
+			var edge := Rect2(origin + Vector2(spawn) * cell, Vector2.ONE * cell).grow(-2.0)
+			draw_rect(edge, Color("#e8b957"), false, 3.0)
 	var tunnel := origin + Vector2(battle_map.tunnel) * cell
 	_draw_gate(tunnel, cell, "Tunnel", Color("#15241C"))
 	for offset in [0.21, 0.50, 0.79]:

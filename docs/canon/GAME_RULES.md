@@ -81,7 +81,7 @@ Use the [systems catalog](SYSTEMS_INDEX.md) for named content and source values,
 
 - **FIXED**. The trophy appears at the ground-floor HQ Chaos entrance and in Chaos. Its look stops changing at 3,000 and its personal-best number can exceed 3,000. The three threshold Facilities are Chaos-exclusive rewards. There are no share codes or online leaderboards. The worked reference computes **1,350 score and 54,000 Funds** from 1,550 enemy points, 400 debuff points, five filled slots and B05. [GDD p. 15 § I.4; pp. 24–25 § M.7; p. 30 § R; UI pp. 9, 71–76 S35–S40]
 - **FIXED**. A qualifying result grants every newly reached threshold once, records the highest earned trophy tier and personal best, and applies one payout subject to the wallet cap. Commit the changes together and present all earned unlocks. A first qualifying **3,500** earns all three Facilities, Tier 3 and **360,000 Funds** before cap clipping. [GDD pp. 24–25 § M.7; UI pp. 9, 71, 75–76 S35/S39/S40; [D-017 A](DECISION_LOG.md#approved-decisions)]
-- **MISSING**. Ordered stacking and rounding for simultaneous modifiers beyond the approved opening and source-specific rules are `TBD`. [GDD pp. 23–25 §§ M.5–7; UI pp. 73, 101 S37/S59; [D-011](DECISION_LOG.md#open-decisions)]
+- **PROVISIONAL**. C16 adds same-stat percentage points before rounding the base output. Named conditional damage, recovery, Firebreak and other timed effects apply at their documented calculation step. D12 and D15 round up as specified. Release balance for overlaps awaits playtest. [C16 stacking and applicability](../qa/C16_MODIFIER_MATRIX.md#stacking-and-applicability) · [D-011](DECISION_LOG.md#open-decisions)
 
 ## Outreach, Records and Habitat Restoration
 

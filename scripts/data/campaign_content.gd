@@ -6,8 +6,6 @@ const ENEMIES := preload("res://data/enemies/catalog.tres")
 const BOSSES := preload("res://data/bosses/catalog.tres")
 const RANGERS := DeployableLevels.FIELD_RANGERS
 const FACILITIES := DeployableLevels.FACILITIES
-const LEGACY_PLAN := preload("res://data/stages/c09_first_contact_operation.tres")
-const BASE_RULES := preload("res://data/stages/c04_logistics_rules.tres")
 const MAPS := {
 	&"T01": preload("res://data/stages/c05_first_contact.tres"),
 	&"T02": preload("res://data/stages/campaign/t02_gunung_mulu.tres"),
@@ -97,17 +95,19 @@ func _build(data: Dictionary, id: StringName, previous: StringName, order: int, 
 	result.optional_buff_limit = int(meta.max_distinct_optional_buffs)
 	result.opening_tokens = int(data.opening.tokens_before_eligible_effects)
 	result.roster = roster
-	result.buff_choices.assign(LEGACY_PLAN.buff_choices)
 	result.fixed_debuff_ids.assign(meta.fixed_debuff_ids.map(func(value: String) -> StringName: return StringName(value)))
 	if result.min_control_level < 1 or result.min_control_level > 5:
 		return _fail("Invalid Control visibility tier.")
-	var titles := PackedStringArray()
-	for debuff in result.fixed_debuff_ids:
-		if not CampaignDebuffs.TITLES.has(debuff):
-			return _fail("Unknown fixed debuff.")
-		titles.append("%s · %s" % [debuff, CampaignDebuffs.TITLES[debuff]])
-	result.fixed_debuff = "\n".join(titles)
-	result.opening_rules = CampaignDebuffs.opening(BASE_RULES, id, result.fixed_debuff_ids)
+	var expected_buffs := 1 if order <= 5 else 2
+	var fixed := BattleModifiers.new(result.fixed_debuff_ids)
+	if result.optional_buff_limit != expected_buffs or fixed.ids.size() != expected_buffs:
+		return _fail("Invalid Campaign modifier count.")
+	for debuff in fixed.ids:
+		if BattleModifiers.CATALOG.definition(debuff).is_buff():
+			return _fail("Story fixed effects must be debuffs.")
+	result.opening_rules = LogisticsRules.new()
+	result.opening_rules.starter_only = id == &"C1-01"
+	result.opening_rules.fixed_stockpile = fixed.amount(&"fixed_stockpile") > 0
 	if result.opening_tokens != (LogisticsRules.FIXED_STOCKPILE if result.opening_rules.fixed_stockpile else 0):
 		return _fail("Opening budget does not match the fixed effects.")
 	for unlock in meta.clear_unlock_ids:
@@ -133,10 +133,9 @@ func _build(data: Dictionary, id: StringName, previous: StringName, order: int, 
 	var heat: Variant = data.balance_trial.heat
 	stage.heat_capacity = float(heat.capacity) if heat is Dictionary else 0.0
 	stage.heat_integrity_loss = int(heat.integrity_loss_per_reset) if heat is Dictionary else 0
-	stage.heat_gain_scale = 1.30 if &"D14" in result.fixed_debuff_ids else 1.0
 	result.has_heat = stage.heat_capacity > 0.0
 	stage.capture_boss_id = _optional_id(data.outcome.get("early_capture_boss_id"))
-	var waves := _waves(data.waves, meta.published_first_pass_wave_counts, result.fixed_debuff_ids)
+	var waves := _waves(data.waves, meta.published_first_pass_wave_counts)
 	if waves.is_empty():
 		return _fail("Wave totals or enemy references are invalid.")
 	stage.waves = waves
@@ -158,7 +157,7 @@ func _bind_escape_rules(stage: BattleStage, fatal_ids: Array) -> bool:
 				found[id] = true
 	return found.size() == fatal_ids.size()
 
-func _waves(rows: Array, published: Array, ids: Array[StringName]) -> Array[BattleWave]:
+func _waves(rows: Array, published: Array) -> Array[BattleWave]:
 	var waves: Array[BattleWave] = []
 	if rows.size() != published.size():
 		return waves
@@ -166,19 +165,19 @@ func _waves(rows: Array, published: Array, ids: Array[StringName]) -> Array[Batt
 	for i in rows.size():
 		var row: Dictionary = rows[i]
 		var wave := BattleWave.new()
-		wave.rest_after_seconds = CampaignDebuffs.rest(float(row.base_rest_after_seconds), ids)
+		wave.rest_after_seconds = float(row.base_rest_after_seconds)
 		var count := 0
 		for item in row.groups:
 			var id := StringName(item.enemy_id)
 			if not _enemies.has(id) or int(item.count) <= 0:
 				return []
 			if not resolved.has(id):
-				resolved[id] = CampaignDebuffs.enemy(_enemies[id], ids)
+				resolved[id] = _enemies[id].duplicate() as BattleEnemyDefinition
 			var group := BattleSpawnGroup.new()
 			group.enemy = resolved[id]
 			group.count = int(item.count)
 			group.route_index = int(item.route_index)
-			group.interval_seconds = CampaignDebuffs.spacing(float(item.base_interval_seconds), ids)
+			group.interval_seconds = float(item.base_interval_seconds)
 			count += group.count
 			wave.groups.append(group)
 		var boss_wave := str(published[i]) == "boss"

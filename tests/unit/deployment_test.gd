@@ -122,7 +122,10 @@ func _touch_scene() -> void:
 		return
 
 	_touch(ground, true)
-	await create_timer(0.40).timeout
+	var release_after := Time.get_ticks_msec() + DeploymentGesture.HOLD_MS
+	while Time.get_ticks_msec() < release_after:
+		await process_frame
+	await process_frame
 	var retreat: Button = scene.get_node("%Retreat")
 	_check(retreat.visible, "Holding touch on the placed actor reveals nearby Retreat")
 	_touch(ground, false)

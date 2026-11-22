@@ -67,7 +67,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	var rules := opening_rules.duplicate() as LogisticsRules
 	_offered.clear()
 	if plan != null:
-		rules = plan.operation.opening_rules
+		rules = plan.resolved().opening
 		for spec in plan.deployment_entries():
 			_offered[spec.id] = spec
 	else:
@@ -78,8 +78,8 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 			var starter := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
 			if (not rules.starter_only or starter) and not (rules.fixed_stockpile and spec.logistics_post):
 				_offered[spec.id] = spec
-	var opening_budget := plan.operation.opening_tokens if plan != null else maxi(0, preview_budget)
-	state = DeploymentState.new(map, simulation.clock, opening_budget, rules, records_enhancements)
+	var opening_budget := plan.resolved().tokens if plan != null else maxi(0, preview_budget)
+	state = DeploymentState.new(map, simulation.clock, opening_budget, rules, records_enhancements, simulation.effects)
 	state.skill_fired.connect(_skill_fired)
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
@@ -340,6 +340,8 @@ func _refresh() -> void:
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
 	var tick := state.clock.tick
+	if unit.spec.skill != DeploymentSpec.Skill.NONE and state.effects.amount(&"disable_skills") > 0:
+		return "Active skill disabled"
 	if tick < unit.knocked_down_until:
 		return "Knocked down"
 	if tick < unit.entangled_until:

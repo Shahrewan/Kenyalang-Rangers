@@ -14,6 +14,7 @@ enum Outcome { RUNNING, WON, LOST }
 
 var deployment: DeploymentState
 var clock := CombatClock.new()
+var effects: BattleModifiers
 var integrity := 100
 var heat := 0.0
 var defeated := 0
@@ -45,6 +46,7 @@ var _announced_wave := 0
 
 func _init(stage: BattleStage) -> void:
 	_stage = stage
+	effects = BattleModifiers.new(stage.modifier_ids)
 	expected_enemy_count = stage.enemy_count()
 	ranger_combat = RangerCombat.new(clock, active)
 	ranger_combat.hit.connect(damage_enemy)
@@ -125,10 +127,35 @@ func damage_enemy(id: int, damage: int) -> void:
 	if enemy == null or damage <= 0 or not clock.is_running():
 		return
 	var bonus := enemy.damage_mark_bonus(clock.tick)
-	var effective := roundi(damage * (100 + bonus) / 100.0)
+	var weakness := 1.0
+	if effects.amount(&"weakness_damage_percent") > 0 and _has_weakness(enemy):
+		weakness = effects.scale(&"weakness_damage_percent")
+	var effective := roundi(damage * weakness * (100 + bonus) / 100.0)
 	enemy.take_damage(effective, clock.tick)
 	if enemy.hp == 0:
 		defeat_enemy(id)
+
+func _has_weakness(enemy: BattleEnemy) -> bool:
+	if enemy.is_marked(clock.tick) or clock.tick < enemy.sonic_slow_until or ranger_combat.movement_scale(enemy, clock.tick) < 1.0:
+		return true
+	if deployment == null:
+		return false
+	var disruption := facility_combat.disruption_at(deployment, enemy.grid_cell(), clock.tick)
+	return disruption != null and disruption.outgoing_reduction_percent > 0
+
+func recon_entries() -> Array[Vector2i]:
+	var entries: Array[Vector2i] = []
+	var lead := CombatClock.ticks_for(effects.amount(&"recon_seconds"))
+	if lead <= 0 or clock.stopped or _groups.is_empty() or _group_index != 0 or _spawned_in_group != 0 or _next_spawn_tick - clock.tick > lead:
+		return entries
+	for group in _groups:
+		var cell: Vector2i = _stage.routes[group.route_index].cells.front()
+		if cell not in entries:
+			entries.append(cell)
+	return entries
+
+func recon_seconds_left() -> int:
+	return ceili(float(_next_spawn_tick - clock.tick) / CombatClock.TICKS_PER_SECOND)
 
 func _announce_first_spawn(tick: int) -> void:
 	if wave_number > _announced_wave and tick >= _next_spawn_tick:
@@ -140,6 +167,9 @@ func _step(tick: int, seconds: float) -> void:
 	if not clock.is_running():
 		return
 	ranger_combat.expire_fields(tick)
+	if deployment != null:
+		for unit: DeploymentState.Placement in deployment.placed.values():
+			unit.blocking_count = 0
 	# Stable insertion order makes simultaneous arrivals deterministic.
 	var block_counts: Dictionary[StringName, int] = {}
 	for id: int in active.keys():
@@ -239,6 +269,7 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	if not blocker.is_empty():
 		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
+		deployment.placed[blocker].blocking_count = block_counts[blocker]
 		if enemy.definition.attack_profile == null and tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
 			_receive_enemy_hit(enemy, blocker, EnemyAttackProfile.Kind.MELEE)
 			enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
@@ -257,6 +288,8 @@ func _register_enemy(definition: BattleEnemyDefinition, route: BattleRoute, tick
 	var id := _next_id
 	_next_id += 1
 	var enemy := BattleEnemy.new(definition, route, tick)
+	if definition.concealed:
+		enemy.revealed_until = tick + CombatClock.ticks_for(effects.amount(&"reveal_seconds"))
 	active[id] = enemy
 	if enemy.boss != null:
 		_boss_combat.active[id] = enemy

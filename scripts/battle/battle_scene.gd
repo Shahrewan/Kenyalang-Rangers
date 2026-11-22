@@ -247,6 +247,14 @@ func _refresh() -> void:
 	if %HeatRow.visible:
 		%HeatGauge.value = battle.heat
 		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
+	var warned := battle.recon_entries()
+	%ReconNotice.visible = not warned.is_empty()
+	if %ReconNotice.visible:
+		var names := PackedStringArray()
+		for entry in warned:
+			var index := stage.map.spawns.find(entry)
+			names.append("Entry" if stage.map.spawns.size() == 1 else "Entry %s" % char(65 + index))
+		%ReconNotice.text = "Wave %d in %d s · %s" % [battle.wave_number, battle.recon_seconds_left(), ", ".join(names)]
 	if campaign:
 		_update_campaign_tip()
 	if battle.outcome != BattleSimulation.Outcome.RUNNING:

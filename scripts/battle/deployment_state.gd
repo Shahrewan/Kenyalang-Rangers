@@ -19,6 +19,8 @@ class Placement:
 	var attack_rate_scale := 1.0
 	var entangled_until := 0
 	var knocked_down_until := 0
+	var blocking_count := 0
+	var brace_charges := 0
 	var anchor: Vector2i
 	var paid_cost: int
 	var hp: int
@@ -90,6 +92,7 @@ var map: BattleMap
 var clock: CombatClock
 var tokens: int
 var rules: LogisticsRules
+var effects: BattleModifiers
 var posts_deployed := 0
 var specialist_discount := 0
 var placed: Dictionary[StringName, Placement] = {}
@@ -100,10 +103,11 @@ var last_skill_error := ""
 var _ready_tick: Dictionary[StringName, int] = {}
 var _enhancements: Array[StringName]
 
-func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null, enhancements: Array[StringName] = []) -> void:
+func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null, enhancements: Array[StringName] = [], modifiers: BattleModifiers = null) -> void:
 	map = board
 	clock = battle_clock
 	rules = opening if opening != null else LogisticsRules.new()
+	effects = modifiers if modifiers != null else BattleModifiers.new()
 	tokens = LogisticsRules.FIXED_STOCKPILE if rules.fixed_stockpile else preview_budget
 	_enhancements = enhancements.duplicate()
 	clock.stepped.connect(_advance)
@@ -170,6 +174,15 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 		return "This unit is already deployed."
 	if cooldown_ticks(spec.id) > 0:
 		return "This deployment is cooling down."
+	var footprint := footprint_error(spec, anchor)
+	if not footprint.is_empty():
+		return footprint
+	var cost := cost_for(spec)
+	if tokens < cost:
+		return "Need %d more Logistic Tokens." % (cost - tokens)
+	return ""
+
+func footprint_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 	var bounds := Rect2i(Vector2i.ZERO, map.size)
 	var required := BattleMap.Tile.GROUND if spec.is_melee() else BattleMap.Tile.ELEVATED
 	var tower := _mountable_tower(spec, anchor)
@@ -183,9 +196,6 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 	for cell in spec.reserved(anchor):
 		if not bounds.has_point(cell) or cell in map.spawns or cell == map.tunnel or occupancy.has(cell):
 			return "The clearance cell above is unavailable."
-	var cost := cost_for(spec)
-	if tokens < cost:
-		return "Need %d more Logistic Tokens." % (cost - tokens)
 	return ""
 
 func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
@@ -200,6 +210,10 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 		id = StringName("%s#%d" % [spec.id, posts_deployed])
 	var build_ticks := 0 if first_post or spec.is_ranger() else CombatClock.ticks_for(spec.build_seconds)
 	var unit := Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks, _enhancements)
+	if spec.is_ranger():
+		unit.brace_charges = int(effects.amount(&"brace_charges"))
+	if effects.amount(&"disable_skills") > 0:
+		unit.skill_charges = 0
 	var tower := _mountable_tower(spec, anchor)
 	if tower == null:
 		for cell in spec.footprint(anchor) + spec.reserved(anchor):
@@ -212,7 +226,7 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 	if _is_specialist(spec):
 		specialist_discount = 0
 	if not first_post and not spec.is_ranger():
-		_ready_tick[spec.id] = clock.tick + CombatClock.ticks_for(spec.build_cooldown_seconds)
+		_ready_tick[spec.id] = clock.tick + _redeploy_ticks(spec.build_cooldown_seconds)
 	cancel_skill()
 	return ""
 
@@ -264,8 +278,12 @@ func retreat(id: StringName) -> bool:
 	if not clock.is_running() or unit == null or not unit.spec.is_ranger():
 		return false
 	_release_cells(id, unit)
-	_ready_tick[id] = clock.tick + CombatClock.ticks_for(unit.spec.redeploy_seconds)
+	_ready_tick[id] = clock.tick + _redeploy_ticks(unit.spec.redeploy_seconds)
 	return true
+
+func _redeploy_ticks(seconds: float) -> int:
+	var percent := 100.0 + effects.amount(&"redeploy_percent")
+	return CombatClock.ticks_for(seconds * percent / 100.0)
 
 static func accepts_hit(spec: DeploymentSpec, kind: EnemyAttackProfile.Kind) -> bool:
 	if not spec.is_ranger():
@@ -293,7 +311,7 @@ func repair(id: StringName, amount: int) -> int:
 
 func heal_ranger(id: StringName, amount: int) -> int:
 	var unit: Placement = placed.get(id)
-	return _restore_hp(unit, amount) if unit != null and unit.spec.is_ranger() else 0
+	return _restore_hp(unit, roundi(amount * effects.scale(&"healing_percent"))) if unit != null and unit.spec.is_ranger() else 0
 
 func _restore_hp(unit: Placement, amount: int) -> int:
 	if not clock.is_running() or amount <= 0:
@@ -363,6 +381,8 @@ func _skill_error(unit: Placement) -> String:
 		return "Combat is paused."
 	if unit == null or unit.spec.skill == DeploymentSpec.Skill.NONE:
 		return "No active skill available."
+	if effects.amount(&"disable_skills") > 0:
+		return "Silent Mobilization disables active skills."
 	if unit.facility != null:
 		if clock.tick < unit.build_deadline:
 			return "The Facility is still building."
