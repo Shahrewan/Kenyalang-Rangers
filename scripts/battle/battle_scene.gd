@@ -3,17 +3,21 @@ extends Control
 
 signal abandon_requested
 signal operation_finished(report: Dictionary)
+signal sandbox_exit_requested
 
 @export var stage: BattleStage
 @export var sandbox := false
 @export var sandbox_title := "Offense sandbox"
 @export var sandbox_legend := "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
+var sandbox_return_label := "Exit sandbox"
+var sandbox_practice_hits := false
 var campaign := false
 var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
 var _progress: FirstContactProgress
 var _reported := false
 var _tips := true
+var _boss_briefing := false
 
 @onready var _hud = %Header
 @onready var _pause_overlay: BattlePauseOverlay = %PauseOverlay
@@ -30,14 +34,13 @@ var _tips := true
 @onready var _dialogue: ColorRect = %Dialogue
 
 var battle: BattleSimulation
-var _total_enemies := 0
 
 func _ready() -> void:
 	_pause.pressed.connect(_toggle_pause)
 	_pause_overlay.resume_requested.connect(_resume)
 	_pause_overlay.abandon_requested.connect(_abandon)
 	_speed.pressed.connect(_toggle_speed)
-	_dialogue_button.pressed.connect(open_dialogue)
+	_dialogue_button.pressed.connect(_open_preview_dialogue)
 	_defeat.pressed.connect(_defeat_first)
 	_retry.pressed.connect(_restart)
 	%Continue.pressed.connect(close_dialogue)
@@ -63,10 +66,12 @@ func _ready() -> void:
 	if sandbox:
 		%MissionTitle.text = sandbox_title
 		%Legend.text = sandbox_legend
-		_back.text = "Exit sandbox"
-		_back.pressed.connect(get_tree().quit)
+		_back.text = sandbox_return_label
+		_back.pressed.connect(_leave_sandbox)
 		_opening.hide()
-		_defeat.hide()
+		_defeat.visible = sandbox_practice_hits
+		if sandbox_practice_hits:
+			_defeat.text = "Practice hit"
 		%DeploymentController.preview_skills = false
 		StoryUI.size_buttons(self)
 	_opening.add_item("First Contact")
@@ -92,14 +97,35 @@ func open_dialogue() -> void:
 	_refresh()
 	%Continue.grab_focus()
 
+func _open_preview_dialogue() -> void:
+	%DialogueTitle.text = "Dialogue preview"
+	%DialogueText.text = "The messenger withdraws off the battlefield."
+	open_dialogue()
+
+func _open_boss_intro(_id: int, boss: BossSpec) -> void:
+	_open_boss_briefing(boss.display_name, boss.introduction)
+
+func _open_boss_phase(id: int, phase: BossPhase) -> void:
+	var enemy := battle.active[id]
+	_open_boss_briefing("%s · Phase %d" % [enemy.definition.display_name, enemy.phase_index + 1], phase.announcement)
+
+func _open_boss_briefing(title: String, message: String) -> void:
+	if message.is_empty():
+		return
+	_boss_briefing = true
+	%DialogueTitle.text = title
+	%DialogueText.text = message
+	open_dialogue()
+
 func close_dialogue() -> void:
 	if battle == null or not battle.clock.dialogue_open:
 		return
-	if not campaign:
+	if not campaign and not _boss_briefing:
 		battle.record_cinematic_withdrawal()
+	_boss_briefing = false
 	battle.clock.dialogue_open = false
 	_refresh()
-	if campaign:
+	if campaign or sandbox:
 		_pause.grab_focus()
 	else:
 		_dialogue_button.grab_focus()
@@ -120,7 +146,9 @@ func _restart() -> void:
 		_retry.disabled = true
 		return
 	battle = BattleSimulation.new(stage)
-	_total_enemies = stage.enemy_count()
+	battle.boss_intro.connect(_open_boss_intro)
+	battle.boss_phase_changed.connect(_open_boss_phase)
+	_boss_briefing = false
 	_pause_overlay.hide()
 	_status.hide()
 	%HeatRow.visible = stage.heat_capacity > 0.0
@@ -177,13 +205,39 @@ func _toggle_speed() -> void:
 	_refresh()
 
 func _defeat_first() -> void:
-	if not battle.active.is_empty():
+	if sandbox_practice_hits:
+		_practice_hit()
+	elif not battle.active.is_empty():
 		battle.defeat_enemy(battle.active.keys()[0])
 	_refresh()
 
+func _leave_sandbox() -> void:
+	if sandbox_exit_requested.has_connections():
+		sandbox_exit_requested.emit()
+	else:
+		get_tree().quit()
+
+func _active_boss_id() -> int:
+	for id: int in battle.active:
+		if battle.active[id].boss != null:
+			return id
+	return 0
+
+func _practice_hit() -> void:
+	var id := _active_boss_id()
+	if id == 0:
+		return
+	var enemy := battle.active[id]
+	var goal := 0
+	if enemy.phase_index < enemy.boss.phases.size():
+		var phase := enemy.boss.phases[enemy.phase_index]
+		goal = floori(enemy.boss.max_hp * phase.hp_percent / 100.0)
+	if enemy.hp > goal:
+		battle.damage_enemy(id, enemy.hp - goal + enemy.active_shield(battle.clock.tick))
+
 func _refresh() -> void:
 	var placement: DeploymentState = %DeploymentController.state
-	_hud.render(battle, _total_enemies, placement.tokens)
+	_hud.render(battle, battle.expected_enemy_count, placement.tokens)
 	if %HeatRow.visible:
 		%HeatGauge.value = battle.heat
 		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
@@ -200,6 +254,8 @@ func _refresh() -> void:
 	_speed.disabled = clock.stopped or clock.dialogue_open or ((campaign or sandbox) and clock.paused)
 	_dialogue_button.disabled = clock.stopped or clock.dialogue_open
 	_defeat.disabled = not clock.is_running() or battle.active.is_empty()
+	if sandbox_practice_hits and _active_boss_id() == 0:
+		_defeat.disabled = true
 	_retry.disabled = clock.dialogue_open
 	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open
@@ -209,6 +265,8 @@ func _refresh() -> void:
 func _outcome_label() -> String:
 	if battle.outcome == BattleSimulation.Outcome.LOST:
 		return "Defeat"
+	if not battle.captured_boss_id.is_empty():
+		return "Boss captured"
 	return "Perfect clear" if battle.is_perfect() else "Clear"
 
 func _update_campaign_tip() -> void:

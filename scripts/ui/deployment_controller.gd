@@ -326,6 +326,15 @@ func _refresh() -> void:
 	_board.queue_redraw()
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
+	var tick := state.clock.tick
+	if tick < unit.knocked_down_until:
+		return "Knocked down"
+	if tick < unit.entangled_until:
+		return "Entangled"
+	if tick < unit.jammed_until:
+		return "Skill jammed"
+	if tick < unit.attack_slow_until:
+		return "Attack rate reduced"
 	if unit.facility != null:
 		match unit.facility.role:
 			FacilitySpec.Role.MEDIC_CABIN:

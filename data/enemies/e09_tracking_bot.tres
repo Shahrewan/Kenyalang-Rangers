@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/enemy_attack_profile.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/enemy_ability.gd" id="3"]
+
+[sub_resource type="Resource" id="Attack"]
+script = ExtResource("2")
+kind = 1
+radius = 2
+
+[sub_resource type="Resource" id="Ability"]
+script = ExtResource("3")
+effect = 3
+first_seconds = 1.5
+repeat_seconds = 6.0
+windup_seconds = 0.4
+duration_seconds = 3.0
+radius = 2
+ranger_attack_rate = 0.7
+disruptible = true
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E09"
+display_name = "Tracking Bot"
+danger = 3
+max_hp = 300
+attack_damage = 11
+attack_seconds = 2.0
+tiles_per_second = 0.44
+escape_penalty = 10
+chaos_points = 35
+counterplay = "Use EMP against its Technological tag and watch the Ranger attack-rate debuff."
+technological = true
+attack_profile = SubResource("Attack")
+ability = SubResource("Ability")

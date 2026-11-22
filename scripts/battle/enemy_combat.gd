@@ -38,12 +38,9 @@ func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: Facili
 		_hit(enemy, best, tick)
 
 func _distance_to(cell: Vector2i, unit: DeploymentState.Placement, profile: EnemyAttackProfile) -> int:
-	var nearest := profile.radius + 1
 	if unit != null and DeploymentState.accepts_hit(unit.spec, profile.kind):
-		for tile in unit.spec.footprint(unit.anchor):
-			var delta := (tile - cell).abs()
-			nearest = mini(nearest, maxi(delta.x, delta.y))
-	return nearest
+		return unit.distance_to(cell)
+	return profile.radius + 1
 
 func _hit(enemy: BattleEnemy, target: StringName, tick: int) -> void:
 	hit.emit(enemy, target, enemy.definition.attack_profile.kind)

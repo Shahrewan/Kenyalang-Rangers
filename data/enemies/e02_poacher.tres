@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E02"
+display_name = "Poacher"
+danger = 1
+max_hp = 140
+attack_damage = 9
+attack_seconds = 1.7
+tiles_per_second = 0.45
+escape_penalty = 10
+chaos_points = 15
+counterplay = "Block its standard melee attack and support the blocker."

@@ -155,3 +155,21 @@ adb install -r build/android/kenyalang-rangers-c11-facility-preview.apk
 5. In the second wave, compare the Heat gauge with Firebreak active on one attempt. Check the compact display, Pause, speed and tray at default and enlarged text settings and around the phone's cutout. Record the build, named device, Android version, density, safe insets and results. [Decision log](../docs/canon/DECISION_LOG.md#d-007-and-d-008-c11-facility-tuning--2026-11-22)
 
 The signed C11 packages passed export and archive checks. Physical installation and this phone run remain pending. The cloud workspace has no USB device bus, and its ADB daemon cannot create its directory on the read-only home filesystem.
+
+## C12 enemy and boss sandbox phone check
+
+Use the toolchain above and a USB-connected ARM64 Android phone. To reproduce the standalone APK, copy the project to a temporary directory. Set `run/main_scene` in that copy to `res://scenes/qa/enemy_sandbox.tscn`, append that scene to `export_files` in **Android Debug**, and set the package ID and name to `com.shahrewan.kenyalangrangers.enemypreview` and `Kenyalang Rangers (Enemy Sandbox)`.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c12-enemy-preview.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c12-enemy-preview.apk
+```
+
+1. Open **Kenyalang Rangers (Enemy Sandbox)** in airplane mode. Scroll the encounter picker to all three bosses. Select a standard enemy, start it, tap **Roster**, and verify its selection persists. Check the picker, tray and battle HUD around the phone's cutout.
+2. Choose Smoke Infiltrator and try the Seer Scan test card on a nearby elevated tile. Tap to reveal the `?` marker and inspect its mark in Pause. Choose Recon Drone in another round and check that it passes Guard while an elevated Scout can hit it. Try the Signal Jammer or Net Trapper with a Ranger in range and check its pending and expired status at 1× and 2×.
+3. Compare Rifle Spotter and Portable Mortar Crew on separate runs with a Post at `(1, 0)`. Check the Mortar's red Siege warning and HP change after the windup, including a pause during aiming. The Post should keep full HP against Rifle Spotter.
+4. Check that Firebreak slows Ignition Operator's Heat gauge and that a capacity reset deducts Integrity. On its own run, let Wildlife Trafficker reach the tunnel and verify immediate defeat.
+5. Start each boss, test Continue and Skip, and use **Practice hit** to reach each phase. Check the Captain's capture, Foreman's temporary HP, and Leader's surge and Runner arrivals. Wait through a phase dialogue to verify that the arrivals hold. Record the APK, phone model, Android version, density, safe insets and results. [Encounter matrix](../docs/qa/C12_ENEMY_MATRIX.md)

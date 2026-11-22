@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="BossSpec" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/boss_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase.gd" id="2"]
+
+[sub_resource type="Resource" id="Phase1"]
+script = ExtResource("2")
+hp_percent = 65
+announcement = "The Foreman gains temporary protection and increases Heat."
+temporary_hp = 600
+protection_seconds = 5.0
+extra_heat_per_second = 4.0
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"boss.illegal_logging_foreman"
+display_name = "Illegal Logging Foreman"
+operation_id = &"C2-08"
+max_hp = 8000
+danger = 5
+attack_damage = 42
+attack_seconds = 2.5
+tiles_per_second = 0.27
+escape_penalty = 50
+chaos_points = 300
+counterplay = "Use Firebreak to slow Heat. Wait out temporary protection or break through it with sustained attacks."
+introduction = "The Illegal Logging Foreman is building Heat. Keep Integrity above zero while you intercept it."
+technological = true
+environmental = true
+heat_per_second = 10.0
+phases = Array[ExtResource("2")]([SubResource("Phase1")])

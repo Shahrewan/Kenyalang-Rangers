@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/enemy_ability.gd" id="3"]
+
+[sub_resource type="Resource" id="Ability"]
+script = ExtResource("3")
+effect = 0
+first_seconds = 2.0
+repeat_seconds = 7.0
+duration_seconds = 2.0
+speed_scale = 1.6
+disruptible = true
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E03"
+display_name = "Contraband Runner"
+danger = 2
+max_hp = 110
+attack_damage = 5
+attack_seconds = 1.2
+tiles_per_second = 0.76
+escape_penalty = 10
+chaos_points = 20
+counterplay = "Stop the Sprint with a blocker, stun or slow."
+ability = SubResource("Ability")

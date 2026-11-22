@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/enemy_attack_profile.gd" id="2"]
+
+[sub_resource type="Resource" id="Attack"]
+script = ExtResource("2")
+kind = 3
+radius = 1
+windup_seconds = 0.6
+disruptible = true
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E11"
+display_name = "Demolitionist"
+danger = 4
+max_hp = 360
+attack_damage = 60
+attack_seconds = 6.0
+tiles_per_second = 0.29
+escape_penalty = 10
+chaos_points = 50
+counterplay = "It targets nearby Facilities, including unfinished sites. Intercept it before the charge lands."
+attack_profile = SubResource("Attack")

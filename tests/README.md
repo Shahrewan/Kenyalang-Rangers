@@ -12,6 +12,8 @@ godot --headless --path . --script res://tests/unit/first_contact_test.gd
 godot --headless --path . --script res://tests/unit/campaign_navigation_test.gd
 godot --headless --path . --script res://tests/unit/offense_rangers_test.gd
 godot --headless --path . --script res://tests/unit/facility_combat_test.gd
+godot --headless --path . --script res://tests/unit/enemy_combat_test.gd
+godot --headless --path . --script res://tests/unit/boss_combat_test.gd
 ```
 
 Smoke scripts live in `tests/smoke/`, pure logic tests in `tests/unit/` when needed, and deterministic data under `tests/fixtures/`. Use standalone GDScript `SceneTree` runners, explicit assertions with descriptive failures, and a nonzero exit on failure. Keep tests offline and release-independent. Use fixed seeds and a manually stepped clock for future combat fixtures. Use dedicated test data and a temporary save location for persistence tests.
@@ -39,3 +41,5 @@ The C09 runner checks a legacy save, first-launch naming, Story locks, opening l
 The C10 Offense runner checks the three Ranger resources and their actual simulation output. It verifies Focus's Records gate and confirmation, the per-target Technological bonus and persistent EMP slow, Guard's fixed frontal coverage and four sequential charges, and combat-time pause and redeploy. It also checks a wave ending with two defeats from one skill. Synthetic touch places all three Rangers, confirms Focus, and restarts the sandbox. See the [sandbox phone check](../export/README.md#c10-offense-sandbox-phone-check).
 
 The C11 runner covers all 13 Facility roles. It checks explicit Siege targeting throughout construction and operation, cancellation and replacement, repairs and kit stock, both cooldown relays, all turret cadences, Tower mounting and detection, Heat and the Specialist discount, and the three status zones. Synthetic touch scrolls the catalog, confirms an injured Scout's kit and reaches a real Siege attack in the same sandbox wave. See the [Facility phone check](../export/README.md#c11-facility-sandbox-phone-check).
+
+The C12 runners exercise all 18 lifecycles, ability timing and counters, boss phases and reinforcement queues, Heat versus HP, capture versus ordinary victory, and capped received-damage marks with B05. The boss runner also opens the sandbox picker and checks actual dialog, phase, capture and return controls. [Encounter matrix](../docs/qa/C12_ENEMY_MATRIX.md) · [Phone checklist](../export/README.md#c12-enemy-and-boss-sandbox-phone-check)

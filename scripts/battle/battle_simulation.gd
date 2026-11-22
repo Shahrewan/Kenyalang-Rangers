@@ -4,6 +4,9 @@ extends RefCounted
 signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
 signal cinematic_withdrawal
+signal boss_intro(id: int, boss: BossSpec)
+signal boss_phase_changed(id: int, phase: BossPhase)
+signal boss_captured(id: int)
 
 enum Outcome { RUNNING, WON, LOST }
 
@@ -13,11 +16,15 @@ var integrity := 100
 var heat := 0.0
 var defeated := 0
 var escaped := 0
+var expected_enemy_count: int
+var captured_boss_id: StringName
 var outcome := Outcome.RUNNING
 var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
 var facility_combat: FacilityCombat
 var _enemy_combat := EnemyCombat.new()
+var _enemy_abilities := EnemyAbilities.new()
+var _boss_combat := BossCombat.new()
 var wave_number := 0
 var wave_count: int:
 	get:
@@ -33,10 +40,11 @@ var _next_id := 1
 
 func _init(stage: BattleStage) -> void:
 	_stage = stage
+	expected_enemy_count = stage.enemy_count()
 	ranger_combat = RangerCombat.new(clock, active)
-	ranger_combat.hit.connect(_damage_enemy)
+	ranger_combat.hit.connect(damage_enemy)
 	facility_combat = FacilityCombat.new(active)
-	facility_combat.hit.connect(_damage_enemy)
+	facility_combat.hit.connect(damage_enemy)
 	_enemy_combat.hit.connect(_receive_enemy_hit)
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
@@ -47,11 +55,26 @@ func _init(stage: BattleStage) -> void:
 func defeat_enemy(id: int) -> bool:
 	if not clock.is_running() or not active.has(id):
 		return false
+	var enemy := active[id]
 	active.erase(id)
+	_boss_combat.active.erase(id)
 	defeated += 1
+	var captured := _is_capture_target(enemy)
+	if captured:
+		captured_boss_id = enemy.definition.enemy_id
+		active.clear()
+		_boss_combat.clear()
+		expected_enemy_count = defeated + escaped
+		_finish(Outcome.WON)
 	enemy_resolved.emit(id, false)
+	if captured:
+		boss_captured.emit(id)
+		return true
 	_try_finish_wave(clock.tick)
 	return true
+
+func _is_capture_target(enemy: BattleEnemy) -> bool:
+	return not _stage.capture_boss_id.is_empty() and enemy.boss != null and enemy.boss.capturable and enemy.definition.enemy_id == _stage.capture_boss_id
 
 func record_cinematic_withdrawal() -> void:
 	cinematic_withdrawal.emit()
@@ -91,15 +114,20 @@ func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackPro
 	var amount := facility_combat.enemy_damage(deployment, enemy, target, clock.tick)
 	deployment.receive_hit(id, amount, kind)
 
-func _damage_enemy(id: int, damage: int) -> void:
+func damage_enemy(id: int, damage: int) -> void:
 	var enemy: BattleEnemy = active.get(id)
 	if enemy == null or damage <= 0 or not clock.is_running():
 		return
-	enemy.hp = maxi(0, enemy.hp - damage)
+	var bonus := enemy.damage_mark_bonus(clock.tick)
+	var effective := roundi(damage * (100 + bonus) / 100.0)
+	enemy.take_damage(effective, clock.tick)
 	if enemy.hp == 0:
 		defeat_enemy(id)
 
 func _step(tick: int, seconds: float) -> void:
+	_advance_boss_phases(tick)
+	if not clock.is_running():
+		return
 	ranger_combat.expire_fields(tick)
 	# Stable insertion order makes simultaneous arrivals deterministic.
 	var block_counts: Dictionary[StringName, int] = {}
@@ -108,13 +136,23 @@ func _step(tick: int, seconds: float) -> void:
 		var arrived := _advance_enemy(enemy, tick, seconds, block_counts)
 		if arrived:
 			active.erase(id)
+			_boss_combat.active.erase(id)
 			escaped += 1
-			lose_integrity(enemy.definition.escape_penalty)
+			var fatal := enemy.definition.escape_causes_defeat or _is_capture_target(enemy)
+			lose_integrity(integrity if fatal else enemy.definition.escape_penalty)
 			enemy_resolved.emit(id, true)
 			if not clock.is_running():
 				return
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
 		_spawn(tick)
+	elif _boss_combat.has_pending_arrivals():
+		var arrived := _boss_combat.take_due(tick)
+		if arrived != null:
+			_register_enemy(arrived.enemy, arrived.route, tick)
+	if not clock.is_running():
+		return
+	for enemy: BattleEnemy in active.values():
+		_enemy_abilities.advance(enemy, deployment, facility_combat, tick)
 	if deployment != null:
 		for enemy: BattleEnemy in active.values():
 			_enemy_combat.advance(enemy, deployment, facility_combat, tick)
@@ -132,12 +170,24 @@ func _step(tick: int, seconds: float) -> void:
 				ranger_combat.basic_attack(unit, deployment, tick, interval)
 	_try_finish_wave(tick)
 
+func _advance_boss_phases(tick: int) -> void:
+	for id: int in _boss_combat.active.keys():
+		var enemy: BattleEnemy = _boss_combat.active.get(id)
+		if enemy == null:
+			continue
+		var phase := _boss_combat.enter_next_phase(enemy, tick)
+		if phase != null:
+			expected_enemy_count += phase.reinforcement_count
+			boss_phase_changed.emit(id, phase)
+			if not clock.is_running():
+				return
+
 func _advance_heat(tick: int, seconds: float) -> void:
 	if _stage.heat_capacity <= 0.0:
 		return
 	var rate := 0.0
 	for enemy: BattleEnemy in active.values():
-		rate += enemy.definition.heat_per_second
+		rate += enemy.definition.heat_per_second + enemy.phase_heat_bonus
 	if rate <= 0.0:
 		return
 	var scale := facility_combat.heat_multiplier(deployment, tick) if deployment != null else 1.0
@@ -150,7 +200,7 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	var speed_scale := ranger_combat.movement_scale(enemy, tick)
 	if tick < enemy.sonic_slow_until:
 		speed_scale = minf(speed_scale, enemy.sonic_speed_scale)
-	seconds *= speed_scale
+	seconds *= speed_scale * enemy.sprint_scale(tick) * enemy.phase_speed_scale * _boss_combat.movement_support(enemy)
 	if deployment == null or enemy.definition.aerial:
 		return enemy.advance(seconds)
 	var next := enemy.distance + enemy.definition.tiles_per_second * seconds
@@ -158,14 +208,15 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	var blocker: StringName
 	for id: StringName in deployment.placed:
 		var unit := deployment.placed[id]
-		if unit.spec.block_capacity <= int(block_counts.get(id, 0)):
+		if tick < unit.knocked_down_until or unit.spec.block_capacity <= int(block_counts.get(id, 0)):
 			continue
-		var route_index := enemy.route.cells.find(unit.anchor)
-		# The enemy stays on the approach tile, facing the Ranger on the next tile.
-		var approach := float(route_index) - 0.51
-		if route_index > 0 and enemy.distance <= approach and next >= approach and approach < stop_at:
-			stop_at = approach
-			blocker = id
+		for tile in unit.spec.footprint(unit.anchor):
+			var route_index := enemy.route.cells.find(tile)
+			# The enemy stays on the approach tile, facing the Ranger on the next tile.
+			var approach := float(route_index) - 0.51
+			if route_index > 0 and enemy.distance <= approach and next >= approach and approach < stop_at:
+				stop_at = approach
+				blocker = id
 	if blocker != enemy.blocked_by:
 		enemy.blocked_by = blocker
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
@@ -178,18 +229,26 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 
 func _spawn(tick: int) -> void:
 	var group := _groups[_group_index]
-	var id := _next_id
-	_next_id += 1
-	active[id] = BattleEnemy.new(group.enemy, _stage.routes[group.route_index])
 	_spawned_in_group += 1
 	_next_spawn_tick = tick + maxi(1, CombatClock.ticks_for(group.interval_seconds))
 	if _spawned_in_group == group.count:
 		_group_index += 1
 		_spawned_in_group = 0
-	enemy_spawned.emit(id, group.enemy.enemy_id)
+	_register_enemy(group.enemy, _stage.routes[group.route_index], tick)
+
+func _register_enemy(definition: BattleEnemyDefinition, route: BattleRoute, tick: int) -> void:
+	var id := _next_id
+	_next_id += 1
+	var enemy := BattleEnemy.new(definition, route, tick)
+	active[id] = enemy
+	if enemy.boss != null:
+		_boss_combat.active[id] = enemy
+	enemy_spawned.emit(id, definition.enemy_id)
+	if enemy.boss != null and clock.is_running() and active.has(id):
+		boss_intro.emit(id, enemy.boss)
 
 func _try_finish_wave(tick: int) -> void:
-	if outcome == Outcome.RUNNING and _group_index == _groups.size() and active.is_empty():
+	if outcome == Outcome.RUNNING and _group_index == _groups.size() and active.is_empty() and not _boss_combat.has_pending_arrivals():
 		var rest := CombatClock.ticks_for(_waves[wave_number - 1].rest_after_seconds)
 		_begin_next_wave(tick + maxi(1, rest))
 

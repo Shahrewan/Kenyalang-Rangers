@@ -1,30 +1,22 @@
-[gd_resource type="Resource" script_class="BattleStage" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="BattleStage" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/battle_stage.gd" id="1"]
 [ext_resource type="Resource" path="res://data/stages/t01_forgotten_patrol.tres" id="2"]
 [ext_resource type="Resource" path="res://data/stages/t01_route.tres" id="3"]
-[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="4"]
+[ext_resource type="Resource" path="res://data/enemies/e01_forest_trespasser.tres" id="4"]
 [ext_resource type="Script" path="res://scripts/data/battle_spawn_group.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/data/battle_wave.gd" id="6"]
 [ext_resource type="Script" path="res://scripts/data/battle_route.gd" id="7"]
 
-[sub_resource type="Resource" id="Enemy"]
-script = ExtResource("4")
-enemy_id = &"E01"
-display_name = "Forest Trespasser"
-counterplay = "Block on the ground and cover the approach with Scout Sniper."
-tiles_per_second = 0.29
-escape_penalty = 10
-
 [sub_resource type="Resource" id="Group1"]
 script = ExtResource("5")
-enemy = SubResource("Enemy")
+enemy = ExtResource("4")
 count = 6
 interval_seconds = 3.5
 
 [sub_resource type="Resource" id="Group2"]
 script = ExtResource("5")
-enemy = SubResource("Enemy")
+enemy = ExtResource("4")
 count = 8
 interval_seconds = 3.5
 

@@ -9,9 +9,16 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 		var field := StoryUI.panel(self)
 		field.add_child(StoryUI.label("On the field", 21, StoryUI.AMBER))
 		for enemy: BattleEnemy in live.active.values():
-			field.add_child(StoryUI.label("%s  ·  %d/%d HP  ·  Danger %d" % [
+			var text := "%s  ·  %d/%d HP  ·  Danger %d" % [
 				enemy_name(enemy.definition), enemy.hp, enemy.definition.max_hp, enemy.definition.danger,
-			], 18))
+			]
+			var shield := enemy.active_shield(live.clock.tick)
+			if shield > 0:
+				text += "  ·  %d temporary HP" % shield
+			var mark := enemy.damage_mark_bonus(live.clock.tick)
+			if mark > 0:
+				text += "  ·  +%d%% damage taken" % mark
+			field.add_child(StoryUI.label(text, 18))
 	for index in stage.waves.size():
 		var wave := stage.waves[index]
 		var count := 0
@@ -32,15 +39,12 @@ static func enemy_name(enemy: BattleEnemyDefinition) -> String:
 	return String(enemy.enemy_id) if enemy.display_name.is_empty() else "%s · %s" % [enemy.enemy_id, enemy.display_name]
 
 static func enemy_details(enemy: BattleEnemyDefinition) -> String:
-	var movement := "Aerial" if enemy.aerial else "Ground"
-	if enemy.technological:
-		movement += " · Technological"
-	if enemy.concealed:
-		movement += " · Concealed"
+	var tags := enemy.tags()
+	if not enemy.aerial:
+		tags.insert(0, "Ground")
 	if enemy.heat_per_second > 0.0:
-		movement += " · Builds Heat"
-	if enemy.attack_profile != null and enemy.attack_profile.kind == EnemyAttackProfile.Kind.SIEGE:
-		movement += " · Siege"
-	return "%d HP  ·  Danger %d  ·  %s  ·  −%d Integrity on escape" % [
-		enemy.max_hp, enemy.danger, movement, enemy.escape_penalty,
+		tags.append("Builds Heat")
+	var escape := "Defeat on escape" if enemy.escape_causes_defeat else "−%d Integrity on escape" % enemy.escape_penalty
+	return "%d HP  ·  Danger %d  ·  %s  ·  %s" % [
+		enemy.max_hp, enemy.danger, " · ".join(tags), escape,
 	]

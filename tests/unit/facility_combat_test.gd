@@ -279,9 +279,9 @@ func _tower_slots_and_detection() -> void:
 	var hidden := _enemy(battle, 100, 1.2)
 	hidden.definition.concealed = true
 	_frames(battle, 539)
-	_check(not hidden.is_targetable() and hidden.hp == 500, "An unfinished Tower provides no detection")
+	_check(not hidden.is_targetable(battle.clock.tick) and hidden.hp == 500, "An unfinished Tower provides no detection")
 	_frames(battle, 1)
-	_check(hidden.is_targetable() and hidden.hp == 500, "A completed Tower reveals without dealing damage")
+	_check(hidden.is_targetable(battle.clock.tick) and hidden.hp == 500, "A completed Tower reveals without dealing damage")
 	_check(not state.deploy(SCOUT, above, 1).is_empty() and state.deploy(SCOUT, anchor, 1).is_empty(), "The base mounts an eligible Ranger and the clearance cell stays reserved")
 	var rider := state.placed[SCOUT.id]
 	_check(tower.mounted_ranger == SCOUT.id and rider.mount_tower == TOWER.id and state.interaction_id(anchor) == SCOUT.id, "The mount shares the elevated base and receives Ranger taps")
@@ -291,7 +291,7 @@ func _tower_slots_and_detection() -> void:
 	state.receive_hit(TOWER.id, 420, EnemyAttackProfile.Kind.SIEGE)
 	_check(not state.occupancy.has(above) and state.occupancy[anchor] == SCOUT.id and rider.mount_tower.is_empty() and rider.hp == 100, "Siege destruction frees clearance and dismounts the Ranger onto the legal elevated base")
 	_frames(battle, 1)
-	_check(not hidden.is_targetable() and not state.can_attack(rider, hidden.grid_cell(), false), "Tower destruction removes detection and the range extension")
+	_check(not hidden.is_targetable(battle.clock.tick) and not state.can_attack(rider, hidden.grid_cell(), false), "Tower destruction removes detection and the range extension")
 
 func _firebreak_heat() -> void:
 	var battle := _encounter(20.0)

@@ -144,3 +144,26 @@ The canonical catalog uses the GDD's provisional Lv.1 HP, prices and HP outputs.
 - Coordination Hub, Reinforced Cover and Disruption build in seven seconds with fourteen seconds of deployment cooldown. Each uses a radius-two square. Hub adds 25% Ranger attack rate and scales the remaining interval when the bonus changes. Cover reduces eligible ally damage by 25%. Disruption reduces enemy attack damage by 20% and adds one second to tagged windups started in range. Outgoing and incoming effects multiply with one final round. Hit permission is checked at targeting and damage settlement.
 
 The Facility sandbox uses a 40-point Heat cap, ten Integrity per reset and labeled test targets. Outpost Mechanic is available there for repair testing. The Barricade Ops and Specialist cards are fixtures for their named interactions. The C05 phone gate for Campaign expansion remains open. [Android checklist](../../export/README.md#c11-facility-sandbox-phone-check)
+
+## D-006 and D-008 C12 enemy and boss tuning — 2026-11-22
+
+The catalogs specify the sourced HP, Danger, damage intervals and Chaos point weights. Movement and escape values in the resources are provisional. C1-01 uses the catalog's E01 with its existing 0.29 tiles per combat second and ten Integrity on escape. The other ordinary enemies trial ten Integrity on escape. An escape by Wildlife Trafficker or Poacher Leader ends the operation immediately. Captain and Foreman trial 30 and 50 Integrity on ordinary escape. An operation requiring capture ends in defeat if its Captain escapes. [Standard catalog](../../data/enemies/catalog.tres) · [Boss catalog](../../data/bosses/catalog.tres)
+
+| Trial effect | Timing and scope in combat seconds |
+|---|---|
+| Runner Sprint | First at two seconds, seven-second repeat after firing, two-second window at 1.6× movement. |
+| Smoke | Conceal on entry for 2.5 seconds, repeat every eight seconds. Live detection and the scan can reveal it during the window. |
+| Signal Jammer | First at two seconds, 0.6-second windup, seven-second repeat, radius three. Two seconds of skill lock and two added seconds to pending recharge. |
+| Tracking Bot | First at 1.5 seconds, 0.4-second windup, six-second repeat, radius two. Applies 0.7× Ranger attack rate for three seconds. |
+| Net Trapper | First at 1.5 seconds, 0.7-second windup, seven-second repeat, radius two. For 1.75 seconds the Ranger maintains its block and can retreat while attacks and skills are interrupted. |
+| Breacher Knockdown | Targets its blocker after a 0.5-second windup, with a seven-second repeat and a 1.75-second effect. Barricade Ops resists. |
+| Siege | Demolitionist uses radius one and a 0.6-second windup. Mortar uses radius three and a two-second windup. Both use their sourced damage and repeat intervals. |
+| Heat and marks | The trial Heat cap is 40 with ten Integrity loss per reset. Ignition adds eight per second before Firebreak. The scan fixture reveals and adds a 2% received-damage mark for eight seconds, with a three-second recharge. At ten marks, a new one replaces the oldest. Mark amplification applies once after the existing attack output. |
+
+Boss Danger five, thresholds and timing below are trial values. A threshold is evaluated on the next combat tick after damage. Crossing several thresholds presents them in authored order. Dialogue holds both the next threshold and any scheduled arrivals. The following phase and actor values are in the boss resources.
+
+- At 70% HP, the Captain calls two Poachers at one-second spacing after one second. Its radius-three aura multiplies nearby allies' movement by 1.2. A stage with the singular final Captain capture objective settles the capture immediately and withdraws its support. Ordinary waves settle all scheduled reinforcements.
+- At 65% HP, the Foreman gains 600 temporary HP for five seconds and adds four Heat per second to its base ten. Temporary HP absorbs hits first and expires on the combat clock.
+- At 70% HP, the Leader queues two Contraband Runners with a one-second delay and spacing. At 35%, it adds one Runner after 1.5 seconds and moves at 1.5× its base speed through the final phase. Scheduled Runners continue to count toward victory.
+
+The selectable sandbox uses T01, 500 trial Tokens, the authored catalog and test fixtures for the Seer scan and Barricade resistance. The three canonical boss templates retain their mission IDs. Sandbox announcements and wave setups are fixtures for testing until Campaign authoring. [Encounter matrix](../qa/C12_ENEMY_MATRIX.md)

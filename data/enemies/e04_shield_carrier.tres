@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E04"
+display_name = "Shield Carrier"
+danger = 3
+max_hp = 450
+attack_damage = 12
+attack_seconds = 2.2
+tiles_per_second = 0.27
+escape_penalty = 10
+chaos_points = 25
+counterplay = "Concentrate damage on its large HP pool."
