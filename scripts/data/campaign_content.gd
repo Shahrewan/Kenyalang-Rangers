@@ -4,8 +4,8 @@ extends RefCounted
 const SOURCE := "res://docs/production/w13/"
 const ENEMIES := preload("res://data/enemies/catalog.tres")
 const BOSSES := preload("res://data/bosses/catalog.tres")
-const RANGERS := preload("res://data/rangers/c14_campaign_roster.tres")
-const FACILITIES := preload("res://data/facilities/catalog.tres")
+const RANGERS := DeployableLevels.FIELD_RANGERS
+const FACILITIES := DeployableLevels.FACILITIES
 const LEGACY_PLAN := preload("res://data/stages/c09_first_contact_operation.tres")
 const BASE_RULES := preload("res://data/stages/c04_logistics_rules.tres")
 const MAPS := {
@@ -15,13 +15,6 @@ const MAPS := {
 	&"T04": preload("res://data/stages/campaign/t04_tanjung_datu.tres"),
 	&"T05": preload("res://data/stages/campaign/t05_imbak_canyon.tres"),
 	&"T06": preload("res://data/stages/campaign/t06_sepilok_kabili.tres"),
-}
-const PENDING_RANGERS := {
-	&"ranger.woods_tracker": "Woods Tracker",
-	&"ranger.k9_ranger": "K9 Ranger",
-	&"ranger.kenyalang_seer": "Kenyalang Seer",
-	&"ranger.saboteurist": "Saboteurist",
-	&"ranger.strike_team": "Strike Team",
 }
 const STARTERS := [&"ranger.scout_sniper", &"ranger.patrolman", &"facility.logistics_post"]
 const EVENTS := [
@@ -76,7 +69,8 @@ func operation(id: StringName) -> StoryOperation:
 	return _by_id.get(id)
 
 func label_for(id: StringName) -> String:
-	return _units[id].label if _units.has(id) else PENDING_RANGERS.get(id, String(id))
+	var unit := DeployableLevels.definition(id)
+	return unit.label if unit != null else String(id)
 
 func has_combat_kit(id: StringName) -> bool:
 	return _units.has(id)
@@ -118,7 +112,7 @@ func _build(data: Dictionary, id: StringName, previous: StringName, order: int, 
 		return _fail("Opening budget does not match the fixed effects.")
 	for unlock in meta.clear_unlock_ids:
 		var unlock_id := StringName(unlock)
-		if not _units.has(unlock_id) and not PENDING_RANGERS.has(unlock_id):
+		if DeployableLevels.definition(unlock_id) == null:
 			return _fail("Unknown recruit or Facility unlock.")
 		result.clear_unlock_ids.append(unlock_id)
 	for supply in meta.mission_supply:

@@ -193,3 +193,23 @@ adb install -r build/android/kenyalang-rangers-c14-debug.apk
 5. Record the installed APK hash, phone model, Android version, landscape dimensions, screen density, cutout/safe insets and observed results. [Verification matrix](../docs/qa/C14_CAMPAIGN_MATRIX.md)
 
 The signed C14 APK was exported with Godot `4.7.2.stable.official.ed1daf0bf` and matching `4.7.2.stable` templates. Physical installation remains pending. The cloud workspace exposes no USB bus, and its ADB server cannot create `/home/agent/.android` on the read-only home filesystem.
+
+## C15 Headquarters phone check
+
+Use the pinned Godot toolchain and a USB-connected ARM64 test phone with Android 9 or later. For the migration check, start from a C14 development install signed with the same debug key. Keep its name, wallet and progress on the phone when installing C15 with `-r`.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c15-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c15-debug.apk
+```
+
+1. Open **Kenyalang Rangers (Dev)** in airplane mode. With a C14 profile, compare the migrated name, Funds, Finance storage, Control, Mechanical and Story clears. On a clean profile verify the three free rooms, eleven selectable bays, and the 10,000 starting balance.
+2. Tap Human Resources and Mechanical to view capacity and unit levels. Use a funded QA profile to preview a milestone. Cancel once and compare the wallet, then confirm and check the exact price and level. Reopen the app and verify both survived. Check the same screens in both landscape orientations.
+3. Open Finance and compare its rate and storage before and after a purchase. Background the game briefly and check that Finance stopped. On an overflow QA fixture, cancel the discard preview and compare both balances before confirming.
+4. Build Mechanical on an eligible profile, equip the ordinary Post, and verify its purchased level in Story. Use the Garden shortcut and Ecology's activity button to reach the same saved plot view.
+5. Use a disposable QA profile to open **Settings → Reset local progress**. Cancel first. Verify the profile is still present, then confirm on the disposable profile and check that a cold restart opens naming. Record the APK hash, phone model, Android version, density, cutout and observations.
+
+The C15 development APK passed host-side package and resource checks. Physical install and signed-update continuity await a connected phone. [C15 verification matrix](../docs/qa/C15_HEADQUARTERS_MATRIX.md)

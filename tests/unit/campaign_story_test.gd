@@ -35,14 +35,24 @@ func _run() -> void:
 	_check(not _node(app._screen, c2).disabled and _node(app._screen, c4).disabled, "Clearing the predecessor unlocks the next revealed operation only")
 	_node(app._screen, c2).pressed.emit()
 	_check(app._screen.find_child("StartOperation", true, false).disabled, "Fresh C1-02 plan rejects an unfunded opening")
-	_find_button(app._screen, "Open Campaign access").pressed.emit()
-	var access := app._screen as CampaignAccessPage
-	_check(access._build.disabled, "Access page shows the 20,000 Funds purchase gate")
+	app._screen.find_child("OpenHeadquarters", true, false).pressed.emit()
+	app._screen.find_child("Room_mechanical", true, false).pressed.emit()
+	var mechanical := app._screen as HeadquartersRoomPage
+	_check(mechanical._purchase.disabled, "Mechanical shows the 20,000 Funds purchase gate")
+	mechanical.back_requested.emit()
+	app._screen.find_child("Room_finance_room", true, false).pressed.emit()
+	var finance := app._screen as HeadquartersRoomPage
 	progress.advance_finance(5000.0)
-	access._claim.pressed.emit()
-	access._build.pressed.emit()
-	_check(progress.snapshot().mechanical and progress.snapshot().funds == 0, "Finance Claim and Build Mechanical work by their real buttons")
-	_find_button(access, "Back").pressed.emit()
+	finance._claim.pressed.emit()
+	finance.back_requested.emit()
+	app._screen.find_child("Room_mechanical", true, false).pressed.emit()
+	mechanical = app._screen as HeadquartersRoomPage
+	mechanical._purchase.pressed.emit()
+	mechanical._dialog.hide()
+	mechanical._dialog.confirmed.emit()
+	_check(progress.room_level(HeadquartersCatalog.MECHANICAL) == 1 and progress.funds() == 0, "Finance Claim and Build Mechanical work by their real buttons")
+	mechanical.back_requested.emit()
+	(app._screen as HeadquartersOverview).back_requested.emit()
 	_check(app._screen.plan.can_start() and app._screen.plan.facility_limit == 2, "Returning from Access equips the newly legal Logistics Post")
 	await _funded_launch_resume(app, c2)
 	# Simulated active accrual exercises the real storage cap, claim and upgrade
@@ -308,23 +318,17 @@ func _expected_spawns(stage: BattleStage) -> Array:
 	return expected
 
 func _fund_control(progress: CampaignProgress, target: int) -> void:
-	while progress.snapshot().control < target:
-		var cost := progress.control_upgrade_cost()
+	while progress.room_level(HeadquartersCatalog.CONTROL) < target:
+		var cost: int = progress.room_quote(HeadquartersCatalog.CONTROL).cost
 		while progress.snapshot().funds < cost:
 			progress.advance_finance(6000.0)
 			progress.claim_finance()
-		if not progress.upgrade_control():
+		if not progress.purchase_room(HeadquartersCatalog.CONTROL).is_empty():
 			_check(false, "Funded Control upgrade persists")
 			return
 
 func _node(page: Control, operation: StoryOperation) -> Button:
 	return page.find_child("Operation_" + String(operation.stage.stage_id).replace("-", "_"), true, false)
-
-func _find_button(page: Control, caption: String) -> Button:
-	for button: Button in page.find_children("*", "Button", true, false):
-		if button.text == caption:
-			return button
-	return null
 
 func _entry(plan: OperationPlan, id: StringName) -> DeploymentSpec:
 	for spec in plan.deployment_entries():

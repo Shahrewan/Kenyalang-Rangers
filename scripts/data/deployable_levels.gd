@@ -1,0 +1,53 @@
+class_name DeployableLevels
+extends RefCounted
+
+const MAX_LEVEL := 100
+const TOTAL_COST := 1000000
+const MILESTONES := [20, 40, 60, 80, 100]
+const FIELD_RANGERS := preload("res://data/rangers/c14_campaign_roster.tres")
+const PENDING_RANGERS := preload("res://data/rangers/pending_upgrade_roster.tres")
+const FACILITIES := preload("res://data/facilities/catalog.tres")
+
+static func catalog(rangers: bool) -> Array[DeploymentSpec]:
+	return FIELD_RANGERS.entries + PENDING_RANGERS.entries if rangers else FACILITIES.entries.duplicate()
+
+static func definition(id: StringName) -> DeploymentSpec:
+	for roster in [FIELD_RANGERS, PENDING_RANGERS, FACILITIES]:
+		for entry: DeploymentSpec in roster.entries:
+			if entry.id == id:
+				return entry
+	return null
+
+static func pending_kit(id: StringName) -> bool:
+	return PENDING_RANGERS.entries.any(func(entry: DeploymentSpec) -> bool: return entry.id == id)
+
+static func cumulative(level: int) -> int:
+	var x := _fraction(level)
+	return roundi(TOTAL_COST * (0.15 * x + 0.85 * x * x))
+
+static func cost(from: int, target: int) -> int:
+	return cumulative(target) - cumulative(from)
+
+static func effective(spec: DeploymentSpec, level: int) -> DeploymentSpec:
+	var unit := spec.duplicate() as DeploymentSpec
+	unit.level = clampi(level, 1, MAX_LEVEL)
+	var growth := spec.growth
+	if growth == null or unit.level == 1:
+		return unit
+	unit.max_hp = _output(spec.max_hp, growth.hp, unit.level)
+	unit.attack_damage = _output(spec.attack_damage, growth.attack_damage, unit.level)
+	if unit is RangerSpec:
+		unit.heal_hp = _output(unit.heal_hp, growth.healing, unit.level)
+		unit.repair_hp = _output(unit.repair_hp, growth.repair, unit.level)
+		if unit.active_skill != null and growth.skill_damage > 0:
+			unit.active_skill = unit.active_skill.duplicate() as RangerSkill
+			unit.active_skill.damage = _output(unit.active_skill.damage, growth.skill_damage, unit.level)
+	elif unit is FacilitySpec:
+		unit.heal_per_kit = _output(unit.heal_per_kit, growth.healing, unit.level)
+	return unit
+
+static func _output(base: int, endpoint: int, level: int) -> int:
+	return roundi(lerpf(base, endpoint, _fraction(level))) if base > 0 and endpoint > 0 else base
+
+static func _fraction(level: int) -> float:
+	return (clampi(level, 1, MAX_LEVEL) - 1) / float(MAX_LEVEL - 1)
