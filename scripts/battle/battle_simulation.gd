@@ -10,11 +10,14 @@ enum Outcome { RUNNING, WON, LOST }
 var deployment: DeploymentState
 var clock := CombatClock.new()
 var integrity := 100
+var heat := 0.0
 var defeated := 0
 var escaped := 0
 var outcome := Outcome.RUNNING
 var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
+var facility_combat: FacilityCombat
+var _enemy_combat := EnemyCombat.new()
 var wave_number := 0
 var wave_count: int:
 	get:
@@ -32,6 +35,9 @@ func _init(stage: BattleStage) -> void:
 	_stage = stage
 	ranger_combat = RangerCombat.new(clock, active)
 	ranger_combat.hit.connect(_damage_enemy)
+	facility_combat = FacilityCombat.new(active)
+	facility_combat.hit.connect(_damage_enemy)
+	_enemy_combat.hit.connect(_receive_enemy_hit)
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
@@ -61,13 +67,29 @@ func is_perfect() -> bool:
 	return outcome == Outcome.WON and escaped == 0
 
 func tap_ranger(id: StringName) -> bool:
-	return deployment != null and deployment.quick_tap(id, _use_ranger_skill)
+	return tap_unit(id)
 
 func confirm_ranger_target() -> bool:
-	return deployment != null and deployment.confirm_target(_use_ranger_skill)
+	return confirm_skill_target()
 
-func _use_ranger_skill(unit: DeploymentState.Placement, target: Vector2i) -> String:
-	return ranger_combat.use_skill(unit, target, deployment)
+func tap_unit(id: StringName) -> bool:
+	return deployment != null and deployment.quick_tap(id, _use_skill)
+
+func confirm_skill_target() -> bool:
+	return deployment != null and deployment.confirm_target(_use_skill)
+
+func _use_skill(unit: DeploymentState.Placement, target: Vector2i) -> String:
+	if unit.facility != null:
+		return facility_combat.use_skill(unit, target, deployment)
+	var interval := facility_combat.attack_interval(deployment, unit, clock.tick)
+	return ranger_combat.use_skill(unit, target, deployment, interval)
+
+func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackProfile.Kind) -> void:
+	var target: DeploymentState.Placement = deployment.placed.get(id)
+	if target == null:
+		return
+	var amount := facility_combat.enemy_damage(deployment, enemy, target, clock.tick)
+	deployment.receive_hit(id, amount, kind)
 
 func _damage_enemy(id: int, damage: int) -> void:
 	var enemy: BattleEnemy = active.get(id)
@@ -94,12 +116,41 @@ func _step(tick: int, seconds: float) -> void:
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
 		_spawn(tick)
 	if deployment != null:
+		for enemy: BattleEnemy in active.values():
+			_enemy_combat.advance(enemy, deployment, facility_combat, tick)
+		facility_combat.update_detection(deployment, tick)
+	_advance_heat(tick, seconds)
+	if not clock.is_running():
+		return
+	if deployment != null:
+		facility_combat.advance(deployment, tick)
+		if not clock.is_running():
+			return
 		for unit: DeploymentState.Placement in deployment.placed.values():
-			ranger_combat.basic_attack(unit, deployment, tick)
+			if unit.spec.is_ranger() and unit.spec.attack_damage > 0:
+				var interval := facility_combat.attack_interval(deployment, unit, tick)
+				ranger_combat.basic_attack(unit, deployment, tick, interval)
 	_try_finish_wave(tick)
 
+func _advance_heat(tick: int, seconds: float) -> void:
+	if _stage.heat_capacity <= 0.0:
+		return
+	var rate := 0.0
+	for enemy: BattleEnemy in active.values():
+		rate += enemy.definition.heat_per_second
+	if rate <= 0.0:
+		return
+	var scale := facility_combat.heat_multiplier(deployment, tick) if deployment != null else 1.0
+	heat += rate * seconds * scale
+	if heat > _stage.heat_capacity or is_equal_approx(heat, _stage.heat_capacity):
+		heat = 0.0
+		lose_integrity(_stage.heat_integrity_loss)
+
 func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:
-	seconds *= ranger_combat.movement_scale(enemy, tick)
+	var speed_scale := ranger_combat.movement_scale(enemy, tick)
+	if tick < enemy.sonic_slow_until:
+		speed_scale = minf(speed_scale, enemy.sonic_speed_scale)
+	seconds *= speed_scale
 	if deployment == null or enemy.definition.aerial:
 		return enemy.advance(seconds)
 	var next := enemy.distance + enemy.definition.tiles_per_second * seconds
@@ -120,8 +171,8 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	if not blocker.is_empty():
 		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
-		if tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
-			deployment.damage_ranger(blocker, enemy.definition.attack_damage)
+		if enemy.definition.attack_profile == null and tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
+			_receive_enemy_hit(enemy, blocker, EnemyAttackProfile.Kind.MELEE)
 			enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	return enemy.advance(seconds, stop_at)
 

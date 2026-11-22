@@ -10,7 +10,10 @@ extends Resource
 
 @export var aerial := false
 @export var technological := false
+@export var concealed := false
+@export var heat_per_second: float
 
 @export var max_hp := 100
 @export var attack_damage := 6
 @export var attack_seconds := 1.8
+@export var attack_profile: EnemyAttackProfile

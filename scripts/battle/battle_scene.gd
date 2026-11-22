@@ -6,6 +6,8 @@ signal operation_finished(report: Dictionary)
 
 @export var stage: BattleStage
 @export var sandbox := false
+@export var sandbox_title := "Offense sandbox"
+@export var sandbox_legend := "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
 var campaign := false
 var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
@@ -59,8 +61,8 @@ func _ready() -> void:
 		_defeat.hide()
 		%DeploymentController.preview_skills = false
 	if sandbox:
-		%MissionTitle.text = "Offense sandbox"
-		%Legend.text = "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
+		%MissionTitle.text = sandbox_title
+		%Legend.text = sandbox_legend
 		_back.text = "Exit sandbox"
 		_back.pressed.connect(get_tree().quit)
 		_opening.hide()
@@ -121,6 +123,9 @@ func _restart() -> void:
 	_total_enemies = stage.enemy_count()
 	_pause_overlay.hide()
 	_status.hide()
+	%HeatRow.visible = stage.heat_capacity > 0.0
+	if %HeatRow.visible:
+		%HeatGauge.max_value = stage.heat_capacity
 	_board.battle_map = stage.map
 	_board.routes = stage.routes
 	_board.battle = battle
@@ -179,6 +184,9 @@ func _defeat_first() -> void:
 func _refresh() -> void:
 	var placement: DeploymentState = %DeploymentController.state
 	_hud.render(battle, _total_enemies, placement.tokens)
+	if %HeatRow.visible:
+		%HeatGauge.value = battle.heat
+		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
 	if campaign:
 		_update_campaign_tip()
 	if battle.outcome != BattleSimulation.Outcome.RUNNING:

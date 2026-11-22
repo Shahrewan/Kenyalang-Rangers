@@ -5,11 +5,18 @@ var definition: BattleEnemyDefinition
 var route: BattleRoute
 var hp: int
 var next_attack_tick := 0
+var profile_ready_tick := 0
+var aim_target: StringName
+var aim_placement: DeploymentState.Placement
+var fire_tick := 0
 var blocked_by: StringName
 var distance := 0.0
 var focus_marked_until := 0
 var immobilized_until := 0
 var stunned_until := 0
+var sonic_slow_until := 0
+var sonic_speed_scale := 1.0
+var tower_detected := false
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute) -> void:
 	definition = enemy_definition
@@ -28,3 +35,6 @@ func grid_position() -> Vector2:
 
 func grid_cell() -> Vector2i:
 	return Vector2i(grid_position().round())
+
+func is_targetable() -> bool:
+	return not definition.concealed or tower_detected

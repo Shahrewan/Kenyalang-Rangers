@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+category = 2
+kind = 4
+role = 7
+chaos_threshold = 3000
+id = &"facility.sentry_tower"
+label = "Sentry Tower"
+cost = 65
+max_hp = 420
+build_seconds = 9.0
+build_cooldown_seconds = 15.0
+detection_radius = 4
+mount_range_bonus = 1

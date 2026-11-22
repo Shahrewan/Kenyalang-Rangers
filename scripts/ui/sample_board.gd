@@ -72,6 +72,7 @@ func _draw() -> void:
 	if deployments != null:
 		_draw_deployments()
 	if battle != null:
+		_draw_siege_warnings()
 		var stacked: Dictionary[StringName, int] = {}
 		for enemy: BattleEnemy in battle.active.values():
 			var center := origin + (enemy.grid_position() + Vector2(0.5, 0.5)) * cell
@@ -79,8 +80,9 @@ func _draw() -> void:
 				var slot: int = stacked.get(enemy.blocked_by, 0)
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
-			draw_circle(center, cell * 0.18, Color("#8B3E2C"), true, -1, true)
-			draw_circle(center, cell * 0.18, Color("#F3EBDD"), false, 2.0, true)
+			var visible_alpha := 1.0 if enemy.is_targetable() else 0.4
+			draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
+			draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
 			_draw_enemy_status(enemy, center, cell)
 			if show_combat_hp:
 				_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
@@ -102,12 +104,34 @@ func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> voi
 	if tick < enemy.stunned_until or tick < enemy.immobilized_until:
 		var color := Color("#F3D586") if tick < enemy.stunned_until else Color("#A3DDEA")
 		draw_circle(center, cell * 0.21, color, false, 3.0, true)
-	var tag := "A" if enemy.definition.aerial else ("T" if enemy.definition.technological else "")
+	elif tick < enemy.sonic_slow_until:
+		draw_circle(center, cell * 0.21, Color("#6FB9A4"), false, 2.0, true)
+	var tag := "?" if not enemy.is_targetable() else ("A" if enemy.definition.aerial else ("T" if enemy.definition.technological else ""))
 	if not tag.is_empty():
 		var font := get_theme_default_font()
 		var font_size := maxi(10, roundi(cell * 0.22))
 		var width := font.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		draw_string(font, center + Vector2(-width / 2.0, font_size / 3.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("#F3EBDD"))
+
+func _draw_siege_warnings() -> void:
+	if deployments == null:
+		return
+	var warned: Dictionary[StringName, bool] = {}
+	for enemy: BattleEnemy in battle.active.values():
+		var profile := enemy.definition.attack_profile
+		if profile == null or profile.kind != EnemyAttackProfile.Kind.SIEGE or warned.has(enemy.aim_target):
+			continue
+		var target: DeploymentState.Placement = deployments.placed.get(enemy.aim_target)
+		if target == null or target != enemy.aim_placement:
+			continue
+		warned[enemy.aim_target] = true
+		for cell in target.spec.footprint(target.anchor):
+			draw_rect(_tile_rect(cell), Color("#F28D72"), false, 3.0)
+		var center := cell_center(target.anchor)
+		var font := get_theme_default_font()
+		var size_px := maxi(11, roundi(tile_size() * 0.23))
+		var width := font.get_string_size("Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
+		draw_string(font, center + Vector2(-width * 0.5, -tile_size() * 0.23), "Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, Color("#FFD0BB"))
 
 func _draw_gate(at: Vector2, cell: float, label: String, color: Color) -> void:
 	draw_rect(Rect2(at, Vector2.ONE * cell).grow(-2.0), color)
@@ -145,12 +169,19 @@ func _draw_deployments() -> void:
 		var remaining := deployments.build_ticks_left(id)
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):
-			draw_rect(_tile_rect(cell).grow(-8.0), color)
+			var model := _tile_rect(cell).grow(-8.0)
+			if not unit.mount_tower.is_empty():
+				model = model.grow(-6.0)
+				model.position.y -= tile_size() * 0.36
+				color = Color("#4D7F73")
+			draw_rect(model, color)
 		if remaining > 0:
 			var font := get_theme_default_font()
 			var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
 			draw_string(font, cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
 		for cell in unit.spec.reserved(unit.anchor):
+			if unit.facility != null and remaining == 0:
+				draw_rect(_tile_rect(cell).grow(-13.0), color)
 			draw_rect(_tile_rect(cell), Color("#D3B681"), false, 2.0)
 		if unit.spec.is_melee():
 			_draw_direction(unit.anchor, unit.facing, Color("#F3EBDD"))
@@ -158,13 +189,27 @@ func _draw_deployments() -> void:
 			var center := cell_center(unit.anchor)
 			if unit.spec.footprint(unit.anchor).size() == 2:
 				center.x += tile_size() / 2.0
+			if not unit.mount_tower.is_empty():
+				center.y -= tile_size() * 0.44
+			if unit.facility != null and remaining == 0:
+				_draw_facility_label(unit, center)
 			_draw_health(center + Vector2(0, tile_size() * 0.40), tile_size() * 0.5, unit.hp, unit.spec.max_hp)
+
+func _draw_facility_label(unit: DeploymentState.Placement, center: Vector2) -> void:
+	var font := get_theme_default_font()
+	var area_width := tile_size() * unit.spec.footprint(unit.anchor).size() - 16.0
+	var size_px := maxi(10, roundi(tile_size() * 0.21))
+	var label := unit.spec.label
+	var measured := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
+	if measured > area_width:
+		size_px = maxi(9, floori(size_px * area_width / measured))
+	draw_string(font, center + Vector2(-area_width / 2.0, size_px * 0.35), label, HORIZONTAL_ALIGNMENT_CENTER, area_width, size_px, Color("#F3EBDD"))
 
 func _draw_health(center: Vector2, width: float, hp: int, maximum: int) -> void:
 	var bar := Rect2(center - Vector2(width / 2.0, 0), Vector2(width, 4))
 	draw_rect(bar, Color("#202825"))
 	bar.size.x *= clampf(float(hp) / maximum, 0.0, 1.0)
-	draw_rect(bar, Color("#C6DB87"))
+	draw_rect(bar, Color("#C6DB87") if hp == maximum else Color("#E8B957"))
 
 func _tile_rect(cell: Vector2i) -> Rect2:
 	return Rect2(grid_origin() + Vector2(cell) * tile_size(), Vector2.ONE * tile_size()).grow(-3.0)

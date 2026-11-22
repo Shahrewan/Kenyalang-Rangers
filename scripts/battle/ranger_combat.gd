@@ -33,8 +33,9 @@ func movement_scale(enemy: BattleEnemy, tick: int) -> float:
 				scale = minf(scale, field.speed_scale)
 	return scale
 
-func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> void:
-	if tick < unit.next_attack_tick or unit.spec.attack_damage <= 0:
+func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int, interval: int) -> void:
+	unit.update_basic_interval(interval, tick)
+	if tick < unit.next_attack_tick:
 		return
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
@@ -49,7 +50,7 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 			RangerSpec.AttackPattern.SPLASH:
 				var area := _square(_enemies[primary].grid_cell(), ranger.splash_radius)
 				victims = _inside(candidates, area)
-	unit.next_attack_tick = tick + CombatClock.ticks_for(unit.spec.attack_seconds)
+	unit.next_attack_tick = tick + interval
 	for id in victims:
 		var enemy := _enemies[id]
 		var bonus := 0
@@ -60,7 +61,7 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 				bonus += ranger.focused_damage_bonus_percent
 		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0))
 
-func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState) -> String:
+func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
@@ -88,7 +89,8 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 			for id in _inside(candidates, area):
 				hit.emit(id, skill.damage)
 		RangerSkill.Effect.FRONTAL_STUN:
-			unit.next_attack_tick = _clock.tick + CombatClock.ticks_for(unit.spec.attack_seconds)
+			unit.update_basic_interval(interval, _clock.tick)
+			unit.next_attack_tick = _clock.tick + interval
 			for id in candidates:
 				var enemy := _enemies[id]
 				enemy.stunned_until = maxi(enemy.stunned_until, until)
@@ -99,7 +101,7 @@ func _candidates(unit: DeploymentState.Placement, deployment: DeploymentState) -
 	var result: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
-		if deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+		if enemy.is_targetable() and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			result.append(id)
 	return result
 

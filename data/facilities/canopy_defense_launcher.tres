@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = 3
+category = 1
+id = &"facility.canopy_defense_launcher"
+label = "Canopy Defense Launcher"
+role = 6
+recruitment_stage = &"C2-03"
+cost = 60
+max_hp = 380
+build_seconds = 9.0
+build_cooldown_seconds = 15.0
+attack_range = 3
+attack_damage = 34
+attack_seconds = 3.5
+targets_aerial = true
+splash_radius = 2
+ground_damage_scale = 0.5
