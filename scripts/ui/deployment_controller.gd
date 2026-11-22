@@ -146,7 +146,7 @@ func _press(id: int, at: Vector2) -> bool:
 		return false
 	_hide_retreat()
 	var cell: Vector2i = _board.cell_at(at)
-	var actor: StringName = state.occupancy.get(cell, &"")
+	var actor := state.interaction_id(cell)
 	var card: DeploymentSpec
 	if _tray_clip().has_point(at):
 		for i in _cards.size():
@@ -202,7 +202,7 @@ func _release(at: Vector2) -> void:
 			var error := state.deploy(spec, cell, _board.facing_at(at))
 			_hint.text = "%s deployed." % spec.label if error.is_empty() else error
 		DeploymentGesture.Release.TAP:
-			if state.occupancy.get(cell, &"") == _gesture.unit:
+			if state.interaction_id(cell) == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
 					_show_retreat(_gesture.unit)
 				else:
@@ -273,7 +273,10 @@ func _cancel_skill() -> void:
 func _skill_fired(id: StringName, target: Vector2i) -> void:
 	var unit: DeploymentState.Placement = state.placed[id]
 	if unit.facility != null:
-		_hint.text = "Medic kit used."
+		if unit.facility.role == FacilitySpec.Role.SPECIALIST_CALLTOWER:
+			_hint.text = "Next Specialist deployment costs %d fewer Tokens." % state.specialist_discount
+		else:
+			_hint.text = "Medic kit used."
 		return
 	if unit.ranger != null:
 		_hint.text = "%s used %s." % [unit.spec.label, unit.ranger.active_skill.label]
@@ -288,7 +291,7 @@ func _skill_fired(id: StringName, target: Vector2i) -> void:
 	_hint.text = "%s skill activated." % unit.spec.label
 
 func _refresh() -> void:
-	if _retreat.visible and _retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0:
+	if _retreat.visible and (not state.placed.has(_retreat_unit) or (_retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0)):
 		_hide_retreat()
 	var armed := not state.armed.is_empty()
 	_confirm.visible = armed
@@ -317,8 +320,16 @@ func _refresh() -> void:
 	_board.queue_redraw()
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
-	if unit.facility != null and unit.facility.role == FacilitySpec.Role.MEDIC_CABIN:
-		return "%d/%d kits" % [unit.stock, unit.facility.stock_capacity]
+	if unit.facility != null:
+		match unit.facility.role:
+			FacilitySpec.Role.MEDIC_CABIN:
+				return "%d/%d kits" % [unit.stock, unit.facility.stock_capacity]
+			FacilitySpec.Role.SENTRY_TOWER:
+				return "Mount open" if unit.mounted_ranger.is_empty() else "Ranger mounted"
+			FacilitySpec.Role.SPECIALIST_CALLTOWER:
+				if state.specialist_discount > 0:
+					return "−%d Tokens next Specialist" % state.specialist_discount
+				return "Discount ready" if unit.stock > 0 else "Preparing discount"
 	if unit.ranger == null or unit.ranger.active_skill == null:
 		return "Deployed"
 	var skill := unit.ranger.active_skill

@@ -8,6 +8,9 @@ const DISPATCH: FacilitySpec = preload("res://data/facilities/dispatch_relay.tre
 const SONIC: FacilitySpec = preload("res://data/facilities/sonic_turret.tres")
 const ELECTRIC: FacilitySpec = preload("res://data/facilities/electric_pulse_turret.tres")
 const CANOPY: FacilitySpec = preload("res://data/facilities/canopy_defense_launcher.tres")
+const TOWER: FacilitySpec = preload("res://data/facilities/sentry_tower.tres")
+const FIREBREAK: FacilitySpec = preload("res://data/facilities/firebreak_beacon.tres")
+const CALLTOWER: FacilitySpec = preload("res://data/facilities/specialist_calltower.tres")
 const SCOUT: RangerSpec = preload("res://data/rangers/scout_sniper.tres")
 const GUARD: RangerSpec = preload("res://data/rangers/guard_veteran.tres")
 const MECHANIC: RangerSpec = preload("res://data/rangers/outpost_mechanic.tres")
@@ -26,6 +29,9 @@ func _run() -> void:
 	_sonic_turret()
 	_electric_turret()
 	_canopy_launcher()
+	_tower_slots_and_detection()
+	_firebreak_heat()
+	_specialist_discount()
 	print("Facility checks complete. Failures: ", _failed)
 	quit(0 if _failed == 0 else 1)
 
@@ -232,9 +238,80 @@ func _canopy_launcher() -> void:
 	_check(air.hp == 466 and near.hp == 483 and leading.hp == 500, "Canopy centers its splash on Aerial priority with 34 aerial and 17 ground damage")
 	_check(state.placed[CANOPY.id].next_attack_tick == 750, "Canopy schedules its next attack after 3.5 combat seconds")
 
-func _encounter() -> BattleSimulation:
+func _tower_slots_and_detection() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	var anchor := Vector2i(5, 2)
+	var above := anchor + Vector2i.UP
+	_check(not state.deploy(TOWER, Vector2i(5, 0), 1).is_empty() and state.tokens == 300, "Tower placement requires in-bounds clearance above")
+	state.deploy(TOWER, anchor, 1)
+	var tower := state.placed[TOWER.id]
+	_check(state.occupancy.size() == 2 and state.occupancy[anchor] == TOWER.id and state.occupancy[above] == TOWER.id, "Tower occupies its base and reserves the cell above")
+	_check(not state.deploy(SCOUT, anchor, 1).is_empty() and state.tokens == 235, "The mount is unavailable until the Tower is complete")
+	var hidden := _enemy(battle, 100, 1.2)
+	hidden.definition.concealed = true
+	_frames(battle, 539)
+	_check(not hidden.is_targetable() and hidden.hp == 500, "An unfinished Tower provides no detection")
+	_frames(battle, 1)
+	_check(hidden.is_targetable() and hidden.hp == 500, "A completed Tower reveals without dealing damage")
+	_check(not state.deploy(SCOUT, above, 1).is_empty() and state.deploy(SCOUT, anchor, 1).is_empty(), "The base mounts an eligible Ranger and the clearance cell stays reserved")
+	var rider := state.placed[SCOUT.id]
+	_check(tower.mounted_ranger == SCOUT.id and rider.mount_tower == TOWER.id and state.interaction_id(anchor) == SCOUT.id, "The mount shares the elevated base and receives Ranger taps")
+	_check(not state.deploy(MECHANIC, anchor, 1).is_empty() and state.occupancy.size() == 2 and state.tokens == 223, "The mount cannot accept a second Ranger")
+	_frames(battle, 1)
+	_check(hidden.hp == 476 and hidden.grid_cell().x == 2, "The mounted Ranger hits from its extended square range")
+	state.receive_hit(TOWER.id, 420, EnemyAttackProfile.Kind.SIEGE)
+	_check(not state.occupancy.has(above) and state.occupancy[anchor] == SCOUT.id and rider.mount_tower.is_empty() and rider.hp == 100, "Siege destruction frees clearance and dismounts the Ranger onto the legal elevated base")
+	_frames(battle, 1)
+	_check(not hidden.is_targetable() and not state.can_attack(rider, hidden.grid_cell(), false), "Tower destruction removes detection and the range extension")
+
+func _firebreak_heat() -> void:
+	var battle := _encounter(20.0)
+	var state := battle.deployment
+	state.deploy(FIREBREAK, Vector2i(1, 0), 1)
+	var source := _enemy(battle, 100, 1.0)
+	source.definition.heat_per_second = 10.0
+	_frames(battle, 60)
+	_check(is_equal_approx(battle.heat, 10.0), "An unfinished Firebreak does not slow Heat buildup")
+	source.definition.heat_per_second = 0.0
+	_frames(battle, 300)
+	source.definition.heat_per_second = 10.0
+	_frames(battle, 60)
+	_check(is_equal_approx(battle.heat, 16.0), "Firebreak reduces Heat accrual by 40 percent without eliminating it")
+	battle.clock.dialogue_open = true
+	_frames(battle, 200)
+	_check(is_equal_approx(battle.heat, 16.0) and battle.integrity == 100, "Dialogue freezes Heat and its Integrity pressure")
+	battle.clock.dialogue_open = false
+	battle.clock.set_speed(2)
+	_frames(battle, 20)
+	_check(is_zero_approx(battle.heat) and battle.integrity == 85 and state.placed[FIREBREAK.id].hp == 220, "At capacity Heat resets and removes Integrity while preserving Facility HP")
+
+func _specialist_discount() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(CALLTOWER, Vector2i(1, 0), 1)
+	var calltower := state.placed[CALLTOWER.id]
+	_frames(battle, 959)
+	_check(not battle.tap_unit(CALLTOWER.id) and state.specialist_discount == 0, "Calltower discount needs completed construction and a stock cycle")
+	_frames(battle, 1)
+	_check(battle.tap_unit(CALLTOWER.id) and state.specialist_discount == 8 and calltower.stock == 0, "Tap claims one stored Specialist discount")
+	_frames(battle, 600)
+	_check(not battle.tap_unit(CALLTOWER.id) and calltower.stock == 1 and state.specialist_discount == 8, "A second stored discount cannot stack with a pending one")
+	var specialist := GUARD.duplicate() as RangerSpec
+	specialist.id = &"qa.specialist"
+	specialist.ranger_class = RangerSpec.RangerClass.SPECIALIST
+	specialist.cost = 18
+	_check(state.cost_for(specialist) == 10 and state.cost_for(GUARD) == 16, "Preview discounts only a Specialist by eight Tokens")
+	state.deploy(GUARD, Vector2i(3, 1), 1)
+	var balance := state.tokens
+	_check(not state.deploy(specialist, Vector2i(5, 2), 1).is_empty() and state.tokens == balance and state.specialist_discount == 8, "An ordinary placement or invalid Specialist drop leaves the claim intact")
+	_check(state.deploy(specialist, Vector2i(6, 3), 1).is_empty() and state.tokens == balance - 10 and state.specialist_discount == 0 and state.cost_for(specialist) == 18, "Only a successful Specialist deployment consumes the discount")
+
+func _encounter(heat_capacity := 0.0) -> BattleSimulation:
 	var stage := STAGE.duplicate() as BattleStage
 	stage.opening_delay_seconds = 120.0
+	stage.heat_capacity = heat_capacity
+	stage.heat_integrity_loss = 15 if heat_capacity > 0.0 else 0
 	var battle := BattleSimulation.new(stage)
 	battle.deployment = DeploymentState.new(stage.map, battle.clock, 300, null, [SCOUT.records_enhancement])
 	return battle

@@ -99,7 +99,7 @@ func _candidates(unit: DeploymentState.Placement, deployment: DeploymentState) -
 	var result: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
-		if deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+		if enemy.is_targetable() and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			result.append(id)
 	return result
 

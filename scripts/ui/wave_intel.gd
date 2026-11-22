@@ -35,6 +35,12 @@ static func enemy_details(enemy: BattleEnemyDefinition) -> String:
 	var movement := "Aerial" if enemy.aerial else "Ground"
 	if enemy.technological:
 		movement += " · Technological"
+	if enemy.concealed:
+		movement += " · Concealed"
+	if enemy.heat_per_second > 0.0:
+		movement += " · Builds Heat"
+	if enemy.attack_profile != null and enemy.attack_profile.kind == EnemyAttackProfile.Kind.SIEGE:
+		movement += " · Siege"
 	return "%d HP  ·  Danger %d  ·  %s  ·  −%d Integrity on escape" % [
 		enemy.max_hp, enemy.danger, movement, enemy.escape_penalty,
 	]

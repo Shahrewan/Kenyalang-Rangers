@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+category = 2
+kind = 3
+role = 9
+chaos_threshold = 2000
+id = &"facility.specialist_calltower"
+label = "Specialist Calltower"
+cost = 34
+max_hp = 240
+build_seconds = 6.0
+build_cooldown_seconds = 12.0
+skill = 1
+work_seconds = 10.0
+stock_capacity = 1
+discount_tokens = 8

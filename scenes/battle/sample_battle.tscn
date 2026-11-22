@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/sample_board.gd" id="1"]
 
@@ -14,6 +14,12 @@
 [ext_resource type="Script" path="res://scripts/ui/battle_hud.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/ui/battle_pause_overlay.gd" id="9"]
 [ext_resource type="Script" path="res://scripts/ui/token_ticket.gd" id="10"]
+
+[sub_resource type="StyleBoxFlat" id="HeatBackground"]
+bg_color = Color(0.204, 0.239, 0.196, 1)
+
+[sub_resource type="StyleBoxFlat" id="HeatFill"]
+bg_color = Color(0.91, 0.66, 0.33, 1)
 
 [node name="SampleBattle" type="Control"]
 theme = ExtResource("7")
@@ -96,6 +102,29 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(72, 54)
 text = "1×"
+
+[node name="HeatRow" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeatLabel" type="Label" parent="Content/HeatRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Heat 0/100"
+
+[node name="HeatGauge" type="ProgressBar" parent="Content/HeatRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("HeatBackground")
+theme_override_styles/fill = SubResource("HeatFill")
+show_percentage = false
 
 [node name="Board" type="Control" parent="Content"]
 unique_name_in_owner = true

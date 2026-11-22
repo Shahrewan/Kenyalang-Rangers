@@ -121,6 +121,9 @@ func _restart() -> void:
 	_total_enemies = stage.enemy_count()
 	_pause_overlay.hide()
 	_status.hide()
+	%HeatRow.visible = stage.heat_capacity > 0.0
+	if %HeatRow.visible:
+		%HeatGauge.max_value = stage.heat_capacity
 	_board.battle_map = stage.map
 	_board.routes = stage.routes
 	_board.battle = battle
@@ -179,6 +182,9 @@ func _defeat_first() -> void:
 func _refresh() -> void:
 	var placement: DeploymentState = %DeploymentController.state
 	_hud.render(battle, _total_enemies, placement.tokens)
+	if %HeatRow.visible:
+		%HeatGauge.value = battle.heat
+		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
 	if campaign:
 		_update_campaign_tip()
 	if battle.outcome != BattleSimulation.Outcome.RUNNING:

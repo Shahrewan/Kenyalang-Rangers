@@ -10,6 +10,7 @@ enum Outcome { RUNNING, WON, LOST }
 var deployment: DeploymentState
 var clock := CombatClock.new()
 var integrity := 100
+var heat := 0.0
 var defeated := 0
 var escaped := 0
 var outcome := Outcome.RUNNING
@@ -108,6 +109,11 @@ func _step(tick: int, seconds: float) -> void:
 	if deployment != null:
 		for enemy: BattleEnemy in active.values():
 			_enemy_combat.advance(enemy, deployment, tick)
+		facility_combat.update_detection(deployment, tick)
+	_advance_heat(tick, seconds)
+	if not clock.is_running():
+		return
+	if deployment != null:
 		facility_combat.advance(deployment, tick)
 		if not clock.is_running():
 			return
@@ -115,6 +121,18 @@ func _step(tick: int, seconds: float) -> void:
 			if unit.spec.is_ranger():
 				ranger_combat.basic_attack(unit, deployment, tick)
 	_try_finish_wave(tick)
+
+func _advance_heat(tick: int, seconds: float) -> void:
+	if _stage.heat_capacity <= 0.0:
+		return
+	var rate := 0.0
+	for enemy: BattleEnemy in active.values():
+		rate += enemy.definition.heat_per_second
+	var scale := facility_combat.heat_multiplier(deployment, tick) if deployment != null else 1.0
+	heat += rate * seconds * scale
+	if heat > _stage.heat_capacity or is_equal_approx(heat, _stage.heat_capacity):
+		heat = 0.0
+		lose_integrity(_stage.heat_integrity_loss)
 
 func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:
 	var speed_scale := ranger_combat.movement_scale(enemy, tick)

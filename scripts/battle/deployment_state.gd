@@ -20,6 +20,8 @@ class Placement:
 	var next_attack_tick := 0
 	var burst_remaining := 0
 	var burst_target := -1
+	var mounted_ranger: StringName
+	var mount_tower: StringName
 	var build_deadline: int
 	var next_payout_tick: int
 	var yield_remainder := 0
@@ -63,6 +65,7 @@ var clock: CombatClock
 var tokens: int
 var rules: LogisticsRules
 var posts_deployed := 0
+var specialist_discount := 0
 var placed: Dictionary[StringName, Placement] = {}
 var occupancy: Dictionary[Vector2i, StringName] = {}
 var armed: StringName
@@ -81,10 +84,20 @@ func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, ope
 
 func cost_for(spec: DeploymentSpec) -> int:
 	if not spec.logistics_post:
-		return spec.cost
+		return maxi(0, spec.cost - specialist_discount) if _is_specialist(spec) else spec.cost
 	if posts_deployed == 0:
 		return 0
 	return rules.later_post_base_cost + (posts_deployed - 1) * rules.later_post_cost_step
+
+func claim_specialist_discount(amount: int) -> bool:
+	if not clock.is_running() or specialist_discount > 0 or amount <= 0:
+		return false
+	specialist_discount = amount
+	return true
+
+func _is_specialist(spec: DeploymentSpec) -> bool:
+	var ranger := spec as RangerSpec
+	return ranger != null and ranger.ranger_class == RangerSpec.RangerClass.SPECIALIST
 
 func build_ticks_left(id: StringName) -> int:
 	var unit: Placement = placed.get(id)
@@ -133,10 +146,11 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 		return "This deployment is cooling down."
 	var bounds := Rect2i(Vector2i.ZERO, map.size)
 	var required := BattleMap.Tile.GROUND if spec.is_melee() else BattleMap.Tile.ELEVATED
+	var tower := _mountable_tower(spec, anchor)
 	for cell in spec.footprint(anchor):
 		if not bounds.has_point(cell):
 			return "The footprint extends off the board."
-		if occupancy.has(cell):
+		if occupancy.has(cell) and (tower == null or cell != anchor):
 			return "A footprint cell is occupied."
 		if map.tile_at(cell) != required:
 			return "Ground tiles required." if spec.is_melee() else "Elevated tiles required."
@@ -159,14 +173,42 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 		posts_deployed += 1
 		id = StringName("%s#%d" % [spec.id, posts_deployed])
 	var build_ticks := 0 if first_post or spec.is_ranger() else CombatClock.ticks_for(spec.build_seconds)
-	for cell in spec.footprint(anchor) + spec.reserved(anchor):
-		occupancy[cell] = id
-	placed[id] = Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks, _enhancements)
+	var unit := Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks, _enhancements)
+	var tower := _mountable_tower(spec, anchor)
+	if tower == null:
+		for cell in spec.footprint(anchor) + spec.reserved(anchor):
+			occupancy[cell] = id
+	else:
+		unit.mount_tower = occupancy[anchor]
+		tower.mounted_ranger = id
+	placed[id] = unit
 	tokens -= cost
+	if _is_specialist(spec):
+		specialist_discount = 0
 	if not first_post and not spec.is_ranger():
 		_ready_tick[spec.id] = clock.tick + CombatClock.ticks_for(spec.build_cooldown_seconds)
 	cancel_skill()
 	return ""
+
+func interaction_id(cell: Vector2i) -> StringName:
+	var id: StringName = occupancy.get(cell, &"")
+	var tower: Placement = placed.get(id)
+	if tower != null and cell == tower.anchor and not tower.mounted_ranger.is_empty():
+		return tower.mounted_ranger
+	return id
+
+func _completed_tower(anchor: Vector2i) -> Placement:
+	var id: StringName = occupancy.get(anchor, &"")
+	var unit: Placement = placed.get(id)
+	if unit != null and unit.anchor == anchor and unit.facility != null and unit.facility.role == FacilitySpec.Role.SENTRY_TOWER and unit.build_deadline <= clock.tick:
+		return unit
+	return null
+
+func _mountable_tower(spec: DeploymentSpec, anchor: Vector2i) -> Placement:
+	if spec.kind != DeploymentSpec.Kind.ELEVATED or spec.attack_damage <= 0:
+		return null
+	var tower := _completed_tower(anchor)
+	return tower if tower != null and tower.mounted_ranger.is_empty() else null
 
 func cancel_construction(id: StringName) -> bool:
 	if not clock.is_running() or build_ticks_left(id) == 0:
@@ -178,7 +220,15 @@ func cancel_construction(id: StringName) -> bool:
 
 func _release_cells(id: StringName, unit: Placement) -> void:
 	for cell in unit.spec.footprint(unit.anchor) + unit.spec.reserved(unit.anchor):
-		occupancy.erase(cell)
+		if occupancy.get(cell, &"") == id:
+			occupancy.erase(cell)
+	var tower: Placement = placed.get(unit.mount_tower)
+	if tower != null:
+		tower.mounted_ranger = &""
+	var mounted: Placement = placed.get(unit.mounted_ranger)
+	if mounted != null:
+		mounted.mount_tower = &""
+		occupancy[unit.anchor] = unit.mounted_ranger
 	placed.erase(id)
 	if armed == id:
 		cancel_skill()
@@ -228,17 +278,22 @@ func _restore_hp(unit: Placement, amount: int) -> int:
 
 func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	if spec.attack_range <= 0:
+	var reach := spec.attack_range
+	if reach <= 0:
 		return cells
+	if spec.kind == DeploymentSpec.Kind.ELEVATED and spec.attack_damage > 0:
+		var tower := _completed_tower(anchor)
+		if tower != null and (tower.mounted_ranger.is_empty() or tower.mounted_ranger == spec.id):
+			reach += tower.facility.mount_range_bonus
 	if spec.is_melee():
 		var front := anchor
 		if facing > 0 and spec.kind == DeploymentSpec.Kind.GROUND_PAIR:
 			front += Vector2i.RIGHT
-		for distance in range(1, spec.attack_range + 1):
+		for distance in range(1, reach + 1):
 			cells.append(front + Vector2i(facing * distance, 0))
 	else:
-		for y in range(-spec.attack_range, spec.attack_range + 1):
-			for x in range(-spec.attack_range, spec.attack_range + 1):
+		for y in range(-reach, reach + 1):
+			for x in range(-reach, reach + 1):
 				cells.append(anchor + Vector2i(x, y))
 	var bounds := Rect2i(Vector2i.ZERO, map.size)
 	return cells.filter(func(cell: Vector2i) -> bool: return bounds.has_point(cell))

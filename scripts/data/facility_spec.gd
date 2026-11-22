@@ -13,6 +13,7 @@ enum Role {
 @export var role: Role
 @export var recruitment_stage: StringName
 @export var chaos_threshold: int
+@export var mission_supply_stage: StringName
 
 @export_group("Resource effects")
 @export var work_seconds: float
@@ -28,3 +29,9 @@ enum Role {
 @export var burst_step_seconds: float
 @export var technological_bonus_percent: int
 @export var ground_damage_scale := 1.0
+
+@export_group("Strategist effects")
+@export var detection_radius: int
+@export var mount_range_bonus: int
+@export var heat_slow_percent: int
+@export var discount_tokens: int

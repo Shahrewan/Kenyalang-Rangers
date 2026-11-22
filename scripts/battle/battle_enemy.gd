@@ -15,6 +15,7 @@ var immobilized_until := 0
 var stunned_until := 0
 var sonic_slow_until := 0
 var sonic_speed_scale := 1.0
+var tower_detected := false
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute) -> void:
 	definition = enemy_definition
@@ -33,3 +34,6 @@ func grid_position() -> Vector2:
 
 func grid_cell() -> Vector2i:
 	return Vector2i(grid_position().round())
+
+func is_targetable() -> bool:
+	return not definition.concealed or tower_detected

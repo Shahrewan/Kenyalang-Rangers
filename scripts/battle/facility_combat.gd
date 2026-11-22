@@ -21,7 +21,9 @@ func advance(deployment: DeploymentState, tick: int) -> void:
 			_repair(unit, deployment, tick)
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState) -> String:
-	var target_id: StringName = deployment.occupancy.get(target, &"")
+	if unit.facility.role == FacilitySpec.Role.SPECIALIST_CALLTOWER:
+		return "" if deployment.claim_specialist_discount(unit.facility.discount_tokens) else "A Specialist discount is already ready."
+	var target_id := deployment.interaction_id(target)
 	if deployment.heal_ranger(target_id, unit.facility.heal_per_kit) == 0:
 		return "Choose an injured Ranger for the kit."
 	return ""
@@ -31,7 +33,7 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 	unit.next_utility_tick = tick + maxi(1, CombatClock.ticks_for(spec.work_seconds))
 	var reduction := CombatClock.ticks_for(spec.cooldown_reduction_seconds)
 	match spec.role:
-		FacilitySpec.Role.MEDIC_CABIN:
+		FacilitySpec.Role.MEDIC_CABIN, FacilitySpec.Role.SPECIALIST_CALLTOWER:
 			unit.stock = mini(spec.stock_capacity, unit.stock + 1)
 		FacilitySpec.Role.SKILL_RELAY:
 			for ally: DeploymentState.Placement in deployment.placed.values():
@@ -40,6 +42,27 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 					ally.recharge_skill(tick)
 		FacilitySpec.Role.DISPATCH_RELAY:
 			deployment.reduce_deployment_cooldowns(reduction)
+
+func update_detection(deployment: DeploymentState, tick: int) -> void:
+	for enemy: BattleEnemy in _enemies.values():
+		if not enemy.definition.concealed:
+			continue
+		enemy.tower_detected = false
+		var cell := enemy.grid_cell()
+		for unit: DeploymentState.Placement in deployment.placed.values():
+			if unit.facility == null or tick < unit.build_deadline or unit.facility.role != FacilitySpec.Role.SENTRY_TOWER:
+				continue
+			var delta := (cell - unit.anchor).abs()
+			if maxi(delta.x, delta.y) <= unit.facility.detection_radius:
+				enemy.tower_detected = true
+				break
+
+func heat_multiplier(deployment: DeploymentState, tick: int) -> float:
+	var strongest := 0
+	for unit: DeploymentState.Placement in deployment.placed.values():
+		if unit.facility != null and tick >= unit.build_deadline and unit.facility.role == FacilitySpec.Role.FIREBREAK:
+			strongest = maxi(strongest, unit.facility.heat_slow_percent)
+	return maxf(0.01, (100 - strongest) / 100.0)
 
 func _repair(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> void:
 	var target: StringName
@@ -103,7 +126,7 @@ func _turret_targets(unit: DeploymentState.Placement, deployment: DeploymentStat
 	var targets: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
-		if deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+		if enemy.is_targetable() and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			targets.append(id)
 	return targets
 

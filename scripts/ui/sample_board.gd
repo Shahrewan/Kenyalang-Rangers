@@ -79,8 +79,9 @@ func _draw() -> void:
 				var slot: int = stacked.get(enemy.blocked_by, 0)
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
-			draw_circle(center, cell * 0.18, Color("#8B3E2C"), true, -1, true)
-			draw_circle(center, cell * 0.18, Color("#F3EBDD"), false, 2.0, true)
+			var visible_alpha := 1.0 if enemy.is_targetable() else 0.4
+			draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
+			draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
 			_draw_enemy_status(enemy, center, cell)
 			if show_combat_hp:
 				_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
@@ -102,7 +103,7 @@ func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> voi
 	if tick < enemy.stunned_until or tick < enemy.immobilized_until:
 		var color := Color("#F3D586") if tick < enemy.stunned_until else Color("#A3DDEA")
 		draw_circle(center, cell * 0.21, color, false, 3.0, true)
-	var tag := "A" if enemy.definition.aerial else ("T" if enemy.definition.technological else "")
+	var tag := "?" if not enemy.is_targetable() else ("A" if enemy.definition.aerial else ("T" if enemy.definition.technological else ""))
 	if not tag.is_empty():
 		var font := get_theme_default_font()
 		var font_size := maxi(10, roundi(cell * 0.22))
@@ -145,12 +146,19 @@ func _draw_deployments() -> void:
 		var remaining := deployments.build_ticks_left(id)
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):
-			draw_rect(_tile_rect(cell).grow(-8.0), color)
+			var model := _tile_rect(cell).grow(-8.0)
+			if not unit.mount_tower.is_empty():
+				model = model.grow(-6.0)
+				model.position.y -= tile_size() * 0.36
+				color = Color("#4D7F73")
+			draw_rect(model, color)
 		if remaining > 0:
 			var font := get_theme_default_font()
 			var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
 			draw_string(font, cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
 		for cell in unit.spec.reserved(unit.anchor):
+			if unit.facility != null and remaining == 0:
+				draw_rect(_tile_rect(cell).grow(-13.0), color)
 			draw_rect(_tile_rect(cell), Color("#D3B681"), false, 2.0)
 		if unit.spec.is_melee():
 			_draw_direction(unit.anchor, unit.facing, Color("#F3EBDD"))
@@ -158,6 +166,8 @@ func _draw_deployments() -> void:
 			var center := cell_center(unit.anchor)
 			if unit.spec.footprint(unit.anchor).size() == 2:
 				center.x += tile_size() / 2.0
+			if not unit.mount_tower.is_empty():
+				center.y -= tile_size() * 0.44
 			_draw_health(center + Vector2(0, tile_size() * 0.40), tile_size() * 0.5, unit.hp, unit.spec.max_hp)
 
 func _draw_health(center: Vector2, width: float, hp: int, maximum: int) -> void:
