@@ -3,11 +3,14 @@ extends Control
 
 signal abandon_requested
 signal operation_finished(report: Dictionary)
+signal sandbox_exit_requested
 
 @export var stage: BattleStage
 @export var sandbox := false
 @export var sandbox_title := "Offense sandbox"
 @export var sandbox_legend := "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
+var sandbox_return_label := "Exit sandbox"
+var sandbox_practice_hits := false
 var campaign := false
 var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
@@ -63,10 +66,12 @@ func _ready() -> void:
 	if sandbox:
 		%MissionTitle.text = sandbox_title
 		%Legend.text = sandbox_legend
-		_back.text = "Exit sandbox"
-		_back.pressed.connect(get_tree().quit)
+		_back.text = sandbox_return_label
+		_back.pressed.connect(_leave_sandbox)
 		_opening.hide()
-		_defeat.hide()
+		_defeat.visible = sandbox_practice_hits
+		if sandbox_practice_hits:
+			_defeat.text = "Practice hit"
 		%DeploymentController.preview_skills = false
 		StoryUI.size_buttons(self)
 	_opening.add_item("First Contact")
@@ -200,9 +205,35 @@ func _toggle_speed() -> void:
 	_refresh()
 
 func _defeat_first() -> void:
-	if not battle.active.is_empty():
+	if sandbox_practice_hits:
+		_practice_hit()
+	elif not battle.active.is_empty():
 		battle.defeat_enemy(battle.active.keys()[0])
 	_refresh()
+
+func _leave_sandbox() -> void:
+	if sandbox_exit_requested.has_connections():
+		sandbox_exit_requested.emit()
+	else:
+		get_tree().quit()
+
+func _active_boss_id() -> int:
+	for id: int in battle.active:
+		if battle.active[id].boss != null:
+			return id
+	return 0
+
+func _practice_hit() -> void:
+	var id := _active_boss_id()
+	if id == 0:
+		return
+	var enemy := battle.active[id]
+	var goal := 0
+	if enemy.phase_index < enemy.boss.phases.size():
+		var phase := enemy.boss.phases[enemy.phase_index]
+		goal = floori(enemy.boss.max_hp * phase.hp_percent / 100.0)
+	if enemy.hp > goal:
+		battle.damage_enemy(id, enemy.hp - goal + enemy.active_shield(battle.clock.tick))
 
 func _refresh() -> void:
 	var placement: DeploymentState = %DeploymentController.state
@@ -223,6 +254,8 @@ func _refresh() -> void:
 	_speed.disabled = clock.stopped or clock.dialogue_open or ((campaign or sandbox) and clock.paused)
 	_dialogue_button.disabled = clock.stopped or clock.dialogue_open
 	_defeat.disabled = not clock.is_running() or battle.active.is_empty()
+	if sandbox_practice_hits and _active_boss_id() == 0:
+		_defeat.disabled = true
 	_retry.disabled = clock.dialogue_open
 	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open

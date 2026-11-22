@@ -15,6 +15,9 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 			var shield := enemy.active_shield(live.clock.tick)
 			if shield > 0:
 				text += "  ·  %d temporary HP" % shield
+			var mark := enemy.damage_mark_bonus(live.clock.tick)
+			if mark > 0:
+				text += "  ·  +%d%% damage taken" % mark
 			field.add_child(StoryUI.label(text, 18))
 	for index in stage.waves.size():
 		var wave := stage.waves[index]

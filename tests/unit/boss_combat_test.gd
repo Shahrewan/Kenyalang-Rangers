@@ -8,6 +8,7 @@ const ARENA: BattleStage = preload("res://tests/fixtures/c11_facility_stage.tres
 const BARRICADE: RangerSpec = preload("res://tests/fixtures/c11_barricade_target.tres")
 const SONIC: FacilitySpec = preload("res://data/facilities/sonic_turret.tres")
 const FIREBREAK: FacilitySpec = preload("res://data/facilities/firebreak_beacon.tres")
+const SANDBOX := preload("res://scenes/qa/enemy_sandbox.tscn")
 
 var _failed := 0
 
@@ -21,6 +22,7 @@ func _run() -> void:
 	_captain_capture()
 	_foreman_protection()
 	_leader_phases()
+	await _sandbox_flow()
 	print("Boss checks complete. Failures: ", _failed)
 	quit(0 if _failed == 0 else 1)
 
@@ -170,6 +172,55 @@ func _leader_phases() -> void:
 	for id in battle.active.keys():
 		battle.damage_enemy(id, battle.active[id].hp)
 	_check(battle.is_perfect() and battle.defeated == 4, "The final Leader wave finishes after the last Runner")
+
+func _sandbox_flow() -> void:
+	root.size = Vector2i(960, 540)
+	var sandbox := SANDBOX.instantiate()
+	root.add_child(sandbox)
+	await process_frame
+	await process_frame
+	var content := sandbox.get_node("%Content")
+	var chooser: OptionButton = content.find_child("EncounterChoice", true, false)
+	_check(chooser.item_count == 19 and chooser.selected == 0, "Sandbox presents the full roster and eighteen named encounters")
+	chooser.select(12)
+	chooser.item_selected.emit(12)
+	content.find_child("StartEncounter", true, false).pressed.emit()
+	var field := content.get_child(0) as BattleScene
+	field.set_physics_process(false)
+	_check(field.stage.enemy_count() == 1 and field.stage.waves[0].groups[0].enemy.enemy_id == &"E12" and not field.get_node("%DefeatEnemy").visible, "A standard selection launches its real scenario with practice hits hidden")
+	field.get_node("%BackToMenu").pressed.emit()
+	chooser = content.find_child("EncounterChoice", true, false)
+	_check(chooser.selected == 12, "Returning from battle retains the selected enemy")
+	chooser.select(16)
+	chooser.item_selected.emit(16)
+	content.find_child("StartEncounter", true, false).pressed.emit()
+	field = content.get_child(0) as BattleScene
+	field.set_physics_process(false)
+	await process_frame
+	await process_frame
+	var battle := field.battle
+	var practice: Button = field.get_node("%DefeatEnemy")
+	var overlay: Control = field.get_node("%Dialogue")
+	var board: Control = field.get_node("%Board")
+	var tray: Control = field.get_node("%TrayScroll")
+	_check(board.get_global_rect().end.y <= tray.get_global_rect().position.y and practice.disabled, "Small landscape keeps the trial tray separate and locks practice before spawn")
+	_frames(battle, 361)
+	_check(overlay.visible and battle.clock.dialogue_open and practice.disabled, "A sandbox boss intro pauses the scene with its controls unavailable")
+	field.get_node("%Continue").pressed.emit()
+	practice.pressed.emit()
+	_check(battle.active[1].hp == 1750 and battle.active[1].phase_index == 0, "Practice hit applies actual damage up to the next authored threshold")
+	field._physics_process(0.0)
+	var tick := battle.clock.tick
+	_frames(battle, 120)
+	_check(overlay.visible and battle.clock.tick == tick and battle.expected_enemy_count == 3 and battle.active.size() == 1, "Phase dialogue holds the scheduled sandbox reinforcements")
+	field.get_node("%Skip").pressed.emit()
+	_frames(battle, 60)
+	_check(battle.active[2].definition.enemy_id == &"E02", "Skipping phase dialogue resumes the scheduled arrival")
+	practice.pressed.emit()
+	_check(battle.captured_boss_id == CAPTAIN.enemy_id and field.get_node("%Status").text == "Boss captured", "The sandbox presents its real capture outcome")
+	field.get_node("%BackToMenu").pressed.emit()
+	_check(content.find_child("EncounterChoice", true, false).selected == 16, "Roster navigation keeps the chosen boss available for replay")
+	sandbox.queue_free()
 
 func _stage(boss: BossSpec, capture := false, heat := false) -> BattleStage:
 	var stage := ARENA.duplicate() as BattleStage

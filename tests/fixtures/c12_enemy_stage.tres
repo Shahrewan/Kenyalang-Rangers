@@ -1,0 +1,138 @@
+[gd_resource type="Resource" script_class="BattleStage" load_steps=40 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_stage.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/t01_forgotten_patrol.tres" id="2"]
+[ext_resource type="Resource" path="res://data/stages/t01_route.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/battle_route.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/data/battle_wave.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/data/battle_spawn_group.gd" id="6"]
+[ext_resource type="Resource" path="res://data/enemies/e01_forest_trespasser.tres" id="7"]
+[ext_resource type="Resource" path="res://data/enemies/e02_poacher.tres" id="8"]
+[ext_resource type="Resource" path="res://data/enemies/e03_contraband_runner.tres" id="9"]
+[ext_resource type="Resource" path="res://data/enemies/e04_shield_carrier.tres" id="10"]
+[ext_resource type="Resource" path="res://data/enemies/e05_rifle_spotter.tres" id="11"]
+[ext_resource type="Resource" path="res://data/enemies/e06_smoke_infiltrator.tres" id="12"]
+[ext_resource type="Resource" path="res://data/enemies/e07_signal_jammer.tres" id="13"]
+[ext_resource type="Resource" path="res://data/enemies/e08_recon_drone.tres" id="14"]
+[ext_resource type="Resource" path="res://data/enemies/e09_tracking_bot.tres" id="15"]
+[ext_resource type="Resource" path="res://data/enemies/e10_net_trapper.tres" id="16"]
+[ext_resource type="Resource" path="res://data/enemies/e11_demolitionist.tres" id="17"]
+[ext_resource type="Resource" path="res://data/enemies/e12_portable_mortar_crew.tres" id="18"]
+[ext_resource type="Resource" path="res://data/enemies/e13_heavy_breacher.tres" id="19"]
+[ext_resource type="Resource" path="res://data/enemies/e14_ignition_operator.tres" id="20"]
+[ext_resource type="Resource" path="res://data/enemies/e15_wildlife_trafficker.tres" id="21"]
+
+[sub_resource type="Resource" id="Enemy1"]
+script = ExtResource("6")
+enemy = ExtResource("7")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy2"]
+script = ExtResource("6")
+enemy = ExtResource("8")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy3"]
+script = ExtResource("6")
+enemy = ExtResource("9")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy4"]
+script = ExtResource("6")
+enemy = ExtResource("10")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy5"]
+script = ExtResource("6")
+enemy = ExtResource("11")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy6"]
+script = ExtResource("6")
+enemy = ExtResource("12")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy7"]
+script = ExtResource("6")
+enemy = ExtResource("13")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy8"]
+script = ExtResource("6")
+enemy = ExtResource("14")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy9"]
+script = ExtResource("6")
+enemy = ExtResource("15")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy10"]
+script = ExtResource("6")
+enemy = ExtResource("16")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy11"]
+script = ExtResource("6")
+enemy = ExtResource("17")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy12"]
+script = ExtResource("6")
+enemy = ExtResource("18")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy13"]
+script = ExtResource("6")
+enemy = ExtResource("19")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy14"]
+script = ExtResource("6")
+enemy = ExtResource("20")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Enemy15"]
+script = ExtResource("6")
+enemy = ExtResource("21")
+count = 1
+interval_seconds = 3.0
+
+[sub_resource type="Resource" id="Wave1"]
+script = ExtResource("5")
+groups = Array[ExtResource("6")]([SubResource("Enemy1"), SubResource("Enemy2"), SubResource("Enemy3"), SubResource("Enemy4"), SubResource("Enemy5")])
+rest_after_seconds = 6.0
+
+[sub_resource type="Resource" id="Wave2"]
+script = ExtResource("5")
+groups = Array[ExtResource("6")]([SubResource("Enemy6"), SubResource("Enemy7"), SubResource("Enemy8"), SubResource("Enemy9"), SubResource("Enemy10")])
+rest_after_seconds = 6.0
+
+[sub_resource type="Resource" id="Wave3"]
+script = ExtResource("5")
+groups = Array[ExtResource("6")]([SubResource("Enemy11"), SubResource("Enemy12"), SubResource("Enemy13"), SubResource("Enemy14"), SubResource("Enemy15")])
+rest_after_seconds = 6.0
+
+[resource]
+script = ExtResource("1")
+stage_id = &"qa.enemy_sandbox"
+map = ExtResource("2")
+routes = Array[ExtResource("4")]([ExtResource("3")])
+opening_delay_seconds = 6.0
+heat_capacity = 40.0
+heat_integrity_loss = 10
+waves = Array[ExtResource("5")]([SubResource("Wave1"), SubResource("Wave2"), SubResource("Wave3")])

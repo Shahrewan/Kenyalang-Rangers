@@ -22,6 +22,8 @@ Open `scenes/qa/ranger_sandbox.tscn` with **F6** or run `godot --path . scenes/q
 
 Open `scenes/qa/facility_sandbox.tscn` with **F6** or run `godot --path . scenes/qa/facility_sandbox.tscn` to try the 13 C11 Facilities. The sandbox starts with 1,000 trial Tokens and includes projectile, Siege, concealment, aerial and Heat fixtures. Swipe the deployment tray to reach the full catalog. [Facility sandbox and phone check](export/README.md#c11-facility-sandbox-phone-check)
 
+Open `scenes/qa/enemy_sandbox.tscn` with **F6** or run `godot --path . scenes/qa/enemy_sandbox.tscn` for C12. Select the full standard roster, an individual standard enemy, or one of the three bosses. **Practice hit** advances boss trials to the next authored HP threshold through the battle's damage path. [Enemy and boss test matrix](docs/qa/C12_ENEMY_MATRIX.md)
+
 ## Source of truth
 Implemented code in this Git repository; approved decisions and canonical game specifications govern design. Keep major feature changes on branches, review pull requests before merging into `main`, and prioritize playable C1-01 combat.
 
@@ -49,9 +51,11 @@ godot --headless --path . --script res://tests/unit/scout_rig_test.gd
 godot --headless --path . --script res://tests/unit/campaign_navigation_test.gd
 godot --headless --path . --script res://tests/unit/offense_rangers_test.gd
 godot --headless --path . --script res://tests/unit/facility_combat_test.gd
+godot --headless --path . --script res://tests/unit/enemy_combat_test.gd
+godot --headless --path . --script res://tests/unit/boss_combat_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the nine test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. See the [test descriptions](tests/README.md).
+Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the eleven test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. See the [test descriptions](tests/README.md).
 
 ## Android export prerequisites
 

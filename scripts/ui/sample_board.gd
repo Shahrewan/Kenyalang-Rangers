@@ -106,6 +106,10 @@ func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> voi
 		draw_circle(center, cell * 0.21, color, false, 3.0, true)
 	elif tick < enemy.sonic_slow_until:
 		draw_circle(center, cell * 0.21, Color("#6FB9A4"), false, 2.0, true)
+	if tick < enemy.ability_fire_tick:
+		draw_circle(center, cell * 0.26, Color("#E8B957"), false, 2.0, true)
+	if enemy.active_shield(tick) > 0:
+		draw_circle(center, cell * 0.26, Color("#A3DDEA"), false, 3.0, true)
 	var tag := "?" if not enemy.is_targetable(tick) else ("A" if enemy.definition.aerial else ("T" if enemy.definition.technological else ""))
 	if not tag.is_empty():
 		var font := get_theme_default_font()
