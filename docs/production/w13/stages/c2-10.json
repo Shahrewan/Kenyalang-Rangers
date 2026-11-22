@@ -1,0 +1,370 @@
+{
+  "id": "C2-10",
+  "title": "Final Interception",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 15,
+    "map_id": "T06",
+    "region": "Sepilok-Kabili",
+    "min_control_level": 5,
+    "requires_previous_clear": "C2-09",
+    "fixed_debuff_ids": ["D13", "D15"],
+    "published_first_pass_wave_counts": [25, 30, 36, 45, "boss"],
+    "clear_unlock_ids": [],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_late",
+    "opening_delay_seconds": 15,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Retain coverage across compressed waves, Runner reinforcements and the final speed surge.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 25,
+      "queued_count": 25,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 0.88,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 30,
+      "queued_count": 30,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 0.88,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E10", "count": 3, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 36,
+      "queued_count": 36,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 0.88,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E07", "count": 3, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 4,
+      "kind": "standard",
+      "source_count": 45,
+      "queued_count": 45,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 0.88,
+      "groups": [
+        {"enemy_id": "E02", "count": 7, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E09", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E10", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E15", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 9, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 1, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 5,
+      "kind": "boss",
+      "source_count": "boss",
+      "queued_count": 1,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 0.88,
+      "groups": [{"enemy_id": "boss.poacher_leader", "count": 1, "route_index": 0, "base_interval_seconds": 1.1}]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["boss.poacher_leader", "E15", "E12", "E03"],
+    "queued_totals_by_enemy": {
+      "E02": 49,
+      "E03": 22,
+      "E04": 15,
+      "E05": 9,
+      "E07": 5,
+      "E08": 12,
+      "E09": 9,
+      "E10": 7,
+      "E12": 2,
+      "E13": 5,
+      "E15": 1,
+      "boss.poacher_leader": 1
+    },
+    "queued_totals_by_gate": {"main": 137},
+    "may_add_combat_reinforcements": true
+  },
+  "boss": {
+    "id": "boss.poacher_leader",
+    "resource": "res://data/bosses/poacher_leader.tres",
+    "resource_status": "c12_provisional",
+    "wave": 5,
+    "reinforcements_counted_outside_source_wave": true
+  },
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": ["E15", "boss.poacher_leader"],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {
+    "status": "tbd",
+    "first_clear_funds": null,
+    "first_perfect_funds": null,
+    "replay_funds": null,
+    "story_completion_funds": null,
+    "story_completion_reward_present": true
+  },
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_10.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "This is the last interception. The Poacher Leader has fast reinforcements and can surge forward in the final phase."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the tunnel approach covered. We'll deal with each wave and bring the Leader in."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.wave_4",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 4},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The last support wave is moving. It includes a Wildlife Trafficker."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Stop that target. Keep enough coverage for the Poacher Leader behind it."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.boss_intro",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "boss_intro", "boss_id": "boss.poacher_leader"},
+      "lines": [
+        {
+          "speaker_id": "speaker.poacher_leader",
+          "pose_key": "confronting",
+          "text": "You followed every trail this far. Can you hold the last one?"
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "The routes from Mulu to Sepilok all lead here. Team, stay with the exit approach."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.boss_phase_1",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "boss_phase_changed", "boss_id": "boss.poacher_leader", "phase_index": 1},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Poacher Leader called for Contraband Runners. Track the entry."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the Leader covered while the patrol deals with the Runners."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.boss_phase_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "boss_phase_changed", "boss_id": "boss.poacher_leader", "phase_index": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Leader is breaking forward. Another Runner is on the way."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Hold the last turn. Keep watching until the reinforcements have cleared."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The reinforcements are accounted for. The Poacher Leader is in custody."
+        },
+        {
+          "speaker_id": "speaker.poacher_leader",
+          "pose_key": "captured",
+          "text": "You stopped this route. That doesn't make the forest easy to guard."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "It gives the patrol and the forest some breathing room. Good work, team."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We've lost the line. The patrol is falling back."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "We'll review where the last waves reached the tunnel and try again."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.defeat_trafficker",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "E15"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Wildlife Trafficker got through. We have to end the attempt."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Set a clearer priority on the next plan. We still need to finish the interception."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.defeat_leader",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "boss.poacher_leader"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Poacher Leader reached the tunnel. The interception failed."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Withdraw the patrol. We'll reset and keep someone on the final approach."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_10.epilogue",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "after_victory_dialogue", "first_clear_only": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The teams are back at HQ. I'll send the patrol reports to Records."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Add a note on the trees we protected. Rhinoceros Hornbills use tree cavities for their nests."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "I'll include that in the field notes. We can keep the routes under watch and return to the restoration work."
+        }
+      ],
+      "fact_refs": ["fact.hornbill_tree_cavity"]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T06",
+    "stage_ticket": "W13-C2-10",
+    "focus": "Reuse Sepilok-Kabili. Differentiate Runner arrivals and the speed surge. Deliver finale and epilogue portrait pose keys."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 98 S56",
+    "GDD p. 7 §§ F.3–4",
+    "GDD p. 13 § H.3",
+    "Team draft · dialog&story(test).docx · pp. 6–7"
+  ]
+}

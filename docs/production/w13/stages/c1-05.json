@@ -1,0 +1,250 @@
+{
+  "id": "C1-05",
+  "title": "Operation: Full Pivot",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C1",
+    "order": 5,
+    "map_id": "T01",
+    "region": "Forgotten Patrol",
+    "min_control_level": 2,
+    "requires_previous_clear": "C1-04",
+    "fixed_debuff_ids": ["D05"],
+    "published_first_pass_wave_counts": [14, 18, "boss"],
+    "clear_unlock_ids": ["ranger.barricade_ops"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 1
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 120,
+    "first_post_bonus_allowed": false,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c1_late",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Spend the fixed stockpile, retain a legal opening and capture the Diversion Captain.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 14,
+      "queued_count": 14,
+      "base_rest_after_seconds": 22,
+      "effective_rest_after_seconds_for_qa": 22,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [
+        {"enemy_id": "E01", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 18,
+      "queued_count": 18,
+      "base_rest_after_seconds": 22,
+      "effective_rest_after_seconds_for_qa": 22,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E04", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E05", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E01", "count": 4, "route_index": 0, "base_interval_seconds": 2.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "boss",
+      "source_count": "boss",
+      "queued_count": 1,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [{"enemy_id": "boss.diversion_captain", "count": 1, "route_index": 0, "base_interval_seconds": 2.5}]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["boss.diversion_captain", "E03", "E05"],
+    "queued_totals_by_enemy": {"E01": 8, "E02": 16, "E03": 4, "E04": 2, "E05": 2, "boss.diversion_captain": 1},
+    "queued_totals_by_gate": {"main": 33},
+    "may_add_combat_reinforcements": true
+  },
+  "boss": {
+    "id": "boss.diversion_captain",
+    "resource": "res://data/bosses/diversion_captain.tres",
+    "resource_status": "c12_provisional",
+    "wave": 3,
+    "reinforcements_counted_outside_source_wave": true
+  },
+  "outcome": {
+    "early_capture_boss_id": "boss.diversion_captain",
+    "instant_loss_on_escape_enemy_ids": ["boss.diversion_captain"],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [
+    {
+      "id": "hint.c1_05.stockpile",
+      "condition": "effective_opening_ready",
+      "text": "Fixed Stockpile starts at 120 Tokens. Logistics Posts are unavailable.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_05.capture",
+      "condition": "captain_arrived",
+      "text": "Stop the Diversion Captain before the tunnel to finish the capture.",
+      "status": "proposed_review_pending"
+    }
+  ],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c1_05.opening",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The diverted force is at the old route. We have a fixed stockpile of 120 Tokens and no Logistics Posts."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Plan the whole line before you spend. We need the Diversion Captain in custody."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "A stronger escort is coming through. The Captain is still behind it."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep enough coverage for the last wave. We can't rely on new supplies."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.boss_intro",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "boss_intro", "boss_id": "boss.diversion_captain"},
+      "lines": [
+        {
+          "speaker_id": "speaker.diversion_captain",
+          "pose_key": "confronting",
+          "text": "You moved your patrol for one trail. How many others are you watching?"
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "That's the Captain. Nearby enemies are moving faster under the Captain's orders."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Stay with the approach. Stop the Captain before the tunnel."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.boss_phase_1",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "boss_phase_changed", "boss_id": "boss.diversion_captain", "phase_index": 1},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Captain called for more Poachers. Watch the entrance."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Hold the Captain and keep a Ranger covering the arriving group."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.victory",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The Diversion Captain is in custody. Barricade Ops can reinforce us."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Well done. Bring the patrol home and have the team check the Captain's trail."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.defeat",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The diversion broke our hold on the route."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "We still have a chance to intercept the Captain. Recheck the stockpile and the approach."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_05.defeat_captain",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "boss.diversion_captain"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Captain reached the tunnel. We missed the capture."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Pull the patrol back. We'll reset the line and close that route on the next attempt."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T01",
+    "stage_ticket": "W13-C1-05",
+    "focus": "Fixed Stockpile HUD, Captain portrait/arrival and non-graphic capture panel."
+  },
+  "source_refs": ["GDD pp. 21–22 § M.4", "UI p. 8", "UI pp. 8, 101 S59", "GDD pp. 6–7 § F.2", "GDD p. 13 § H.3"]
+}

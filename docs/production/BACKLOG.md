@@ -128,13 +128,13 @@ Downstream catalogs may use deterministic tests for dependencies pending integra
 ### KR-18 · Narrative ingestion and dialogue triggers
 
 - **Depends on KR-04, KR-14.** Supply approved external story text and triggers for the campaign, including Chapter 2 regional transitions and final C2-10 epilogue. Verify authored opening, wave/boss and victory/defeat beats through exact trigger tests.
-- Continue and Skip preserve combat positions, cooldowns and wave state. The cinematic messenger never becomes a combat escape and portrayal remains consistent with the Leader/Manager roles.
+- Continue and Skip preserve combat positions, cooldowns and wave state. The cinematic messenger never becomes a combat escape and portrayal remains consistent with the Leader/Manager roles. Start review with the [W13 source mapping and adaptation](W13_CAMPAIGN_CONTENT.md#chapter-2-source-and-adaptation).
 - **Evidence.** GDD pp. 6–7, 29–30, 33 §§ F.1–4, O.2, Q, T.3; UI pp. 8, 20–24, 98, 120–121 S09/S09L/S09E/S56/M07–M08. Gate D-004.
 
 ### KR-19 · Campaign stage catalog, unlocks and settlement
 
 - **Depends on KR-10–KR-14, KR-17, KR-18.** Validate 15 sourced stage IDs and exact names, one/two fixed debuffs per chapter, order, templates, approved wave data, recruit/unlock refs and boss placement. Verify Control visibility with tier fixtures, ordered unlocks and replay. Verify Firebreak Beacon availability before the first Heat wave in C2-07.
-- Exercise a first nonperfect clear, later first perfect, then replay. First and perfect bonuses each pay once, and defeat pays zero. Reconcile provisional first-pass values and approved reward/routing data before closing. Check HQ and wallet integration when KR-21/KR-22 land.
+- Use the [15 W13 content tickets](W13_CAMPAIGN_CONTENT.md#stage-content-tickets) for per-stage criteria. Exercise a first nonperfect clear, later first perfect, then replay. First and perfect bonuses each pay once, and defeat pays zero. Reconcile provisional first-pass values and approved reward/routing data before closing. Check HQ and wallet integration when KR-21/KR-22 land.
 - **Evidence.** GDD pp. 6–8, 19, 21–22, 24, 31, 33 §§ F.2–4, G.1, M.1, M.3–4, M.6, S.3, T.4; UI pp. 8, 10, 34–37, 98, 125 S21–S24/S56/M06. Gates D-006, D-009.
 
 ## M4 · Local progression

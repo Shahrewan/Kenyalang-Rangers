@@ -1,0 +1,195 @@
+{
+  "id": "C2-01",
+  "title": "Misty Approach",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 6,
+    "map_id": "T02",
+    "region": "Gunung Mulu",
+    "min_control_level": 3,
+    "requires_previous_clear": "C1-05",
+    "fixed_debuff_ids": ["D06", "D02"],
+    "published_first_pass_wave_counts": [16, 20, 24],
+    "clear_unlock_ids": ["ranger.k9_ranger"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_early",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Read A and B, cover the merge and capitalize on visibility windows before K9 Ranger unlocks.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 16,
+      "queued_count": 16,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 2, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 2, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 20,
+      "queued_count": 20,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 1, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 24,
+      "queued_count": 24,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 4, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 4, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E06", "E03"],
+    "queued_totals_by_enemy": {"E02": 29, "E03": 12, "E06": 19},
+    "queued_totals_by_gate": {"A": 32, "B": 28},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_01.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The trail from the chokepoint leads into Gunung Mulu. The limestone ridges and forest cover give us fewer clear sightlines."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "We have movement at both entrances. Mist and smoke are making the fast groups hard to follow."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Cover A and B. Use the moments when concealed targets come back into view, and keep the shared exit covered."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_01.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Both tracks meet before the tunnel. Keep the merge in view while the next groups approach."
+        },
+        {
+          "speaker_id": "speaker.poacher",
+          "pose_key": "alert",
+          "text": "They're watching the lower approach. Keep moving until we can meet at the bend."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_01.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The first Mulu route is secure. The K9 Ranger is available for the next operation."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Check the route notes before we move. There may be heavier equipment on the ridge."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_01.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We lost control of the approaches in the mist."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Look at the coverage on each lane. We'll take the next attempt from the plan."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T02",
+    "stage_ticket": "W13-C2-01",
+    "focus": "Two distinct entry labels, shared tunnel, readable mist and separate conceal/reveal cues."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 117–125 M01–M09",
+    "Design Pack gameplay mini-storyboard pp. 1–3",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · pp. 1–2",
+    "Team draft · p. 1 · Regional Transition Beats"
+  ]
+}

@@ -113,3 +113,9 @@
 - Based on C11 at `9cb1ad0`. Implemented E01–E15 and the three boss templates with typed attacks, status timing, boss phases and deterministic reinforcement arrivals. The enemy sandbox can start every individual encounter or the full standard roster. [Trial values](../canon/DECISION_LOG.md#d-006-and-d-008-c12-enemy-and-boss-tuning--2026-11-22)
 - Godot 4.7.2 passed import, both scene launches and 562 checks across 11 runners. Coverage includes 152 standard-enemy and 58 boss and sandbox checks. Native Linux input at 960×540 exercised the picker and Captain intro, phase dialogue, reinforcement, capture and roster return. [Test matrix](../qa/C12_ENEMY_MATRIX.md)
 - Signed the regular development and Enemy Sandbox ARM64 APKs. Both passed v2/v3 signatures, ZIP alignment and package checks. An initial preview omitted the catalog dependencies. The rebuilt preview embeds both catalogs, boots headlessly on Linux using the packaged resources and opens Poacher Leader's introduction. USB installation and phone input remain pending because the workspace has no USB bus. [Phone checklist](../../export/README.md#c12-enemy-and-boss-sandbox-phone-check)
+
+## W13 Campaign content handoff — 2026-11-22
+
+- Based on merged C12 at `66b53c2`. The [W13 handoff](W13_CAMPAIGN_CONTENT.md) links 15 review-ready stage specifications, shared JSON bindings, exact proposed spawn queues and six regional art tickets plus the portrait pass.
+- Recovered the team's seven-page Chapter 2 draft and marked all 73 bound dialogue sequences as review copy. The C1-03 messenger remains outside the combat registry. Stage Funds remain TBD alongside the scoped C05 trial figures.
+- Validated all 15 specs and ran an isolated Godot 4.7.2 resource probe for 49 waves and 1,111 base queued spawns. Pinned import, startup and all 562 existing assertions passed. C14 covers integration. Narrative approval, balance and physical phone checks remain open.

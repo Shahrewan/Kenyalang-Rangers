@@ -1,0 +1,193 @@
+{
+  "id": "C1-03",
+  "title": "Narrow Escape",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C1",
+    "order": 3,
+    "map_id": "T01",
+    "region": "Forgotten Patrol",
+    "min_control_level": 1,
+    "requires_previous_clear": "C1-02",
+    "fixed_debuff_ids": ["D03"],
+    "published_first_pass_wave_counts": [9, 11, 13],
+    "clear_unlock_ids": ["ranger.guard_veteran", "facility.medic_cabin"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 1
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c1_early",
+    "opening_delay_seconds": 10,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Ready skill on release, hold then Retreat, and redeploy cooldown. A scripted messenger alerts the larger operation.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 9,
+      "queued_count": 9,
+      "base_rest_after_seconds": 25,
+      "effective_rest_after_seconds_for_qa": 25,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E03", "count": 1, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 3.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 11,
+      "queued_count": 11,
+      "base_rest_after_seconds": 25,
+      "effective_rest_after_seconds_for_qa": 25,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [
+        {"enemy_id": "E01", "count": 4, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 2, "route_index": 0, "base_interval_seconds": 3.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 13,
+      "queued_count": 13,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E03", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 3.5}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E03", "E02"],
+    "queued_totals_by_enemy": {"E01": 10, "E02": 15, "E03": 8},
+    "queued_totals_by_gate": {"main": 33},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [
+    {
+      "id": "hint.c1_03.skill",
+      "condition": "first_ranger_skill_ready",
+      "text": "Release a quick tap to use a ready skill. Confirm a target if prompted.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_03.retreat",
+      "condition": "first_ranger_placed",
+      "text": "Hold a Ranger to see Retreat. Wait for the card's cooldown before redeploying.",
+      "status": "proposed_review_pending"
+    }
+  ],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c1_03.opening",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Some of them are running ahead of the pack. Watch the outer turn."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Use a ready skill when you need it. If a Ranger is in trouble, retreat them and wait for redeployment."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_03.messenger",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "wave_resolved", "wave": 2, "presentation_event_id": "cinematic.c1_03_messenger_withdrawal"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Movement beyond our line. There's a messenger taking the far trail."
+        },
+        {
+          "speaker_id": "speaker.poacher_messenger",
+          "pose_key": "alert",
+          "text": "Captain, the old route is guarded. The patrol stayed."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Log the sighting. Keep your attention on the enemies still in the operation."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_03.victory",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "Our line held. The Guard Veteran and Medic Cabin crew can join us."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "The messenger will have reached someone by now. Let's get ready for a larger push."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_03.defeat",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "Pull back. The route is too exposed to hold."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "We'll work out which positions to reinforce and which Rangers to pull out earlier."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T01",
+    "stage_ticket": "W13-C1-03",
+    "focus": "Contextual skill/retreat and cooldown cards, plus a separate two-shot messenger vignette."
+  },
+  "source_refs": ["GDD pp. 21–22 § M.4", "UI p. 8", "UI pp. 8, 26–27 S13/S14", "GDD pp. 6–7 § F.2"]
+}

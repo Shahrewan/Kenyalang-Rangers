@@ -1,0 +1,191 @@
+{
+  "id": "C2-04",
+  "title": "Jammed Communications",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 9,
+    "map_id": "T03",
+    "region": "Batang Ai",
+    "min_control_level": 3,
+    "requires_previous_clear": "C2-03",
+    "fixed_debuff_ids": ["D04", "D13"],
+    "published_first_pass_wave_counts": [20, 25, 30],
+    "clear_unlock_ids": ["ranger.crowd_controller", "facility.electric_pulse_turret"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_early",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Hold basic coverage while Radio Static and Signal Jammer effects interfere with active skills.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 20,
+      "queued_count": 20,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 1.6,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 1, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 25,
+      "queued_count": 25,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 1.6,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 5, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 30,
+      "queued_count": 30,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 1.6,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E07", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E07", "E08"],
+    "queued_totals_by_enemy": {"E02": 21, "E03": 9, "E04": 8, "E07": 12, "E08": 25},
+    "queued_totals_by_gate": {"main": 75},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_04.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Signal Jammers are interfering with active skills. The groups are coming in closer together as well."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep coverage from basic attacks. Use ready skills when the affected Rangers can act."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_04.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "We have another interference signal. Watch the skill warnings."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the slow or delayed activation from opening a gap. Change position when it's safe."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_04.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "Comms are clearing. Crowd Controller and the Electric Pulse Turret are available."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Log the interference pattern. The next lead takes us toward Tanjung Datu."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_04.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The tight arrivals and skill delays overwhelmed the line."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Build coverage that can hold between activations. Then we'll take another pass."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T03",
+    "stage_ticket": "W13-C2-04",
+    "focus": "Reuse the Batang Ai board. Distinguish jammer windup, skill lock and ordinary cooldown."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 26 S13",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · pp. 3–4"
+  ]
+}
