@@ -10,13 +10,16 @@ func _ready() -> void:
 	StoryUI.header(self, "%s   %s" % [report.stage_id, report.title], func() -> void: story_requested.emit(), "%d Funds" % report.balance)
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var result := StoryUI.panel(body, true)
+	var result := StoryUI.panel(StoryUI.scroll_column(body), true)
 	var state: String = report.outcome
 	var successful := state != "Defeat"
 	result.add_child(StoryUI.label(state, 40, StoryUI.INK))
-	var explanation := "No combat enemies escaped." if state == "Perfect clear" else "%d combat enemies escaped." % report.escaped
+	var explanation := "No combat enemies escaped." if report.get("perfect", state == "Perfect clear") else "%d combat enemies escaped." % report.escaped
 	if not successful:
 		explanation = "Operational Integrity reached zero."
+		var fatal: String = report.get("fatal_escape_name", "")
+		if not fatal.is_empty():
+			explanation = "%s escaped through the tunnel. The operation failed immediately." % fatal
 	result.add_child(StoryUI.label(explanation, 21, StoryUI.INK))
 	var columns := StoryUI.row(result, 14)
 	for metric in [["Integrity", report.integrity], ["Defeated", report.defeated], ["Escaped", report.escaped]]:
@@ -24,10 +27,12 @@ func _ready() -> void:
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		group.add_child(StoryUI.label(String(metric[0]), 18, StoryUI.INK))
 		group.add_child(StoryUI.label(str(metric[1]), 34, StoryUI.INK))
-	var rewards := StoryUI.panel(body)
+	var rewards := StoryUI.panel(StoryUI.scroll_column(body))
 	rewards.add_child(StoryUI.label("Funds", 28))
 	if report.save_failed:
 		rewards.add_child(StoryUI.label("Progress could not be saved. The local balance is unchanged.", 20))
+	elif successful and report.get("campaign", false):
+		_campaign_rewards(rewards)
 	elif successful:
 		rewards.add_child(StoryUI.label("First clear   +%d" % report.clear_funds, 22))
 		rewards.add_child(StoryUI.label("First perfect   +%d" % report.perfect_funds, 22))
@@ -45,3 +50,25 @@ func _ready() -> void:
 	retry.pressed.connect(func() -> void: planning_requested.emit())
 	footer.add_child(retry)
 	retry.grab_focus()
+
+func _campaign_rewards(panel: VBoxContainer) -> void:
+	var settlement: Dictionary = report.settlement
+	var categories := {
+		"first_clear_funds": "First clear",
+		"first_perfect_funds": "First perfect",
+		"replay_funds": "Replay",
+		"story_completion_funds": "Story completion",
+	}
+	for key: String in categories:
+		if settlement.awards.has(key):
+			panel.add_child(StoryUI.label("%s   +%d" % [categories[key], settlement.awards[key]], 21))
+		elif key in settlement.pending_awards:
+			panel.add_child(StoryUI.label("%s · Funds pending review" % categories[key], 20, StoryUI.BEIGE))
+	if settlement.credited > 0 or settlement.discarded > 0:
+		panel.add_child(StoryUI.label("%d Funds credited" % settlement.credited, 22, StoryUI.AMBER))
+	if settlement.discarded > 0:
+		panel.add_child(StoryUI.label("%d Funds discarded above the wallet cap." % settlement.discarded, 18, StoryUI.AMBER))
+	if not report.unlocked.is_empty():
+		panel.add_child(StoryUI.label("Unlocked", 23))
+		for item: String in report.unlocked:
+			panel.add_child(StoryUI.label(item, 19))

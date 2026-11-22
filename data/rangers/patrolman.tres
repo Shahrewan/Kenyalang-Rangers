@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.patrolman"
+label = "Patrolman"
+ranger_class = 1
+cost = 10
+max_hp = 320
+attack_damage = 12
+attack_seconds = 1.5
+block_capacity = 2
+attack_range = 1

@@ -61,8 +61,10 @@ func _draw() -> void:
 			var faint := Color("#887356")
 			draw_line(back + perpendicular * cell * 0.06, tip, faint, 2.0, true)
 			draw_line(tip, back - perpendicular * cell * 0.06, faint, 2.0, true)
-	for spawn in battle_map.spawns:
-		_draw_gate(origin + Vector2(spawn) * cell, cell, "Entry", Color("#894534"))
+	for i in battle_map.spawns.size():
+		var spawn := battle_map.spawns[i]
+		var label := "Entry" if battle_map.spawns.size() == 1 else "Entry %s" % char(65 + i)
+		_draw_gate(origin + Vector2(spawn) * cell, cell, label, Color("#894534"))
 	var tunnel := origin + Vector2(battle_map.tunnel) * cell
 	_draw_gate(tunnel, cell, "Tunnel", Color("#15241C"))
 	for offset in [0.21, 0.50, 0.79]:

@@ -4,6 +4,8 @@ extends RefCounted
 signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
 signal cinematic_withdrawal
+signal before_wave_first_spawn(wave: int)
+signal wave_resolved(wave: int)
 signal boss_intro(id: int, boss: BossSpec)
 signal boss_phase_changed(id: int, phase: BossPhase)
 signal boss_captured(id: int)
@@ -18,6 +20,8 @@ var defeated := 0
 var escaped := 0
 var expected_enemy_count: int
 var captured_boss_id: StringName
+var escaped_boss_id: StringName
+var fatal_escape_id: StringName
 var outcome := Outcome.RUNNING
 var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
@@ -37,6 +41,7 @@ var _group_index := 0
 var _spawned_in_group := 0
 var _next_spawn_tick := 1
 var _next_id := 1
+var _announced_wave := 0
 
 func _init(stage: BattleStage) -> void:
 	_stage = stage
@@ -49,6 +54,7 @@ func _init(stage: BattleStage) -> void:
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
+	clock.stepping.connect(_announce_first_spawn)
 	clock.stepped.connect(_step)
 	_begin_next_wave(1 + CombatClock.ticks_for(stage.opening_delay_seconds))
 
@@ -124,6 +130,11 @@ func damage_enemy(id: int, damage: int) -> void:
 	if enemy.hp == 0:
 		defeat_enemy(id)
 
+func _announce_first_spawn(tick: int) -> void:
+	if wave_number > _announced_wave and tick >= _next_spawn_tick:
+		_announced_wave = wave_number
+		before_wave_first_spawn.emit(wave_number)
+
 func _step(tick: int, seconds: float) -> void:
 	_advance_boss_phases(tick)
 	if not clock.is_running():
@@ -139,6 +150,10 @@ func _step(tick: int, seconds: float) -> void:
 			_boss_combat.active.erase(id)
 			escaped += 1
 			var fatal := enemy.definition.escape_causes_defeat or _is_capture_target(enemy)
+			if enemy.boss != null:
+				escaped_boss_id = enemy.definition.enemy_id
+			if fatal:
+				fatal_escape_id = enemy.definition.enemy_id
 			lose_integrity(integrity if fatal else enemy.definition.escape_penalty)
 			enemy_resolved.emit(id, true)
 			if not clock.is_running():
@@ -165,9 +180,11 @@ func _step(tick: int, seconds: float) -> void:
 		if not clock.is_running():
 			return
 		for unit: DeploymentState.Placement in deployment.placed.values():
-			if unit.spec.is_ranger() and unit.spec.attack_damage > 0:
+			if unit.spec.is_ranger() and (unit.spec.attack_damage > 0 or (unit.ranger != null and unit.ranger.heal_hp > 0)):
 				var interval := facility_combat.attack_interval(deployment, unit, tick)
 				ranger_combat.basic_attack(unit, deployment, tick, interval)
+				if not clock.is_running():
+					return
 	_try_finish_wave(tick)
 
 func _advance_boss_phases(tick: int) -> void:
@@ -191,7 +208,7 @@ func _advance_heat(tick: int, seconds: float) -> void:
 	if rate <= 0.0:
 		return
 	var scale := facility_combat.heat_multiplier(deployment, tick) if deployment != null else 1.0
-	heat += rate * seconds * scale
+	heat += rate * seconds * scale * _stage.heat_gain_scale
 	if heat > _stage.heat_capacity or is_equal_approx(heat, _stage.heat_capacity):
 		heat = 0.0
 		lose_integrity(_stage.heat_integrity_loss)
@@ -249,8 +266,10 @@ func _register_enemy(definition: BattleEnemyDefinition, route: BattleRoute, tick
 
 func _try_finish_wave(tick: int) -> void:
 	if outcome == Outcome.RUNNING and _group_index == _groups.size() and active.is_empty() and not _boss_combat.has_pending_arrivals():
-		var rest := CombatClock.ticks_for(_waves[wave_number - 1].rest_after_seconds)
+		var completed := wave_number
+		var rest := CombatClock.ticks_for(_waves[completed - 1].rest_after_seconds)
 		_begin_next_wave(tick + maxi(1, rest))
+		wave_resolved.emit(completed)
 
 func _begin_next_wave(first_tick: int) -> void:
 	if wave_number >= _waves.size():

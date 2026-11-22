@@ -78,19 +78,32 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 			var starter := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
 			if (not rules.starter_only or starter) and not (rules.fixed_stockpile and spec.logistics_post):
 				_offered[spec.id] = spec
-	state = DeploymentState.new(map, simulation.clock, maxi(0, preview_budget), rules, records_enhancements)
+	var opening_budget := plan.operation.opening_tokens if plan != null else maxi(0, preview_budget)
+	state = DeploymentState.new(map, simulation.clock, opening_budget, rules, records_enhancements)
 	state.skill_fired.connect(_skill_fired)
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
 	_cancel_pointer()
 	_hide_retreat()
-	_hint.text = "Drag the free Starter Post to two raised tiles." if rules.starter_only else "Drag a card onto the grid."
+	if plan != null and plan.operation.campaign_spec and not plan.operation.hints.is_empty():
+		_hint.text = ""
+	else:
+		_hint.text = "Drag the free Starter Post to two raised tiles." if rules.starter_only else "Drag a card onto the grid."
 	var offered: Array[DeploymentSpec] = []
 	offered.assign(_offered.values())
 	if state.clock.is_running() and not state.has_legal_opening(offered):
 		state.clock.stopped = true
 		_hint.text = "No affordable legal opening. Choose a different setup."
 	_refresh()
+
+func selected_card() -> DeploymentSpec:
+	return _gesture.dragging
+
+func can_afford_ranger() -> bool:
+	for spec: DeploymentSpec in _offered.values():
+		if spec.is_ranger() and state.cost_for(spec) <= state.tokens and state.cooldown_ticks(spec.id) == 0 and not state.placed.has(spec.id):
+			return true
+	return false
 
 func _process(_delta: float) -> void:
 	if state == null:

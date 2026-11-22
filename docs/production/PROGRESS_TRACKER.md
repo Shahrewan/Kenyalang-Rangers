@@ -26,8 +26,8 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C10 Offense checkpoint. Scout Sniper, Crowd Controller and Guard Veteran run in the isolated combat sandbox. Review Offense tests before starting Defense. Support and Specialist follow their own checkpoints.
 - [~] C11 All 13 Facility roles and Siege-only HP damage verified in Godot and the sandbox. Physical Android installation and touch checks pending. [Phone checklist](../../export/README.md#c11-facility-sandbox-phone-check)
 - [~] C12 All 15 standard enemies, three boss templates and their combat interactions verified off-device. Physical Android playtest pending. [Encounter matrix](../qa/C12_ENEMY_MATRIX.md)
-- [x] W13 [Campaign handoff](W13_CAMPAIGN_CONTENT.md) verified as 15 content specs with exact spawn queues, proposed dialogue and art tickets. Final author approval, tuning and C14 integration remain open.
-- [ ] C14 15 stages, unlocks, full dialogue triggers and results
+- [x] W13 [Campaign handoff](W13_CAMPAIGN_CONTENT.md) merged at `bb3e60b` with 15 content specs, provisional dialogue and art tickets. Final author approval and tuning remain open. [W13 pull request](https://github.com/Shahrewan/Kenyalang-Rangers/pull/14)
+- [~] C14 Story Mode runs all 15 missions with ordered access, dialogue holds, replay and local progress. Godot passed 928 checks across 13 runners. The ARM64 APK passed off-device checks. Payout approval, full-player balance and physical Android installation remain open. [C14 matrix](../qa/C14_CAMPAIGN_MATRIX.md)
 - [ ] C15 Headquarters 11 rooms, levels, upgrades, Funds cap, save
 - [ ] C16 R&D 15 buffs + 15 debuffs, eligibility, tests
 - [ ] C17 Rainforest Chaos editor/score/payout/trophy

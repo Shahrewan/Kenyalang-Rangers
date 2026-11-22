@@ -173,3 +173,23 @@ adb install -r build/android/kenyalang-rangers-c12-enemy-preview.apk
 3. Compare Rifle Spotter and Portable Mortar Crew on separate runs with a Post at `(1, 0)`. Check the Mortar's red Siege warning and HP change after the windup, including a pause during aiming. The Post should keep full HP against Rifle Spotter.
 4. Check that Firebreak slows Ignition Operator's Heat gauge and that a capacity reset deducts Integrity. On its own run, let Wildlife Trafficker reach the tunnel and verify immediate defeat.
 5. Start each boss, test Continue and Skip, and use **Practice hit** to reach each phase. Check the Captain's capture, Foreman's temporary HP, and Leader's surge and Runner arrivals. Wait through a phase dialogue to verify that the arrivals hold. Record the APK, phone model, Android version, density, safe insets and results. [Encounter matrix](../docs/qa/C12_ENEMY_MATRIX.md)
+
+## C14 Campaign phone check
+
+Use a USB-connected ARM64 phone with Android 9 or later and the pinned export toolchain above. On the phone, enable Developer options and USB debugging, then accept the computer's authorization prompt. Run these commands from the repository root on the connected computer. The last two commands also work with the existing signed C14 APK.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c14-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c14-debug.apk
+```
+
+1. Open **Kenyalang Rangers (Dev)** in airplane mode. Set the Leader name, enter **Story Mode**, and check that C1-02 is locked and C1-04 is fogged. In C1-01, review the loadout and both waves and check that the plan fits the safe area in both landscape directions.
+2. Start C1-01. Read one line and wait before using **Skip**. Confirm combat stays at the same starting state. Drag the Post to ground and check zero Tokens, then use the elevated pair at `(1, 0)`. Use the generated Tokens to place Scout at `(5, 2)` and a left-facing Patrolman at `(6, 3)`. Pause across a payout and resume. Check the next wave notice, hold-to-Retreat, the safe area and result after both waves. On a replay, the same three mission cards should appear at zero Tokens.
+3. After C1-01, open **Campaign access** from the C1-02 plan. Claim enough Finance to reach 20,000 and build Mechanical. On the trial balance, with no stage Funds credited, this takes 5,000 active unpaused seconds. Return to the plan, equip the ordinary Post and start. Test resume after backgrounding, and relaunch after closing the app mid-operation. An interrupted attempt returns to planning.
+4. With the appropriate progression unlocked, check C1-05 starts at 120 with the Post omitted. Check T02 route labels A/B, and C2-07's six-second Firebreak build, 30-Token price and Heat gauge. Check C2-08's Heat without the supplied card. In the finale, wait through a phase dialogue, resume to the Runner arrivals, and verify the first-clear epilogue on an eligible profile.
+5. Record the installed APK hash, phone model, Android version, landscape dimensions, screen density, cutout/safe insets and observed results. [Verification matrix](../docs/qa/C14_CAMPAIGN_MATRIX.md)
+
+The signed C14 APK was exported with Godot `4.7.2.stable.official.ed1daf0bf` and matching `4.7.2.stable` templates. Physical installation remains pending. The cloud workspace exposes no USB bus, and its ADB server cannot create `/home/agent/.android` on the read-only home filesystem.

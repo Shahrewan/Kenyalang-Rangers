@@ -34,6 +34,7 @@ func _legacy_name() -> void:
 
 func _story_flow() -> void:
 	var launcher := LAUNCHER.instantiate()
+	launcher.first_contact_trial = true
 	launcher.save_path = _path
 	# Stand-in for the future HQ unlock provider. Heat remains ineligible on T01.
 	launcher.unlocked_buff_ids.assign([&"B02", &"B05"])

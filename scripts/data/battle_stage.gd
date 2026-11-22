@@ -9,6 +9,7 @@ extends Resource
 @export var first_perfect_funds := 0
 @export var heat_capacity: float
 @export var heat_integrity_loss: int
+@export var heat_gain_scale := 1.0
 @export var capture_boss_id: StringName
 @export var waves: Array[BattleWave]
 
@@ -22,7 +23,7 @@ func enemy_count() -> int:
 func validation_error() -> String:
 	if not is_finite(opening_delay_seconds) or opening_delay_seconds < 0.0 or first_clear_funds < 0 or first_perfect_funds < 0:
 		return "Opening delay and rewards must be nonnegative."
-	if not is_finite(heat_capacity) or heat_capacity < 0.0 or (heat_capacity > 0.0 and heat_integrity_loss <= 0):
+	if not is_finite(heat_capacity) or heat_capacity < 0.0 or not is_finite(heat_gain_scale) or heat_gain_scale <= 0.0 or (heat_capacity > 0.0 and heat_integrity_loss <= 0):
 		return "A Heat stage needs a positive cap and Integrity loss."
 	if map == null:
 		return "A stage needs a map."

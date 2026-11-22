@@ -36,6 +36,7 @@ func _run() -> void:
 	var profile := FirstContactProgress.new(path)
 	profile.set_leader_name("Smoke test")
 	var launcher := main.instantiate()
+	launcher.first_contact_trial = true
 	launcher.save_path = path
 	root.add_child(launcher)
 	await process_frame

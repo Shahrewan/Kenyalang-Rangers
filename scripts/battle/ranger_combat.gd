@@ -37,10 +37,14 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 	unit.update_basic_interval(interval, tick)
 	if not unit.can_act(tick) or tick < unit.next_attack_tick:
 		return
+	var ranger := unit.ranger
+	if ranger != null and ranger.heal_hp > 0:
+		if _heal_ally(unit, deployment):
+			unit.next_attack_tick = tick + interval
+		return
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
 		return
-	var ranger := unit.ranger
 	var primary := _leading(candidates, ranger != null and ranger.prioritizes_focus)
 	var victims: Array[int] = [primary]
 	if ranger != null:
@@ -52,6 +56,8 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 				victims = _inside(candidates, area)
 	unit.next_attack_tick = tick + interval
 	for id in victims:
+		if not _clock.is_running():
+			return
 		var enemy := _enemies[id]
 		var bonus := 0
 		if ranger != null:
@@ -60,6 +66,18 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 			if unit.records_enhanced and enemy.is_marked(tick):
 				bonus += ranger.focused_damage_bonus_percent
 		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0))
+
+func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -> bool:
+	var reach := deployment.coverage(medic.spec, medic.anchor, medic.facing)
+	var chosen: DeploymentState.Placement
+	for ally: DeploymentState.Placement in deployment.placed.values():
+		if not ally.spec.is_ranger() or ally.hp >= ally.spec.max_hp:
+			continue
+		for tile in ally.spec.footprint(ally.anchor):
+			if tile in reach and (chosen == null or ally.hp < chosen.hp):
+				chosen = ally
+				break
+	return chosen != null and deployment.heal_ranger(chosen.spec.id, medic.ranger.heal_hp) > 0
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill

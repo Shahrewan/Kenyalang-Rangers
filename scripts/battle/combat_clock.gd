@@ -1,6 +1,7 @@
 class_name CombatClock
 extends RefCounted
 
+signal stepping(next_tick: int)
 signal stepped(tick: int, seconds: float)
 
 const TICKS_PER_SECOND := 60
@@ -25,6 +26,9 @@ func is_running() -> bool:
 # the same stepped signal, and 2× repeats the small step instead of enlarging it.
 func advance_frame() -> void:
 	for step in _speed:
+		if not is_running():
+			break
+		stepping.emit(tick + 1)
 		if not is_running():
 			break
 		tick += 1

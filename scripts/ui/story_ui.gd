@@ -43,6 +43,17 @@ static func panel(parent: Node, light := false) -> VBoxContainer:
 	parent.add_child(frame)
 	return column(frame)
 
+static func scroll_column(parent: Node) -> VBoxContainer:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	parent.add_child(scroll)
+	var content := column(scroll, 10)
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return content
+
 static func header(parent: Node, title: String, back: Callable, summary := "") -> Button:
 	var line := row(parent, 20)
 	var back_button := action("Back")

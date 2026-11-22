@@ -41,21 +41,7 @@ func record_clear(perfect: bool, clear_funds: int, perfect_funds: int) -> int:
 	return reward if _commit(next) else -1
 
 func _commit(next: Dictionary) -> bool:
-	var temporary := _path + ".tmp"
-	var file := FileAccess.open(temporary, FileAccess.WRITE)
-	if file == null:
-		return false
-	file.store_string(JSON.stringify(next))
-	file.close()
-
-	# Retain the last readable primary before replacing it.
-	if not _read(_path).is_empty():
-		var backup := _path + ".bak"
-		if DirAccess.copy_absolute(_path, backup + ".tmp") != OK:
-			return false
-		if DirAccess.rename_absolute(backup + ".tmp", backup) != OK:
-			return false
-	if DirAccess.rename_absolute(temporary, _path) != OK:
+	if not ProfileFile.replace(_path, next, not _read(_path).is_empty()):
 		return false
 	_data = next
 	return true
