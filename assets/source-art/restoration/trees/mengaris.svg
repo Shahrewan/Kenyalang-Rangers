@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="256" viewBox="0 0 768 256">
+  <title>Mengaris — Seed, Sapling, Mature</title>
+  <desc>Three 256-unit export areas. Ground pivot at (128,224) in each area. Winged pod, compound-leaf silhouette and a broad crown high on the trunk.</desc>
+  <g id="seed" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="226" rx="39" ry="7" fill="#705239" opacity=".24" stroke="none"/>
+    <path d="M91 216c9-9 24-12 37-12 17 0 28 5 37 13-18 8-55 7-74-1z" fill="#987250" stroke-width="5"/>
+    <path d="M98 203c7-17 32-32 63-28-5 17-14 29-36 36-12 4-22 2-27-8z" fill="#c4a363" stroke-width="5"/>
+    <path d="M106 203c15-12 33-19 46-22" fill="none" stroke="#e7c77f" stroke-width="4"/>
+    <path d="M103 205c3-6 10-10 20-12 3 3 6 9 3 14-8 6-18 5-23-2z" fill="#90754a" stroke-width="4"/>
+  </g>
+  <g id="sapling" transform="translate(256 0)" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="225" rx="35" ry="7" fill="#705239" opacity=".24" stroke="none"/>
+    <path d="M106 222c12-7 17-15 16-39l-1-59 10-12 8 67c1 20 4 31 15 42-14 6-33 6-48 1z" fill="#b49160" stroke-width="6"/>
+    <g id="stalks" fill="none" stroke-width="5">
+      <path d="M129 160q-22-31-67-47m70 37q24-29 61-42m-66 33q0-38 13-69"/>
+    </g>
+    <g id="leaflets" stroke-width="4.5">
+      <path d="M86 123c-17 0-27-7-29-19 13-10 30 0 29 19zM91 128c-16 13-36 8-41-3 10-12 29-10 41 3zM111 143c-20 2-34-6-39-15 14-8 32-1 39 15z" fill="#77824d"/>
+      <path d="M170 117c-1-17 13-31 27-24 3 13-9 24-27 24zM166 127c13-12 33-12 42-1-10 14-29 15-42 1zM143 141c6-20 23-29 36-22-6 18-21 24-36 22z" fill="#909950"/>
+      <path d="M137 100c-13-8-15-24-6-34 12 5 16 21 6 34zM137 99c-1-15 8-27 22-30 6 12-5 26-22 30z" fill="#a29f5b"/>
+    </g>
+  </g>
+  <g id="mature" transform="translate(512 0)" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="225" rx="63" ry="9" fill="#705239" opacity=".24" stroke="none"/>
+    <g id="trunk_and_buttresses">
+      <path d="M68 223c10-14 32-16 36-38 6-28 9-67 10-91L83 70l10-11 35 16 38-27 12 11-30 36c-2 30-3 67 2 86 5 16 21 26 38 41-13 7-33 3-47-4l-12-28c-4 18-12 29-22 33-9 4-29 5-39 0z" fill="#ae8a5d" stroke-width="7"/>
+      <path d="M125 90c-3 34-2 70-7 95-2 12-7 24-18 32m40-110c-1 23 0 54 3 69m12 20c4 9 10 14 18 19" stroke="#d1ad78" fill="none" stroke-width="4"/>
+      <path d="M131 141c0 21 1 36 4 47" fill="none" stroke="#876545" stroke-width="4"/>
+    </g>
+    <g id="umbrella_crown" stroke-width="6">
+      <path d="M23 89c-8-12 3-28 21-32 2-15 20-26 40-24 10-15 31-20 47-13 16-12 40-10 52 7 23-1 37 9 43 25 21 5 30 21 20 36-9 15-28 19-45 11-13 13-34 16-53 7-10 11-35 15-52 7-19 6-38 2-49-8-14 1-23-5-24-16z" fill="#58664a"/>
+      <path d="M34 79c6-13 22-19 38-16-2-13 13-24 30-21 11-12 29-15 45-7 14-10 33-7 41 7 17 1 33 8 36 22 11 4 14 15 5 23-12 10-28 10-43 2-15 10-31 11-46 4-18 7-42 7-54-1-18 7-42 5-52-13z" fill="#879356"/>
+      <path d="M83 59c13-7 31-9 43-4 15-10 31-9 44-3m26 17c10-2 16 1 23 7" fill="none" stroke="#aba867" stroke-width="4"/>
+      <path d="M44 98c14 4 22 1 30-1m87 4c9 0 17-2 22-5" fill="none" stroke="#6f7c50" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

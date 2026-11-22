@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <title>Restoration nest-box prop</title>
+  <desc>Fictional nest-box art. Mount at (83,81).</desc>
+  <g stroke="#2b2822" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path id="mount" d="m101 45 13 1 5 91-14 10-11-8Z" fill="#72523c"/>
+    <path id="side" d="m100 64 24-12-4 76-21 14-8-17z" fill="#9b704b"/>
+    <path id="front" d="m38 60 64 6-3 76-60-9z" fill="#d0a46c"/>
+    <path d="m43 105 54 8-1 24-53-8z" fill="#bd905e" stroke="none"/>
+    <path id="roof" d="m31 55 19-24 69 5 12 15-29 21z" fill="#c09969"/>
+    <path d="m36 55 17-19 63 6-16 20z" fill="#e5c591" stroke="none"/>
+    <path d="m40 58 62 8 24-16" fill="none" stroke="#75573c" stroke-width="4"/>
+    <ellipse id="entry" cx="69" cy="87" rx="12" ry="13" fill="#393027" stroke-width="5"/>
+    <circle cx="54" cy="121" r="2.8" fill="#745237" stroke="none"/>
+    <circle cx="85" cy="124" r="2.8" fill="#745237" stroke="none"/>
+  </g>
+</svg>

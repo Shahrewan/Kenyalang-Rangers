@@ -158,3 +158,9 @@
 - W18 was already merged in PR #19 at `a7176bf`. The three-schema, answer-key, citations and coordinate checks passed again on that merge.
 - Headquarters opens both activity screens. Outreach persists rotation, choice order, grades and signed settlement. Records persists the active timed question, feedback and one-time question and chapter awards. The approved-bank loader validates referenced facts, choices and configured payouts. The W18 revision awaits approval and stays outside the player export.
 - Godot passed editor import, startup and 1,680 checks across 22 runners. Native Linux exercised the synthetic Harmful deduction, pause and timeout. The signed Android package passed host checks, including the approval gate. Physical installation remains open. [C19 matrix](../qa/C19_EDUCATION_MATRIX.md)
+
+## W19b Restoration art — 2026-11-23
+
+- Delivered the four species at Seed, Sapling and Mature with a shared ground pivot. The art kit includes a flat 3:2 clearing, a reusable plot bed, two hornbill poses, a nest box, two four-frame effects and nine editable foreground sources. Reference facts use the W18 IDs. [W19b handoff and review sheet](W19B_RESTORATION_ART.md)
+- Inspected transparent exports and rendered the two- and six-plot layout references at 960 × 540. Godot 4.7.2 editor import, headless startup, 19 texture loads and 1,680 existing checks across 22 runners passed.
+- C20 owns live garden integration and device checks. Editable background layers, the team fact approval and D-014 release sign-offs remain open.

@@ -33,6 +33,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C17 Configurable Chaos, the exact 1,350-point example, qualifying settlement, shared trophy and interrupted-run recovery verified off-device. Godot passed 1,592 checks and produced a signed ARM64 APK. Physical Android and release pacing remain open. [C17 matrix](../qa/C17_CHAOS_MATRIX.md)
 - [~] W18 [Education banks](W18_EDUCATION_BANKS.md) drafted and validated with 20 Outreach situations, 40 Records questions and a shared fact register. Team approval is required for C19 import. The final Records count, split and payout values remain provisional.
 - [~] C19 Outreach and Records mechanics, persistence and launcher UI verified with synthetic data. The actual banks and Records award values await approval. Physical Android verification remains open. [C19 matrix](../qa/C19_EDUCATION_MATRIX.md)
+- [x] W19b [Restoration art kit](W19B_RESTORATION_ART.md) has 12 transparent tree stages, plot and clearing art, the guide and visitor poses, the nest box and two effect strips. All 19 textures import in Godot. C20 covers live behaviour and the phone pass.
 - [ ] C20 Habitat Restoration, growth and milestone gates
 - [ ] W21 Production art/audio coverage and asset license checks
 - [ ] C22 Full UI/settings/accessibility/audio integration

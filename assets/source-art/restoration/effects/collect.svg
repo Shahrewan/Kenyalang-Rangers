@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="128" viewBox="0 0 512 128">
+  <title>Collection — four 128-unit frames</title>
+  <desc>Read frames left to right. Ground pivot at (64,96). Two leaves lift gently as the small warm glint fades.</desc>
+  <g id="frame_0" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M54 87c-8 3-17-2-21-11 10-4 19 2 21 11z" fill="#9fa45e" stroke="#4c5435"/>
+    <path d="M74 88c2-11 12-16 21-13-2 9-11 15-21 13z" fill="#b8ad68" stroke="#565239"/>
+    <path d="M49 99q16 6 31 0" fill="none" stroke="#e4bf77" opacity=".7"/>
+  </g>
+  <g id="frame_1" transform="translate(128 0)" stroke-width="3" stroke-linejoin="round">
+    <path d="M48 69c-10 1-22-8-24-20 12-1 22 8 24 20z" fill="#9fa45e" stroke="#4c5435"/>
+    <path d="M78 67c5-12 17-19 28-16-2 11-14 19-28 16z" fill="#b8ad68" stroke="#565239"/>
+    <path d="M64 56l4 11 11 4-11 4-4 10-4-10-10-4 10-4z" fill="#edca80" stroke="#93794b"/>
+    <path d="M43 94q20 8 43 0" fill="none" stroke="#e4bf77" stroke-linecap="round"/>
+  </g>
+  <g id="frame_2" transform="translate(256 0)" stroke-width="3" stroke-linejoin="round">
+    <path d="M41 51c-12-1-23-11-23-21 13-3 23 9 23 21z" fill="#9fa45e" stroke="#4c5435" opacity=".8"/>
+    <path d="M85 49c4-12 15-18 28-15-3 12-17 17-28 15z" fill="#b8ad68" stroke="#565239" opacity=".8"/>
+    <path d="M65 49l3 7 8 4-8 3-3 8-4-8-7-3 7-4z" fill="#f1d292" opacity=".82"/>
+    <path d="M41 90q23 9 47-1" fill="none" stroke="#e4bf77" stroke-linecap="round" opacity=".6"/>
+  </g>
+  <g id="frame_3" transform="translate(384 0)">
+    <path d="M32 36c-8-3-12-8-14-16 9 1 15 7 14 16zm64-3c4-8 12-12 17-10-3 7-9 11-17 10z" fill="#a79f59" opacity=".42"/>
+    <path d="M65 43l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#efd192" opacity=".55"/>
+  </g>
+</svg>
