@@ -2,6 +2,8 @@
 
 **GDD** is *SimSimi.pdf*, Task 1 (GDD v1.0). **Mini** is Task 2 (PDF pp. 34–39). **UI** is *Kenyalang_Rangers_Tileset_UI_Storyboard.pdf*. Page numbers are PDF pages. **FIXED** marks current visual or navigation intent, **PROVISIONAL** measurements and mockups, and **MISSING** deliverables or details marked `TBD`. Gameplay numbers in example screens follow [the GDD rulebook](GAME_RULES.md) and the [data contracts](DATA_CONTRACTS.md). [UI pp. 2, 10, 15, 34–35]
 
+For implementation, use the [W08 component bindings](UI_COMPONENT_SPEC.md) and [asset manifest](ART_ASSET_MANIFEST.md). These carry forward the frame IDs and record checked geometry and asset availability.
+
 ## Visual language and screen sizing
 
 - **FIXED**. Landscape phone composition, safe-area anchors, forest/cream UI, clear ground and elevated contrast. Keep the field visible, with edge-aligned HUD and narrow deployment tray. Use numeric Integrity and punched-ticket Logistic Tokens, a tree-veiled tunnel for the objective, and icon/shape plus color for important states. Scale menu and dialogue text. [GDD pp. 14–17 §§ I.1–4, K; pp. 28–29 §§ O.1, O.4, P; UI pp. 2–5, 23 S11]
@@ -32,7 +34,7 @@
 | T05 Imbak Canyon | C2-07–C2-08. Original stepped canyon lane. Runtime Heat is conditional on the operation. | GDD pp. 7, 9, 21–22, 32 §§ F.3, G.5, M.4, T.2; UI pp. 4, 8, 31 S18 |
 | T06 Sepilok-Kabili | C2-09–C2-10. Original stepped ground lane approaching the tunnel higher in the frame, with separately marked elevated deployment cells. | GDD pp. 7, 21–22, 32 §§ F.3, M.4, T.2; UI pp. 4, 8 |
 
-The diagrams specify original geometry intent. Maintain the same T01 board across Chapter 1 and one regional board per Chapter 2 pair. A p. 32 GDD sample is a deployment grammar schematic. Runtime masks, coordinates, path and asset import verification are `TBD` against the design package. [GDD pp. 21, 32 §§ M.4, T.2; UI pp. 4–6]
+The diagrams specify original geometry intent. Maintain the same T01 board across Chapter 1 and one regional board per Chapter 2 pair. A p. 32 GDD sample is a deployment grammar schematic. W08 checked exact coordinates for all six boards and matched T01 to the current runtime. The other five await implementation and import validation. [W08 map layouts](ART_ASSET_MANIFEST.md#six-map-geometry-layouts) · [GDD pp. 21, 32 §§ M.4, T.2; UI pp. 4–6]
 
 **PROVISIONAL geometry inventory**. UI p. 6 documents 56 planned pieces and 128 px top faces. This is an atlas spec for production slicing. Runtime textures, packing margins, pivots and validated source rectangles are `TBD` before import. [UI pp. 6, 10]
 
@@ -77,9 +79,9 @@ The diagrams specify original geometry intent. Maintain the same T01 board acros
 
 | Status | Asset or package | Evidence and next dependency |
 |---|---|---|
-| **MISSING in PDF handoff and GitHub main** | **116 editable frame SVGs**, 116 matching PNG frame exports, offline viewer, ten illustration PNG layers and project-memory file. | The PDF contains 116 rendered screen references, with editable files described as separate handover items. A separate local candidate design archive was found. Its embedded storyboard is byte-identical, its SVG and frame PNG IDs match all 116 frame pages, and it contains the viewer, ten image files and memory file. All 116 SVGs parsed with text and vector geometry. Their relative image references resolve inside the archive. Confirm editing, viewer behavior, production rights and export quality before repository delivery. [UI pp. 1–2, 7, 10, 12–127; repository docs/production/SOURCE_INVENTORY.md; design archive inventory] |
+| **RECOVERED in separate design archive** | **116 editable frame SVGs**, 116 matching PNG frame exports, offline viewer, ten illustration PNG layers and project-memory file. | W08 matched all 116 frame IDs and 483 relative asset links. Representative editor exports, a temporary S10 edit and viewer logic checks passed. Live viewer review and production rights remain open. [UI pp. 1–2, 7, 10, 12–127] · [Validation](ART_ASSET_MANIFEST.md#source-validation) |
 | **MISSING in PDF handoff and GitHub main** | `tile_atlas_spec.svg`, `tile_piece_catalog.json`, `tile_grammar.svg` and `tile_layouts.json`. | Four separate deliverables are named on p. 6 and found in the separate candidate archive. Approve the mapping to runtime board data and production imagery. [UI pp. 4, 6, 10; design archive inventory] |
-| **MISSING** | Production-ready sprite cuts, anatomical anchors, rigs, finalized textured tile atlas, additional regional backdrops and audio assets. | Author and verify at actual landscape phone size. Maintain a provenance/license record per deliverable. [GDD pp. 17–18 §§ K–L; pp. 29–31 §§ Q, S.1–3; UI pp. 6, 10–11] |
+| **PARTIAL** | Scout cutout and rig pilot. Remaining production sprite cuts, anchors and rigs, textured atlas, additional regional backdrops and audio assets. | W06/C07 are verified off-device. Review at landscape phone size and complete the remaining deliverables and provenance records. [GDD pp. 17–18 §§ K–L; pp. 29–31 §§ Q, S.1–3; UI pp. 6, 10–11] · [Asset tickets](ART_ASSET_MANIFEST.md#prioritized-asset-tickets) |
 | **MISSING** | Full narrative and final reviewed Outreach, Records and Restoration educational sources. | Sample dialogue, question/feedback layouts and example articles establish presentation. Full story and quiz facts enter through the authored banks and review. [GDD pp. 2, 7, 25–27, 33 §§ A, F.3–4, M.8–10, T.3; UI pp. 8, 10, 85–88, 98, 102] |
 
 ## Storyboard frame index

@@ -8,6 +8,8 @@ The reconciliation uses GDD v1.0 and the 127-page tileset and UI storyboard. Exp
 | [SYSTEMS_INDEX.md](SYSTEMS_INDEX.md) | Named catalogs, exact source IDs, mission/recruitment and room tables |
 | [DATA_CONTRACTS.md](DATA_CONTRACTS.md) | Data fields, constraints, economic values and persistence |
 | [ART_AND_UI_SPEC.md](ART_AND_UI_SPEC.md) | Original maps, reference assets, navigation and exact storyboard frame index |
+| [UI_COMPONENT_SPEC.md](UI_COMPONENT_SPEC.md) | W08 reusable templates and rule checks for all 116 storyboard states, with C09 acceptance cases |
+| [ART_ASSET_MANIFEST.md](ART_ASSET_MANIFEST.md) | W08 source status, exact coordinates for six boards, 56 technical atlas pieces and prioritized asset tickets |
 | [DECISION_LOG.md](DECISION_LOG.md) | Reconciliations, proposed balance and approval gates |
 
 Use the [production backlog](../production/BACKLOG.md) to plan implementation and the [progress tracker](../production/PROGRESS_TRACKER.md) for actual verification.

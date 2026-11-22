@@ -21,7 +21,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C05 First Contact playable slice and debug APK verified off-device. Physical-phone playtest is required before expanding beyond C05.
 - [x] W06 [Reference-matched specs for 12 Rangers and the redrawn Scout Sniper v0.2.0 kit](W06_RANGER_SPRITE_SPEC.md) verified off-device. C07 covers rigging and phone review.
 - [~] C07 Scout Sniper rig, seven states and standalone APK verified off-device. Phone review remains open.
-- [ ] W08 UI style guide, map geometry and asset delivery plan
+- [x] W08 [UI component spec](../canon/UI_COMPONENT_SPEC.md) and [asset manifest](../canon/ART_ASSET_MANIFEST.md) verified against 116 storyboard states, six board layouts and 56 technical atlas pieces. Asset delivery and phone checks remain in their downstream tickets.
 - [ ] C09 Common battle HUD, dialogue and planning shell
 - [ ] C10 12 Rangers: data + all behavior + tests
 - [ ] C11 13 Facilities: data + all behavior + tests

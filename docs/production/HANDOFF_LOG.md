@@ -80,3 +80,10 @@
 - Built an isolated Skeleton2D/Bone2D preview using the 19 W06 cutouts and manifest. Added seven AnimationPlayer states, ground-anchor mirroring, a locked-facing demonstration, clock pause and 1×/2×.
 - Godot 4.7.2 passed editor import, preview launch, 14 rig checks and 144 existing checks. A 1280×720 Linux render visually checked sampled poses from all seven states and mirrored Idle.
 - Exported a standalone signed ARM64 preview APK and verified archive alignment and the 19 packaged textures. The standard C05 project and APK remain separate. The C05 and C07 physical-phone checks are still open. See the [rig guide](C07_SCOUT_RIG.md).
+
+## W08 reusable UI and asset handoff — 2026-11-21
+
+- Based on main at `dea0c09`. [UI_COMPONENT_SPEC.md](../canon/UI_COMPONENT_SPEC.md) maps every storyboard frame to a reusable template and its live inputs, including 48 dp measurement, C1-01 supply, layered battle HUD and C09 acceptance cases.
+- [ART_ASSET_MANIFEST.md](../canon/ART_ASSET_MANIFEST.md) records ten recovered illustration candidates, six exact layouts, all 56 diagram pieces and ten prioritized delivery tickets. T01 matches the running map and route definitions. T02–T06 remain validated design geometry.
+- Matched the two PDF hashes, 116 SVG/PNG pairs and 483 asset links. Reviewed seven rendered PDF pages, re-exported six SVG samples and a temporary S10 text edit, and tested viewer navigation and tray logic in a JavaScript harness. A live offline browser pass and production clearance stay open under D-003/D-014.
+- Godot 4.7.2 passed headless editor import, startup and 158 existing checks across `project_smoke`, `battle_simulation`, `deployment`, `logistics`, `first_contact` and `scout_rig`. W08 changed documentation. Physical C05 and C07 checks remain open. C09 acceptance uses the [device check matrix](../canon/UI_COMPONENT_SPEC.md#c09-handoff-and-acceptance).
