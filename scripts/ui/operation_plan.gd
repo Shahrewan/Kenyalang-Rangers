@@ -9,20 +9,25 @@ var ranger_limit := 0
 var facility_limit := 0
 var show_hints := true
 var _unlocked: Array[StringName]
+var _unit_levels: Dictionary
 
 func _init(definition: StoryOperation, unlocked: Array[StringName]) -> void:
 	operation = definition
 	_unlocked = unlocked.duplicate()
 
-func configure_campaign(profile: Dictionary, previous_selection: Variant = null) -> void:
-	ranger_limit = CampaignProgress.RANGER_SLOTS
-	facility_limit = CampaignProgress.FACILITY_SLOTS if profile.mechanical else 0
+func configure_campaign(progress: CampaignProgress, previous_selection: Variant = null) -> void:
+	ranger_limit = progress.room_capacity(HeadquartersCatalog.HR)
+	facility_limit = progress.room_capacity(HeadquartersCatalog.MECHANICAL)
+	_unlocked = progress.unlocked_buffs()
+	_unit_levels = progress.snapshot().deployable_levels
+	if selected_buff != null and not buff_error(selected_buff).is_empty():
+		selected_buff = null
 	choices.clear()
 	selected_ids.clear()
 	if operation.opening_rules.starter_only:
 		return
 	for spec in operation.roster.entries:
-		if String(spec.id) not in profile.owned or spec.id in operation.supply_ids:
+		if not progress.owns(spec.id) or spec.id in operation.supply_ids:
 			continue
 		if not spec.is_ranger() and (facility_limit == 0 or (spec.logistics_post and operation.opening_rules.fixed_stockpile)):
 			continue
@@ -81,11 +86,16 @@ func deployment_entries() -> Array[DeploymentSpec]:
 	return entries
 
 func effective_spec(spec: DeploymentSpec) -> DeploymentSpec:
-	var adjusted := CampaignDebuffs.deployable(spec, operation.fixed_debuff_ids) if operation.campaign_spec else spec
+	var adjusted := spec
+	if operation.campaign_spec:
+		# Mission-issued cards keep their authored levels on every attempt.
+		if spec.id not in operation.supply_ids:
+			adjusted = DeployableLevels.effective(spec, int(_unit_levels.get(String(spec.id), spec.level)))
+		adjusted = CampaignDebuffs.deployable(adjusted, operation.fixed_debuff_ids)
 	if selected_buff != null and spec.is_ranger():
 		if adjusted == spec:
 			adjusted = spec.duplicate() as DeploymentSpec
-		adjusted.attack_damage = roundi(spec.attack_damage * (100.0 + selected_buff.ranger_damage_percent) / 100.0)
+		adjusted.attack_damage = roundi(adjusted.attack_damage * (100.0 + selected_buff.ranger_damage_percent) / 100.0)
 	return adjusted
 
 func can_start() -> bool:

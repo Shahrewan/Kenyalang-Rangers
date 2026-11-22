@@ -13,11 +13,11 @@ func _ready() -> void:
 	var profile := progress.snapshot()
 	StoryUI.header(self, "Story Mode", func() -> void: back_requested.emit(), "%d Funds" % profile.funds)
 	var summary := StoryUI.row(self, 16)
-	var control := StoryUI.label("Control Lv.%d" % profile.control, 22, StoryUI.BEIGE)
+	var control := StoryUI.label("Control Lv.%d" % progress.room_level(HeadquartersCatalog.CONTROL), 22, StoryUI.BEIGE)
 	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	summary.add_child(control)
-	var access := StoryUI.action("Campaign access")
-	access.name = "CampaignAccess"
+	var access := StoryUI.action("Headquarters")
+	access.name = "OpenHeadquarters"
 	access.pressed.connect(func() -> void: access_requested.emit())
 	summary.add_child(access)
 	if not content.error.is_empty():

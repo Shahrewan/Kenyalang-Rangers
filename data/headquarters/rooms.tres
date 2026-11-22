@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="HeadquartersCatalog" load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/headquarters_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/headquarters_room.gd" id="2"]
+
+[sub_resource type="Resource" id="Control"]
+script = ExtResource("2")
+id = &"room.control_room"
+label = "Control Room"
+role = 0
+costs = PackedInt32Array(0, 20000, 80000, 300000, 900000)
+tier_unlocks = PackedStringArray("C1-01–03", "C1-04–05", "C2-01–04", "C2-05–08", "C2-09–10")
+
+[sub_resource type="Resource" id="HR"]
+script = ExtResource("2")
+id = &"room.human_resources"
+label = "Human Resources"
+role = 1
+costs = PackedInt32Array(0, 25000, 110000, 350000, 1000000)
+capacities = PackedInt32Array(3, 4, 5, 6, 8)
+
+[sub_resource type="Resource" id="Finance"]
+script = ExtResource("2")
+id = &"room.finance_room"
+label = "Finance Room"
+role = 2
+costs = PackedInt32Array(0, 15000, 75000, 250000, 750000)
+income_rates = PackedInt32Array(2, 4, 7, 10, 15)
+storage_limits = PackedInt32Array(12000, 25000, 50000, 90000, 160000)
+
+[sub_resource type="Resource" id="Mechanical"]
+script = ExtResource("2")
+id = &"room.mechanical"
+label = "Mechanical"
+role = 3
+costs = PackedInt32Array(20000, 25000, 110000, 350000, 1000000)
+capacities = PackedInt32Array(2, 3, 4, 5, 6)
+
+[sub_resource type="Resource" id="Ecology"]
+script = ExtResource("2")
+id = &"room.ecology"
+label = "Ecology"
+role = 4
+costs = PackedInt32Array(20000, 20000, 90000, 300000, 900000)
+capacities = PackedInt32Array(2, 3, 4, 5, 6)
+gate = 1
+gate_minimum = 60
+
+[sub_resource type="Resource" id="Outreach"]
+script = ExtResource("2")
+id = &"room.outreach"
+label = "Outreach"
+role = 5
+costs = PackedInt32Array(15000, 20000, 100000, 330000, 950000)
+best_response = PackedInt32Array(25000, 60000, 110000, 180000, 300000)
+gate = 2
+gate_minimum = 5
+
+[sub_resource type="Resource" id="Records"]
+script = ExtResource("2")
+id = &"room.records"
+label = "Records"
+role = 6
+costs = PackedInt32Array(15000, 20000, 100000, 300000, 900000)
+tier_unlocks = PackedStringArray("", "records_chapter.scout_sniper", "records_chapter.patrolman", "records_chapter.combat_medic", "records_chapter.woods_tracker")
+
+[sub_resource type="Resource" id="Eco"]
+script = ExtResource("2")
+id = &"room.r_d_eco"
+label = "R&D Eco"
+role = 7
+costs = PackedInt32Array(25000, 25000, 120000, 360000, 1050000)
+tier_unlocks = PackedStringArray("", "B01", "B02", "B03", "B04")
+
+[sub_resource type="Resource" id="Combat"]
+script = ExtResource("2")
+id = &"room.r_d_combat"
+label = "R&D Combat"
+role = 7
+costs = PackedInt32Array(25000, 25000, 120000, 360000, 1050000)
+tier_unlocks = PackedStringArray("", "B05", "B06", "B07", "B08")
+
+[sub_resource type="Resource" id="Guard"]
+script = ExtResource("2")
+id = &"room.r_d_guard"
+label = "R&D Guard"
+role = 7
+costs = PackedInt32Array(25000, 25000, 120000, 360000, 1050000)
+tier_unlocks = PackedStringArray("", "B09", "B10", "B11", "B12")
+
+[sub_resource type="Resource" id="Crisis"]
+script = ExtResource("2")
+id = &"room.r_d_crisis"
+label = "R&D Crisis"
+role = 7
+costs = PackedInt32Array(30000, 30000, 150000, 450000, 1300000)
+tier_unlocks = PackedStringArray("", "", "B13", "B14", "B15")
+
+[resource]
+script = ExtResource("1")
+rooms = Array[ExtResource("2")]([SubResource("Control"), SubResource("HR"), SubResource("Finance"), SubResource("Mechanical"), SubResource("Ecology"), SubResource("Outreach"), SubResource("Records"), SubResource("Eco"), SubResource("Combat"), SubResource("Guard"), SubResource("Crisis")])

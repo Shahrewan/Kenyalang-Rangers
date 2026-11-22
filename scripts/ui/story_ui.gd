@@ -64,6 +64,7 @@ static func header(parent: Node, title: String, back: Callable, summary := "") -
 	line.add_child(heading)
 	if not summary.is_empty():
 		var balance := label(summary, 19, BEIGE)
+		balance.name = "FundsSummary"
 		balance.autowrap_mode = TextServer.AUTOWRAP_OFF
 		line.add_child(balance)
 	return back_button
@@ -75,6 +76,25 @@ static func android_touch_minimum(control: Control) -> Vector2:
 	var transform := control.get_viewport().get_screen_transform()
 	var scale := Vector2(transform.x.length(), transform.y.length())
 	return TOUCH_MINIMUM.max((Vector2.ONE * ceilf(48.0 * density) / scale.max(Vector2(0.01, 0.01))).ceil())
+
+static func funds(amount: int) -> String:
+	var digits := str(absi(amount))
+	var parts := PackedStringArray()
+	while digits.length() > 3:
+		parts.insert(0, digits.right(3))
+		digits = digits.left(digits.length() - 3)
+	parts.insert(0, digits)
+	return ("−" if amount < 0 else "") + ",".join(parts)
+
+static func confirmation(parent: Control, title: String, caption: String) -> ConfirmationDialog:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = title
+	dialog.ok_button_text = caption
+	parent.add_child(dialog)
+	var minimum := android_touch_minimum(parent)
+	dialog.get_ok_button().custom_minimum_size = minimum
+	dialog.get_cancel_button().custom_minimum_size = minimum
+	return dialog
 
 static func size_buttons(page: Control) -> void:
 	if not page.is_inside_tree():

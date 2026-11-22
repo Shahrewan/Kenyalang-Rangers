@@ -23,8 +23,9 @@ var _draft: OperationPlan
 var _finance_elapsed := 0.0
 var _focused := true
 var _suspended := false
-var _access_return: Callable
-# Filled by HQ progression when that subsystem is present. Tests inject a researched effect.
+var _headquarters_return: Callable
+var _return_action: Callable
+# The isolated First Contact fixture can be given a researched effect.
 var unlocked_buff_ids: Array[StringName] = []
 
 func _ready() -> void:
@@ -35,10 +36,16 @@ func _ready() -> void:
 	else:
 		_campaign = CampaignContent.new()
 		_campaign_progress = CampaignProgress.new(campaign_save_path)
-		if _profile().leader_name.is_empty():
+		if _campaign_progress.load_status == CampaignProgress.LoadStatus.NEW:
 			var legacy: String = FirstContactProgress.new(save_path).snapshot().leader_name
 			if not legacy.is_empty():
 				_campaign_progress.set_leader_name(legacy)
+		if not _campaign_progress.can_play() or _campaign_progress.load_status == CampaignProgress.LoadStatus.RECOVERED:
+			_show_recovery()
+			return
+	_continue_profile()
+
+func _continue_profile() -> void:
 	if _profile().leader_name.is_empty():
 		show_naming()
 		return
@@ -53,7 +60,7 @@ func _profile() -> Dictionary:
 	return _progress.snapshot() if first_contact_trial else _campaign_progress.snapshot()
 
 func _process(delta: float) -> void:
-	if _campaign_progress == null or not _focused or _suspended:
+	if _campaign_progress == null or not _focused or _suspended or _route in [&"name", &"recovery"]:
 		return
 	if _screen is BattleScene and (_screen.battle == null or not _screen.battle.clock.is_running()):
 		return
@@ -81,19 +88,28 @@ func show_naming() -> void:
 func show_menu() -> void:
 	var page: Control = MAIN_MENU.instantiate()
 	var profile := _profile()
-	page.get_node("%ProfileSummary").text = "Leader %s   ·   %d Funds" % [profile.leader_name, profile.funds]
+	page.get_node("%ProfileSummary").text = "Leader %s   ·   %s Funds" % [profile.leader_name, StoryUI.funds(profile.funds)]
 	page.get_node("%OpenSample").pressed.connect(show_sample)
 	page.get_node("%OpenCampaign").pressed.connect(show_story)
 	if not first_contact_trial:
 		page.get_node("Modes/Headquarters/Office/Status").text = "Placeholder HQ art"
-		var access := StoryUI.action("Campaign access")
-		access.pressed.connect(func() -> void: _show_access(show_menu))
-		page.get_node("Modes/Headquarters/Office").add_child(access)
+		var access: Button = page.get_node("%OpenHeadquarters")
+		access.show()
+		access.pressed.connect(func() -> void: _open_headquarters(show_menu))
+		var settings: Button = page.get_node("%OpenSettings")
+		settings.show()
+		settings.pressed.connect(func() -> void: _show_settings(show_menu))
+		var garden: Button = page.get_node("%Garden")
+		garden.disabled = false
+		garden.text = "Reforestation"
+		garden.pressed.connect(func() -> void: _show_garden(show_menu))
 		page.get_node("Modes/Operations/Chaos/Description/Status").text = "Mode locked"
+		if _campaign_progress.load_status == CampaignProgress.LoadStatus.MIGRATED:
+			page.add_child(StoryUI.label(_campaign_progress.load_notice, 17, StoryUI.BEIGE))
 	_present(page, &"menu")
-	page.get_node("%OpenCampaign").grab_focus()
+	page.get_node("%OpenCampaign" if first_contact_trial else "%OpenHeadquarters").grab_focus()
 
-func show_story() -> void:
+func show_story(return_to := Callable()) -> void:
 	if not first_contact_trial:
 		if not _campaign_progress.abandon_attempt() and _route == &"plan":
 			_screen.show_error("Could not close the saved attempt. Check local storage.")
@@ -101,10 +117,11 @@ func show_story() -> void:
 		var story := CampaignStoryPage.new()
 		story.content = _campaign
 		story.progress = _campaign_progress
-		story.back_requested.connect(show_menu)
-		story.access_requested.connect(func() -> void: _show_access(show_story))
+		var back := return_to if return_to.is_valid() else show_menu
+		story.back_requested.connect(back)
+		story.access_requested.connect(func() -> void: _open_headquarters(show_story))
 		story.operation_requested.connect(_show_campaign_plan)
-		_present(story, &"story")
+		_present(story, &"story", back)
 		return
 	_progress = FirstContactProgress.new(save_path)
 	var page := STORY_PAGE.instantiate()
@@ -120,27 +137,105 @@ func _show_campaign_plan(operation: StoryOperation) -> void:
 		show_story()
 		return
 	var profile := _profile()
+	var selection: Variant = null
 	if _draft == null or _draft.operation != operation:
-		_draft = OperationPlan.new(operation, unlocked_buff_ids)
-		_draft.configure_campaign(profile)
-	elif _draft.facility_limit == 0 and profile.mechanical:
-		var selection := _draft.selected_ids.duplicate()
-		selection.append(&"facility.logistics_post")
-		_draft.configure_campaign(profile, selection)
+		_draft = OperationPlan.new(operation, [])
+	else:
+		selection = _draft.selected_ids.duplicate()
+		if _draft.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
+			selection.append(&"facility.logistics_post")
+	_draft.configure_campaign(_campaign_progress, selection)
 	var page := PLANNING.instantiate()
 	page.plan = _draft
 	page.funds = profile.funds
 	page.back_requested.connect(show_story)
-	page.access_requested.connect(func() -> void: _show_access(_show_campaign_plan.bind(operation)))
+	page.access_requested.connect(func() -> void: _open_headquarters(_show_campaign_plan.bind(operation)))
 	page.start_requested.connect(_start_campaign)
 	_present(page, &"plan")
 
-func _show_access(back: Callable) -> void:
-	_access_return = back
-	var page := CampaignAccessPage.new()
+func _open_headquarters(back: Callable) -> void:
+	_headquarters_return = back
+	_show_headquarters()
+
+func _show_headquarters() -> void:
+	var page := HeadquartersOverview.new()
 	page.progress = _campaign_progress
-	page.back_requested.connect(_access_return)
-	_present(page, &"access")
+	page.back_requested.connect(_headquarters_return)
+	page.room_requested.connect(_show_hq_room)
+	_present(page, &"headquarters", _headquarters_return)
+
+func _show_hq_room(room: HeadquartersRoom) -> void:
+	var page := HeadquartersRoomPage.new()
+	page.progress = _campaign_progress
+	page.definition = room
+	page.back_requested.connect(_show_headquarters)
+	page.activity_requested.connect(_show_room_activity)
+	_present(page, &"hq_room", _show_headquarters)
+
+func _show_room_activity(room: HeadquartersRoom) -> void:
+	match room.role:
+		HeadquartersRoom.Role.CONTROL:
+			show_story(_show_hq_room.bind(room))
+		HeadquartersRoom.Role.HR, HeadquartersRoom.Role.MECHANICAL:
+			_show_roster(room)
+		HeadquartersRoom.Role.ECOLOGY:
+			_show_garden(_show_hq_room.bind(room))
+
+func _show_roster(room: HeadquartersRoom) -> void:
+	var page := HeadquartersRosterPage.new()
+	page.rangers = room.role == HeadquartersRoom.Role.HR
+	page.progress = _campaign_progress
+	var back := _show_hq_room.bind(room)
+	page.back_requested.connect(back)
+	page.unit_requested.connect(func(spec: DeploymentSpec) -> void: _show_unit(spec, room))
+	_present(page, &"hq_roster", back)
+
+func _show_unit(spec: DeploymentSpec, room: HeadquartersRoom) -> void:
+	var page := DeployableUpgradePage.new()
+	page.definition = spec
+	page.progress = _campaign_progress
+	var back := _show_roster.bind(room)
+	page.back_requested.connect(back)
+	_present(page, &"hq_levels", back)
+
+func _show_garden(back: Callable) -> void:
+	var page := HeadquartersGarden.new()
+	page.progress = _campaign_progress
+	page.back_requested.connect(back)
+	page.ecology_requested.connect(func() -> void:
+		_headquarters_return = show_menu
+		_show_hq_room(CampaignProgress.HEADQUARTERS.room(HeadquartersCatalog.ECOLOGY))
+	)
+	_present(page, &"hq_garden", back)
+
+func _show_recovery() -> void:
+	var page := VBoxContainer.new()
+	var card := StoryUI.panel(page)
+	card.add_child(StoryUI.label("Local save", 30))
+	card.add_child(StoryUI.label(_campaign_progress.load_notice, 22, StoryUI.AMBER))
+	if _campaign_progress.can_play():
+		var resume := StoryUI.action("Continue", true)
+		resume.pressed.connect(_continue_profile)
+		card.add_child(resume)
+	else:
+		var settings := StoryUI.action("Open Settings", true)
+		settings.name = "RecoverySettings"
+		settings.pressed.connect(func() -> void: _show_settings(_show_recovery))
+		card.add_child(settings)
+	_present(page, &"recovery")
+
+func _show_settings(back: Callable) -> void:
+	var page := ProfileSettingsPage.new()
+	page.progress = _campaign_progress
+	page.back_requested.connect(back)
+	page.reset_requested.connect(func() -> void:
+		if _campaign_progress.reset_profile():
+			_draft = null
+			show_naming()
+		else:
+			page.show_error()
+	)
+	_present(page, &"settings", back)
 
 func _start_campaign() -> void:
 	if _draft == null or not _draft.can_start():
@@ -156,7 +251,9 @@ func _start_campaign() -> void:
 	page.campaign = true
 	page.stage = _draft.operation.stage
 	page.operation_plan = _draft
-	page.get_node("%DeploymentController").roster = _draft.operation.roster
+	var controller := page.get_node("%DeploymentController")
+	controller.roster = _draft.operation.roster
+	controller.records_enhancements = _campaign_progress.records_enhancements()
 	page.abandon_requested.connect(func() -> void:
 		var saved := _campaign_progress.abandon_attempt()
 		_show_campaign_plan(_draft.operation)
@@ -209,11 +306,12 @@ func _show_results(report: Dictionary) -> void:
 	page.story_requested.connect(show_story)
 	_present(page, &"results")
 
-func _present(page: Control, route: StringName) -> void:
+func _present(page: Control, route: StringName, back := Callable()) -> void:
 	if is_instance_valid(_screen):
 		_content.remove_child(_screen)
 		_screen.queue_free()
 	_route = route
+	_return_action = back
 	_screen = page
 	_content.add_child(page)
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -244,12 +342,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _go_back() -> void:
+	if _return_action.is_valid():
+		_return_action.call()
+		return
 	match _route:
 		&"battle":
 			_screen.request_back()
 		&"plan", &"results":
 			show_story()
-		&"access":
-			_access_return.call()
 		&"story", &"sample":
 			show_menu()

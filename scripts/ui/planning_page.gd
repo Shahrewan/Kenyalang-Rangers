@@ -115,8 +115,9 @@ func _add_campaign_loadout(rangers: VBoxContainer, facilities: VBoxContainer) ->
 	for spec in plan.choices:
 		var panel := rangers if spec.is_ranger() else facilities
 		var choice := CheckBox.new()
-		var price := "free first drop" if spec.logistics_post else "%d Tokens" % plan.effective_spec(spec).cost
-		choice.text = "%s\n%s" % [spec.label, price]
+		var effective := plan.effective_spec(spec)
+		var price := "free first drop" if spec.logistics_post else "%d Tokens" % effective.cost
+		choice.text = "%s\nLv.%d · %s" % [spec.label, effective.level, price]
 		choice.add_theme_font_size_override("font_size", 16)
 		choice.add_theme_color_override("font_color", StoryUI.INK)
 		choice.add_theme_color_override("font_hover_color", StoryUI.INK)
@@ -133,7 +134,8 @@ func _add_campaign_loadout(rangers: VBoxContainer, facilities: VBoxContainer) ->
 			_update_start()
 		)
 	if plan.facility_limit == 0:
-		var access := StoryUI.action("Open Campaign access")
+		var access := StoryUI.action("Open Headquarters")
+		access.name = "OpenHeadquarters"
 		facilities.add_child(access)
 		access.pressed.connect(func() -> void: access_requested.emit())
 	_update_slot_labels()
@@ -154,7 +156,7 @@ func _update_start() -> void:
 	if _start.disabled:
 		_feedback.text = "Start requires an affordable legal deployment."
 		if plan.operation.campaign_spec and plan.facility_limit == 0:
-			_feedback.text = "Build Mechanical in Campaign access to equip the Logistics Post."
+			_feedback.text = "Build Mechanical at Headquarters to equip the Logistics Post."
 	elif plan.operation.opening_rules.starter_only:
 		_feedback.text = "Drag the free Starter Post onto an elevated pair. Opening balance 0 Tokens."
 	elif plan.operation.opening_rules.fixed_stockpile:
