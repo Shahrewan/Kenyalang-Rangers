@@ -5,6 +5,7 @@ const Portrait := preload("res://scripts/ui/deployment_portrait.gd")
 @export var opening_rules: LogisticsRules
 @export var roster: DeploymentRoster
 @export var preview_budget := -1
+@export var records_enhancements: Array[StringName]
 
 @onready var _board: BattleBoard = %Board
 @onready var _scroll: ScrollContainer = %TrayScroll
@@ -73,7 +74,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 			var starter := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
 			if (not rules.starter_only or starter) and not (rules.fixed_stockpile and spec.logistics_post):
 				_offered[spec.id] = spec
-	state = DeploymentState.new(map, simulation.clock, maxi(0, preview_budget), rules)
+	state = DeploymentState.new(map, simulation.clock, maxi(0, preview_budget), rules, records_enhancements)
 	state.skill_fired.connect(_skill_fired)
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
@@ -204,8 +205,8 @@ func _release(at: Vector2) -> void:
 			if state.occupancy.get(cell, &"") == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
 					_show_retreat(_gesture.unit)
-				elif preview_skills and state.quick_tap(_gesture.unit) and not state.armed.is_empty():
-					_hint.text = "Tap a covered tile, then confirm the skill."
+				else:
+					_tap_skill(_gesture.unit)
 		DeploymentGesture.Release.HOLD:
 			_show_retreat(_gesture.unit)
 		DeploymentGesture.Release.TARGET:
@@ -241,8 +242,24 @@ func _retreat_ranger() -> void:
 		_hint.text = "Ranger retreated. Redeploy after the cooldown."
 	_hide_retreat()
 
+func _tap_skill(id: StringName) -> void:
+	var unit := state.placed[id]
+	if unit.ranger != null:
+		if not _simulation.tap_ranger(id):
+			_hint.text = state.last_skill_error
+			return
+	elif not preview_skills or not state.quick_tap(id):
+		return
+	if not state.armed.is_empty():
+		_hint.text = "Tap a covered tile, then confirm the skill."
+
 func _confirm_skill() -> void:
-	state.confirm_target()
+	var unit: DeploymentState.Placement = state.placed.get(state.armed)
+	if unit == null:
+		return
+	var fired := _simulation.confirm_ranger_target() if unit.ranger != null else state.confirm_target()
+	if not fired:
+		_hint.text = state.last_skill_error
 	_refresh()
 
 func _cancel_skill() -> void:
@@ -252,6 +269,9 @@ func _cancel_skill() -> void:
 
 func _skill_fired(id: StringName, target: Vector2i) -> void:
 	var unit: DeploymentState.Placement = state.placed[id]
+	if unit.ranger != null:
+		_hint.text = "%s used %s." % [unit.spec.label, unit.ranger.active_skill.label]
+		return
 	for enemy_id: int in _simulation.active.keys():
 		var enemy := _simulation.active[enemy_id]
 		var cell := Vector2i(enemy.grid_position().round())
@@ -280,7 +300,7 @@ func _refresh() -> void:
 		if build > 0:
 			detail = "Building %ds" % ceili(float(build) / CombatClock.TICKS_PER_SECOND)
 		elif state.placed.has(spec.id):
-			detail = "Deployed"
+			detail = _deployed_card_detail(state.placed[spec.id])
 		elif spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
 			detail = "Starter deployed"
 		elif spec.logistics_post and state.posts_deployed == 0:
@@ -289,3 +309,15 @@ func _refresh() -> void:
 			detail = "Cooldown %ds" % ceili(float(ticks) / CombatClock.TICKS_PER_SECOND)
 		_labels[i].text = "%s\n%s" % [spec.label, detail]
 	_board.queue_redraw()
+
+func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
+	if unit.ranger == null or unit.ranger.active_skill == null:
+		return "Deployed"
+	var skill := unit.ranger.active_skill
+	if skill.requires_records and not unit.records_enhanced:
+		return "%s · Records locked" % skill.label
+	var detail := "%s %d/%d" % [skill.label, unit.skill_charges, skill.max_charges]
+	if unit.skill_recharge_tick > state.clock.tick:
+		var remaining := unit.skill_recharge_tick - state.clock.tick
+		detail += " · %ds" % ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
+	return detail

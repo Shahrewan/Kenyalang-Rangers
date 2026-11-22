@@ -7,6 +7,10 @@ const NO_CELL := Vector2i(-1, -1)
 
 class Placement:
 	var spec: DeploymentSpec
+	var ranger: RangerSpec
+	var records_enhanced: bool
+	var skill_charges := 0
+	var skill_recharge_tick := 0
 	var anchor: Vector2i
 	var paid_cost: int
 	var hp: int
@@ -19,14 +23,31 @@ class Placement:
 			return _facing
 	var _facing: int
 
-	func _init(definition: DeploymentSpec, cell: Vector2i, direction: int, paid: int, deadline: int) -> void:
+	func _init(definition: DeploymentSpec, cell: Vector2i, direction: int, paid: int, deadline: int, enhancements: Array[StringName]) -> void:
 		spec = definition
+		ranger = definition as RangerSpec
+		if ranger != null:
+			records_enhanced = ranger.records_enhancement in enhancements
+			if ranger.active_skill != null and (not ranger.active_skill.requires_records or records_enhanced):
+				skill_charges = ranger.active_skill.max_charges
 		hp = spec.max_hp
 		anchor = cell
 		paid_cost = paid
 		build_deadline = deadline
 		next_payout_tick = deadline + LogisticsRules.PAYOUT_TICKS
 		_facing = -1 if direction < 0 else 1
+
+	func recharge_skill(tick: int) -> void:
+		if skill_recharge_tick == 0 or tick < skill_recharge_tick:
+			return
+		var skill := ranger.active_skill
+		skill_charges += 1
+		skill_recharge_tick = 0 if skill_charges == skill.max_charges else tick + CombatClock.ticks_for(skill.recharge_seconds)
+
+	func spend_skill_charge(tick: int) -> void:
+		skill_charges -= 1
+		if skill_recharge_tick == 0:
+			skill_recharge_tick = tick + maxi(1, CombatClock.ticks_for(ranger.active_skill.recharge_seconds))
 
 var map: BattleMap
 var clock: CombatClock
@@ -37,14 +58,17 @@ var placed: Dictionary[StringName, Placement] = {}
 var occupancy: Dictionary[Vector2i, StringName] = {}
 var armed: StringName
 var pending_target := NO_CELL
+var last_skill_error := ""
 var _ready_tick: Dictionary[StringName, int] = {}
+var _enhancements: Array[StringName]
 
-func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null) -> void:
+func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null, enhancements: Array[StringName] = []) -> void:
 	map = board
 	clock = battle_clock
 	rules = opening if opening != null else LogisticsRules.new()
 	tokens = LogisticsRules.FIXED_STOCKPILE if rules.fixed_stockpile else preview_budget
-	clock.stepped.connect(_process_payouts)
+	_enhancements = enhancements.duplicate()
+	clock.stepped.connect(_advance)
 
 func cost_for(spec: DeploymentSpec) -> int:
 	if not spec.logistics_post:
@@ -65,10 +89,11 @@ func has_legal_opening(entries: Array[DeploymentSpec]) -> bool:
 				return true
 	return false
 
-func _process_payouts(tick: int, _seconds: float) -> void:
+func _advance(tick: int, _seconds: float) -> void:
 	if not clock.is_running():
 		return
 	for unit: Placement in placed.values():
+		unit.recharge_skill(tick)
 		if not unit.spec.logistics_post or tick < unit.next_payout_tick:
 			continue
 		var amount := unit.yield_remainder + rules.post_yield_numerator(unit.spec.level)
@@ -121,7 +146,7 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 	var build_ticks := 0 if first_post or spec.is_ranger() else CombatClock.ticks_for(spec.build_seconds)
 	for cell in spec.footprint(anchor) + spec.reserved(anchor):
 		occupancy[cell] = id
-	placed[id] = Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks)
+	placed[id] = Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks, _enhancements)
 	tokens -= cost
 	if not first_post and not spec.is_ranger():
 		_ready_tick[spec.id] = clock.tick + CombatClock.ticks_for(spec.build_cooldown_seconds)
@@ -181,16 +206,16 @@ func can_attack(unit: Placement, cell: Vector2i, aerial: bool) -> bool:
 		return false
 	return cell in coverage(unit.spec, unit.anchor, unit.facing)
 
-func quick_tap(id: StringName) -> bool:
+func quick_tap(id: StringName, resolve: Callable = Callable()) -> bool:
 	var unit: Placement = placed.get(id)
-	if not clock.is_running() or unit == null or unit.spec.skill == DeploymentSpec.Skill.NONE:
+	last_skill_error = _skill_error(unit)
+	if not last_skill_error.is_empty():
 		return false
 	cancel_skill()
 	if unit.spec.skill == DeploymentSpec.Skill.TARGETED:
 		armed = id
-	else:
-		skill_fired.emit(id, NO_CELL)
-	return true
+		return true
+	return _activate_skill(unit, id, NO_CELL, resolve)
 
 func select_target(cell: Vector2i) -> bool:
 	var unit: Placement = placed.get(armed)
@@ -200,11 +225,41 @@ func select_target(cell: Vector2i) -> bool:
 	pending_target = cell
 	return true
 
-func confirm_target() -> bool:
-	if not clock.is_running() or armed.is_empty() or pending_target == NO_CELL:
+func confirm_target(resolve: Callable = Callable()) -> bool:
+	var unit: Placement = placed.get(armed)
+	last_skill_error = _skill_error(unit)
+	if not last_skill_error.is_empty():
 		return false
-	var id := armed
-	var target := pending_target
+	if pending_target == NO_CELL:
+		last_skill_error = "Choose a tile in range."
+		return false
+	return _activate_skill(unit, armed, pending_target, resolve)
+
+func _skill_error(unit: Placement) -> String:
+	if not clock.is_running():
+		return "Combat is paused."
+	if unit == null or unit.spec.skill == DeploymentSpec.Skill.NONE:
+		return "No active skill available."
+	if unit.ranger == null:
+		return ""
+	var skill := unit.ranger.active_skill
+	if skill == null:
+		return "No active skill available."
+	if skill.requires_records and not unit.records_enhanced:
+		return "%s requires its Records enhancement." % skill.label
+	if unit.skill_charges == 0:
+		return "%s is recharging." % skill.label
+	return ""
+
+func _activate_skill(unit: Placement, id: StringName, target: Vector2i, resolve: Callable) -> bool:
+	if unit.ranger != null:
+		if not resolve.is_valid():
+			last_skill_error = "The active skill needs a battle."
+			return false
+		last_skill_error = resolve.call(unit, target)
+		if not last_skill_error.is_empty():
+			return false
+		unit.spend_skill_charge(clock.tick)
 	cancel_skill()
 	skill_fired.emit(id, target)
 	return true

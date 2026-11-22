@@ -23,7 +23,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C07 Scout Sniper rig, seven states and standalone APK verified off-device. Phone review remains open.
 - [x] W08 [UI component spec](../canon/UI_COMPONENT_SPEC.md) and [asset manifest](../canon/ART_ASSET_MANIFEST.md) verified against 116 storyboard states, six board layouts and 56 technical atlas pieces. Asset delivery and phone checks remain in their downstream tickets.
 - [~] C09 Story navigation, planning, dialogue, live battle HUD and results verified off-device. Physical-phone touch and safe-area verification pending. See the [phone checklist](../../export/README.md#c09-navigation-and-battle-ui-phone-check).
-- [ ] C10 12 Rangers: data + all behavior + tests
+- [~] C10 Offense checkpoint. Scout Sniper, Crowd Controller and Guard Veteran run in the isolated combat sandbox. Review Offense tests before starting Defense. Support and Specialist follow their own checkpoints.
 - [ ] C11 13 Facilities: data + all behavior + tests
 - [ ] C12 15 standard enemies + 3 bosses + Siege/Heat/status tests
 - [ ] W13 All Campaign stage data, full dialogue and art tickets

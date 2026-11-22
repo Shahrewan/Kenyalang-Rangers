@@ -5,6 +5,7 @@ signal abandon_requested
 signal operation_finished(report: Dictionary)
 
 @export var stage: BattleStage
+@export var sandbox := false
 var campaign := false
 var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
@@ -57,6 +58,15 @@ func _ready() -> void:
 		_dialogue_button.hide()
 		_defeat.hide()
 		%DeploymentController.preview_skills = false
+	if sandbox:
+		%MissionTitle.text = "Offense sandbox"
+		%Legend.text = "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
+		_back.text = "Exit sandbox"
+		_back.pressed.connect(get_tree().quit)
+		_opening.hide()
+		_defeat.hide()
+		%DeploymentController.preview_skills = false
+		StoryUI.size_buttons(self)
 	_opening.add_item("First Contact")
 	_opening.add_item("Normal loadout")
 	_opening.add_item("D05 Fixed Stockpile")
@@ -118,9 +128,10 @@ func _restart() -> void:
 	_reported = false
 	_tips = true
 	_tip.text = ""
-	if campaign:
+	if campaign or sandbox:
 		battle.deployment = %DeploymentController.state
 		_board.show_combat_hp = true
+	if campaign:
 		open_dialogue()
 	_refresh()
 
@@ -131,7 +142,7 @@ func _toggle_pause() -> void:
 		_resume()
 	else:
 		battle.clock.paused = true
-		if campaign:
+		if campaign or sandbox:
 			_pause_overlay.show_battle(stage, battle, operation_plan != null)
 		_refresh()
 
@@ -178,13 +189,13 @@ func _refresh() -> void:
 	_speed.text = "%d×" % clock.get_speed()
 	_back.disabled = clock.dialogue_open
 	_pause.disabled = clock.stopped or clock.dialogue_open
-	_speed.disabled = clock.stopped or clock.dialogue_open or (campaign and clock.paused)
+	_speed.disabled = clock.stopped or clock.dialogue_open or ((campaign or sandbox) and clock.paused)
 	_dialogue_button.disabled = clock.stopped or clock.dialogue_open
 	_defeat.disabled = not clock.is_running() or battle.active.is_empty()
 	_retry.disabled = clock.dialogue_open
 	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open
-	_pause_overlay.visible = campaign and clock.paused and not clock.dialogue_open and not clock.stopped
+	_pause_overlay.visible = (campaign or sandbox) and clock.paused and not clock.dialogue_open and not clock.stopped
 	_board.queue_redraw()
 
 func _outcome_label() -> String:

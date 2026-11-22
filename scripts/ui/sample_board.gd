@@ -67,6 +67,8 @@ func _draw() -> void:
 	_draw_gate(tunnel, cell, "Tunnel", Color("#15241C"))
 	for offset in [0.21, 0.50, 0.79]:
 		draw_circle(tunnel + Vector2(offset, 0.20) * cell, cell * 0.17, Color("#69734A"))
+	if battle != null:
+		_draw_slow_fields()
 	if deployments != null:
 		_draw_deployments()
 	if battle != null:
@@ -79,8 +81,33 @@ func _draw() -> void:
 				stacked[enemy.blocked_by] = slot + 1
 			draw_circle(center, cell * 0.18, Color("#8B3E2C"), true, -1, true)
 			draw_circle(center, cell * 0.18, Color("#F3EBDD"), false, 2.0, true)
+			_draw_enemy_status(enemy, center, cell)
 			if show_combat_hp:
 				_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
+
+func _draw_slow_fields() -> void:
+	var bounds := Rect2i(Vector2i.ZERO, battle_map.size)
+	for field in battle.ranger_combat.fields:
+		var area := bounds.intersection(field.area)
+		for y in range(area.position.y, area.end.y):
+			for x in range(area.position.x, area.end.x):
+				var cell := Vector2i(x, y)
+				if battle_map.tile_at(cell) != BattleMap.Tile.NONDEPLOYABLE:
+					draw_rect(_tile_rect(cell), Color(0.18, 0.73, 0.66, 0.38))
+
+func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> void:
+	var tick := battle.clock.tick
+	if tick < enemy.focus_marked_until:
+		draw_circle(center + Vector2(0, -cell * 0.27), cell * 0.05, Color("#F3D586"))
+	if tick < enemy.stunned_until or tick < enemy.immobilized_until:
+		var color := Color("#F3D586") if tick < enemy.stunned_until else Color("#A3DDEA")
+		draw_circle(center, cell * 0.21, color, false, 3.0, true)
+	var tag := "A" if enemy.definition.aerial else ("T" if enemy.definition.technological else "")
+	if not tag.is_empty():
+		var font := get_theme_default_font()
+		var font_size := maxi(10, roundi(cell * 0.22))
+		var width := font.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		draw_string(font, center + Vector2(-width / 2.0, font_size / 3.0), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("#F3EBDD"))
 
 func _draw_gate(at: Vector2, cell: float, label: String, color: Color) -> void:
 	draw_rect(Rect2(at, Vector2.ONE * cell).grow(-2.0), color)

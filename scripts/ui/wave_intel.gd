@@ -33,6 +33,8 @@ static func enemy_name(enemy: BattleEnemyDefinition) -> String:
 
 static func enemy_details(enemy: BattleEnemyDefinition) -> String:
 	var movement := "Aerial" if enemy.aerial else "Ground"
+	if enemy.technological:
+		movement += " · Technological"
 	return "%d HP  ·  Danger %d  ·  %s  ·  −%d Integrity on escape" % [
 		enemy.max_hp, enemy.danger, movement, enemy.escape_penalty,
 	]
