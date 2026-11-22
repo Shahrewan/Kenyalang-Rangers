@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="BattleStage" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_stage.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/battle_wave.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/battle_spawn_group.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="4"]
+[ext_resource type="Resource" path="res://data/stages/t01_forgotten_patrol.tres" id="5"]
+[ext_resource type="Resource" path="res://data/stages/t01_route.tres" id="6"]
+[ext_resource type="Script" path="res://scripts/data/battle_route.gd" id="7"]
+
+[sub_resource type="Resource" id="GroundTarget"]
+script = ExtResource("4")
+enemy_id = &"qa.ground"
+display_name = "Ground target"
+counterplay = "Bundle ground targets inside Guard Veteran’s two front tiles."
+tiles_per_second = 0.52
+escape_penalty = 10
+max_hp = 220
+
+[sub_resource type="Resource" id="TechTarget"]
+script = ExtResource("4")
+enemy_id = &"qa.tech"
+display_name = "Technological target"
+counterplay = "Crowd Controller’s basic EMP does extra damage."
+tiles_per_second = 0.5
+escape_penalty = 10
+technological = true
+max_hp = 300
+
+[sub_resource type="Resource" id="AerialTarget"]
+script = ExtResource("4")
+enemy_id = &"qa.aerial"
+display_name = "Aerial target"
+counterplay = "Use an elevated Ranger. Ground units cannot hit or block this target."
+tiles_per_second = 0.52
+escape_penalty = 10
+aerial = true
+max_hp = 200
+
+[sub_resource type="Resource" id="GroundGroup"]
+script = ExtResource("3")
+enemy = SubResource("GroundTarget")
+count = 3
+interval_seconds = 1.3
+
+[sub_resource type="Resource" id="TechGroup"]
+script = ExtResource("3")
+enemy = SubResource("TechTarget")
+count = 2
+interval_seconds = 1.6
+
+[sub_resource type="Resource" id="AerialGroup"]
+script = ExtResource("3")
+enemy = SubResource("AerialTarget")
+count = 3
+interval_seconds = 1.3
+
+[sub_resource type="Resource" id="WaveOne"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("GroundGroup"), SubResource("TechGroup")])
+rest_after_seconds = 6.0
+
+[sub_resource type="Resource" id="WaveTwo"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("TechGroup"), SubResource("AerialGroup")])
+
+[resource]
+script = ExtResource("1")
+stage_id = &"qa.offense"
+map = ExtResource("5")
+routes = Array[ExtResource("7")]([ExtResource("6")])
+opening_delay_seconds = 12.0
+waves = Array[ExtResource("2")]([SubResource("WaveOne"), SubResource("WaveTwo")])

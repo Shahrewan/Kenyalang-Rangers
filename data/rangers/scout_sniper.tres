@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+
+[sub_resource type="Resource" id="Focus"]
+script = ExtResource("2")
+label = "Focus"
+requires_records = true
+recharge_seconds = 12.0
+damage = 24
+status_seconds = 1.5
+focus_seconds = 6.0
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.scout_sniper"
+label = "Scout Sniper"
+recruitment_stage = &"C1-01"
+kind = 2
+cost = 12
+attack_damage = 24
+attack_seconds = 2.0
+attack_range = 2
+targets_aerial = true
+skill = 2
+prioritizes_focus = true
+records_enhancement = &"records_chapter.scout_sniper"
+focused_damage_bonus_percent = 25
+active_skill = SubResource("Focus")

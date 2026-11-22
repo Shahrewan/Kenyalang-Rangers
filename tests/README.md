@@ -10,6 +10,7 @@ godot --headless --path . --script res://tests/unit/deployment_test.gd
 godot --headless --path . --script res://tests/unit/logistics_test.gd
 godot --headless --path . --script res://tests/unit/first_contact_test.gd
 godot --headless --path . --script res://tests/unit/campaign_navigation_test.gd
+godot --headless --path . --script res://tests/unit/offense_rangers_test.gd
 ```
 
 Smoke scripts live in `tests/smoke/`, pure logic tests in `tests/unit/` when needed, and deterministic data under `tests/fixtures/`. Use standalone GDScript `SceneTree` runners, explicit assertions with descriptive failures, and a nonzero exit on failure. Keep tests offline and release-independent. Use fixed seeds and a manually stepped clock for future combat fixtures. Use dedicated test data and a temporary save location for persistence tests.
@@ -33,3 +34,5 @@ godot --headless --path . --script res://tests/unit/scout_rig_test.gd
 The test reads the W06 manifest and checks neutral registration, real AnimationPlayer motion, clock pause/speed and mirrored or locked facing. The standalone clip preview supports visual joint checks.
 
 The C09 runner checks a legacy save, first-launch naming, Story locks, opening legality, a planner draft with an explicitly unlocked R&D fixture, combat pause and abandon, tray pan versus deployment drag, live HUD and result credits from a completed C1-01. The current player build shows the R&D unlock requirements. The runner uses temporary saves and synthetic touch in a 960×540 viewport. See the [physical-phone checklist](../export/README.md#c09-navigation-and-battle-ui-phone-check).
+
+The C10 Offense runner checks the three Ranger resources and their actual simulation output. It verifies Focus's Records gate and confirmation, the per-target Technological bonus and persistent EMP slow, Guard's fixed frontal coverage and four sequential charges, and combat-time pause and redeploy. It also checks a wave ending with two defeats from one skill. Synthetic touch places all three Rangers, confirms Focus, and restarts the sandbox. See the [sandbox phone check](../export/README.md#c10-offense-sandbox-phone-check).

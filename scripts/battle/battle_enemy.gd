@@ -7,6 +7,9 @@ var hp: int
 var next_attack_tick := 0
 var blocked_by: StringName
 var distance := 0.0
+var focus_marked_until := 0
+var immobilized_until := 0
+var stunned_until := 0
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute) -> void:
 	definition = enemy_definition
@@ -22,3 +25,6 @@ func advance(seconds: float, stop_at: float = INF) -> bool:
 
 func grid_position() -> Vector2:
 	return route.position_at(distance)
+
+func grid_cell() -> Vector2i:
+	return Vector2i(grid_position().round())

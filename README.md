@@ -18,6 +18,8 @@ Choose **Start operation**, continue or skip the briefing, and drag the Starter 
 
 **Sample battle** opens the separate deployment and construction fixtures for testing.
 
+Open `scenes/qa/ranger_sandbox.tscn` with **F6** or run `godot --path . scenes/qa/ranger_sandbox.tscn` to try the C10 Offense Rangers. This sandbox has its own 100-Token budget and a Records fixture for Scout's Focus. It can run alongside the First Contact build. [Sandbox controls and phone check](export/README.md#c10-offense-sandbox-phone-check)
+
 ## Source of truth
 Implemented code in this Git repository; approved decisions and canonical game specifications govern design. Keep major feature changes on branches, review pull requests before merging into `main`, and prioritize playable C1-01 combat.
 
@@ -43,9 +45,10 @@ godot --headless --path . --script res://tests/unit/logistics_test.gd
 godot --headless --path . --script res://tests/unit/first_contact_test.gd
 godot --headless --path . --script res://tests/unit/scout_rig_test.gd
 godot --headless --path . --script res://tests/unit/campaign_navigation_test.gd
+godot --headless --path . --script res://tests/unit/offense_rangers_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the seven test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. See the [test descriptions](tests/README.md).
+Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the eight test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. See the [test descriptions](tests/README.md).
 
 ## Android export prerequisites
 

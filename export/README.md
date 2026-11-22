@@ -118,3 +118,20 @@ adb install -r build/android/kenyalang-rangers-c09-debug.apk
 6. On a notched phone, repeat with default and enlarged system text settings. Check that both ends of the tray, the outer board cells, Pause and speed, the wave preview, and the results buttons remain reachable. Measure the visible hit areas against the 48 dp target using device density. Record the phone model, Android version, display resolution, density, safe-area insets, APK and outcomes in the [decision log](../docs/canon/DECISION_LOG.md#d-001-d-002-and-d-018-c09-integration--2026-11-22).
 
 The C09 APK passed package verification in the cloud. Physical installation and this phone run remain open.
+
+## C10 Offense sandbox phone check
+
+The Offense sandbox uses the Android toolchain above. To reproduce its separate APK, make a temporary project copy. Set `run/main_scene` to `res://scenes/qa/ranger_sandbox.tscn`, append that scene to `export_files` in the **Android Debug** preset, and set `package/unique_name` to `com.shahrewan.kenyalangrangers.offensepreview` and `package/name` to `Kenyalang Rangers (Offense Sandbox)`. Then run the pinned import and export in that copy. Keep the development profile available for the C05 physical-phone check.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c10-offense-preview.apk
+adb install -r build/android/kenyalang-rangers-c10-offense-preview.apk
+```
+
+1. Open **Kenyalang Rangers (Offense Sandbox)** in airplane mode. Drag Scout to `(2, 0)`, Crowd to `(2, 2)` and Guard to `(3, 1)` using zero-based coordinates. Release Guard on the left half of its tile to face the entry. Check the 54 Token balance after all three drops and confirm the tray and HUD clear the field and cutout.
+2. Tap Scout when a target is inside its square. Drag across the field once, then tap the target's tile and press **Confirm skill**. Damage and the immobilize ring should first appear at confirmation. The test sandbox supplies **Steady Aim**.
+3. Tap Crowd when enemies cluster in range. Observe the EMP drop in HP and the teal slowing field. Technological targets have a `T`. The ordinary EMP has the higher output against them. Check movement and recharge at 1× or 2× and across Pause or the dialogue preview.
+4. Tap Guard up to four times while ground enemies are within two tiles in front. Observe the damage, stun ring and remaining charges. A fifth tap during recharge should leave HP alone. Pause with charges missing, wait, resume, and verify only one returns after thirteen combat seconds. Test hold-to-Retreat and a legal redeploy after its countdown. The `A` targets in wave two should pass Guard and remain eligible for the elevated attackers.
+5. Restart to clear the sandbox state. Record the build, model, Android version, density, cutout fit and touch outcomes in the [decision log](../docs/canon/DECISION_LOG.md#d-007-and-d-008-c10-offense-tuning--2026-11-22).
