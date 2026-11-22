@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyCatalog" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="2"]
+[ext_resource type="Resource" path="res://data/bosses/diversion_captain.tres" id="3"]
+[ext_resource type="Resource" path="res://data/bosses/illegal_logging_foreman.tres" id="4"]
+[ext_resource type="Resource" path="res://data/bosses/poacher_leader.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5")])

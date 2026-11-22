@@ -14,6 +14,7 @@ var save_path := FirstContactProgress.DEFAULT_PATH
 var _progress: FirstContactProgress
 var _reported := false
 var _tips := true
+var _boss_briefing := false
 
 @onready var _hud = %Header
 @onready var _pause_overlay: BattlePauseOverlay = %PauseOverlay
@@ -30,14 +31,13 @@ var _tips := true
 @onready var _dialogue: ColorRect = %Dialogue
 
 var battle: BattleSimulation
-var _total_enemies := 0
 
 func _ready() -> void:
 	_pause.pressed.connect(_toggle_pause)
 	_pause_overlay.resume_requested.connect(_resume)
 	_pause_overlay.abandon_requested.connect(_abandon)
 	_speed.pressed.connect(_toggle_speed)
-	_dialogue_button.pressed.connect(open_dialogue)
+	_dialogue_button.pressed.connect(_open_preview_dialogue)
 	_defeat.pressed.connect(_defeat_first)
 	_retry.pressed.connect(_restart)
 	%Continue.pressed.connect(close_dialogue)
@@ -92,14 +92,35 @@ func open_dialogue() -> void:
 	_refresh()
 	%Continue.grab_focus()
 
+func _open_preview_dialogue() -> void:
+	%DialogueTitle.text = "Dialogue preview"
+	%DialogueText.text = "The messenger withdraws off the battlefield."
+	open_dialogue()
+
+func _open_boss_intro(_id: int, boss: BossSpec) -> void:
+	_open_boss_briefing(boss.display_name, boss.introduction)
+
+func _open_boss_phase(id: int, phase: BossPhase) -> void:
+	var enemy := battle.active[id]
+	_open_boss_briefing("%s · Phase %d" % [enemy.definition.display_name, enemy.phase_index + 1], phase.announcement)
+
+func _open_boss_briefing(title: String, message: String) -> void:
+	if message.is_empty():
+		return
+	_boss_briefing = true
+	%DialogueTitle.text = title
+	%DialogueText.text = message
+	open_dialogue()
+
 func close_dialogue() -> void:
 	if battle == null or not battle.clock.dialogue_open:
 		return
-	if not campaign:
+	if not campaign and not _boss_briefing:
 		battle.record_cinematic_withdrawal()
+	_boss_briefing = false
 	battle.clock.dialogue_open = false
 	_refresh()
-	if campaign:
+	if campaign or sandbox:
 		_pause.grab_focus()
 	else:
 		_dialogue_button.grab_focus()
@@ -120,7 +141,9 @@ func _restart() -> void:
 		_retry.disabled = true
 		return
 	battle = BattleSimulation.new(stage)
-	_total_enemies = stage.enemy_count()
+	battle.boss_intro.connect(_open_boss_intro)
+	battle.boss_phase_changed.connect(_open_boss_phase)
+	_boss_briefing = false
 	_pause_overlay.hide()
 	_status.hide()
 	%HeatRow.visible = stage.heat_capacity > 0.0
@@ -183,7 +206,7 @@ func _defeat_first() -> void:
 
 func _refresh() -> void:
 	var placement: DeploymentState = %DeploymentController.state
-	_hud.render(battle, _total_enemies, placement.tokens)
+	_hud.render(battle, battle.expected_enemy_count, placement.tokens)
 	if %HeatRow.visible:
 		%HeatGauge.value = battle.heat
 		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
@@ -209,6 +232,8 @@ func _refresh() -> void:
 func _outcome_label() -> String:
 	if battle.outcome == BattleSimulation.Outcome.LOST:
 		return "Defeat"
+	if not battle.captured_boss_id.is_empty():
+		return "Boss captured"
 	return "Perfect clear" if battle.is_perfect() else "Clear"
 
 func _update_campaign_tip() -> void:

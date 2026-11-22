@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="BossSpec" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/boss_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase.gd" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/e02_poacher.tres" id="3"]
+
+[sub_resource type="Resource" id="Phase1"]
+script = ExtResource("2")
+hp_percent = 70
+announcement = "The Captain calls two reinforcements."
+reinforcement = ExtResource("3")
+reinforcement_count = 2
+reinforcement_delay_seconds = 1.0
+reinforcement_interval_seconds = 1.0
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"boss.diversion_captain"
+display_name = "Diversion Captain"
+operation_id = &"C1-05"
+max_hp = 2500
+danger = 5
+attack_damage = 28
+attack_seconds = 1.8
+tiles_per_second = 0.32
+escape_penalty = 30
+chaos_points = 200
+counterplay = "Defeat the Captain to complete the Story capture objective. It speeds nearby allies and calls reinforcements."
+introduction = "The Diversion Captain has entered. Intercept the Captain before it reaches the tunnel."
+capturable = true
+ally_speed_scale = 1.2
+ally_speed_radius = 3
+phases = Array[ExtResource("2")]([SubResource("Phase1")])

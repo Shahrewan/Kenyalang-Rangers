@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="BossSpec" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/boss_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase.gd" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/e03_contraband_runner.tres" id="3"]
+
+[sub_resource type="Resource" id="Phase1"]
+script = ExtResource("2")
+hp_percent = 70
+announcement = "The Leader calls two Contraband Runners."
+reinforcement = ExtResource("3")
+reinforcement_count = 2
+reinforcement_delay_seconds = 1.0
+reinforcement_interval_seconds = 1.0
+
+[sub_resource type="Resource" id="Phase2"]
+script = ExtResource("2")
+hp_percent = 35
+announcement = "The Leader surges forward and calls a final Runner."
+speed_scale = 1.5
+reinforcement = ExtResource("3")
+reinforcement_count = 1
+reinforcement_delay_seconds = 1.5
+reinforcement_interval_seconds = 1.0
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"boss.poacher_leader"
+display_name = "Poacher Leader"
+operation_id = &"C2-10"
+max_hp = 13000
+danger = 5
+attack_damage = 60
+attack_seconds = 2.0
+tiles_per_second = 0.35
+escape_penalty = 0
+chaos_points = 500
+counterplay = "Stop the Runners, then prepare for the Leader's final speed surge. Its escape ends the operation."
+introduction = "The Poacher Leader is approaching. Its escape ends the operation."
+escape_causes_defeat = true
+phases = Array[ExtResource("2")]([SubResource("Phase1"), SubResource("Phase2")])

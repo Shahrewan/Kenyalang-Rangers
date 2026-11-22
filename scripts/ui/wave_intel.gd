@@ -9,9 +9,13 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 		var field := StoryUI.panel(self)
 		field.add_child(StoryUI.label("On the field", 21, StoryUI.AMBER))
 		for enemy: BattleEnemy in live.active.values():
-			field.add_child(StoryUI.label("%s  ·  %d/%d HP  ·  Danger %d" % [
+			var text := "%s  ·  %d/%d HP  ·  Danger %d" % [
 				enemy_name(enemy.definition), enemy.hp, enemy.definition.max_hp, enemy.definition.danger,
-			], 18))
+			]
+			var shield := enemy.active_shield(live.clock.tick)
+			if shield > 0:
+				text += "  ·  %d temporary HP" % shield
+			field.add_child(StoryUI.label(text, 18))
 	for index in stage.waves.size():
 		var wave := stage.waves[index]
 		var count := 0

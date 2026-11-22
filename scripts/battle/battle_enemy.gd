@@ -8,6 +8,7 @@ class DamageMark:
 	var percent: int
 
 var definition: BattleEnemyDefinition
+var boss: BossSpec
 var route: BattleRoute
 var hp: int
 var next_attack_tick := 0
@@ -30,10 +31,16 @@ var ability_ready_tick := 0
 var ability_fire_tick := 0
 var ability_target: StringName
 var ability_placement: DeploymentState.Placement
+var phase_index := 0
+var phase_speed_scale := 1.0
+var phase_heat_bonus := 0.0
+var shield_hp := 0
+var shield_until := 0
 var _marks: Array[DamageMark] = []
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute, tick := 0) -> void:
 	definition = enemy_definition
+	boss = definition as BossSpec
 	hp = definition.max_hp
 	route = enemy_route
 	if definition.ability != null:
@@ -60,6 +67,14 @@ func is_targetable(tick: int) -> bool:
 
 func sprint_scale(tick: int) -> float:
 	return definition.ability.speed_scale if tick < sprint_until else 1.0
+
+func active_shield(tick: int) -> int:
+	return shield_hp if tick < shield_until else 0
+
+func take_damage(amount: int, tick: int) -> void:
+	var absorbed := mini(amount, active_shield(tick))
+	shield_hp -= absorbed
+	hp = maxi(0, hp - (amount - absorbed))
 
 func add_damage_mark(tick: int, until: int, percent: int) -> void:
 	_marks = _marks.filter(func(mark: DamageMark) -> bool: return tick < mark.until)
