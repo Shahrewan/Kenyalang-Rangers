@@ -80,6 +80,8 @@ Represent the normal 0-Token opening, first-free Post effect, and C1-01 Starter 
 
 **PROVISIONAL** about 40 unique questions at 30,000 Funds first-correct each and four one-time chapter bonuses totaling 350,000 Funds (about 1.55M in the scenario). **MISSING** final questions, chapter split and reward authoring. Storyboard sample content and mockup counts cannot fill this bank. [GDD pp. 26–27, 33 §§ M.9, T.3–4; UI pp. 85–88 S43–S46]
 
+C19 stores optional bank revisions in Outreach batches and quiz attempts. Outreach keeps the authored choice index after shuffle. Quiz attempts store the remaining active ticks and whether the last answer awaits feedback. Each feedback receipt records actual credit and discard. First-correct question IDs and perfect chapter IDs remain separate durable awards across revisions. [Runtime intake](../../data/education/README.md) · [C19 validation](../qa/C19_EDUCATION_MATRIX.md)
+
 ## Habitat Restoration
 
 - **Species, plot and milestone records.** Species ID and validated fact refs, base duration, visual by stage, base-duration midpoint checkpoint and cycle reward. The fixed plot slots use `garden_plot.01`–`garden_plot.06`. Each plot needs its Ecology capacity gate, species ref, progress through checkpoints, local timestamps, collection flag and a link to retained mature-tree scenery. Logical availability is separate from the retained visual. Persist first collected species, the additional collection flag, milestone claims, facts and the single nest-box visitor flag. Use the [approved restoration rules](GAME_RULES.md#outreach-records-and-habitat-restoration). First-species discovery reward and final payout tuning are `TBD`. [GDD pp. 14, 19–20, 27, 29 §§ I.1, M.1, M.10, O.3; UI pp. 48–49, 89–93, 111 H05/U05/S47–S51/V09]

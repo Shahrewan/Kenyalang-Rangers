@@ -15,6 +15,12 @@ enum AttackPattern { SINGLE, SPLASH, FRONTAL }
 @export var active_skill: RangerSkill
 @export var heal_hp: int
 
+@export_group("Records tuning")
+@export var records_bonus_hp: int
+@export var records_counter_damage: int
+@export var records_heal_interval_seconds: float
+@export var records_redeploy_reduction_seconds: float
+
 @export_group("Facility repair")
 @export var repair_hp: int
 @export var repair_seconds: float

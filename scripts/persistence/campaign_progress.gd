@@ -296,7 +296,10 @@ func claim_finance(amount := -1) -> bool:
 	next.finance = float(next.finance) - available
 	return _commit(next)
 
-func open_outreach_batch(rotation: Array, questions: Array, choice_order: Dictionary, refreshed_at: int) -> bool:
+func outreach_state() -> Dictionary:
+	return _data.outreach.duplicate(true)
+
+func open_outreach_batch(rotation: Array, questions: Array, choice_order: Dictionary, refreshed_at: int, bank_revision := 0) -> bool:
 	if room_level(HeadquartersCatalog.OUTREACH) == 0 or refreshed_at <= 0:
 		return false
 	var last := int(_data.outreach.refreshed_at)
@@ -305,7 +308,7 @@ func open_outreach_batch(rotation: Array, questions: Array, choice_order: Dictio
 	var batch := {
 		"rotation": rotation.duplicate(), "batch": questions.duplicate(),
 		"choice_order": choice_order.duplicate(true), "responses": {},
-		"refreshed_at": refreshed_at, "successes": outreach_successes(),
+		"refreshed_at": refreshed_at, "successes": outreach_successes(), "bank_revision": bank_revision,
 	}
 	if not CampaignActivities.valid_outreach(batch):
 		return false
@@ -323,20 +326,23 @@ func record_outreach_response(question: String, displayed_choice: int, grade: St
 	var settlement := FundsWallet.apply(next, room.outreach_change(level, grade))
 	next.outreach.responses[question] = {
 		"choice": int(current.choice_order[question][displayed_choice]), "grade": String(grade),
-		"change": settlement.credited - settlement.deducted,
+		"change": settlement.credited - settlement.deducted, "discarded": settlement.discarded,
 	}
 	if grade in [&"best", &"acceptable"]:
 		next.outreach.successes = outreach_successes() + 1
 	settlement.grade = String(grade)
 	return settlement if _commit(next) else {}
 
-func begin_quiz(chapter: StringName, questions: Array) -> bool:
-	if String(chapter) not in records_chapters() or not ProfileFile.unique_ids(questions) or questions.is_empty():
+func quiz_attempt() -> Dictionary:
+	return _data.encyclopaedia.attempt.duplicate(true)
+
+func begin_quiz(chapter: StringName, questions: Array, bank_revision := 0) -> bool:
+	if not _data.encyclopaedia.attempt.is_empty() or String(chapter) not in records_chapters() or not ProfileFile.unique_ids(questions) or questions.is_empty():
 		return false
 	var next := snapshot()
 	next.encyclopaedia.attempt = {
 		"chapter": String(chapter), "questions": questions.duplicate(), "answers": {},
-		"time_left_ticks": CampaignActivities.QUIZ_TICKS,
+		"time_left_ticks": CampaignActivities.QUIZ_TICKS, "bank_revision": bank_revision, "review_pending": false,
 	}
 	return _commit(next)
 
@@ -348,19 +354,30 @@ func save_quiz_timer(question: String, time_left_ticks: int) -> bool:
 	next.encyclopaedia.attempt.time_left_ticks = time_left_ticks
 	return _commit(next)
 
-func record_quiz_answer(question: String, choice: int, correct: bool, reward: int) -> Dictionary:
+func record_quiz_answer(question: String, choice: int, correct: bool, reward: int, review := {}) -> Dictionary:
 	var records: Dictionary = _data.encyclopaedia
 	var attempt: Dictionary = records.attempt
 	if not _is_current_question(attempt, question) or choice < -1 or choice >= 4 or reward < 0:
 		return {}
-	if (choice == -1) != (int(attempt.time_left_ticks) == 0) or (choice == -1 and correct):
+	var ticks: Variant = review.get("ticks", attempt.time_left_ticks)
+	if not ProfileFile.whole_between(ticks, 0, int(attempt.time_left_ticks)) or (choice == -1) != (ticks == 0) or (choice == -1 and correct):
+		return {}
+	var discovered: Variant = review.get("fact_ids", [])
+	if not ProfileFile.unique_ids(discovered):
 		return {}
 	var next := snapshot()
 	var first_correct: bool = correct and question not in records.first_correct
 	var settlement := FundsWallet.apply(next, reward if first_correct else 0)
 	if first_correct:
 		next.encyclopaedia.first_correct.append(question)
-	next.encyclopaedia.attempt.answers[question] = {"choice": choice, "correct": correct}
+	if correct:
+		for id: String in discovered:
+			if id not in next.encyclopaedia.discovered_facts:
+				next.encyclopaedia.discovered_facts.append(id)
+	next.encyclopaedia.attempt.answers[question] = {
+		"choice": choice, "correct": correct, "credited": settlement.credited, "discarded": settlement.discarded,
+	}
+	next.encyclopaedia.attempt.review_pending = not review.is_empty()
 	next.encyclopaedia.attempt.time_left_ticks = CampaignActivities.QUIZ_TICKS
 	settlement.first_correct = first_correct
 	return settlement if _commit(next) else {}
@@ -377,10 +394,31 @@ func finish_quiz(reward: int) -> Dictionary:
 	var settlement := FundsWallet.apply(next, reward if first_perfect else 0)
 	next.encyclopaedia.attempt = {}
 	settlement.first_perfect = first_perfect
+	settlement.correct = attempt.answers.values().filter(func(answer: Dictionary) -> bool: return answer.correct).size()
+	settlement.total = attempt.questions.size()
+	settlement.chapter = attempt.chapter
 	return settlement if _commit(next) else {}
 
+func continue_quiz() -> bool:
+	var attempt: Dictionary = _data.encyclopaedia.attempt
+	if not attempt.get("review_pending", false) or attempt.answers.size() >= attempt.questions.size():
+		return false
+	var next := snapshot()
+	next.encyclopaedia.attempt.review_pending = false
+	return _commit(next)
+
+func close_quiz() -> bool:
+	if _data.encyclopaedia.attempt.is_empty():
+		return true
+	var next := snapshot()
+	next.encyclopaedia.attempt = {}
+	return _commit(next)
+
 func _is_current_question(attempt: Dictionary, question: String) -> bool:
-	return not attempt.is_empty() and attempt.answers.size() < attempt.questions.size() and attempt.questions[attempt.answers.size()] == question
+	return (
+		not attempt.is_empty() and not attempt.get("review_pending", false)
+		and attempt.answers.size() < attempt.questions.size() and attempt.questions[attempt.answers.size()] == question
+	)
 
 func save_garden(state: Dictionary, award_id := "", reward := 0) -> Dictionary:
 	var current: Dictionary = _data.garden

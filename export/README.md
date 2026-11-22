@@ -253,3 +253,22 @@ adb install -r build/android/kenyalang-rangers-c17-debug.apk
 5. Launch a challenge, pause, and close the app. Use `adb shell am force-stop com.shahrewan.kenyalangrangers.dev` for a controlled cold start on the test phone. Reopen the app and verify the configuration returns with its counts, effects and loadout. Start again and check 100 Integrity, then confirm Abandon and verify the record and wallet. Record the APK hash, device model, Android version, density, cutout, touch and offline launch results. [C17 check matrix](../docs/qa/C17_CHAOS_MATRIX.md)
 
 The C17 APK passed package and host gameplay checks. Physical installation awaits a connected phone.
+
+## C19 education phone check
+
+Use the pinned toolchain above and a USB-connected ARM64 Android 9 or later phone. Enable and authorize USB debugging on the phone.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c19-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c19-debug.apk
+```
+
+1. Open **Kenyalang Rangers (Dev)** in airplane mode with Outreach and Records built. From Headquarters open both activities. The current build shows the pending content messages. Check Back and safe margins in both landscape orientations.
+2. On a build with approved banks, open Outreach and submit an answer. Verify the Manager explanation, grade and actual Funds. Reopen the same prompt and compare the saved choice and award. Test the refresh boundary and a backward clock change on a disposable QA profile. Restore the device clock afterward.
+3. In Records, compare the archive's citations and chapter gates. At Lv.2, open Scout's chapter. Pause, background and relaunch during a question. Verify the countdown resumes from the saved point, then let it expire and check the explanation and zero payout.
+4. Complete a perfect chapter and replay. Compare the wallet, first-correct awards and enhancement after a cold restart. Check the longest approved prompts and answers with enlarged text and record touch sizes and any clipping. Capture the APK hash, phone model, Android version, screen density, cutout and offline launch result. [C19 matrix](../docs/qa/C19_EDUCATION_MATRIX.md)
+
+The C19 APK passed host-side tests. Physical installation and approved-content reading checks remain open.

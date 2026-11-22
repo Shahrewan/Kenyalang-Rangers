@@ -152,3 +152,9 @@
 - Located the team's early Restoration brief. Finished Outreach and Records sources remain missing from the available material. Draft revision 1 supplies 20 four-choice Outreach situations, 40 four-choice Records questions, 20 facts, five proposed Garden fact links and 32 referenced publications. Each answer has a rationale or explanation. [W18 handoff](W18_EDUCATION_BANKS.md)
 - `python3 docs/production/w18/validate.py` passed the three schemas, reference and ID checks, four chapter-to-Ranger bindings, 480 Outreach permutations and numeric location scan. Editorial review checked source scope and location clues. Pinned Godot 4.7.2 editor import, headless startup and 1,592 existing checks across 20 runners passed on C17.
 - The mode reviewer and project owner need to approve the bank revision before C19 imports it. Records count and split, final education payouts and new on-device quiz checks remain open. [D-004, D-014 and D-016](../canon/DECISION_LOG.md#open-decisions)
+
+## C19 Outreach and Records — 2026-11-23
+
+- W18 was already merged in PR #19 at `a7176bf`. The three-schema, answer-key, citations and coordinate checks passed again on that merge.
+- Headquarters opens both activity screens. Outreach persists rotation, choice order, grades and signed settlement. Records persists the active timed question, feedback and one-time question and chapter awards. The approved-bank loader validates referenced facts, choices and configured payouts. The W18 revision awaits approval and stays outside the player export.
+- Godot passed editor import, startup and 1,680 checks across 22 runners. Native Linux exercised the synthetic Harmful deduction, pause and timeout. The signed Android package passed host checks, including the approval gate. Physical installation remains open. [C19 matrix](../qa/C19_EDUCATION_MATRIX.md)

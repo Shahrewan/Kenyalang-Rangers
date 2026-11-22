@@ -170,9 +170,10 @@ func _setup() -> ModifierSetup:
 	return result
 
 func _leveled(spec: DeploymentSpec) -> DeploymentSpec:
+	var effective := spec
 	if operation.campaign_spec and spec.id not in operation.supply_ids:
-		return DeployableLevels.effective(spec, int(_unit_levels.get(String(spec.id), spec.level)))
-	return spec
+		effective = DeployableLevels.effective(spec, int(_unit_levels.get(String(spec.id), spec.level)))
+	return DeployableLevels.with_records_stats(effective, _enhancements)
 
 static func research_requirement(id: StringName) -> String:
 	for room: HeadquartersRoom in CampaignProgress.HEADQUARTERS.rooms:

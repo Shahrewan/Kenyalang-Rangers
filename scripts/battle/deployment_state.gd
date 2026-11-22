@@ -65,7 +65,7 @@ class Placement:
 
 	func spend_skill_charge(tick: int) -> void:
 		skill_charges -= 1
-		if skill_recharge_tick == 0:
+		if skill_recharge_tick == 0 and ranger.active_skill.recharge_seconds > 0.0:
 			skill_recharge_tick = tick + maxi(1, CombatClock.ticks_for(ranger.active_skill.recharge_seconds))
 
 	func update_basic_interval(interval: int, tick: int) -> void:
@@ -401,7 +401,7 @@ func _skill_error(unit: Placement) -> String:
 	if skill.requires_records and not unit.records_enhanced:
 		return "%s requires its Records enhancement." % skill.label
 	if unit.skill_charges == 0:
-		return "%s is recharging." % skill.label
+		return "%s has been used for this deployment." % skill.label if skill.recharge_seconds <= 0.0 else "%s is recharging." % skill.label
 	return ""
 
 func _activate_skill(unit: Placement, id: StringName, target: Vector2i, resolve: Callable) -> bool:

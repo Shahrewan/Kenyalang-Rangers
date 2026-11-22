@@ -36,6 +36,7 @@ max_hp = 100
 attack_damage = 22
 attack_seconds = 1.3
 recruitment_stage = &"C1-04"
+records_enhancement = &"records_chapter.woods_tracker"
 
 [sub_resource type="Resource" id="Saboteur"]
 script = ExtResource("3")
