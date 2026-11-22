@@ -11,3 +11,13 @@ extends Resource
 @export var fixed_debuff: String
 @export var buff_choices: Array[PlanningBuff]
 @export var has_heat := false
+@export var campaign_spec := false
+@export var prerequisite: StringName
+@export var min_control_level := 1
+@export var optional_buff_limit := 1
+@export var opening_tokens := 0
+@export var fixed_debuff_ids: Array[StringName]
+@export var clear_unlock_ids: Array[StringName]
+@export var rewards: Dictionary
+@export var dialogue: Array[Dictionary]
+@export var hints: Array[Dictionary]

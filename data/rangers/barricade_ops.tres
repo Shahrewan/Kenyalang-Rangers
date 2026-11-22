@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.barricade_ops"
+label = "Barricade Ops"
+ranger_class = 1
+recruitment_stage = &"C1-05"
+kind = 1
+cost = 18
+max_hp = 520
+attack_damage = 8
+attack_pattern = 2
+attack_seconds = 2.2
+block_capacity = 3
+attack_range = 1

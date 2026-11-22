@@ -2,7 +2,7 @@
 
 **22 November 2026 · C14 review draft**
 
-The [campaign manifest](w13/campaign.json) indexes 15 JSON stage specs. Each defines waves, ordered spawn groups, route bindings, intel, loss conditions, reward fields, full dialogue and art requirements. The files live under `docs/production/w13/` for review. C14 will bind approved content to the game.
+The campaign manifest indexes 15 JSON stage specs. Each defines waves, ordered spawn groups, route bindings, intel, loss conditions, reward fields, full dialogue and art requirements. C14 loads these files for the Campaign playtest. The authored draft, trial numbers and payout review statuses still apply. [Campaign manifest](w13/campaign.json) · [C14 checks](../qa/C14_CAMPAIGN_MATRIX.md)
 
 The [approved decisions](../canon/DECISION_LOG.md#approved-decisions) take precedence over GDD v1.0 in `SimSimi.pdf`. GDD pp. 6–8 §§ F.1–4, G.1–3 and pp. 21–22 § M.4 establish the missions and outcomes. The UI storyboard p. 8 confirms the order, pp. 20–24 and 120–121 show dialogue, and pp. 117–125 plus the five-page design-pack mini-storyboard show the Misty Approach play sequence. W08 specifies the six original layouts. [Campaign catalog](../canon/SYSTEMS_INDEX.md#campaign-missions) · [Map geometry](../canon/ART_ASSET_MANIFEST.md#six-map-geometry-layouts) · [UI components](../canon/UI_COMPONENT_SPEC.md)
 

@@ -30,10 +30,18 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 		box.add_child(StoryUI.label("Wave %d · %d enemies" % [index + 1, count], 20, StoryUI.AMBER))
 		for group in wave.groups:
 			if group.count > 0:
-				box.add_child(StoryUI.label("%d × %s  ·  Route %d" % [group.count, enemy_name(group.enemy), group.route_index + 1], 18))
+				var route := "Entry " + char(65 + group.route_index) if stage.routes.size() > 1 else "Route 1"
+				box.add_child(StoryUI.label("%d × %s  ·  %s" % [group.count, enemy_name(group.enemy), route], 18))
 				box.add_child(StoryUI.label(enemy_details(group.enemy), 17, StoryUI.BEIGE))
 				if not group.enemy.counterplay.is_empty():
 					box.add_child(StoryUI.label(group.enemy.counterplay, 17))
+				var boss := group.enemy as BossSpec
+				if boss != null:
+					var reinforcements := 0
+					for phase in boss.phases:
+						reinforcements += phase.reinforcement_count
+					if reinforcements > 0:
+						box.add_child(StoryUI.label("Boss phases can call %d additional enemies." % reinforcements, 17, StoryUI.BEIGE))
 
 static func enemy_name(enemy: BattleEnemyDefinition) -> String:
 	return String(enemy.enemy_id) if enemy.display_name.is_empty() else "%s · %s" % [enemy.enemy_id, enemy.display_name]

@@ -46,19 +46,10 @@ func _ready() -> void:
 	%Continue.pressed.connect(close_dialogue)
 	%Skip.pressed.connect(_skip_dialogue)
 	if campaign:
-		_progress = FirstContactProgress.new(save_path)
-		%MissionTitle.text = "First Contact"
-		%Legend.hide()
+		_prepare_campaign()
 		if operation_plan != null:
 			_back.hide()
 			%Controls.hide()
-		%DialogueTitle.text = "First Contact"
-		%DialogueText.text = (
-			"Operations Manager: Our patrol spotted movement at the old chokepoint.\n\n"
-			+ "Deploy the free Starter Post across two raised tiles. D01 yields 9 Tokens per 10 combat seconds.\n"
-			+ "Place Scout Sniper on a raised tile near the bend. Place Patrolman on the path facing the entry.\n"
-			+ "Rangers attack automatically. Keep Integrity above zero through both waves."
-		)
 		_opening.hide()
 		_dialogue_button.hide()
 		_defeat.hide()
@@ -79,6 +70,18 @@ func _ready() -> void:
 	_opening.add_item("D05 Fixed Stockpile")
 	_opening.item_selected.connect(_change_opening)
 	_restart()
+
+func _prepare_campaign() -> void:
+	_progress = FirstContactProgress.new(save_path)
+	%Legend.hide()
+	%MissionTitle.text = "First Contact"
+	%DialogueTitle.text = "First Contact"
+	%DialogueText.text = (
+		"Operations Manager: Our patrol spotted movement at the old chokepoint.\n\n"
+		+ "Deploy the free Starter Post across two raised tiles. D01 yields 9 Tokens per 10 combat seconds.\n"
+		+ "Place Scout Sniper on a raised tile near the bend. Place Patrolman on the path facing the entry.\n"
+		+ "Rangers attack automatically. Keep Integrity above zero through both waves."
+	)
 
 func _change_opening(index: int) -> void:
 	%DeploymentController.mode = index
@@ -165,8 +168,11 @@ func _restart() -> void:
 		battle.deployment = %DeploymentController.state
 		_board.show_combat_hp = true
 	if campaign:
-		open_dialogue()
+		_open_operation()
 	_refresh()
+
+func _open_operation() -> void:
+	open_dialogue()
 
 func _toggle_pause() -> void:
 	if battle == null or battle.clock.stopped or battle.clock.dialogue_open:

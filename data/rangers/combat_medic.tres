@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.combat_medic"
+label = "Combat Medic"
+ranger_class = 2
+recruitment_stage = &"C1-02"
+kind = 2
+cost = 14
+max_hp = 110
+attack_seconds = 2.2
+attack_range = 2
+heal_hp = 24

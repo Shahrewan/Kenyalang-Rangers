@@ -14,6 +14,8 @@ godot --headless --path . --script res://tests/unit/offense_rangers_test.gd
 godot --headless --path . --script res://tests/unit/facility_combat_test.gd
 godot --headless --path . --script res://tests/unit/enemy_combat_test.gd
 godot --headless --path . --script res://tests/unit/boss_combat_test.gd
+godot --headless --path . --script res://tests/unit/campaign_resources_test.gd
+godot --headless --path . --script res://tests/unit/campaign_story_test.gd
 ```
 
 Smoke scripts live in `tests/smoke/`, pure logic tests in `tests/unit/` when needed, and deterministic data under `tests/fixtures/`. Use standalone GDScript `SceneTree` runners, explicit assertions with descriptive failures, and a nonzero exit on failure. Keep tests offline and release-independent. Use fixed seeds and a manually stepped clock for future combat fixtures. Use dedicated test data and a temporary save location for persistence tests.
@@ -43,3 +45,5 @@ The C10 Offense runner checks the three Ranger resources and their actual simula
 The C11 runner covers all 13 Facility roles. It checks explicit Siege targeting throughout construction and operation, cancellation and replacement, repairs and kit stock, both cooldown relays, all turret cadences, Tower mounting and detection, Heat and the Specialist discount, and the three status zones. Synthetic touch scrolls the catalog, confirms an injured Scout's kit and reaches a real Siege attack in the same sandbox wave. See the [Facility phone check](../export/README.md#c11-facility-sandbox-phone-check).
 
 The C12 runners exercise all 18 lifecycles, ability timing and counters, boss phases and reinforcement queues, Heat versus HP, capture versus ordinary victory, and capped received-damage marks with B05. The boss runner also opens the sandbox picker and checks actual dialog, phase, capture and return controls. [Encounter matrix](../docs/qa/C12_ENEMY_MATRIX.md) · [Phone checklist](../export/README.md#c12-enemy-and-boss-sandbox-phone-check)
+
+The C14 resource runner checks all six W08 boards, the published wave totals and Control tiers, legal opening plans, fixed effects, reward settlement and backup recovery. The C14 Story runner launches the normal Campaign, clears C1-01 through synthetic touch and automatic combat, and drives the remaining 14 stages with scripted damage. It verifies spawn ticks and routes, Finance and Mechanical, both Heat operations, three fatal escapes, Foreman’s ordinary escape, and equivalent Continue and Skip state. Both runners use temporary saves. [C14 matrix](../docs/qa/C14_CAMPAIGN_MATRIX.md)
