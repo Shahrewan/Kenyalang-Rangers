@@ -39,3 +39,7 @@ These absent items are not necessarily lost; they may exist elsewhere. Ask the p
 ## Supplemental archive check — 21 November 2026
 
 The two-PDF handoff and GitHub main do not include the source bundle identified by UI storyboard pp. 6 and 10. The separate working archive `Kenyalang_Rangers_Design_Pack_v2.zip` contains a byte-identical storyboard PDF. Its 116 `screens/` SVG IDs and matching `renders/` PNG IDs agree with PDF pp. 12–127. It also contains the offline viewer, all four named tile sources, ten illustration PNGs and `PROJECT_MEMORY.md`. All 116 SVGs parse with text and vector shapes and all 483 relative asset references resolve inside the archive. These are recovery candidates pending editor, viewer, provenance and production-export verification. The external final story and quiz banks remain open. See [D-003 and D-004](../canon/DECISION_LOG.md#open-decisions).
+
+## W08 design archive validation — 21 November 2026
+
+Inkscape re-exported six representative frame SVGs and a temporary S10 text edit. The six map layouts and all 56 technical pieces match the archive's catalogues. The viewer's navigation and tray inputs passed simulated JavaScript checks. Live desktop viewer interaction, release permission and runtime asset exports remain open. See the [validation evidence](../canon/ART_ASSET_MANIFEST.md#source-validation).

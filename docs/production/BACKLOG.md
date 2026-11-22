@@ -108,6 +108,7 @@ Downstream catalogs may use deterministic tests for dependencies pending integra
 
 - **Depends on KR-10.** Reconcile the 116 frame IDs against the separate candidate archive. Open the SVG sources with their referenced imagery, verify all matching PNGs, four tile sources, viewer and illustration files, and record version and rights. Record confirmed gaps separately.
 - Maintain an import-ready inventory with the p. 6 56-piece geometry reference and finished textured atlas/rig dependencies. Treat the PDF pages as source references during import validation.
+- Use the [W08 asset tickets](../canon/ART_ASSET_MANIFEST.md#prioritized-asset-tickets) for art intake and delivery order. Review shared templates and frame cases in the [component spec](../canon/UI_COMPONENT_SPEC.md#c09-handoff-and-acceptance).
 - **Evidence.** UI pp. 1, 6–7, 10–11, 12–127; [asset register](../canon/ART_AND_UI_SPEC.md#source-assets-and-production-gaps). Gates D-003, D-014.
 
 ### KR-16 · Sprite, portrait and animation pipeline
