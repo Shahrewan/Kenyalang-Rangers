@@ -13,3 +13,5 @@ attack_damage = 12
 attack_seconds = 1.5
 block_capacity = 2
 attack_range = 1
+records_enhancement = &"records_chapter.patrolman"
+records_counter_damage = 6

@@ -63,7 +63,7 @@ func error(modifier: BattleModifier) -> String:
 		Scope.RANGER_ATTACK:
 			return _unless(_usable.any(func(spec: DeploymentSpec) -> bool: return spec.is_ranger() and spec.attack_damage > 0 and _reachable_enemy(spec)), "Requires a Ranger with a reachable auto-attack target.")
 		Scope.RANGER_SKILL:
-			return _unless(_usable.any(_ready_ranger_skill), "Requires a usable Ranger active skill. Check Records and Silent Mobilization.")
+			return _unless(_usable.any(_recharging_ranger_skill), "Requires a usable Ranger skill with a recharge timer. Check Records and Silent Mobilization.")
 		Scope.WEAKNESS:
 			return _unless(_weakness_available(), "Requires a usable mark, stun, immobilize, slow or Disruption zone and a reachable target.")
 		Scope.RANGER:
@@ -152,6 +152,9 @@ func _ready_ranger_skill(spec: DeploymentSpec) -> bool:
 		return false
 	return (not ranger.active_skill.requires_records or ranger.records_enhancement in _enhancements) and _reachable_enemy(ranger)
 
+func _recharging_ranger_skill(spec: DeploymentSpec) -> bool:
+	return _ready_ranger_skill(spec) and (spec as RangerSpec).active_skill.recharge_seconds > 0.0
+
 func _ranger_damage(spec: DeploymentSpec) -> bool:
 	if not spec.is_ranger():
 		return false
@@ -200,7 +203,7 @@ func _take_damage(spec: DeploymentSpec) -> bool:
 func _weakness_available() -> bool:
 	for spec in _usable:
 		var facility := spec as FacilitySpec
-		if _ready_ranger_skill(spec) or (facility != null and facility.role == FacilitySpec.Role.SONIC_TURRET and _reachable_enemy(facility)):
+		if (_ready_ranger_skill(spec) and (spec as RangerSpec).active_skill.effect != RangerSkill.Effect.TREATMENT) or (facility != null and facility.role == FacilitySpec.Role.SONIC_TURRET and _reachable_enemy(facility)):
 			if _usable.any(func(attacker: DeploymentSpec) -> bool: return (attacker.attack_damage > 0 and _reachable_enemy(attacker)) or _ranger_damage(attacker)):
 				return true
 		if facility != null and facility.role == FacilitySpec.Role.DISRUPTION and facility.outgoing_reduction_percent > 0:

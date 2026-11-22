@@ -1,7 +1,7 @@
 class_name RangerSkill
 extends Resource
 
-enum Effect { FOCUS, EMP_FIELD, FRONTAL_STUN, SCAN }
+enum Effect { FOCUS, EMP_FIELD, FRONTAL_STUN, SCAN, TREATMENT }
 
 @export var label: String
 @export var effect: Effect
@@ -9,6 +9,7 @@ enum Effect { FOCUS, EMP_FIELD, FRONTAL_STUN, SCAN }
 @export_range(1, 10) var max_charges := 1
 @export var recharge_seconds: float
 @export var damage: int
+@export var healing: int
 @export var status_seconds: float
 @export var focus_seconds: float
 @export var splash_radius: int

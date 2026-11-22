@@ -24,6 +24,8 @@ godot --headless --path . --script res://tests/unit/modifier_combat_test.gd
 godot --headless --path . --script res://tests/unit/modifier_ui_test.gd
 godot --headless --path . --script res://tests/unit/chaos_rules_test.gd
 godot --headless --path . --script res://tests/unit/chaos_ui_test.gd
+godot --headless --path . --script res://tests/unit/education_rules_test.gd
+godot --headless --path . --script res://tests/unit/education_ui_test.gd
 ```
 
 Smoke scripts live in `tests/smoke/`, pure logic tests in `tests/unit/` when needed, and deterministic data under `tests/fixtures/`. Use standalone GDScript `SceneTree` runners, explicit assertions with descriptive failures, and a nonzero exit on failure. Keep tests offline and release-independent. Use fixed seeds and a manually stepped clock for future combat fixtures. Use dedicated test data and a temporary save location for persistence tests.
@@ -55,3 +57,5 @@ The C15 progression runner checks the eleven-room price and capacity ladders, al
 The C16 rules runner checks all 30 definitions and point values, unlock tiers, chapter limits, repeat selection, legal openings, compatibility, rounding and eligibility. The combat runner steps the shared clock through reveal, recon, construction, Siege, Heat, skills and exits. The UI runner opens the normal Story picker and Chaos trial with a temporary profile, changes modifiers and loadouts, and checks the resulting field and save state. [C16 matrix](../docs/qa/C16_MODIFIER_MATRIX.md) · [Phone checklist](../export/README.md#c16-modifier-phone-check)
 
 The C17 rules runner checks the 18 enemy weights, mixed wave cap, empty-slot timing, worked-example arithmetic, payout boundaries, registered escapes and reinforcement accounting. It exercises the threshold transaction, wallet overflow, repeated clears and save retry. The C17 UI runner builds the storyboard's 60-enemy queue through the live composer, checks score and modifier changes, and drives qualifying and unqualified battles on an isolated profile. It then checks a cold relaunch into planning and both trophy views. [C17 matrix](../docs/qa/C17_CHAOS_MATRIX.md) · [Phone checklist](../export/README.md#c17-rainforest-chaos-phone-check)
+
+The C19 rules and UI runners use synthetic banks and isolated profiles. They exercise approval, revision changes, four grades, the 20-hour boundary, clock changes, the participation gate, chapter gates, quiz timeout and pause, cold reload and replay-safe awards. Validate the W18 drafts independently with `python3 docs/production/w18/validate.py`. [C19 matrix](../docs/qa/C19_EDUCATION_MATRIX.md) · [W18 handoff](../docs/production/W18_EDUCATION_BANKS.md)

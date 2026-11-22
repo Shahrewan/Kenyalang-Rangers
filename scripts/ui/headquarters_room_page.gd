@@ -81,6 +81,10 @@ func _activity_title() -> String:
 			return "Facility upgrades"
 		HeadquartersRoom.Role.ECOLOGY:
 			return "Reforestation"
+		HeadquartersRoom.Role.OUTREACH:
+			return "Open Outreach"
+		HeadquartersRoom.Role.RECORDS:
+			return "Records Encyclopaedia"
 	return ""
 
 func _refresh() -> void:

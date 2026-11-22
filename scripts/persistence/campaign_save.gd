@@ -3,7 +3,7 @@ extends RefCounted
 
 const VERSION := 2
 const STARTING_FUNDS := 10000
-const MAX_EXACT_INTEGER := 9007199254740991
+const MAX_EXACT_INTEGER := ProfileFile.MAX_EXACT_INTEGER
 const HEADQUARTERS := preload("res://data/headquarters/rooms.tres")
 
 static func fresh() -> Dictionary:

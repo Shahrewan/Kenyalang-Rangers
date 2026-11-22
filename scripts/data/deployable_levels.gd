@@ -46,6 +46,19 @@ static func effective(spec: DeploymentSpec, level: int) -> DeploymentSpec:
 		unit.heal_per_kit = _output(unit.heal_per_kit, growth.healing, unit.level)
 	return unit
 
+static func with_records_stats(spec: DeploymentSpec, enhancements: Array[StringName]) -> DeploymentSpec:
+	var ranger := spec as RangerSpec
+	if ranger == null or ranger.records_enhancement.is_empty() or not ranger.records_enhancement in enhancements:
+		return spec
+	if ranger.records_bonus_hp == 0 and ranger.records_heal_interval_seconds == 0.0 and ranger.records_redeploy_reduction_seconds == 0.0:
+		return spec
+	var tuned := ranger.duplicate() as RangerSpec
+	tuned.max_hp += maxi(0, ranger.records_bonus_hp)
+	if ranger.heal_hp > 0 and ranger.records_heal_interval_seconds > 0.0:
+		tuned.attack_seconds = minf(ranger.attack_seconds, ranger.records_heal_interval_seconds)
+	tuned.redeploy_seconds = maxf(0.0, ranger.redeploy_seconds - maxf(0.0, ranger.records_redeploy_reduction_seconds))
+	return tuned
+
 static func _output(base: int, endpoint: int, level: int) -> int:
 	return roundi(lerpf(base, endpoint, _fraction(level))) if base > 0 and endpoint > 0 else base
 

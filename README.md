@@ -24,6 +24,8 @@ Build and upgrade the four **R&D** rooms to unlock modifiers. In a Story plan, o
 
 Open **Rainforest Chaos → Choose route** or use the ground-floor HQ entrance. Choose one of six original routes and configure up to five waves. Use the sliders and plus/minus to add up to 50 enemies per wave across all enemy types. **Loadout** and **Edit modifiers** update the Medal Score, qualifying Funds and trophy preview. Clearing a challenge requires positive Integrity and zero escapes. Qualifying first clears at 1,000, 2,000 and 3,000 unlock Facilities and change the shared trophy. If a challenge is interrupted, relaunch to review the saved configuration and start a fresh attempt. [C17 verification](docs/qa/C17_CHAOS_MATRIX.md)
 
+From **Headquarters**, build Outreach or Records to open their activity screens. Outreach uses a 20-hour local batch timer and four response grades. Records opens with its cited facts archive and unlocks timed quiz chapters at Lv.2–5. The W18 banks await team review. [Runtime intake](data/education/README.md) · [C19 verification](docs/qa/C19_EDUCATION_MATRIX.md)
+
 **Sample battle** opens the separate deployment and construction fixtures for testing.
 
 Open `scenes/qa/ranger_sandbox.tscn` with **F6** or run `godot --path . scenes/qa/ranger_sandbox.tscn` to try the C10 Offense Rangers. This sandbox has its own 100-Token budget and a Records fixture for Scout's Focus. [Sandbox controls and phone check](export/README.md#c10-offense-sandbox-phone-check)
@@ -70,9 +72,11 @@ godot --headless --path . --script res://tests/unit/modifier_combat_test.gd
 godot --headless --path . --script res://tests/unit/modifier_ui_test.gd
 godot --headless --path . --script res://tests/unit/chaos_rules_test.gd
 godot --headless --path . --script res://tests/unit/chaos_ui_test.gd
+godot --headless --path . --script res://tests/unit/education_rules_test.gd
+godot --headless --path . --script res://tests/unit/education_ui_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 20 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
+Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 22 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
 
 ## Android export prerequisites
 
@@ -80,7 +84,7 @@ Expect `4.7.2.stable` in the version, an import and startup free of script error
 - Install OpenJDK 17 and the Android SDK. Install SDK Command-line Tools, accept the SDK licenses, and install Platform-Tools (`adb`), Build-Tools (`apksigner`), and Android Platform 36. The verified export used Build-Tools 36.1.0. The linked export guide lists the full Godot 4.7 toolchain, including packages for custom builds. [Godot 4.7 Android export guide](https://docs.godotengine.org/en/4.7/tutorials/export/exporting_for_android.html)
 - In **Editor → Editor Settings → Export → Android**, set **Java SDK Path** to the JDK root, and **Android SDK Path** to the SDK root. Configure debug signing locally if prompted. The team release identity and key custody are tracked separately.
 
-The C17 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB device access for a phone. [Export and C17 phone steps](export/README.md#c17-rainforest-chaos-phone-check)
+The C19 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB device access for a phone. [Export and C19 phone steps](export/README.md#c19-education-phone-check)
 
 ## Reference documents
 The GDD and 127-page tileset/UI storyboard are separate production references. They are **not automatically included** in this public repository. See `docs/reference/README.md` before uploading PDFs, especially any academic covers containing personal information or signatures.

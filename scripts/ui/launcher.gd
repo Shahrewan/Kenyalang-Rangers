@@ -20,6 +20,7 @@ var _route: StringName
 var _progress: FirstContactProgress
 var _campaign: CampaignContent
 var _campaign_progress: CampaignProgress
+var education_catalog: EducationCatalog
 var _draft: OperationPlan
 var _trial_plan: OperationPlan
 var _chaos_configuration := ChaosConfiguration.new()
@@ -72,6 +73,8 @@ func _process(delta: float) -> void:
 	if _campaign_progress == null or not _focused or _suspended or _route in [&"name", &"recovery"]:
 		return
 	if _screen is BattleScene and (_screen.battle == null or not _screen.battle.clock.is_running()):
+		return
+	if _screen is RecordsQuizPage and _screen.quiz.paused:
 		return
 	_campaign_progress.advance_finance(delta)
 	_finance_elapsed += delta
@@ -375,6 +378,40 @@ func _show_room_activity(room: HeadquartersRoom) -> void:
 			_show_roster(room)
 		HeadquartersRoom.Role.ECOLOGY:
 			_show_garden(_show_hq_room.bind(room))
+		HeadquartersRoom.Role.OUTREACH:
+			_show_outreach(room)
+		HeadquartersRoom.Role.RECORDS:
+			_show_records(room)
+
+func _education() -> EducationCatalog:
+	if education_catalog == null:
+		education_catalog = EducationCatalog.load_installed()
+	return education_catalog
+
+func _show_outreach(room: HeadquartersRoom) -> void:
+	var page := OutreachPage.new()
+	page.progress = _campaign_progress
+	page.catalog = _education()
+	var back := _show_hq_room.bind(room)
+	page.back_requested.connect(back)
+	_present(page, &"outreach", back)
+
+func _show_records(room: HeadquartersRoom) -> void:
+	var page := RecordsArchivePage.new()
+	page.progress = _campaign_progress
+	page.catalog = _education()
+	var back := _show_hq_room.bind(room)
+	page.quiz_requested.connect(_show_records_quiz.bind(room))
+	page.back_requested.connect(back)
+	_present(page, &"records", back)
+
+func _show_records_quiz(quiz: RecordsQuiz, room: HeadquartersRoom) -> void:
+	var page := RecordsQuizPage.new()
+	page.progress = _campaign_progress
+	page.catalog = _education()
+	page.quiz = quiz
+	page.back_requested.connect(_show_records.bind(room))
+	_present(page, &"quiz", page.request_back)
 
 func _show_roster(room: HeadquartersRoom) -> void:
 	var page := HeadquartersRosterPage.new()

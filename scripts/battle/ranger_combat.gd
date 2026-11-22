@@ -60,12 +60,20 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 			return
 		var enemy := _enemies[id]
 		var bonus := 0
+		var counter_damage := 0
 		if ranger != null:
 			if enemy.definition.technological:
 				bonus += ranger.technological_bonus_percent
 			if unit.records_enhanced and enemy.is_marked(tick):
 				bonus += ranger.focused_damage_bonus_percent
-		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0))
+			if unit.records_enhanced and ranger.records_counter_damage > 0 and _attacks(enemy, unit, tick):
+				counter_damage = ranger.records_counter_damage
+		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0) + counter_damage)
+
+func _attacks(enemy: BattleEnemy, unit: DeploymentState.Placement, tick: int) -> bool:
+	if tick < enemy.stunned_until:
+		return false
+	return enemy.aim_placement == unit or (enemy.definition.attack_profile == null and enemy.blocked_by == unit.spec.id)
 
 func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -> bool:
 	var reach := deployment.coverage(medic.spec, medic.anchor, medic.facing)
@@ -81,6 +89,8 @@ func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill
+	if skill.effect == RangerSkill.Effect.TREATMENT:
+		return _treat(target, deployment, skill.healing)
 	if skill.effect == RangerSkill.Effect.SCAN:
 		return _scan(unit, deployment, skill)
 	var candidates := _candidates(unit, deployment)
@@ -115,6 +125,20 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 				var enemy := _enemies[id]
 				enemy.stunned_until = maxi(enemy.stunned_until, until)
 				hit.emit(id, skill.damage)
+	return ""
+
+func _treat(cell: Vector2i, deployment: DeploymentState, healing: int) -> String:
+	var target_id := deployment.interaction_id(cell)
+	var ally: DeploymentState.Placement = deployment.placed.get(target_id)
+	if ally == null or not ally.spec.is_ranger():
+		return "Choose an injured or affected Ranger."
+	var affected := _clock.tick < maxi(maxi(ally.jammed_until, ally.attack_slow_until), maxi(ally.entangled_until, ally.knocked_down_until))
+	if deployment.heal_ranger(target_id, healing) == 0 and not affected:
+		return "Choose an injured or affected Ranger."
+	ally.jammed_until = 0
+	ally.attack_slow_until = 0
+	ally.entangled_until = 0
+	ally.knocked_down_until = 0
 	return ""
 
 func _scan(unit: DeploymentState.Placement, deployment: DeploymentState, skill: RangerSkill) -> String:

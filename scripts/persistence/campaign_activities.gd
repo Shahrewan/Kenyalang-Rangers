@@ -27,6 +27,8 @@ static func valid_outreach(state: Variant) -> bool:
 		return false
 	if not ProfileFile.whole_between(state.get("refreshed_at"), 0, LAST_TIMESTAMP) or not ProfileFile.whole_between(state.get("successes"), 0, LAST_TIMESTAMP):
 		return false
+	if not ProfileFile.whole_between(state.get("bank_revision", 0), 0, ProfileFile.MAX_EXACT_INTEGER):
+		return false
 	if not state.get("choice_order") is Dictionary or not state.get("responses") is Dictionary:
 		return false
 	if state.refreshed_at == 0:
@@ -52,6 +54,8 @@ static func valid_outreach(state: Variant) -> bool:
 			return false
 		if not ProfileFile.whole_between(response.get("change"), -FundsWallet.CAP, FundsWallet.CAP):
 			return false
+		if not _valid_discarded(response):
+			return false
 	return true
 
 static func valid_encyclopaedia(state: Variant, available_chapters: PackedStringArray) -> bool:
@@ -67,9 +71,13 @@ static func valid_encyclopaedia(state: Variant, available_chapters: PackedString
 		return true
 	if not ProfileFile.unique_ids(attempt.get("questions")) or attempt.questions.is_empty():
 		return false
+	if not ProfileFile.whole_between(attempt.get("bank_revision", 0), 0, ProfileFile.MAX_EXACT_INTEGER) or not attempt.get("review_pending", false) is bool:
+		return false
 	if not ProfileFile.whole_between(attempt.get("time_left_ticks"), 0, QUIZ_TICKS) or not attempt.get("answers") is Dictionary:
 		return false
 	if attempt.answers.size() > attempt.questions.size():
+		return false
+	if attempt.get("review_pending", false) and attempt.answers.is_empty():
 		return false
 	for i in attempt.answers.size():
 		var answer: Variant = attempt.answers.get(attempt.questions[i])
@@ -77,7 +85,12 @@ static func valid_encyclopaedia(state: Variant, available_chapters: PackedString
 			return false
 		if answer.choice < 0 and answer.correct:
 			return false
+		if not ProfileFile.whole_between(answer.get("credited", 0), 0, FundsWallet.CAP) or not _valid_discarded(answer):
+			return false
 	return true
+
+static func _valid_discarded(outcome: Dictionary) -> bool:
+	return ProfileFile.whole_between(outcome.get("discarded", 0), 0, ProfileFile.MAX_EXACT_INTEGER)
 
 static func valid_garden(state: Variant, capacity: int) -> bool:
 	if not state is Dictionary or not state.get("plots") is Dictionary or not state.get("scenery") is Dictionary:

@@ -1,6 +1,8 @@
 class_name ProfileFile
 extends RefCounted
 
+const MAX_EXACT_INTEGER := 9007199254740991
+
 static func read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {}
