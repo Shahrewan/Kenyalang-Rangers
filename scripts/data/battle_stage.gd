@@ -9,6 +9,13 @@ extends Resource
 @export var first_perfect_funds := 0
 @export var waves: Array[BattleWave]
 
+func enemy_count() -> int:
+	var count := 0
+	for wave in waves:
+		for group in wave.groups:
+			count += group.count
+	return count
+
 func validation_error() -> String:
 	if not is_finite(opening_delay_seconds) or opening_delay_seconds < 0.0 or first_clear_funds < 0 or first_perfect_funds < 0:
 		return "Opening delay and rewards must be nonnegative."

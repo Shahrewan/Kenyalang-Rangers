@@ -117,3 +117,9 @@ The C05 mission keeps T01, 6/8 sequential Forest Trespassers, 3.5-second spawnin
 ## D-012 C07 pilot evidence — 2026-11-21
 
 The W06 Scout v0.2.0 kit runs in a 19-bone standalone preview at its authored scale. Linux checks covered pivots, ordering, both facings, clip timing and sampled joint readability. Physical-phone readability, touch and performance remain pending before the rig pattern is adopted for the rest of the roster.
+
+## D-001, D-002 and D-018 C09 integration — 2026-11-22
+
+The C1-01 plan and battle share the same opening deployment validation and fixed mission supply. Start checks for an affordable legal footprint with the effective Token rules. The normal player profile has no HQ R&D unlocks at this milestone. The C09 fixtures exercised eligible B05 with a supplied unlock and an ineligible effect with a missing required action. B05 adjusts the trial Ranger's direct damage from 24 to 26 using nearest-integer rounding. Review other effect stacking with the R&D catalog.
+
+The optional Leader name is stored in the existing version 1 local profile transaction. A legacy or cleared profile without a name opens naming and retains earned Funds and first-clear flags. Confirmed abandon leaves the draft ready for another attempt without awarding Funds. The C05 payout amounts remain provisional. The C09 Android debug export uses the same editor and template pin as C01. The measured 48 dp targets, safe-area fit and named device are still pending. See [the phone procedure](../../export/README.md#c09-navigation-and-battle-ui-phone-check).

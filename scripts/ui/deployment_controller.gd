@@ -1,13 +1,15 @@
 extends Node
 
+const Portrait := preload("res://scripts/ui/deployment_portrait.gd")
+
 @export var opening_rules: LogisticsRules
 @export var roster: DeploymentRoster
 @export var preview_budget := -1
 
 @onready var _board: BattleBoard = %Board
+@onready var _scroll: ScrollContainer = %TrayScroll
 @onready var _tray: HBoxContainer = %DeploymentTray
 @onready var _hint: Label = %PlacementFeedback
-@onready var _budget: Label = %PreviewTokens
 @onready var _confirm: Button = %ConfirmSkill
 @onready var _cancel: Button = %CancelSkill
 @onready var _retreat: Button = %Retreat
@@ -24,6 +26,11 @@ var _cards: Array[PanelContainer] = []
 var _labels: Array[Label] = []
 var _pointer := NO_POINTER
 var _retreat_unit: StringName
+var _offered: Dictionary[StringName, DeploymentSpec] = {}
+var _press_at := Vector2.ZERO
+var _scroll_start := 0
+var _pan_tray := false
+var _drag_to_field := false
 
 func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
@@ -31,41 +38,54 @@ func _ready() -> void:
 	_retreat.pressed.connect(_retreat_ranger)
 	for spec in roster.entries:
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(0, 56)
-		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.custom_minimum_size = Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var layout := HBoxContainer.new()
+		layout.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		layout.add_theme_constant_override("separation", 7)
+		card.add_child(layout)
+		var portrait := Portrait.new() as Control
+		portrait.spec = spec
+		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		portrait.custom_minimum_size = Vector2(42, 44)
+		layout.add_child(portrait)
 		var label := Label.new()
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 15)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		card.add_child(label)
+		layout.add_child(label)
 		_cards.append(card)
 		_labels.append(label)
 		_tray.add_child(card)
 
-func setup(simulation: BattleSimulation, map: BattleMap) -> void:
+func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = null) -> void:
 	_simulation = simulation
 	var rules := opening_rules.duplicate() as LogisticsRules
-	rules.starter_only = mode == 0 and preview_budget < 0
-	rules.yield_percent = 90 if rules.starter_only else 100
-	rules.fixed_stockpile = mode == 2
+	_offered.clear()
+	if plan != null:
+		rules = plan.operation.opening_rules
+		for spec in plan.deployment_entries():
+			_offered[spec.id] = spec
+	else:
+		rules.starter_only = mode == 0 and preview_budget < 0
+		rules.yield_percent = 90 if rules.starter_only else 100
+		rules.fixed_stockpile = mode == 2
+		for spec in roster.entries:
+			var starter := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
+			if (not rules.starter_only or starter) and not (rules.fixed_stockpile and spec.logistics_post):
+				_offered[spec.id] = spec
 	state = DeploymentState.new(map, simulation.clock, maxi(0, preview_budget), rules)
 	state.skill_fired.connect(_skill_fired)
 	_board.deployments = state
+	_scroll.scroll_horizontal = 0
 	_cancel_pointer()
 	_hide_retreat()
-	_hint.text = "Drag the free Starter Post onto two adjacent elevated tiles." if rules.starter_only else "Drag a card onto the grid."
+	_hint.text = "Drag the free Starter Post to two raised tiles." if rules.starter_only else "Drag a card onto the grid."
 	var offered: Array[DeploymentSpec] = []
-	for spec in roster.entries:
-		if _can_show_card(spec):
-			offered.append(spec)
+	offered.assign(_offered.values())
 	if state.clock.is_running() and not state.has_legal_opening(offered):
 		state.clock.stopped = true
 		_hint.text = "No affordable legal opening. Choose a different setup."
 	_refresh()
-
-func _can_show_card(spec: DeploymentSpec) -> bool:
-	var starter_card := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
-	return (not state.rules.starter_only or starter_card) and not (state.rules.fixed_stockpile and spec.logistics_post)
 
 func _process(_delta: float) -> void:
 	if state == null:
@@ -96,7 +116,10 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag:
 		handled = _pointer_motion(event.index, event.position)
 	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION:
-		if event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN] and _tray_clip().has_point(event.position):
+			_scroll.scroll_horizontal += 120 if event.button_index == MOUSE_BUTTON_WHEEL_DOWN else -120
+			handled = true
+		elif event.button_index == MOUSE_BUTTON_LEFT:
 			handled = _pointer_button(MOUSE_POINTER, event.position, event.pressed)
 	elif event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
 		handled = _pointer_motion(MOUSE_POINTER, event.position)
@@ -109,7 +132,9 @@ func _pointer_button(id: int, at: Vector2, pressed: bool) -> bool:
 		return _press(id, at)
 	if _pointer != id:
 		return false
-	_release(at)
+	_pointer_motion(id, at)
+	if not _pan_tray:
+		_release(at)
 	_cancel_pointer()
 	return true
 
@@ -122,16 +147,20 @@ func _press(id: int, at: Vector2) -> bool:
 	var cell: Vector2i = _board.cell_at(at)
 	var actor: StringName = state.occupancy.get(cell, &"")
 	var card: DeploymentSpec
-	for i in _cards.size():
-		if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
-			card = roster.entries[i]
-			break
+	if _tray_clip().has_point(at):
+		for i in _cards.size():
+			if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
+				card = _offered[roster.entries[i].id]
+				break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
-	if card == null and actor.is_empty() and not targeting:
+	var in_tray := _tray_clip().has_point(at)
+	if card == null and actor.is_empty() and not targeting and not in_tray:
 		return false
 	if card != null:
 		state.cancel_skill()
 	_pointer = id
+	_press_at = at
+	_scroll_start = _scroll.scroll_horizontal
 	_gesture.press(at, Time.get_ticks_msec(), card, actor, targeting)
 	return true
 
@@ -139,6 +168,15 @@ func _pointer_motion(id: int, at: Vector2) -> bool:
 	if _pointer != id:
 		return false
 	_gesture.motion(at)
+	if _gesture.moved and _tray_clip().has_point(_press_at) and not _drag_to_field:
+		var movement := at - _press_at
+		if not _pan_tray and absf(movement.x) > absf(movement.y) and _tray_clip().has_point(at):
+			_pan_tray = true
+		elif not _pan_tray and _gesture.dragging != null:
+			_drag_to_field = true
+		if _pan_tray:
+			_scroll.scroll_horizontal = roundi(_scroll_start - movement.x)
+			return true
 	if _gesture.dragging != null and _gesture.moved:
 		_board.preview_spec = _gesture.dragging
 		_board.preview_cell = _board.cell_at(at)
@@ -146,6 +184,13 @@ func _pointer_motion(id: int, at: Vector2) -> bool:
 		var error := state.placement_error(_gesture.dragging, _board.preview_cell)
 		_hint.text = "Release to deploy." if error.is_empty() else error
 	return true
+
+func _tray_clip() -> Rect2:
+	var clip := _scroll.get_global_rect()
+	var bar := _scroll.get_h_scroll_bar()
+	if bar.visible:
+		clip.size.y = maxf(0.0, bar.global_position.y - clip.position.y)
+	return clip
 
 func _release(at: Vector2) -> void:
 	var cell: Vector2i = _board.cell_at(at)
@@ -168,6 +213,8 @@ func _release(at: Vector2) -> void:
 
 func _cancel_pointer() -> void:
 	_pointer = NO_POINTER
+	_pan_tray = false
+	_drag_to_field = false
 	_gesture.reset()
 	_board.preview_spec = null
 
@@ -215,7 +262,6 @@ func _skill_fired(id: StringName, target: Vector2i) -> void:
 	_hint.text = "%s skill activated." % unit.spec.label
 
 func _refresh() -> void:
-	_budget.text = "Logistic Tokens: %d" % state.tokens
 	if _retreat.visible and _retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0:
 		_hide_retreat()
 	var armed := not state.armed.is_empty()
@@ -224,9 +270,11 @@ func _refresh() -> void:
 	_confirm.disabled = not state.clock.is_running() or state.pending_target == DeploymentState.NO_CELL
 	_cancel.disabled = not state.clock.is_running()
 	for i in _labels.size():
-		var spec := roster.entries[i]
+		var spec: DeploymentSpec = _offered.get(roster.entries[i].id)
+		_cards[i].visible = spec != null
+		if spec == null:
+			continue
 		var ticks := state.cooldown_ticks(spec.id)
-		_cards[i].visible = _can_show_card(spec)
 		var detail := "%d Tokens" % state.cost_for(spec)
 		var build := state.build_ticks_left(spec.id)
 		if build > 0:

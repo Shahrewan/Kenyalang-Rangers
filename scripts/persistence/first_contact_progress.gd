@@ -13,10 +13,18 @@ func _init(path := DEFAULT_PATH) -> void:
 	if _data.is_empty():
 		_data = _read(path + ".bak")
 	if _data.is_empty():
-		_data = {"version": SCHEMA_VERSION, "first_clear": false, "perfect_clear": false, "funds": 0}
+		_data = {"version": SCHEMA_VERSION, "leader_name": "", "first_clear": false, "perfect_clear": false, "funds": 0}
 
 func snapshot() -> Dictionary:
 	return _data.duplicate()
+
+func set_leader_name(value: String) -> bool:
+	var cleaned := value.strip_edges().substr(0, 24)
+	if cleaned.is_empty():
+		return false
+	var next := _data.duplicate()
+	next.leader_name = cleaned
+	return _commit(next)
 
 func record_clear(perfect: bool, clear_funds: int, perfect_funds: int) -> int:
 	var next := _data.duplicate()
@@ -30,10 +38,13 @@ func record_clear(perfect: bool, clear_funds: int, perfect_funds: int) -> int:
 	if next == _data:
 		return 0
 	next.funds = int(next.funds) + reward
+	return reward if _commit(next) else -1
+
+func _commit(next: Dictionary) -> bool:
 	var temporary := _path + ".tmp"
 	var file := FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
-		return -1
+		return false
 	file.store_string(JSON.stringify(next))
 	file.close()
 
@@ -41,13 +52,13 @@ func record_clear(perfect: bool, clear_funds: int, perfect_funds: int) -> int:
 	if not _read(_path).is_empty():
 		var backup := _path + ".bak"
 		if DirAccess.copy_absolute(_path, backup + ".tmp") != OK:
-			return -1
+			return false
 		if DirAccess.rename_absolute(backup + ".tmp", backup) != OK:
-			return -1
+			return false
 	if DirAccess.rename_absolute(temporary, _path) != OK:
-		return -1
+		return false
 	_data = next
-	return reward
+	return true
 
 func _read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
@@ -65,6 +76,8 @@ func _read(path: String) -> Dictionary:
 		return {}
 	if decoded.perfect_clear and not decoded.first_clear:
 		return {}
+	var name: Variant = decoded.get("leader_name", "")
+	decoded.leader_name = name.strip_edges().substr(0, 24) if name is String else ""
 	decoded.version = SCHEMA_VERSION
 	decoded.funds = int(funds)
 	return decoded

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StoryIndex" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/story_index.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nodes = Array[Dictionary]([
+{"id": &"C1-01", "title": "First Contact", "control": 1},
+{"id": &"C1-02", "title": "Hold the Line", "control": 1},
+{"id": &"C1-03", "title": "Narrow Escape", "control": 1},
+{"id": &"C1-04", "title": "Watch the Ridge", "control": 2},
+{"id": &"C1-05", "title": "Operation: Full Pivot", "control": 2},
+{"id": &"C2-01", "title": "Misty Approach", "control": 3},
+{"id": &"C2-02", "title": "Siege on the Ridge", "control": 3},
+{"id": &"C2-03", "title": "Aerial Crossing", "control": 3},
+{"id": &"C2-04", "title": "Jammed Communications", "control": 3},
+{"id": &"C2-05", "title": "Automated Pursuit", "control": 4},
+{"id": &"C2-06", "title": "Capture Operations", "control": 4},
+{"id": &"C2-07", "title": "Heat in the Gorge", "control": 4},
+{"id": &"C2-08", "title": "Breaking the Line", "control": 4},
+{"id": &"C2-09", "title": "Desperate Convoy", "control": 5},
+{"id": &"C2-10", "title": "Final Interception", "control": 5}
+])

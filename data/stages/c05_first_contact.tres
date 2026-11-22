@@ -11,6 +11,8 @@
 [sub_resource type="Resource" id="Enemy"]
 script = ExtResource("4")
 enemy_id = &"E01"
+display_name = "Forest Trespasser"
+counterplay = "Block on the ground and cover the approach with Scout Sniper."
 tiles_per_second = 0.29
 escape_penalty = 10
 

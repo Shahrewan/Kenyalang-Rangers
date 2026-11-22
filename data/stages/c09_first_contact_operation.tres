@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="StoryOperation" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/story_operation.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/c05_first_contact.tres" id="2"]
+[ext_resource type="Resource" path="res://data/rangers/c03_preview.tres" id="3"]
+[ext_resource type="Resource" path="res://data/stages/c04_logistics_rules.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/planning_buff.gd" id="5"]
+
+[sub_resource type="Resource" id="Trail"]
+script = ExtResource("5")
+id = &"B01"
+display_name = "Trail Reconnaissance"
+requirement = "R&D Eco Lv.2"
+description = "Warns of an entry point five seconds before a wave."
+
+[sub_resource type="Resource" id="Heat"]
+script = ExtResource("5")
+id = &"B02"
+display_name = "Fireline Preparation"
+requirement = "R&D Eco Lv.3"
+description = "Reduces Heat buildup by 25%."
+needs_heat = true
+
+[sub_resource type="Resource" id="Calibration"]
+script = ExtResource("5")
+id = &"B05"
+display_name = "Tranquilizer Calibration"
+requirement = "R&D Combat Lv.2"
+description = "Increases Ranger attack damage by 10%."
+ranger_damage_percent = 10
+
+[resource]
+script = ExtResource("1")
+title = "First Contact"
+region = "Forgotten Patrol"
+stage = ExtResource("2")
+roster = ExtResource("3")
+opening_rules = ExtResource("4")
+ranger_ids = Array[StringName]([&"patrolman", &"scout"])
+supply_ids = Array[StringName]([&"facility.logistics_post"])
+fixed_debuff = "D01 · Thin Supply Line"
+buff_choices = Array[ExtResource("5")]([SubResource("Trail"), SubResource("Heat"), SubResource("Calibration")])
