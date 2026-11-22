@@ -1,15 +1,17 @@
 class_name EnemyCombat
 extends RefCounted
 
-func advance(enemy: BattleEnemy, deployment: DeploymentState, tick: int) -> void:
+signal hit(enemy: BattleEnemy, target: StringName, kind: EnemyAttackProfile.Kind)
+
+func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: FacilityCombat, tick: int) -> void:
 	var profile := enemy.definition.attack_profile
 	if profile == null or tick < enemy.stunned_until:
 		return
 	if not enemy.aim_target.is_empty():
 		if tick >= enemy.fire_tick:
 			var target: DeploymentState.Placement = deployment.placed.get(enemy.aim_target)
-			if _distance_to(enemy.grid_cell(), target, profile) <= profile.radius:
-				_hit(enemy, deployment, enemy.aim_target, tick)
+			if target == enemy.aim_placement and _distance_to(enemy.grid_cell(), target, profile) <= profile.radius:
+				_hit(enemy, enemy.aim_target, tick)
 			else:
 				_finish_attack(enemy, tick)
 		return
@@ -25,11 +27,15 @@ func advance(enemy: BattleEnemy, deployment: DeploymentState, tick: int) -> void
 			best = id
 	if best.is_empty():
 		return
-	if profile.windup_seconds > 0.0:
+	var windup := CombatClock.ticks_for(profile.windup_seconds)
+	if profile.disruptible:
+		windup += facilities.ability_delay(deployment, enemy.grid_cell(), tick)
+	if windup > 0:
 		enemy.aim_target = best
-		enemy.fire_tick = tick + CombatClock.ticks_for(profile.windup_seconds)
+		enemy.aim_placement = deployment.placed[best]
+		enemy.fire_tick = tick + windup
 	else:
-		_hit(enemy, deployment, best, tick)
+		_hit(enemy, best, tick)
 
 func _distance_to(cell: Vector2i, unit: DeploymentState.Placement, profile: EnemyAttackProfile) -> int:
 	var nearest := profile.radius + 1
@@ -39,10 +45,11 @@ func _distance_to(cell: Vector2i, unit: DeploymentState.Placement, profile: Enem
 			nearest = mini(nearest, maxi(delta.x, delta.y))
 	return nearest
 
-func _hit(enemy: BattleEnemy, deployment: DeploymentState, target: StringName, tick: int) -> void:
-	deployment.receive_hit(target, enemy.definition.attack_damage, enemy.definition.attack_profile.kind)
+func _hit(enemy: BattleEnemy, target: StringName, tick: int) -> void:
+	hit.emit(enemy, target, enemy.definition.attack_profile.kind)
 	_finish_attack(enemy, tick)
 
 func _finish_attack(enemy: BattleEnemy, tick: int) -> void:
 	enemy.aim_target = &""
+	enemy.aim_placement = null
 	enemy.profile_ready_tick = tick + maxi(1, CombatClock.ticks_for(enemy.definition.attack_seconds))

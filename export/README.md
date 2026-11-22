@@ -135,3 +135,23 @@ adb install -r build/android/kenyalang-rangers-c10-offense-preview.apk
 3. Tap Crowd when enemies cluster in range. Observe the EMP drop in HP and the teal slowing field. Technological targets have a `T`. The ordinary EMP has the higher output against them. Check movement and recharge at 1× or 2× and across Pause or the dialogue preview.
 4. Tap Guard up to four times while ground enemies are within two tiles in front. Observe the damage, stun ring and remaining charges. A fifth tap during recharge should leave HP alone. Pause with charges missing, wait, resume, and verify only one returns after thirteen combat seconds. Test hold-to-Retreat and a legal redeploy after its countdown. The `A` targets in wave two should pass Guard and remain eligible for the elevated attackers.
 5. Restart to clear the sandbox state. Record the build, model, Android version, density, cutout fit and touch outcomes in the [decision log](../docs/canon/DECISION_LOG.md#d-007-and-d-008-c10-offense-tuning--2026-11-22).
+
+## C11 Facility sandbox phone check
+
+Use the Godot 4.7.2 Android toolchain above and a USB-connected ARM64 phone. To reproduce the standalone sandbox, copy the project to a temporary directory. In that copy set `run/main_scene` to `res://scenes/qa/facility_sandbox.tscn`, append that scene to `export_files` in **Android Debug**, and use `com.shahrewan.kenyalangrangers.facilitypreview` and `Kenyalang Rangers (Facility Sandbox)` for the package ID and name.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c11-facility-preview.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c11-facility-preview.apk
+```
+
+1. Open **Kenyalang Rangers (Facility Sandbox)** in airplane mode. Swipe the tray while the board stays clear. Drop a Facility over a ground tile and check that the Token balance stays at 1,000. Use zero-based coordinates for the following drops.
+2. Place Medic Cabin at `(1, 1)` and Scout Sniper at `(4, 3)`. As ordinary projectiles reduce Scout's HP, check that the Cabin has full HP. Once a kit arrives, tap the Cabin, tap Scout and use **Confirm skill**. Repeat on another run with a drag across Scout before selection to verify the drag preserves the kit.
+3. Watch the Siege enemy pin a red warning to the Cabin near the entry. Pause during the windup, wait, then resume and check the HP loss. On a fresh attempt place Sonic at `(1, 1)` when Siege approaches so the site is hit while unfinished. Tap **Cancel build** before seven combat seconds and check the full 35-Token refund. Let a site be destroyed on another attempt and check that its footprint is free.
+4. Try Sentry Tower at `(3, 1)` and confirm that `(3, 0)` stays reserved. Once the Tower is ready, drag an available Scout to the Tower's base. Watch detection when concealed enemies arrive. Place Mechanic within two tiles of an injured Facility to check repair. Swipe to the Calltower and Specialist test card to verify the one-use discount and the charged cost.
+5. In the second wave, compare the Heat gauge with Firebreak active on one attempt. Check the compact display, Pause, speed and tray at default and enlarged text settings and around the phone's cutout. Record the build, named device, Android version, density, safe insets and results. [Decision log](../docs/canon/DECISION_LOG.md#d-007-and-d-008-c11-facility-tuning--2026-11-22)
+
+The signed C11 packages passed export and archive checks. Physical installation and this phone run remain pending. The cloud workspace has no USB device bus, and its ADB daemon cannot create its directory on the read-only home filesystem.

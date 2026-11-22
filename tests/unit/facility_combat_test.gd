@@ -11,9 +11,14 @@ const CANOPY: FacilitySpec = preload("res://data/facilities/canopy_defense_launc
 const TOWER: FacilitySpec = preload("res://data/facilities/sentry_tower.tres")
 const FIREBREAK: FacilitySpec = preload("res://data/facilities/firebreak_beacon.tres")
 const CALLTOWER: FacilitySpec = preload("res://data/facilities/specialist_calltower.tres")
+const HUB: FacilitySpec = preload("res://data/facilities/ranger_coordination_hub.tres")
+const COVER: FacilitySpec = preload("res://data/facilities/reinforced_cover_station.tres")
+const DISRUPTION: FacilitySpec = preload("res://data/facilities/disruption_beacon.tres")
 const SCOUT: RangerSpec = preload("res://data/rangers/scout_sniper.tres")
 const GUARD: RangerSpec = preload("res://data/rangers/guard_veteran.tres")
 const MECHANIC: RangerSpec = preload("res://data/rangers/outpost_mechanic.tres")
+const CATALOG := preload("res://data/facilities/catalog.tres")
+const SANDBOX := preload("res://scenes/qa/facility_sandbox.tscn")
 
 var _failed := 0
 
@@ -21,6 +26,7 @@ func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
+	_catalog()
 	_placement_and_siege()
 	_attacks_in_combat()
 	_medic_stock()
@@ -32,8 +38,30 @@ func _run() -> void:
 	_tower_slots_and_detection()
 	_firebreak_heat()
 	_specialist_discount()
+	_coordination_hub()
+	_cover_station()
+	_disruption_beacon()
+	_combined_damage_zones()
+	_replaced_siege_target()
+	await _sandbox_touch()
 	print("Facility checks complete. Failures: ", _failed)
 	quit(0 if _failed == 0 else 1)
+
+func _catalog() -> void:
+	var counts := [0, 0, 0, 0]
+	var ids: Array[StringName] = []
+	var footprints_valid := true
+	for spec: FacilitySpec in CATALOG.entries:
+		counts[spec.category] += 1
+		ids.append(spec.id)
+		if spec == TOWER:
+			footprints_valid = footprints_valid and spec.footprint(Vector2i.ZERO) == [Vector2i.ZERO] and spec.reserved(Vector2i.ZERO) == [Vector2i.UP]
+		else:
+			footprints_valid = footprints_valid and spec.footprint(Vector2i.ZERO) == [Vector2i.ZERO, Vector2i.RIGHT] and spec.reserved(Vector2i.ZERO).is_empty()
+	var unique := ids.all(func(id: StringName) -> bool: return ids.count(id) == 1)
+	_check(counts == [4, 3, 3, 3] and ids.size() == 13 and unique, "Catalog contains 13 unique Facilities in the canonical four groups")
+	_check(footprints_valid, "Catalog footprints use elevated pairs and the Tower clearance exception")
+	_check(SKILL_RELAY.chaos_threshold == 1000 and CALLTOWER.chaos_threshold == 2000 and TOWER.chaos_threshold == 3000 and FIREBREAK.mission_supply_stage == &"C2-07", "Authored unlock metadata preserves Chaos thresholds and Firebreak mission supply")
 
 func _placement_and_siege() -> void:
 	var battle := _encounter()
@@ -306,6 +334,154 @@ func _specialist_discount() -> void:
 	var balance := state.tokens
 	_check(not state.deploy(specialist, Vector2i(5, 2), 1).is_empty() and state.tokens == balance and state.specialist_discount == 8, "An ordinary placement or invalid Specialist drop leaves the claim intact")
 	_check(state.deploy(specialist, Vector2i(6, 3), 1).is_empty() and state.tokens == balance - 10 and state.specialist_discount == 0 and state.cost_for(specialist) == 18, "Only a successful Specialist deployment consumes the discount")
+
+func _coordination_hub() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(HUB, Vector2i(1, 0), 1)
+	state.deploy(SCOUT, Vector2i(1, 2), 1)
+	state.deploy(MECHANIC, Vector2i(6, 2), 1)
+	_frames(battle, 420)
+	_enemy(battle, 100, 1.0)
+	_enemy(battle, 101, 6.0)
+	_frames(battle, 1)
+	var scout := state.placed[SCOUT.id]
+	var mechanic := state.placed[MECHANIC.id]
+	_check(scout.next_attack_tick == 517 and mechanic.next_attack_tick == 553, "Coordination increases nearby Ranger attack rate while the out-of-range Ranger keeps its cadence")
+	_frames(battle, 30)
+	state.receive_hit(HUB.id, 270, EnemyAttackProfile.Kind.SIEGE)
+	_frames(battle, 1)
+	_check(scout.basic_interval_ticks == 120 and scout.next_attack_tick == 534, "Losing the Hub restores base cadence and preserves progress through the current attack interval")
+
+func _cover_station() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(POST, Vector2i(1, 2), 1)
+	state.deploy(COVER, Vector2i(1, 0), 1)
+	state.deploy(GUARD, Vector2i(3, 1), 1)
+	_frames(battle, 420)
+	var siege := _enemy(battle, 100, 1.0)
+	_set_attack(siege, EnemyAttackProfile.Kind.SIEGE, 60)
+	var ranged := _enemy(battle, 101, 2.2)
+	_set_attack(ranged, EnemyAttackProfile.Kind.RANGED, 20)
+	_frames(battle, 1)
+	var post := state.placed[&"facility.logistics_post#1"]
+	var ranger := state.placed[GUARD.id]
+	_check(post.hp == 115 and ranger.hp == 215, "Cover reduces eligible Siege and ordinary Ranger damage inside the square")
+	_check(state.placed[COVER.id].hp == 330, "Ordinary fire does not target the Cover Station")
+	state.receive_hit(COVER.id, 330, EnemyAttackProfile.Kind.SIEGE)
+	_frames(battle, 60)
+	_check(post.hp == 55 and ranger.hp == 195, "Raw damage returns when the Cover Station is destroyed")
+
+func _disruption_beacon() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(POST, Vector2i(1, 2), 1)
+	state.deploy(DISRUPTION, Vector2i(1, 0), 1)
+	state.deploy(GUARD, Vector2i(3, 1), 1)
+	_frames(battle, 420)
+	var siege := _enemy(battle, 100, 1.0)
+	_set_attack(siege, EnemyAttackProfile.Kind.SIEGE, 60, 0.5)
+	siege.definition.attack_profile.disruptible = true
+	var ranged := _enemy(battle, 101, 2.2)
+	_set_attack(ranged, EnemyAttackProfile.Kind.PROJECTILE, 20)
+	_frames(battle, 1)
+	var post := state.placed[&"facility.logistics_post#1"]
+	_check(siege.fire_tick == 511 and siege.aim_target == &"facility.logistics_post#1", "Disruption adds one second to a tagged ability windup in its zone")
+	_check(ranged.aim_target.is_empty() and state.placed[GUARD.id].hp == 214, "Disruption reduces an ordinary projectile without delaying its action")
+	_frames(battle, 30)
+	_check(post.hp == 160, "The tagged Siege ability has not fired at its original deadline")
+	_frames(battle, 60)
+	_check(post.hp == 112 and siege.aim_target.is_empty(), "The delayed Siege attack lands with its Disruption damage reduction")
+
+func _replaced_siege_target() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	var anchor := Vector2i(1, 0)
+	state.deploy(SONIC, anchor, 1)
+	var siege := _enemy(battle, 100, 1.0)
+	_set_attack(siege, EnemyAttackProfile.Kind.SIEGE, 60, 0.5)
+	_frames(battle, 1)
+	var old_site := state.placed[SONIC.id]
+	state.cancel_construction(SONIC.id)
+	state.deploy(SONIC, anchor, 1)
+	_frames(battle, 30)
+	_check(old_site != state.placed[SONIC.id] and state.placed[SONIC.id].hp == 250, "A cancelled Siege target cannot transfer the pending attack to a new construction instance")
+
+func _combined_damage_zones() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(DISRUPTION, Vector2i(1, 0), 1)
+	state.deploy(COVER, Vector2i(1, 2), 1)
+	state.deploy(GUARD, Vector2i(2, 1), 1)
+	_frames(battle, 420)
+	var ranged := _enemy(battle, 100, 1.0)
+	_set_attack(ranged, EnemyAttackProfile.Kind.RANGED, 100)
+	_frames(battle, 1)
+	_check(state.placed[GUARD.id].hp == 170, "Outgoing Disruption and incoming Cover each apply once to the same hit")
+
+func _sandbox_touch() -> void:
+	root.size = Vector2i(960, 540)
+	var sandbox := SANDBOX.instantiate()
+	root.add_child(sandbox)
+	var scene := sandbox.get_node("SafeArea/Field") as BattleScene
+	scene.set_physics_process(false)
+	await process_frame
+	await process_frame
+	var battle := scene.battle
+	var state := battle.deployment
+	var tray := scene.get_node("%DeploymentTray") as HBoxContainer
+	var scroller := scene.get_node("%TrayScroll") as ScrollContainer
+	var board := scene.get_node("%Board") as BattleBoard
+	_check(scene.stage.validation_error().is_empty() and tray.get_child_count() == 17 and scene.get_node("%HeatRow").visible, "Sandbox exposes the catalog plus four Ranger cards and an enabled Heat gauge")
+	_check(board.get_global_rect().end.y <= scroller.get_global_rect().position.y, "Sandbox tray and field remain separate at 960×540")
+	var cabin_pos := _point(board, Vector2i(1, 1))
+	var scout_pos := _point(board, Vector2i(4, 3))
+	_drag(tray.get_child(1).get_global_rect().get_center(), cabin_pos)
+	var swipe_from: Vector2 = tray.get_child(3).get_global_rect().get_center()
+	_drag(swipe_from, swipe_from - Vector2(190, 0))
+	_check(scroller.scroll_horizontal > 0 and state.tokens == 978 and state.placed.size() == 1, "A horizontal Facility tray swipe scrolls without paying for a placement")
+	scroller.ensure_control_visible(tray.get_child(13))
+	await process_frame
+	_drag(tray.get_child(13).get_global_rect().get_center(), scout_pos)
+	_check(state.tokens == 966 and state.placed.has(SCOUT.id), "Synthetic touch can place a Ranger from the end of the scrollable catalog")
+	_frames(battle, 1260)
+	var cabin := state.placed[CABIN.id]
+	var scout := state.placed[SCOUT.id]
+	var injured := scout.hp
+	_check(cabin.hp == 170 and injured < 100 and cabin.stock == 1, "The sandbox wave's normal projectiles hurt the Scout while the Facility generates a kit unharmed")
+	_tap(cabin_pos)
+	_drag(scout_pos, scout_pos + Vector2(24, 0))
+	_check(state.armed == CABIN.id and state.pending_target == DeploymentState.NO_CELL and scout.hp == injured and cabin.stock == 1, "Dragging across an allied tile cannot consume a medic kit")
+	_tap(scout_pos)
+	scene.get_node("%ConfirmSkill").pressed.emit()
+	_check(scout.hp == 100 and cabin.stock == 0, "Confirm skill spends the kit and heals the injured Ranger in the running sandbox")
+	_frames(battle, 1)
+	_check(battle.active[3].aim_target == CABIN.id and cabin.hp == 170, "The sandbox's Siege threat begins a real Facility windup")
+	_frames(battle, 48)
+	_check(cabin.hp == 110, "The sandbox's dedicated Siege hit damages the completed Cabin")
+	sandbox.queue_free()
+
+func _point(board: BattleBoard, tile: Vector2i) -> Vector2:
+	return board.get_global_transform_with_canvas() * board.cell_center(tile)
+
+func _touch(at: Vector2, pressed: bool) -> void:
+	var event := InputEventScreenTouch.new()
+	event.position = at
+	event.pressed = pressed
+	root.push_input(event, true)
+
+func _tap(at: Vector2) -> void:
+	_touch(at, true)
+	_touch(at, false)
+
+func _drag(from: Vector2, to: Vector2) -> void:
+	_touch(from, true)
+	var drag := InputEventScreenDrag.new()
+	drag.position = to
+	drag.relative = to - from
+	root.push_input(drag, true)
+	_touch(to, false)
 
 func _encounter(heat_capacity := 0.0) -> BattleSimulation:
 	var stage := STAGE.duplicate() as BattleStage

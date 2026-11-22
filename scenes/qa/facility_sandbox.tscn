@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/safe_area.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/battle/sample_battle.tscn" id="2"]
+[ext_resource type="Resource" path="res://tests/fixtures/c11_facility_stage.tres" id="3"]
+[ext_resource type="Resource" path="res://data/facilities/catalog.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/deployment_spec.gd" id="5"]
+[ext_resource type="Resource" path="res://data/rangers/scout_sniper.tres" id="6"]
+[ext_resource type="Resource" path="res://data/rangers/outpost_mechanic.tres" id="7"]
+[ext_resource type="Resource" path="res://tests/fixtures/c11_barricade_target.tres" id="8"]
+[ext_resource type="Resource" path="res://tests/fixtures/c11_specialist_target.tres" id="9"]
+
+[node name="FacilitySandbox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.153, 0.204, 0.161, 1)
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Field" parent="SafeArea" instance=ExtResource("2")]
+layout_mode = 2
+stage = ExtResource("3")
+sandbox = true
+sandbox_title = "Facility sandbox"
+sandbox_legend = "Placeholder art · T: Technological · A: Aerial · ?: Concealed"
+
+[node name="DeploymentController" parent="SafeArea/Field" index="1"]
+roster = ExtResource("4")
+support_entries = Array[ExtResource("5")]([ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9")])
+preview_budget = 1000
+records_enhancements = Array[StringName]([&"records_chapter.scout_sniper"])
+
+[editable path="SafeArea/Field"]

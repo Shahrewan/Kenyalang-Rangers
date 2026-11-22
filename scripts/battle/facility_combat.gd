@@ -64,6 +64,38 @@ func heat_multiplier(deployment: DeploymentState, tick: int) -> float:
 			strongest = maxi(strongest, unit.facility.heat_slow_percent)
 	return maxf(0.01, (100 - strongest) / 100.0)
 
+func attack_interval(deployment: DeploymentState, unit: DeploymentState.Placement, tick: int) -> int:
+	var base := CombatClock.ticks_for(unit.spec.attack_seconds)
+	var hub := _zone(deployment, FacilitySpec.Role.COORDINATION_HUB, unit.spec.footprint(unit.anchor), tick)
+	if hub == null:
+		return maxi(1, base)
+	return maxi(1, ceili(base * 100.0 / (100 + maxi(0, hub.attack_rate_bonus_percent))))
+
+func enemy_damage(deployment: DeploymentState, enemy: BattleEnemy, target: DeploymentState.Placement, tick: int) -> int:
+	var disrupt := _zone(deployment, FacilitySpec.Role.DISRUPTION, [enemy.grid_cell()], tick)
+	var cover := _zone(deployment, FacilitySpec.Role.REINFORCED_COVER, target.spec.footprint(target.anchor), tick)
+	var factor := 1.0
+	if disrupt != null:
+		factor *= clampf(1.0 - disrupt.outgoing_reduction_percent / 100.0, 0.0, 1.0)
+	if cover != null:
+		factor *= clampf(1.0 - cover.incoming_reduction_percent / 100.0, 0.0, 1.0)
+	return roundi(enemy.definition.attack_damage * factor)
+
+func ability_delay(deployment: DeploymentState, cell: Vector2i, tick: int) -> int:
+	var disrupt := _zone(deployment, FacilitySpec.Role.DISRUPTION, [cell], tick)
+	return maxi(0, CombatClock.ticks_for(disrupt.ability_delay_seconds)) if disrupt != null else 0
+
+func _zone(deployment: DeploymentState, role: FacilitySpec.Role, cells: Array[Vector2i], tick: int) -> FacilitySpec:
+	for unit: DeploymentState.Placement in deployment.placed.values():
+		var spec := unit.facility
+		if spec == null or spec.role != role or tick < unit.build_deadline:
+			continue
+		for cell in cells:
+			var delta := (cell - unit.anchor).abs()
+			if maxi(delta.x, delta.y) <= spec.attack_range:
+				return spec
+	return null
+
 func _repair(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> void:
 	var target: StringName
 	var most_missing := 0

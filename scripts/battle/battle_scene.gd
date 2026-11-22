@@ -6,6 +6,8 @@ signal operation_finished(report: Dictionary)
 
 @export var stage: BattleStage
 @export var sandbox := false
+@export var sandbox_title := "Offense sandbox"
+@export var sandbox_legend := "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
 var campaign := false
 var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
@@ -59,8 +61,8 @@ func _ready() -> void:
 		_defeat.hide()
 		%DeploymentController.preview_skills = false
 	if sandbox:
-		%MissionTitle.text = "Offense sandbox"
-		%Legend.text = "Placeholder art · T: Technological · A: Aerial · Teal tiles: EMP slow"
+		%MissionTitle.text = sandbox_title
+		%Legend.text = sandbox_legend
 		_back.text = "Exit sandbox"
 		_back.pressed.connect(get_tree().quit)
 		_opening.hide()

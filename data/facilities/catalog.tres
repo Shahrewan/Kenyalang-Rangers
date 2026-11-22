@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DeploymentRoster" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/deployment_roster.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/deployment_spec.gd" id="2"]
+[ext_resource type="Resource" path="res://data/facilities/logistics_post.tres" id="3"]
+[ext_resource type="Resource" path="res://data/facilities/medic_cabin.tres" id="4"]
+[ext_resource type="Resource" path="res://data/facilities/skill_relay_station.tres" id="5"]
+[ext_resource type="Resource" path="res://data/facilities/dispatch_relay.tres" id="6"]
+[ext_resource type="Resource" path="res://data/facilities/sonic_turret.tres" id="7"]
+[ext_resource type="Resource" path="res://data/facilities/electric_pulse_turret.tres" id="8"]
+[ext_resource type="Resource" path="res://data/facilities/canopy_defense_launcher.tres" id="9"]
+[ext_resource type="Resource" path="res://data/facilities/sentry_tower.tres" id="10"]
+[ext_resource type="Resource" path="res://data/facilities/firebreak_beacon.tres" id="11"]
+[ext_resource type="Resource" path="res://data/facilities/specialist_calltower.tres" id="12"]
+[ext_resource type="Resource" path="res://data/facilities/ranger_coordination_hub.tres" id="13"]
+[ext_resource type="Resource" path="res://data/facilities/reinforced_cover_station.tres" id="14"]
+[ext_resource type="Resource" path="res://data/facilities/disruption_beacon.tres" id="15"]
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9"), ExtResource("10"), ExtResource("11"), ExtResource("12"), ExtResource("13"), ExtResource("14"), ExtResource("15")])

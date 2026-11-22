@@ -18,6 +18,7 @@ class Placement:
 	var paid_cost: int
 	var hp: int
 	var next_attack_tick := 0
+	var basic_interval_ticks := 0
 	var burst_remaining := 0
 	var burst_target := -1
 	var mounted_ranger: StringName
@@ -59,6 +60,12 @@ class Placement:
 		skill_charges -= 1
 		if skill_recharge_tick == 0:
 			skill_recharge_tick = tick + maxi(1, CombatClock.ticks_for(ranger.active_skill.recharge_seconds))
+
+	func update_basic_interval(interval: int, tick: int) -> void:
+		if basic_interval_ticks > 0 and interval != basic_interval_ticks and next_attack_tick > tick:
+			var remaining := next_attack_tick - tick
+			next_attack_tick = tick + ceili(float(remaining * interval) / basic_interval_ticks)
+		basic_interval_ticks = interval
 
 var map: BattleMap
 var clock: CombatClock
@@ -200,9 +207,9 @@ func interaction_id(cell: Vector2i) -> StringName:
 func _completed_tower(anchor: Vector2i) -> Placement:
 	var id: StringName = occupancy.get(anchor, &"")
 	var unit: Placement = placed.get(id)
-	if unit != null and unit.anchor == anchor and unit.facility != null and unit.facility.role == FacilitySpec.Role.SENTRY_TOWER and unit.build_deadline <= clock.tick:
-		return unit
-	return null
+	if unit == null or unit.anchor != anchor or unit.facility == null or unit.build_deadline > clock.tick:
+		return null
+	return unit if unit.facility.role == FacilitySpec.Role.SENTRY_TOWER else null
 
 func _mountable_tower(spec: DeploymentSpec, anchor: Vector2i) -> Placement:
 	if spec.kind != DeploymentSpec.Kind.ELEVATED or spec.attack_damage <= 0:

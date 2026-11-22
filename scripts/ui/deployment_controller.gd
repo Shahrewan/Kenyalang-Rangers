@@ -4,6 +4,7 @@ const Portrait := preload("res://scripts/ui/deployment_portrait.gd")
 
 @export var opening_rules: LogisticsRules
 @export var roster: DeploymentRoster
+@export var support_entries: Array[DeploymentSpec]
 @export var preview_budget := -1
 @export var records_enhancements: Array[StringName]
 
@@ -23,6 +24,7 @@ var mode := 0
 var preview_skills := true
 var _simulation: BattleSimulation
 var _gesture := DeploymentGesture.new()
+var _entries: Array[DeploymentSpec]
 var _cards: Array[PanelContainer] = []
 var _labels: Array[Label] = []
 var _pointer := NO_POINTER
@@ -37,7 +39,9 @@ func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
 	_cancel.pressed.connect(_cancel_skill)
 	_retreat.pressed.connect(_retreat_ranger)
-	for spec in roster.entries:
+	_entries = roster.entries.duplicate()
+	_entries.append_array(support_entries)
+	for spec in _entries:
 		var card := PanelContainer.new()
 		card.custom_minimum_size = Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -70,7 +74,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 		rules.starter_only = mode == 0 and preview_budget < 0
 		rules.yield_percent = 90 if rules.starter_only else 100
 		rules.fixed_stockpile = mode == 2
-		for spec in roster.entries:
+		for spec in _entries:
 			var starter := spec.logistics_post or spec.id in [&"patrolman", &"scout"]
 			if (not rules.starter_only or starter) and not (rules.fixed_stockpile and spec.logistics_post):
 				_offered[spec.id] = spec
@@ -151,7 +155,7 @@ func _press(id: int, at: Vector2) -> bool:
 	if _tray_clip().has_point(at):
 		for i in _cards.size():
 			if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
-				card = _offered[roster.entries[i].id]
+				card = _offered[_entries[i].id]
 				break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
 	var in_tray := _tray_clip().has_point(at)
@@ -246,6 +250,8 @@ func _tap_skill(id: StringName) -> void:
 	var unit := state.placed[id]
 	if unit.ranger != null or unit.facility != null:
 		if unit.spec.skill == DeploymentSpec.Skill.NONE:
+			if unit.facility != null:
+				_hint.text = "%s · %d/%d HP" % [unit.spec.label, unit.hp, unit.spec.max_hp]
 			return
 		if not _simulation.tap_unit(id):
 			_hint.text = state.last_skill_error
@@ -299,7 +305,7 @@ func _refresh() -> void:
 	_confirm.disabled = not state.clock.is_running() or state.pending_target == DeploymentState.NO_CELL
 	_cancel.disabled = not state.clock.is_running()
 	for i in _labels.size():
-		var spec: DeploymentSpec = _offered.get(roster.entries[i].id)
+		var spec: DeploymentSpec = _offered.get(_entries[i].id)
 		_cards[i].visible = spec != null
 		if spec == null:
 			continue
@@ -324,6 +330,9 @@ func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
 		match unit.facility.role:
 			FacilitySpec.Role.MEDIC_CABIN:
 				return "%d/%d kits" % [unit.stock, unit.facility.stock_capacity]
+			FacilitySpec.Role.SKILL_RELAY, FacilitySpec.Role.DISPATCH_RELAY:
+				var seconds := ceili(float(unit.next_utility_tick - state.clock.tick) / CombatClock.TICKS_PER_SECOND)
+				return "Pulse in %ds" % maxi(0, seconds)
 			FacilitySpec.Role.SENTRY_TOWER:
 				return "Mount open" if unit.mounted_ranger.is_empty() else "Ranger mounted"
 			FacilitySpec.Role.SPECIALIST_CALLTOWER:

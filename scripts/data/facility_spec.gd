@@ -35,3 +35,9 @@ enum Role {
 @export var mount_range_bonus: int
 @export var heat_slow_percent: int
 @export var discount_tokens: int
+
+@export_group("Status zones")
+@export var attack_rate_bonus_percent: int
+@export var incoming_reduction_percent: int
+@export var outgoing_reduction_percent: int
+@export var ability_delay_seconds: float
