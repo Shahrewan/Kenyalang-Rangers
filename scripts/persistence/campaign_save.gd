@@ -15,7 +15,7 @@ static func fresh() -> Dictionary:
 		"outreach": CampaignActivities.new_outreach(),
 		"encyclopaedia": CampaignActivities.new_encyclopaedia(),
 		"garden": CampaignActivities.new_garden(),
-		"chaos": {"personal_best": 0, "earned_thresholds": []},
+		"chaos": {"personal_best": 0, "earned_thresholds": [], "pending_configuration": {}},
 	}
 
 static func load_data(raw: Dictionary) -> Dictionary:
@@ -32,7 +32,17 @@ static func load_data(raw: Dictionary) -> Dictionary:
 	data.version = VERSION
 	data.funds = int(data.funds)
 	data.leader_name = data.leader_name.strip_edges().substr(0, 24)
+	data.chaos.pending_configuration = _chaos_draft(data.chaos.get("pending_configuration"))
 	return data
+
+static func _chaos_draft(value: Variant) -> Dictionary:
+	if not value is Dictionary or value.is_empty():
+		return {}
+	if not ProfileFile.unique_ids(value.get("loadout")) or not ProfileFile.unique_ids(value.get("modifiers")):
+		return {}
+	if ChaosConfiguration.from_data(value) == null:
+		return {}
+	return value
 
 static func _migrate_v1(raw: Dictionary) -> Dictionary:
 	if not ProfileFile.whole_between(raw.get("control"), 1, HeadquartersCatalog.MAX_LEVEL) or not raw.get("mechanical") is bool:

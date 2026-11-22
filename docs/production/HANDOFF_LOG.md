@@ -140,3 +140,9 @@
 - One catalog defines B01–B15 and D01–D15. Story keeps the W13 fixed selections and applies one or two distinct player buffs by chapter. The picker explains research gates and effects without usable targets.
 - Planning and the field share the resolved stage, roster, opening and Logistic Post rules. The Rainforest Chaos modifier trial checks candidate effects against the loadout, original T01 route and two fixed waves. It previews eligible signed points. C17 can use the resolver with its authored unmodified stage, configured waves and loadout to get the effective slots and point entries.
 - Godot passed import, startup and 1,458 checks across 18 runners. Linux pointer verified D05, its B13 conflict and the pre-wave recon cue. The ARM64 debug APK passed signature, alignment, ZIP integrity and 29 isolated host UI checks with its packaged assets. USB installation and touch remain pending. [C16 verification](../qa/C16_MODIFIER_MATRIX.md)
+
+## C17 Rainforest Chaos — 2026-11-22
+
+- The composer uses the six approved boards and existing enemy catalog. It clamps five independent wave slots, skips empty slots and shows the live score, qualifying Funds and trophy preview beside wave or loadout edits. The worked Mulu fixture gives 1,350 Medal Score and 54,000 Funds.
+- Real combat settles the frozen score. One profile commit pays Funds, applies the cap, grants newly reached Facilities and updates the best. Registered escapes and defeat forfeit settlement. Relaunch after an interruption recovers the configuration at planning.
+- Godot import, startup and 1,592 checks across 20 runners passed. Linux pointer play verified a mixed cap and a 200-Funds victory. The signed ARM64 export passed host-side package and gameplay checks. Physical installation and touch remain open. [C17 verification](../qa/C17_CHAOS_MATRIX.md)

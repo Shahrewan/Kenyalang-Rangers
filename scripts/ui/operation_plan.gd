@@ -78,6 +78,23 @@ func modifier_selected(id: StringName) -> bool:
 func modifier_count(buffs: bool) -> int:
 	return _buffs.size() if buffs else _debuffs.size()
 
+func modifier_selection() -> Array[StringName]:
+	return _buffs + _debuffs
+
+func restore_modifier_selection(ids: Array[StringName]) -> void:
+	_buffs.clear()
+	_debuffs.clear()
+	for id in ids:
+		var modifier := BattleModifiers.CATALOG.definition(id)
+		if modifier != null:
+			var selection := _buffs if modifier.is_buff() else _debuffs
+			selection.append(id)
+	_resolved = null
+
+func update_stage(value: BattleStage) -> void:
+	operation.stage = value
+	_resolved = null
+
 func buff_error(buff: BattleModifier) -> String:
 	if buff == null or not buff.is_buff() or (not operation.campaign_spec and buff.id not in operation.buff_ids):
 		return "This R&D effect is unavailable."

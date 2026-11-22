@@ -20,7 +20,9 @@ Open **Headquarters** to enter or build any of the eleven rooms. Control, Human 
 
 Human Resources and Mechanical show Ranger and Facility levels, milestone prices and purchase confirmations. The ordinary Logistics Post gains Token output as it levels. Other raw-stat endpoints await review. Existing C14 Campaign saves migrate to the HQ profile on launch. If a backup is recovered, the game shows a notice and resumes the saved route. Reset is available in **Settings** with confirmation. [C15 verification and open items](docs/qa/C15_HEADQUARTERS_MATRIX.md)
 
-Build and upgrade the four **R&D** rooms to unlock modifiers. In a Story plan, open **Edit modifiers** to choose up to one distinct buff in Chapter 1 or two in Chapter 2. The fixed Story debuffs appear in planning. **Rainforest Chaos → Modifier trial** uses a fixed two-wave encounter to try compatible buffs and debuffs with your unlocked loadout. It previews opening Tokens, slot counts and eligible modifier points. The trial awards zero Funds and leaves the Chaos record alone. [C16 verification](docs/qa/C16_MODIFIER_MATRIX.md)
+Build and upgrade the four **R&D** rooms to unlock modifiers. In a Story plan, open **Edit modifiers** to choose up to one distinct buff in Chapter 1 or two in Chapter 2. The fixed Story debuffs appear in planning. The Chaos route screen also offers the C16 **Modifier trial**, a fixed two-wave practice encounter. [C16 verification](docs/qa/C16_MODIFIER_MATRIX.md)
+
+Open **Rainforest Chaos → Choose route** or use the ground-floor HQ entrance. Choose one of six original routes and configure up to five waves. Use the sliders and plus/minus to add up to 50 enemies per wave across all enemy types. **Loadout** and **Edit modifiers** update the Medal Score, qualifying Funds and trophy preview. Clearing a challenge requires positive Integrity and zero escapes. Qualifying first clears at 1,000, 2,000 and 3,000 unlock Facilities and change the shared trophy. If a challenge is interrupted, relaunch to review the saved configuration and start a fresh attempt. [C17 verification](docs/qa/C17_CHAOS_MATRIX.md)
 
 **Sample battle** opens the separate deployment and construction fixtures for testing.
 
@@ -66,9 +68,11 @@ godot --headless --path . --script res://tests/unit/headquarters_ui_test.gd
 godot --headless --path . --script res://tests/unit/modifier_rules_test.gd
 godot --headless --path . --script res://tests/unit/modifier_combat_test.gd
 godot --headless --path . --script res://tests/unit/modifier_ui_test.gd
+godot --headless --path . --script res://tests/unit/chaos_rules_test.gd
+godot --headless --path . --script res://tests/unit/chaos_ui_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 18 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
+Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 20 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
 
 ## Android export prerequisites
 
@@ -76,7 +80,7 @@ Expect `4.7.2.stable` in the version, an import and startup free of script error
 - Install OpenJDK 17 and the Android SDK. Install SDK Command-line Tools, accept the SDK licenses, and install Platform-Tools (`adb`), Build-Tools (`apksigner`), and Android Platform 36. The verified export used Build-Tools 36.1.0. The linked export guide lists the full Godot 4.7 toolchain, including packages for custom builds. [Godot 4.7 Android export guide](https://docs.godotengine.org/en/4.7/tutorials/export/exporting_for_android.html)
 - In **Editor → Editor Settings → Export → Android**, set **Java SDK Path** to the JDK root, and **Android SDK Path** to the SDK root. Configure debug signing locally if prompted. The team release identity and key custody are tracked separately.
 
-The C16 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB device access for a phone. [Export and C16 phone steps](export/README.md#c16-modifier-phone-check)
+The C17 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB device access for a phone. [Export and C17 phone steps](export/README.md#c17-rainforest-chaos-phone-check)
 
 ## Reference documents
 The GDD and 127-page tileset/UI storyboard are separate production references. They are **not automatically included** in this public repository. See `docs/reference/README.md` before uploading PDFs, especially any academic covers containing personal information or signatures.

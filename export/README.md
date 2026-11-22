@@ -233,3 +233,23 @@ adb install -r build/android/kenyalang-rangers-c16-debug.apk
 5. In **Story Mode**, open a Chapter 1 and an unlocked Chapter 2 operation. Check their fixed debuffs and one- and two-buff limits. Verify that B02 is ineligible on First Contact. Record the installed APK hash, device model, Android version, density, cutout, touch results and whether offline launch succeeded. [C16 matrix](../docs/qa/C16_MODIFIER_MATRIX.md)
 
 The C16 APK passed host-side package, resource and UI checks. Installation awaits a connected physical phone.
+
+## C17 Rainforest Chaos phone check
+
+Use the pinned export toolchain above and a USB-connected ARM64 Android 9 or later phone. Enable USB debugging, accept the authorization prompt, and run these commands from the repository root.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c17-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c17-debug.apk
+```
+
+1. In airplane mode, open **Rainforest Chaos → Choose route**. Check the original board previews, safe margins in both landscape directions and the personal record in both Chaos and the ground-floor HQ entrance.
+2. In **Configure run**, check that five empty slots block Start. Set Forest Trespasser to 49 and tap Poacher **+**. Try a third type with **+** and the slider and verify the wave stays at 50. Reduce either row and verify room opens immediately. Leave a gap between populated slots and check the battle shows only the populated wave count.
+3. Use Mechanical Lv.1 and equip only Scout Sniper and the Logistics Post. Choose Forgotten Patrol, queue one Forest Trespasser and apply D15 Critical Escape. The preview shows 10 Medal Score and 200 qualifying Funds. Start, drop the Post across the raised pair at `(1, 0)` and place Scout at `(5, 2)` after the Post has paid enough Tokens. Verify the qualifying reward and balance. Replay and let the enemy escape with Integrity left to check zero additional credit.
+4. For the worked example, use a QA profile with Mechanical, Combat Medic, Sonic Turret and R&D Combat Lv.2. Choose Gunung Mulu. Set Wave 1 to 20 Poachers, 10 Contraband Runners, 10 Shield Carriers and 10 Recon Drones. Set Wave 2 to 10 Demolitionists. Equip Scout, Patrolman, Medic, Post and Sonic. Apply B05 and D02, D09 and D11. Check 1,350 Medal Score, 54,000 qualifying Funds and at least Tier 1 in the trophy preview. Open the modifier sheet, make a change and cancel to confirm the preview returns to the prior values.
+5. Launch a challenge, pause, and close the app. Use `adb shell am force-stop com.shahrewan.kenyalangrangers.dev` for a controlled cold start on the test phone. Reopen the app and verify the configuration returns with its counts, effects and loadout. Start again and check 100 Integrity, then confirm Abandon and verify the record and wallet. Record the APK hash, device model, Android version, density, cutout, touch and offline launch results. [C17 check matrix](../docs/qa/C17_CHAOS_MATRIX.md)
+
+The C17 APK passed package and host gameplay checks. Physical installation awaits a connected phone.

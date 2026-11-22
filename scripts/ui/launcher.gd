@@ -22,6 +22,9 @@ var _campaign: CampaignContent
 var _campaign_progress: CampaignProgress
 var _draft: OperationPlan
 var _trial_plan: OperationPlan
+var _chaos_configuration := ChaosConfiguration.new()
+var _chaos_plan: OperationPlan
+var _chaos_origin: Callable
 var _finance_elapsed := 0.0
 var _focused := true
 var _suspended := false
@@ -52,6 +55,10 @@ func _continue_profile() -> void:
 		show_naming()
 		return
 	if _campaign != null:
+		var chaos := _campaign_progress.pending_chaos_configuration()
+		if not chaos.is_empty():
+			_reopen_chaos(chaos)
+			return
 		var pending := _campaign.operation(StringName(_profile().pending_attempt))
 		if pending != null and _campaign_progress.access_error(pending).is_empty():
 			_show_campaign_plan(pending)
@@ -107,10 +114,10 @@ func show_menu() -> void:
 		garden.pressed.connect(func() -> void: _show_garden(show_menu))
 		var chaos_card := page.get_node("Modes/Operations/Chaos/Description")
 		chaos_card.get_node("Status").hide()
-		var trial := StoryUI.action("Modifier trial")
-		trial.name = "OpenModifierTrial"
-		trial.pressed.connect(_show_trial_plan)
-		chaos_card.add_child(trial)
+		var chaos := StoryUI.action("Choose route", true)
+		chaos.name = "OpenChaos"
+		chaos.pressed.connect(show_chaos)
+		chaos_card.add_child(chaos)
 		if _campaign_progress.load_status == CampaignProgress.LoadStatus.MIGRATED:
 			page.add_child(StoryUI.label(_campaign_progress.load_notice, 17, StoryUI.BEIGE))
 	_present(page, &"menu")
@@ -147,10 +154,7 @@ func _show_campaign_plan(operation: StoryOperation) -> void:
 		_draft = OperationPlan.new(operation, [])
 		_draft.configure_campaign(_campaign_progress)
 	else:
-		var selection := _draft.selected_ids.duplicate()
-		if _draft.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
-			selection.append(&"facility.logistics_post")
-		_draft.configure_campaign(_campaign_progress, selection)
+		_refresh_hq_choices(_draft)
 	_render_campaign_plan()
 
 func _render_campaign_plan() -> void:
@@ -160,24 +164,32 @@ func _render_campaign_plan() -> void:
 
 func _show_trial_plan() -> void:
 	if _trial_plan == null:
-		var operation := StoryOperation.new()
-		operation.campaign_spec = true
-		operation.title = "Rainforest Chaos · Modifier trial"
-		operation.stage = MODIFIER_TRIAL
-		operation.roster = _campaign.roster
-		operation.opening_rules = LogisticsRules.new()
-		_trial_plan = OperationPlan.new(operation, [], true)
-		_trial_plan.configure_campaign(_campaign_progress)
+		_trial_plan = _new_chaos_plan(MODIFIER_TRIAL, "Rainforest Chaos · Modifier trial")
 	else:
-		var selection := _trial_plan.selected_ids.duplicate()
-		if _trial_plan.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
-			selection.append(&"facility.logistics_post")
-		_trial_plan.configure_campaign(_campaign_progress, selection)
+		_refresh_hq_choices(_trial_plan)
 	_render_trial_plan()
+
+func _new_chaos_plan(stage: BattleStage, title: String, selection: Variant = null) -> OperationPlan:
+	var operation := StoryOperation.new()
+	operation.campaign_spec = true
+	operation.title = title
+	operation.stage = stage
+	operation.roster = _campaign.roster
+	operation.opening_rules = LogisticsRules.new()
+	var plan := OperationPlan.new(operation, [], true)
+	plan.configure_campaign(_campaign_progress, selection)
+	return plan
+
+func _refresh_hq_choices(plan: OperationPlan) -> void:
+	var selection := plan.selected_ids.duplicate()
+	if plan.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
+		selection.append(&"facility.logistics_post")
+	plan.configure_campaign(_campaign_progress, selection)
 
 func _render_trial_plan() -> void:
 	var access := func() -> void: _open_headquarters(_show_trial_plan)
-	_present_playable_plan(_trial_plan, show_menu, access, _start_trial, _render_trial_plan)
+	var back := _show_chaos_routes if _chaos_origin.is_valid() else show_menu
+	_present_playable_plan(_trial_plan, back, access, _start_trial, _render_trial_plan)
 
 func _present_playable_plan(plan: OperationPlan, back: Callable, access: Callable, start: Callable, return_to_plan: Callable) -> void:
 	var page := PLANNING.instantiate()
@@ -212,6 +224,129 @@ func _start_trial() -> void:
 	page.abandon_requested.connect(_render_trial_plan)
 	_present(page, &"sample", _render_trial_plan)
 
+func show_chaos(return_to := Callable()) -> void:
+	_chaos_origin = return_to if return_to.is_valid() else show_menu
+	_show_chaos_routes()
+
+func _show_chaos_routes() -> void:
+	var page := ChaosRoutePage.new()
+	page.configuration = _chaos_configuration
+	page.progress = _campaign_progress
+	page.back_requested.connect(_chaos_origin)
+	page.configure_requested.connect(_configure_chaos)
+	page.trial_requested.connect(_show_trial_plan)
+	_present(page, &"chaos_routes", _chaos_origin)
+
+func _configure_chaos() -> void:
+	if _chaos_plan == null:
+		_chaos_plan = _new_chaos_plan(_chaos_configuration.build_stage(), "Rainforest Chaos")
+	else:
+		_refresh_hq_choices(_chaos_plan)
+		_chaos_plan.update_stage(_chaos_configuration.build_stage())
+	_render_chaos_composer()
+
+func _reopen_chaos(saved: Dictionary) -> void:
+	_chaos_origin = show_menu
+	_chaos_configuration = ChaosConfiguration.from_data(saved)
+	var selection: Array[StringName] = []
+	selection.assign(saved.loadout.map(func(id: String) -> StringName: return StringName(id)))
+	_chaos_plan = _new_chaos_plan(_chaos_configuration.build_stage(), "Rainforest Chaos", selection)
+	var modifiers: Array[StringName] = []
+	modifiers.assign(saved.modifiers.map(func(id: String) -> StringName: return StringName(id)))
+	_chaos_plan.restore_modifier_selection(modifiers)
+	_render_chaos_composer()
+	_screen.show_error("Challenge interrupted. Review the configuration and start a fresh attempt.")
+
+func _render_chaos_composer(show_loadout := false, slot := 0) -> void:
+	var page := ChaosComposer.new()
+	page.configuration = _chaos_configuration
+	page.progress = _campaign_progress
+	page.plan = _chaos_plan
+	page.show_loadout = show_loadout
+	page.initial_slot = slot
+	page.back_requested.connect(_leave_chaos_composer)
+	page.modifiers_requested.connect(func() -> void:
+		_open_chaos_modifiers(_render_chaos_composer.bind(page.show_loadout, page.wave_editor.slot))
+	)
+	page.headquarters_requested.connect(func() -> void:
+		var wave := page.wave_editor.slot
+		var original_back := _headquarters_return
+		_open_headquarters(func() -> void:
+			_headquarters_return = original_back
+			_refresh_hq_choices(_chaos_plan)
+			_render_chaos_composer(true, wave)
+		)
+	)
+	page.start_requested.connect(func() -> void:
+		_start_chaos(_render_chaos_composer.bind(page.show_loadout, page.wave_editor.slot))
+	)
+	_present(page, &"chaos_composer", _leave_chaos_composer)
+
+func _leave_chaos_composer() -> void:
+	if _campaign_progress.close_chaos_configuration():
+		_show_chaos_routes()
+	else:
+		_screen.show_error("Could not close the saved configuration. Check local storage.")
+
+func _open_chaos_modifiers(back: Callable) -> void:
+	var before := _chaos_plan.modifier_selection()
+	var cancel := func() -> void:
+		_chaos_plan.restore_modifier_selection(before)
+		back.call()
+	var page := ModifierPicker.new()
+	page.plan = _chaos_plan
+	page.confirm_changes = true
+	page.back_requested.connect(cancel)
+	page.apply_requested.connect(back)
+	_present(page, &"modifiers", cancel)
+
+func _start_chaos(review: Callable) -> void:
+	var resolved := _chaos_plan.resolved()
+	var run := _campaign_progress.begin_chaos(_chaos_configuration, resolved, _chaos_plan.selected_ids, _chaos_plan.modifier_selection())
+	if run == null:
+		_screen.show_error("Could not start the challenge. Check the configuration and local profile.")
+		return
+	var node := SAMPLE_BATTLE.instantiate()
+	node.set_script(ChaosBattle)
+	var page := node as ChaosBattle
+	page.run = run
+	page.operation_plan = _chaos_plan
+	page.stage = resolved.stage
+	var controller := page.get_node("%DeploymentController")
+	controller.roster = _chaos_plan.operation.roster
+	controller.records_enhancements = _campaign_progress.records_enhancements()
+	page.abandon_requested.connect(func() -> void:
+		var closed := _campaign_progress.abandon_chaos(run)
+		review.call()
+		if not closed:
+			_screen.show_error("Could not close the interrupted configuration. Check local storage.")
+	)
+	page.completed.connect(func() -> void:
+		if _screen == page:
+			_render_chaos_result(run, review)
+	, CONNECT_DEFERRED)
+	_present(page, &"chaos_battle")
+
+func _render_chaos_result(run: ChaosRun, review: Callable) -> void:
+	var page := ChaosResultsPage.new()
+	page.run = run
+	page.progress = _campaign_progress
+	page.settlement = _campaign_progress.settle_chaos(run)
+	page.retry_save_requested.connect(_render_chaos_result.bind(run, review))
+	page.routes_requested.connect(func() -> void:
+		var closed := _campaign_progress.abandon_chaos(run)
+		if closed:
+			_show_chaos_routes()
+		else:
+			review.call()
+			_screen.show_error("Could not close the saved configuration. Check local storage.")
+	)
+	page.review_requested.connect(func() -> void:
+		_refresh_hq_choices(_chaos_plan)
+		review.call()
+	)
+	_present(page, &"chaos_results", page.request_back)
+
 func _open_headquarters(back: Callable) -> void:
 	_headquarters_return = back
 	_show_headquarters()
@@ -221,6 +356,7 @@ func _show_headquarters() -> void:
 	page.progress = _campaign_progress
 	page.back_requested.connect(_headquarters_return)
 	page.room_requested.connect(_show_hq_room)
+	page.chaos_requested.connect(show_chaos.bind(_open_headquarters.bind(_headquarters_return)))
 	_present(page, &"headquarters", _headquarters_return)
 
 func _show_hq_room(room: HeadquartersRoom) -> void:
@@ -291,6 +427,8 @@ func _show_settings(back: Callable) -> void:
 		if _campaign_progress.reset_profile():
 			_draft = null
 			_trial_plan = null
+			_chaos_plan = null
+			_chaos_configuration = ChaosConfiguration.new()
 			show_naming()
 		else:
 			page.show_error()
@@ -406,7 +544,7 @@ func _go_back() -> void:
 		_return_action.call()
 		return
 	match _route:
-		&"battle":
+		&"battle", &"chaos_battle":
 			_screen.request_back()
 		&"plan", &"results":
 			show_story()

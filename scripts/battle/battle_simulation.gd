@@ -18,6 +18,7 @@ var effects: BattleModifiers
 var integrity := 100
 var heat := 0.0
 var defeated := 0
+var configured_defeated := 0
 var escaped := 0
 var expected_enemy_count: int
 var captured_boss_id: StringName
@@ -67,6 +68,8 @@ func defeat_enemy(id: int) -> bool:
 	active.erase(id)
 	_boss_combat.active.erase(id)
 	defeated += 1
+	if not enemy.reinforcement:
+		configured_defeated += 1
 	var captured := _is_capture_target(enemy)
 	if captured:
 		captured_boss_id = enemy.definition.enemy_id
@@ -193,7 +196,7 @@ func _step(tick: int, seconds: float) -> void:
 	elif _boss_combat.has_pending_arrivals():
 		var arrived := _boss_combat.take_due(tick)
 		if arrived != null:
-			_register_enemy(arrived.enemy, arrived.route, tick)
+			_register_enemy(arrived.enemy, arrived.route, tick, true)
 	if not clock.is_running():
 		return
 	for enemy: BattleEnemy in active.values():
@@ -284,10 +287,11 @@ func _spawn(tick: int) -> void:
 		_spawned_in_group = 0
 	_register_enemy(group.enemy, _stage.routes[group.route_index], tick)
 
-func _register_enemy(definition: BattleEnemyDefinition, route: BattleRoute, tick: int) -> void:
+func _register_enemy(definition: BattleEnemyDefinition, route: BattleRoute, tick: int, reinforcement := false) -> void:
 	var id := _next_id
 	_next_id += 1
 	var enemy := BattleEnemy.new(definition, route, tick)
+	enemy.reinforcement = reinforcement
 	if definition.concealed:
 		enemy.revealed_until = tick + CombatClock.ticks_for(effects.amount(&"reveal_seconds"))
 	active[id] = enemy
