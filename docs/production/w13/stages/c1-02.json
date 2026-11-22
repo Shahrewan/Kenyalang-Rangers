@@ -1,0 +1,177 @@
+{
+  "id": "C1-02",
+  "title": "Hold the Line",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C1",
+    "order": 2,
+    "map_id": "T01",
+    "region": "Forgotten Patrol",
+    "min_control_level": 1,
+    "requires_previous_clear": "C1-01",
+    "fixed_debuff_ids": ["D02"],
+    "published_first_pass_wave_counts": [8, 10],
+    "clear_unlock_ids": ["ranger.combat_medic", "facility.sonic_turret"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 1
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c1_early",
+    "opening_delay_seconds": 10,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Ground blocking, elevated support and the difference between escapes and Integrity loss.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 8,
+      "queued_count": 8,
+      "base_rest_after_seconds": 25,
+      "effective_rest_after_seconds_for_qa": 25,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 2, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 10,
+      "queued_count": 10,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 3.5},
+        {"enemy_id": "E01", "count": 3, "route_index": 0, "base_interval_seconds": 3.5}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E02", "E01"],
+    "queued_totals_by_enemy": {"E01": 12, "E02": 6},
+    "queued_totals_by_gate": {"main": 18},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [
+    {
+      "id": "hint.c1_02.block",
+      "condition": "first_ground_ranger_selected",
+      "text": "Place a blocker on the path facing the approach.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_02.support",
+      "condition": "first_elevated_ranger_selected",
+      "text": "Use raised tiles for eligible ranged support.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_02.integrity",
+      "condition": "first_combat_escape",
+      "text": "A combat escape lowers Integrity. At zero, the operation ends.",
+      "status": "proposed_review_pending"
+    }
+  ],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c1_02.opening",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The new reports agree. They planned to use this route. These aren't stray trespassers."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Put a blocker on the ground route and give them support from above. Keep an eye on Integrity."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_02.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The next group is moving faster."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Fill any gap in the line before it reaches your blocker."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_02.victory",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The chokepoint is holding. Our medic and a Sonic Turret team are available now."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Bring them up. Someone is coordinating those groups."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_02.defeat",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The line broke. I'm pulling the patrol back."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Check where the pressure reached the ground line. We can cover that spot on the next attempt."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T01",
+    "stage_ticket": "W13-C1-02",
+    "focus": "Ground block cue, elevated support indicator and numeric Integrity feedback."
+  },
+  "source_refs": ["GDD pp. 21–22 § M.4", "UI p. 8", "UI pp. 23, 25 S11/S12", "GDD pp. 6–7 § F.2"]
+}

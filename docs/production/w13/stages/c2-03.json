@@ -1,0 +1,193 @@
+{
+  "id": "C2-03",
+  "title": "Aerial Crossing",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 8,
+    "map_id": "T03",
+    "region": "Batang Ai",
+    "min_control_level": 3,
+    "requires_previous_clear": "C2-02",
+    "fixed_debuff_ids": ["D11", "D07"],
+    "published_first_pass_wave_counts": [20, 24, 28],
+    "clear_unlock_ids": ["ranger.kenyalang_seer", "facility.canopy_defense_launcher"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_early",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Add eligible anti-air coverage to ground blocking and prepare during shorter rests.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 20,
+      "queued_count": 20,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 12.0,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 24,
+      "queued_count": 24,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 12.0,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 28,
+      "queued_count": 28,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 5, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E08", "E03"],
+    "queued_totals_by_enemy": {"E02": 29, "E03": 11, "E04": 10, "E08": 22},
+    "queued_totals_by_gate": {"main": 72},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_03.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Our leads from Mulu point to the waterways of Batang Ai."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Recon Drones are crossing above the river route. Ground blockers can't stop them."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Give ranged Rangers clear coverage and leave the ground line in place for the rest."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_03.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The next wave is already close. We have less time to reset between groups."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Check both the path and the air coverage before you commit another deployment."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_03.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The crossing is secure. Kenyalang Seer and the Canopy Defense Launcher are available."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Have them review the drone data. The next group may use more interference."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_03.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We lost the crossing under pressure from the air and ground waves."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Separate those two coverage problems on the plan. We'll try again with a clearer line."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T03",
+    "stage_ticket": "W13-C2-03",
+    "focus": "Distinct drone shadow and Aerial marker over the readable riverside route."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 19 S08",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · pp. 2–3",
+    "Team draft · p. 1 · Regional Transition Beats"
+  ]
+}

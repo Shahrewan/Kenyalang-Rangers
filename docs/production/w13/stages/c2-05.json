@@ -1,0 +1,215 @@
+{
+  "id": "C2-05",
+  "title": "Automated Pursuit",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 10,
+    "map_id": "T04",
+    "region": "Tanjung Datu",
+    "min_control_level": 4,
+    "requires_previous_clear": "C2-04",
+    "fixed_debuff_ids": ["D08", "D12"],
+    "published_first_pass_wave_counts": [22, 26, 30, 32],
+    "clear_unlock_ids": ["ranger.saboteurist", "facility.disruption_beacon"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_mid",
+    "opening_delay_seconds": 15,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Plan for the rounded-up Ranger Token costs and recognize Tracking Bot attack-rate interference.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 22,
+      "queued_count": 22,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 26,
+      "queued_count": 26,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 30,
+      "queued_count": 30,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E08", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 4,
+      "kind": "standard",
+      "source_count": 32,
+      "queued_count": 32,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E07", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E08", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 2, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E09", "E07", "E08"],
+    "queued_totals_by_enemy": {"E02": 36, "E03": 18, "E04": 13, "E07": 7, "E08": 7, "E09": 29},
+    "queued_totals_by_gate": {"main": 110},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_05.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The trail reaches Tanjung Datu. We have a route through coastal forest."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Tracking Bots are slowing our attacks, and Ranger deployments cost more here."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Check the Token cost before you drop. Intercept the Bots before they can stall the line."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_05.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The next group is bringing more automation."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Watch anyone whose attacks have slowed. Keep a second Ranger covering their approach."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_05.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The pursuit on this stretch is contained. Saboteurist and the Disruption Beacon are available."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Get the next coastal position ready. We'll need that support against the capture teams."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_05.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We couldn't keep the route covered through the interference."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Let's review the opening cost and where the attack slow reached our Rangers."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T04",
+    "stage_ticket": "W13-C2-05",
+    "focus": "Contrasting coastal path and raised islands. Distinct Tracking Bot silhouette and attack-rate status."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 99 S57",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · p. 4",
+    "Team draft · p. 1 · Regional Transition Beats"
+  ]
+}

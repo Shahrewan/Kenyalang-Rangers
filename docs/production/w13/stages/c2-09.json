@@ -1,0 +1,241 @@
+{
+  "id": "C2-09",
+  "title": "Desperate Convoy",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 14,
+    "map_id": "T06",
+    "region": "Sepilok-Kabili",
+    "min_control_level": 5,
+    "requires_previous_clear": "C2-08",
+    "fixed_debuff_ids": ["D09", "D15"],
+    "published_first_pass_wave_counts": [28, 32, 36, 42],
+    "clear_unlock_ids": [],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_late",
+    "opening_delay_seconds": 15,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Spread out against Siege, resist Breacher pressure and stop every Wildlife Trafficker.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 28,
+      "queued_count": 28,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 1.1,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 3, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 32,
+      "queued_count": 32,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 1.1,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 8, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 36,
+      "queued_count": 36,
+      "base_rest_after_seconds": 15,
+      "effective_rest_after_seconds_for_qa": 15,
+      "effective_interval_seconds_for_qa": 1.1,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E15", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    },
+    {
+      "wave": 4,
+      "kind": "standard",
+      "source_count": 42,
+      "queued_count": 42,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 1.1,
+      "groups": [
+        {"enemy_id": "E02", "count": 7, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E03", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E04", "count": 5, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E05", "count": 4, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E15", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E12", "count": 2, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E13", "count": 1, "route_index": 0, "base_interval_seconds": 1.1},
+        {"enemy_id": "E02", "count": 7, "route_index": 0, "base_interval_seconds": 1.1}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E15", "E12", "E13"],
+    "queued_totals_by_enemy": {"E02": 66, "E03": 22, "E04": 17, "E05": 15, "E12": 8, "E13": 8, "E15": 2},
+    "queued_totals_by_gate": {"main": 138},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": ["E15"],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_09.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The trails converge through Sepilok-Kabili. The convoy is making for the final corridor."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Expect Portable Mortar Crews, Heavy Breachers and a Wildlife Trafficker. If the Trafficker reaches the tunnel, we lose the operation."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Watch the mortar warnings and leave coverage for the Trafficker. We need that target stopped."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_09.wave_3",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 3},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The Wildlife Trafficker is in this wave. Confirm your coverage at the turn."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep a Ranger watching the exit approach. We can't let that target through."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_09.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The convoy has been intercepted. The Wildlife Traffickers on this route were stopped."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "One operation left. Review what worked here before we face the Poacher Leader."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_09.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We've lost the convoy line. Fall back to the plan."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Review the Siege warnings and where the heavy units reached the blockers."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_09.defeat_trafficker",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "E15"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Wildlife Trafficker reached the tunnel. The operation has failed."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Get the team clear. We'll give that target priority on the next attempt."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T06",
+    "stage_ticket": "W13-C2-09",
+    "focus": "Lowland canopy framing, Mortar warning and an explicit immediate-failure icon/text for the Trafficker."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 30–31, 36 S17/S18/S23",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · p. 6",
+    "Team draft · p. 1 · Regional Transition Beats"
+  ]
+}

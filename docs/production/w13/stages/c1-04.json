@@ -1,0 +1,196 @@
+{
+  "id": "C1-04",
+  "title": "Watch the Ridge",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C1",
+    "order": 4,
+    "map_id": "T01",
+    "region": "Forgotten Patrol",
+    "min_control_level": 2,
+    "requires_previous_clear": "C1-03",
+    "fixed_debuff_ids": ["D08"],
+    "published_first_pass_wave_counts": [10, 12, 14],
+    "clear_unlock_ids": ["ranger.woods_tracker", "facility.reinforced_cover_station"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 1
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c1_late",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Lock melee facing, heal from elevation and read the effective HP of ordinary ranged threats.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 10,
+      "queued_count": 10,
+      "base_rest_after_seconds": 22,
+      "effective_rest_after_seconds_for_qa": 22,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E05", "count": 1, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E04", "count": 1, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 12,
+      "queued_count": 12,
+      "base_rest_after_seconds": 22,
+      "effective_rest_after_seconds_for_qa": 22,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E05", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E04", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 14,
+      "queued_count": 14,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 2.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E04", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E05", "count": 3, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E03", "count": 2, "route_index": 0, "base_interval_seconds": 2.5},
+        {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.5}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E05", "E04"],
+    "queued_totals_by_enemy": {"E02": 21, "E03": 4, "E04": 5, "E05": 6},
+    "queued_totals_by_gate": {"main": 36},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [
+    {
+      "id": "hint.c1_04.facing",
+      "condition": "first_ground_ranger_selected",
+      "text": "Choose left or right before dropping a melee Ranger. That direction stays locked.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_04.heal",
+      "condition": "combat_medic_selected",
+      "text": "Place the Medic on a raised tile with an eligible ally in reach.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_04.intel",
+      "condition": "e05_first_seen",
+      "text": "Pause and inspect a Rifle Spotter's effective HP and range threat.",
+      "status": "proposed_review_pending"
+    }
+  ],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c1_04.opening",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Rifle Spotters have arrived. They can reach Rangers on raised tiles, too."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Set your blockers' facing before you release them. If you brought the Medic, put them where they can reach the frontline."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_04.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The Spotters have cover behind the shield carriers."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Check their effective HP in Intel. You'll have a better read on how long your line needs to hold."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_04.victory",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "We've held the ridge. Woods Tracker and the Reinforced Cover Station team are standing by."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "The next push may be a diversion. Keep watching the old route."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_04.defeat",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We lost the ridge position."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Let's check which Rangers were exposed and whether the frontline was facing the right approach."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T01",
+    "stage_ticket": "W13-C1-04",
+    "focus": "Facing arrows, two-tile Veteran reach, healing cue and Rifle Spotter inspection. Use actual roster selections."
+  },
+  "source_refs": ["GDD pp. 21–22 § M.4", "UI p. 8", "UI pp. 15, 24–25, 30, 34–37 S04/S09E/S12/S17/S21–S24", "GDD pp. 6–7 § F.2"]
+}

@@ -43,3 +43,7 @@ The two-PDF handoff and GitHub main do not include the source bundle identified 
 ## W08 design archive validation — 21 November 2026
 
 Inkscape re-exported six representative frame SVGs and a temporary S10 text edit. The six map layouts and all 56 technical pieces match the archive's catalogues. The viewer's navigation and tray inputs passed simulated JavaScript checks. Live desktop viewer interaction, release permission and runtime asset exports remain open. See the [validation evidence](../canon/ART_ASSET_MANIFEST.md#source-validation).
+
+## W13 story source recovery — 22 November 2026
+
+Located the separately maintained team draft `dialog&story(test).docx` and read all seven pages. It contains five regional transitions, ten Chapter 2 briefings and both outcomes for every Chapter 2 operation. The [W13 handoff](W13_CAMPAIGN_CONTENT.md#chapter-2-source-and-adaptation) maps its pages and distinguishes the proposed adaptation and added dialogue. The internal draft remains with the narrative team. Final copy sign-off and the external educational banks remain open.

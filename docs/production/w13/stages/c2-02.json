@@ -1,0 +1,192 @@
+{
+  "id": "C2-02",
+  "title": "Siege on the Ridge",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 7,
+    "map_id": "T02",
+    "region": "Gunung Mulu",
+    "min_control_level": 3,
+    "requires_previous_clear": "C2-01",
+    "fixed_debuff_ids": ["D09", "D10"],
+    "published_first_pass_wave_counts": [18, 22, 26],
+    "clear_unlock_ids": ["ranger.outpost_mechanic", "facility.ranger_coordination_hub"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_early",
+    "opening_delay_seconds": 12,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "Intercept Demolitionists and see how a timed build remains vulnerable to Siege.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 18,
+      "queued_count": 18,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E11", "count": 1, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 2, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 3, "route_index": 1, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 22,
+      "queued_count": 22,
+      "base_rest_after_seconds": 20,
+      "effective_rest_after_seconds_for_qa": 20,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E11", "count": 2, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E11", "count": 1, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 2, "route_index": 0, "base_interval_seconds": 2.0}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 26,
+      "queued_count": 26,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 2.0,
+      "groups": [
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 4, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E11", "count": 2, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E06", "count": 3, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E11", "count": 2, "route_index": 1, "base_interval_seconds": 2.0},
+        {"enemy_id": "E03", "count": 3, "route_index": 0, "base_interval_seconds": 2.0},
+        {"enemy_id": "E02", "count": 5, "route_index": 1, "base_interval_seconds": 2.0}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E11", "E06", "E04"],
+    "queued_totals_by_enemy": {"E02": 29, "E03": 13, "E04": 8, "E06": 8, "E11": 8},
+    "queued_totals_by_gate": {"A": 29, "B": 37},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_02.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Demolitionists are approaching the ridge. They can damage a Facility while it's still being built."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Watch the build timers and intercept Siege crews before they reach the sites."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_02.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Another demolition crew is on the route. Check the marked approach."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the elevated sites supported while the ground team intercepts them."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_02.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The ridge is secure. The Outpost Mechanic and Ranger Coordination Hub are available."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Send the route record to HQ. It may show where the next supply group is heading."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_02.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The ridge defense broke under the Siege push."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Review where the crews got close to construction. We can change the placement before the retry."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T02",
+    "stage_ticket": "W13-C2-02",
+    "focus": "Reuse the Mulu board. Pin Siege warnings to the actual construction or completed Facility."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 5, 28, 31 S15/S18",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · p. 2"
+  ]
+}

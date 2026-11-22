@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "status": "w13_content_design_for_review",
+  "design_authority": ["Approved decisions", "GDD v1.0 in SimSimi.pdf", "127-page UI storyboard and W08 geometry"],
+  "content_paths": [
+    "stages/c1-01.json",
+    "stages/c1-02.json",
+    "stages/c1-03.json",
+    "stages/c1-04.json",
+    "stages/c1-05.json",
+    "stages/c2-01.json",
+    "stages/c2-02.json",
+    "stages/c2-03.json",
+    "stages/c2-04.json",
+    "stages/c2-05.json",
+    "stages/c2-06.json",
+    "stages/c2-07.json",
+    "stages/c2-08.json",
+    "stages/c2-09.json",
+    "stages/c2-10.json"
+  ],
+  "mission_ids": [
+    "C1-01",
+    "C1-02",
+    "C1-03",
+    "C1-04",
+    "C1-05",
+    "C2-01",
+    "C2-02",
+    "C2-03",
+    "C2-04",
+    "C2-05",
+    "C2-06",
+    "C2-07",
+    "C2-08",
+    "C2-09",
+    "C2-10"
+  ],
+  "story_source": {
+    "file": "dialog&story(test).docx",
+    "pages": 7,
+    "located": "2026-11-22",
+    "coverage": "Five regional transitions and opening, victory and defeat beats for all ten C2 missions.",
+    "status": "team_draft_located_adapted_copy_review_pending"
+  },
+  "presentation_defaults": {
+    "dialogue": "full_screen",
+    "continue_and_skip": true,
+    "hold_shared_combat_clock": true,
+    "play_at_most_once_per_attempt": true,
+    "conditional_outcomes_use_specific_before_fallback": true,
+    "unavailable_portrait_fallback": "speaker_label_with_clear_text",
+    "tutorial_hints": "optional_ui_prompts_with_no_gameplay_side_effect"
+  },
+  "map_routes": {
+    "T01": {"region": "Forgotten Patrol", "columns": 12, "rows": 5, "routes": [{"index": 0, "gate": "main"}]},
+    "T02": {
+      "region": "Gunung Mulu",
+      "columns": 12,
+      "rows": 5,
+      "routes": [{"index": 0, "gate": "A"}, {"index": 1, "gate": "B"}]
+    },
+    "T03": {"region": "Batang Ai", "columns": 12, "rows": 5, "routes": [{"index": 0, "gate": "main"}]},
+    "T04": {"region": "Tanjung Datu", "columns": 12, "rows": 5, "routes": [{"index": 0, "gate": "main"}]},
+    "T05": {"region": "Imbak Canyon", "columns": 12, "rows": 5, "routes": [{"index": 0, "gate": "main"}]},
+    "T06": {"region": "Sepilok-Kabili", "columns": 12, "rows": 5, "routes": [{"index": 0, "gate": "main"}]}
+  },
+  "speakers": {
+    "speaker.operations_manager": {
+      "label": "Operations Manager",
+      "portrait_key": "portrait.manager",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["briefing", "concerned", "relieved"]
+    },
+    "speaker.leader": {
+      "label": "Leader",
+      "portrait_key": "portrait.leader",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["steady", "reassuring"]
+    },
+    "speaker.poacher": {
+      "label": "Poacher",
+      "portrait_key": "portrait.poacher",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["alert"]
+    },
+    "speaker.poacher_messenger": {
+      "label": "Poacher Messenger",
+      "portrait_key": "portrait.poacher",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["alert"]
+    },
+    "speaker.diversion_captain": {
+      "label": "Diversion Captain",
+      "portrait_key": "portrait.diversion_captain",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["confronting"]
+    },
+    "speaker.illegal_logging_foreman": {
+      "label": "Illegal Logging Foreman",
+      "portrait_key": "portrait.illegal_logging_foreman",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["confronting"]
+    },
+    "speaker.poacher_leader": {
+      "label": "Poacher Leader",
+      "portrait_key": "portrait.poacher_leader",
+      "portrait_key_status": "art_binding_candidate",
+      "pose_keys": ["confronting", "captured"]
+    }
+  },
+  "noncombat_events": {
+    "cinematic.c1_03_messenger_withdrawal": {
+      "combat_registry": false,
+      "changes_queued_defeated_or_escaped": false,
+      "changes_integrity": false,
+      "invalidates_perfect_clear": false,
+      "narrative_beat": "The messenger warns the larger operation outside the active battlefield."
+    }
+  },
+  "fact_refs": {
+    "fact.hornbill_tree_cavity": {
+      "claim": "Rhinoceros Hornbills use tree cavities to nest.",
+      "source": "Forest Department Sarawak · Rhinoceros Hornbill (Buceros rhinoceros)",
+      "url": "https://forestry.sarawak.gov.my/web/subpage/webpage_view/854",
+      "source_checked": "2026-11-22",
+      "editorial_status": "source_checked_candidate_awaiting_team_review"
+    }
+  }
+}

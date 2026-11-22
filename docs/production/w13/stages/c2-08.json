@@ -1,0 +1,265 @@
+{
+  "id": "C2-08",
+  "title": "Breaking the Line",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 13,
+    "map_id": "T05",
+    "region": "Imbak Canyon",
+    "min_control_level": 4,
+    "requires_previous_clear": "C2-07",
+    "fixed_debuff_ids": ["D14", "D08"],
+    "published_first_pass_wave_counts": [30, 33, 38, "boss"],
+    "clear_unlock_ids": [],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_mid",
+    "opening_delay_seconds": 15,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": {"capacity": 100, "integrity_loss_per_reset": 10, "status": "proposed_campaign_trial"}
+  },
+  "warnings_and_teaching": "Prioritize Heat sources and recognize the Foreman’s temporary HP. The C2-07 supply has expired.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 30,
+      "queued_count": 30,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E06", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 33,
+      "queued_count": 33,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 7, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 38,
+      "queued_count": 38,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E14", "count": 1, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E06", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 7, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 4,
+      "kind": "boss",
+      "source_count": "boss",
+      "queued_count": 1,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [{"enemy_id": "boss.illegal_logging_foreman", "count": 1, "route_index": 0, "base_interval_seconds": 1.5}]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["boss.illegal_logging_foreman", "E14", "E09"],
+    "queued_totals_by_enemy": {"E02": 51, "E03": 16, "E04": 12, "E06": 8, "E09": 8, "E14": 6, "boss.illegal_logging_foreman": 1},
+    "queued_totals_by_gate": {"main": 102},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": {
+    "id": "boss.illegal_logging_foreman",
+    "resource": "res://data/bosses/illegal_logging_foreman.tres",
+    "resource_status": "c12_provisional",
+    "wave": 4,
+    "reinforcements_counted_outside_source_wave": true
+  },
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": "ordinary_integrity_loss_pending_review"
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_08.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The Illegal Logging Foreman is leading this push. The equipment raises Heat and can add a temporary layer of protection."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep pressure on the sources of Heat. Plan for a longer hold if the Foreman gains protection."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.wave_3",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 3},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "We have movement behind the last logging crews. The Foreman is close."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Confirm what you can keep in the field for the final wave."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.boss_intro",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "boss_intro", "boss_id": "boss.illegal_logging_foreman"},
+      "lines": [
+        {
+          "speaker_id": "speaker.illegal_logging_foreman",
+          "pose_key": "confronting",
+          "text": "How long do you think your patrol can hold this gorge?"
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Long enough to stop this operation. Keep your attention on the route, team."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.boss_phase_1",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "boss_phase_changed", "boss_id": "boss.illegal_logging_foreman", "phase_index": 1},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "The Foreman's temporary protection is up and Heat is rising faster."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the route covered. Use the protection and Heat indicators to plan your next attack."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The Foreman is stopped. We're closing the canyon operation."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Record the equipment and the route. Follow the remaining leads into Sepilok-Kabili."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.victory_foreman_escaped",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "victory", "boss_id": "boss.illegal_logging_foreman", "boss_resolution": "escaped"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "Our line held, but the Foreman reached the tunnel."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Report the escape. We'll follow the remaining evidence into Sepilok-Kabili."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_08.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We lost the canyon line. The team is withdrawing."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Review the Foreman's approach and the Heat pressure. We'll regroup before trying again."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T05",
+    "stage_ticket": "W13-C2-08",
+    "focus": "Reuse canyon terrain and Heat gauge. Separate Foreman portrait, temporary HP treatment and readable Heat cue."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 31 S18",
+    "GDD p. 7 §§ F.3–4",
+    "GDD p. 13 § H.3",
+    "Team draft · dialog&story(test).docx · pp. 5–6"
+  ]
+}

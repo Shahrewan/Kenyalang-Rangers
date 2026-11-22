@@ -1,0 +1,191 @@
+{
+  "id": "C2-06",
+  "title": "Capture Operations",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C2",
+    "order": 11,
+    "map_id": "T04",
+    "region": "Tanjung Datu",
+    "min_control_level": 4,
+    "requires_previous_clear": "C2-05",
+    "fixed_debuff_ids": ["D03", "D04"],
+    "published_first_pass_wave_counts": [24, 30, 35],
+    "clear_unlock_ids": ["ranger.strike_team", "facility.dispatch_relay"],
+    "mission_supply": [],
+    "max_distinct_optional_buffs": 2
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "proposed_playtest",
+    "cadence_profile": "c2_mid",
+    "opening_delay_seconds": 15,
+    "position_speed_attack_escape_source": "c12_catalogue_provisional",
+    "heat": null
+  },
+  "warnings_and_teaching": "React to the entangle telegraph with backup coverage and time skill use.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 24,
+      "queued_count": 24,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 30,
+      "queued_count": 30,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 3, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    },
+    {
+      "wave": 3,
+      "kind": "standard",
+      "source_count": 35,
+      "queued_count": 35,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 1.5,
+      "groups": [
+        {"enemy_id": "E02", "count": 6, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E09", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E03", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E04", "count": 4, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E10", "count": 5, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E07", "count": 2, "route_index": 0, "base_interval_seconds": 1.5},
+        {"enemy_id": "E02", "count": 5, "route_index": 0, "base_interval_seconds": 1.5}
+      ]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E10", "E09", "E07"],
+    "queued_totals_by_enemy": {"E02": 31, "E03": 14, "E04": 11, "E07": 2, "E09": 11, "E10": 20},
+    "queued_totals_by_gate": {"main": 89},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "tutorial_hints": [],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c2_06.opening",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Net Trappers are moving up the coastal trail. Their gear can interrupt a Ranger at the front."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Put support within reach. Leave yourself a way to move someone out if the line starts giving way."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_06.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_binding_and_copy",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Watch the net windup. A Ranger can be tied up before their next attack."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Cover that lane with another attacker. Retreat is still there if you need it."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_06.victory",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The coastal extraction route is closed. Strike Team and Dispatch Relay are available."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Pass their route logs to HQ. Our next lead takes us into Imbak Canyon."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c2_06.defeat",
+      "status": "proposed_review_pending",
+      "origin": "proposed_adaptation_of_team_draft",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "Too many Rangers lost their attack windows. The line is broken."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Give the front a second source of coverage and check the status warnings on the retry."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T04",
+    "stage_ticket": "W13-C2-06",
+    "focus": "Reuse the coastal board. Draw a restrained net telegraph and the entangled-state icon."
+  },
+  "source_refs": [
+    "GDD pp. 21–22 § M.4",
+    "UI p. 8",
+    "UI pp. 4, 8, 27 S14",
+    "GDD p. 7 §§ F.3–4",
+    "Team draft · dialog&story(test).docx · pp. 4–5"
+  ]
+}

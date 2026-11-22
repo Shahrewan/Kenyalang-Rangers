@@ -1,0 +1,193 @@
+{
+  "id": "C1-01",
+  "title": "First Contact",
+  "status": "content_spec_review_pending",
+  "operation": {
+    "chapter": "C1",
+    "order": 1,
+    "map_id": "T01",
+    "region": "Forgotten Patrol",
+    "min_control_level": 1,
+    "requires_previous_clear": null,
+    "fixed_debuff_ids": ["D01"],
+    "published_first_pass_wave_counts": [6, 8],
+    "clear_unlock_ids": [],
+    "mission_supply": [
+      {"id": "ranger.scout_sniper", "grant_type": "mission_ranger"},
+      {"id": "ranger.patrolman", "grant_type": "mission_ranger"},
+      {
+        "id": "facility.logistics_post",
+        "grant_type": "mission_facility",
+        "supply_id": "stage_supply.c1_01_starter_post",
+        "uses_regular_facility_slot": false,
+        "available_from": "operation_plan",
+        "expires": "attempt_end",
+        "ordinary_post_entry_allowed": false,
+        "first_legal_drop": "free_instant_no_first_cooldown"
+      }
+    ],
+    "max_distinct_optional_buffs": 1
+  },
+  "opening": {
+    "tokens_before_eligible_effects": 0,
+    "first_post_bonus_allowed": true,
+    "requires_affordable_legal_deployment": true
+  },
+  "balance_trial": {
+    "status": "c05_fixture",
+    "cadence_profile": "c1_early",
+    "opening_delay_seconds": 10,
+    "position_speed_attack_escape_source": "retained_existing_c05_fixture",
+    "heat": null
+  },
+  "warnings_and_teaching": "Emergency call, deploy the Starter Post, drag Rangers and observe automatic attacks.",
+  "waves": [
+    {
+      "wave": 1,
+      "kind": "standard",
+      "source_count": 6,
+      "queued_count": 6,
+      "base_rest_after_seconds": 25,
+      "effective_rest_after_seconds_for_qa": 25,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [{"enemy_id": "E01", "count": 6, "route_index": 0, "base_interval_seconds": 3.5}]
+    },
+    {
+      "wave": 2,
+      "kind": "standard",
+      "source_count": 8,
+      "queued_count": 8,
+      "base_rest_after_seconds": 0,
+      "effective_rest_after_seconds_for_qa": 0,
+      "effective_interval_seconds_for_qa": 3.5,
+      "groups": [{"enemy_id": "E01", "count": 8, "route_index": 0, "base_interval_seconds": 3.5}]
+    }
+  ],
+  "enemy_intel": {
+    "priority_enemy_ids": ["E01"],
+    "queued_totals_by_enemy": {"E01": 14},
+    "queued_totals_by_gate": {"main": 14},
+    "may_add_combat_reinforcements": false
+  },
+  "boss": null,
+  "outcome": {
+    "early_capture_boss_id": null,
+    "instant_loss_on_escape_enemy_ids": [],
+    "standard_loss": "integrity_zero",
+    "standard_clear": "waves_and_mandatory_arrivals_resolved_positive_integrity",
+    "perfect_clear": "successful_clear_and_zero_combat_escapes",
+    "foreman_escape_trial": null
+  },
+  "rewards": {
+    "status": "tbd",
+    "first_clear_funds": null,
+    "first_perfect_funds": null,
+    "replay_funds": null,
+    "existing_c05_fixture": {"first_clear_funds": 100, "first_perfect_funds": 50}
+  },
+  "tutorial_hints": [
+    {
+      "id": "hint.c1_01.starter_post",
+      "condition": "starter_post_available",
+      "text": "Drag the free Starter Post onto two adjacent raised tiles.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_01.deploy_rangers",
+      "condition": "can_afford_selected_ranger",
+      "text": "Drag Patrolman onto the route or Scout Sniper onto a raised tile.",
+      "status": "proposed_review_pending"
+    },
+    {
+      "id": "hint.c1_01.basic_attacks",
+      "condition": "first_ranger_placed",
+      "text": "Rangers attack eligible threats automatically. Check their HP underneath them.",
+      "status": "proposed_review_pending"
+    }
+  ],
+  "dialogue_sequences": [
+    {
+      "id": "dialogue.c1_01.opening",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "operation_opening"},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Leader? I left a patrol at the old chokepoint. I was about to recall them when they spotted poachers on the trail."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "You did the right thing calling. Keep the patrol on comms. We can support them from here."
+        },
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "The Starter Post is ready. I'll mark the pair of raised tiles."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_01.wave_2",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "before_wave_first_spawn", "wave": 2},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "briefing",
+          "text": "Second group on the same trail."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "steady",
+          "text": "Keep the approach covered. Leave the patrol a clear view of the path."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_01.victory",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "victory", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "relieved",
+          "text": "The first push is over. I have the patrol accounted for."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Good. Leave a watch at the chokepoint while we find out why they came this way."
+        }
+      ]
+    },
+    {
+      "id": "dialogue.c1_01.defeat",
+      "status": "proposed_review_pending",
+      "origin": "new_proposed_chapter_1",
+      "trigger": {"event": "defeat", "fallback": true},
+      "lines": [
+        {
+          "speaker_id": "speaker.operations_manager",
+          "pose_key": "concerned",
+          "text": "We can't hold this position. I'm calling the patrol back."
+        },
+        {
+          "speaker_id": "speaker.leader",
+          "pose_key": "reassuring",
+          "text": "Get them clear. We'll review the approach and try again."
+        }
+      ]
+    }
+  ],
+  "art": {
+    "board_ticket": "W13-ART-T01",
+    "stage_ticket": "W13-C1-01",
+    "focus": "Starter Post ticket, two-cell raised placement and faint opening-route guidance."
+  },
+  "source_refs": ["GDD pp. 21–22 § M.4", "UI p. 8", "UI p. 22 S10", "UI p. 12 S01", "GDD pp. 6–7 § F.2"]
+}
