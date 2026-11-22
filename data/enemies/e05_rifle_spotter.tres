@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/enemy_attack_profile.gd" id="2"]
+
+[sub_resource type="Resource" id="Attack"]
+script = ExtResource("2")
+kind = 1
+radius = 3
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E05"
+display_name = "Rifle Spotter"
+danger = 3
+max_hp = 180
+attack_damage = 15
+attack_seconds = 2.4
+tiles_per_second = 0.35
+escape_penalty = 10
+chaos_points = 25
+counterplay = "Protect exposed Rangers. Its ordinary ranged fire leaves Facilities alone."
+attack_profile = SubResource("Attack")

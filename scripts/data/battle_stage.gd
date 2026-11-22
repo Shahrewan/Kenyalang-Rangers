@@ -47,4 +47,7 @@ func validation_error() -> String:
 			var profile := group.enemy.attack_profile
 			if profile != null and (profile.radius < 0 or not is_finite(profile.windup_seconds) or profile.windup_seconds < 0.0):
 				return "Enemy range and windup must be nonnegative."
+			var ability := group.enemy.ability
+			if ability != null and not ability.validation_error().is_empty():
+				return ability.validation_error()
 	return ""

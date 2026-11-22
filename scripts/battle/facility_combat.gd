@@ -17,7 +17,7 @@ func advance(deployment: DeploymentState, tick: int) -> void:
 				_fire_turret(unit, deployment, tick)
 			elif unit.facility.work_seconds > 0.0 and tick >= unit.next_utility_tick:
 				_resource_pulse(unit, deployment, tick)
-		elif unit.ranger != null and unit.ranger.repair_hp > 0 and tick >= unit.next_utility_tick:
+		elif unit.ranger != null and unit.ranger.repair_hp > 0 and tick >= unit.next_utility_tick and unit.can_act(tick):
 			_repair(unit, deployment, tick)
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState) -> String:
@@ -66,10 +66,11 @@ func heat_multiplier(deployment: DeploymentState, tick: int) -> float:
 
 func attack_interval(deployment: DeploymentState, unit: DeploymentState.Placement, tick: int) -> int:
 	var base := CombatClock.ticks_for(unit.spec.attack_seconds)
+	var rate := unit.attack_rate(tick)
 	var hub := _zone(deployment, FacilitySpec.Role.COORDINATION_HUB, unit.spec.footprint(unit.anchor), tick)
-	if hub == null:
-		return maxi(1, base)
-	return maxi(1, ceili(base * 100.0 / (100 + maxi(0, hub.attack_rate_bonus_percent))))
+	if hub != null:
+		rate *= (100 + maxi(0, hub.attack_rate_bonus_percent)) / 100.0
+	return maxi(1, ceili(base / rate))
 
 func enemy_damage(deployment: DeploymentState, enemy: BattleEnemy, target: DeploymentState.Placement, tick: int) -> int:
 	var disrupt := _zone(deployment, FacilitySpec.Role.DISRUPTION, [enemy.grid_cell()], tick)
@@ -113,7 +114,7 @@ func _fire_turret(unit: DeploymentState.Placement, deployment: DeploymentState, 
 	if tick < unit.next_attack_tick:
 		return
 	var spec := unit.facility
-	var targets := _turret_targets(unit, deployment)
+	var targets := _turret_targets(unit, deployment, tick)
 	if spec.role == FacilitySpec.Role.ELECTRIC_TURRET:
 		_electric_shot(unit, targets, tick)
 		return
@@ -154,11 +155,11 @@ func _electric_shot(unit: DeploymentState.Placement, targets: Array[int], tick: 
 		interval = spec.attack_seconds
 	unit.next_attack_tick = tick + maxi(1, CombatClock.ticks_for(interval))
 
-func _turret_targets(unit: DeploymentState.Placement, deployment: DeploymentState) -> Array[int]:
+func _turret_targets(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> Array[int]:
 	var targets: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
-		if enemy.is_targetable() and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+		if enemy.is_targetable(tick) and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			targets.append(id)
 	return targets
 

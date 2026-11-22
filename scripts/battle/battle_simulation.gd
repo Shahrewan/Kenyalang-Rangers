@@ -18,6 +18,7 @@ var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
 var facility_combat: FacilityCombat
 var _enemy_combat := EnemyCombat.new()
+var _enemy_abilities := EnemyAbilities.new()
 var wave_number := 0
 var wave_count: int:
 	get:
@@ -34,9 +35,9 @@ var _next_id := 1
 func _init(stage: BattleStage) -> void:
 	_stage = stage
 	ranger_combat = RangerCombat.new(clock, active)
-	ranger_combat.hit.connect(_damage_enemy)
+	ranger_combat.hit.connect(damage_enemy)
 	facility_combat = FacilityCombat.new(active)
-	facility_combat.hit.connect(_damage_enemy)
+	facility_combat.hit.connect(damage_enemy)
 	_enemy_combat.hit.connect(_receive_enemy_hit)
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
@@ -91,11 +92,13 @@ func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackPro
 	var amount := facility_combat.enemy_damage(deployment, enemy, target, clock.tick)
 	deployment.receive_hit(id, amount, kind)
 
-func _damage_enemy(id: int, damage: int) -> void:
+func damage_enemy(id: int, damage: int) -> void:
 	var enemy: BattleEnemy = active.get(id)
 	if enemy == null or damage <= 0 or not clock.is_running():
 		return
-	enemy.hp = maxi(0, enemy.hp - damage)
+	var bonus := enemy.damage_mark_bonus(clock.tick)
+	var effective := roundi(damage * (100 + bonus) / 100.0)
+	enemy.hp = maxi(0, enemy.hp - effective)
 	if enemy.hp == 0:
 		defeat_enemy(id)
 
@@ -109,12 +112,14 @@ func _step(tick: int, seconds: float) -> void:
 		if arrived:
 			active.erase(id)
 			escaped += 1
-			lose_integrity(enemy.definition.escape_penalty)
+			lose_integrity(integrity if enemy.definition.escape_causes_defeat else enemy.definition.escape_penalty)
 			enemy_resolved.emit(id, true)
 			if not clock.is_running():
 				return
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
 		_spawn(tick)
+	for enemy: BattleEnemy in active.values():
+		_enemy_abilities.advance(enemy, deployment, facility_combat, tick)
 	if deployment != null:
 		for enemy: BattleEnemy in active.values():
 			_enemy_combat.advance(enemy, deployment, facility_combat, tick)
@@ -150,7 +155,7 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	var speed_scale := ranger_combat.movement_scale(enemy, tick)
 	if tick < enemy.sonic_slow_until:
 		speed_scale = minf(speed_scale, enemy.sonic_speed_scale)
-	seconds *= speed_scale
+	seconds *= speed_scale * enemy.sprint_scale(tick)
 	if deployment == null or enemy.definition.aerial:
 		return enemy.advance(seconds)
 	var next := enemy.distance + enemy.definition.tiles_per_second * seconds
@@ -158,14 +163,15 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	var blocker: StringName
 	for id: StringName in deployment.placed:
 		var unit := deployment.placed[id]
-		if unit.spec.block_capacity <= int(block_counts.get(id, 0)):
+		if tick < unit.knocked_down_until or unit.spec.block_capacity <= int(block_counts.get(id, 0)):
 			continue
-		var route_index := enemy.route.cells.find(unit.anchor)
-		# The enemy stays on the approach tile, facing the Ranger on the next tile.
-		var approach := float(route_index) - 0.51
-		if route_index > 0 and enemy.distance <= approach and next >= approach and approach < stop_at:
-			stop_at = approach
-			blocker = id
+		for tile in unit.spec.footprint(unit.anchor):
+			var route_index := enemy.route.cells.find(tile)
+			# The enemy stays on the approach tile, facing the Ranger on the next tile.
+			var approach := float(route_index) - 0.51
+			if route_index > 0 and enemy.distance <= approach and next >= approach and approach < stop_at:
+				stop_at = approach
+				blocker = id
 	if blocker != enemy.blocked_by:
 		enemy.blocked_by = blocker
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
@@ -180,7 +186,7 @@ func _spawn(tick: int) -> void:
 	var group := _groups[_group_index]
 	var id := _next_id
 	_next_id += 1
-	active[id] = BattleEnemy.new(group.enemy, _stage.routes[group.route_index])
+	active[id] = BattleEnemy.new(group.enemy, _stage.routes[group.route_index], tick)
 	_spawned_in_group += 1
 	_next_spawn_tick = tick + maxi(1, CombatClock.ticks_for(group.interval_seconds))
 	if _spawned_in_group == group.count:

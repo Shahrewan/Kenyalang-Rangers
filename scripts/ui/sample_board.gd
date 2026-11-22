@@ -80,7 +80,7 @@ func _draw() -> void:
 				var slot: int = stacked.get(enemy.blocked_by, 0)
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
-			var visible_alpha := 1.0 if enemy.is_targetable() else 0.4
+			var visible_alpha := 1.0 if enemy.is_targetable(battle.clock.tick) else 0.4
 			draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
 			draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
 			_draw_enemy_status(enemy, center, cell)
@@ -99,14 +99,14 @@ func _draw_slow_fields() -> void:
 
 func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> void:
 	var tick := battle.clock.tick
-	if tick < enemy.focus_marked_until:
+	if enemy.is_marked(tick):
 		draw_circle(center + Vector2(0, -cell * 0.27), cell * 0.05, Color("#F3D586"))
 	if tick < enemy.stunned_until or tick < enemy.immobilized_until:
 		var color := Color("#F3D586") if tick < enemy.stunned_until else Color("#A3DDEA")
 		draw_circle(center, cell * 0.21, color, false, 3.0, true)
 	elif tick < enemy.sonic_slow_until:
 		draw_circle(center, cell * 0.21, Color("#6FB9A4"), false, 2.0, true)
-	var tag := "?" if not enemy.is_targetable() else ("A" if enemy.definition.aerial else ("T" if enemy.definition.technological else ""))
+	var tag := "?" if not enemy.is_targetable(tick) else ("A" if enemy.definition.aerial else ("T" if enemy.definition.technological else ""))
 	if not tag.is_empty():
 		var font := get_theme_default_font()
 		var font_size := maxi(10, roundi(cell * 0.22))

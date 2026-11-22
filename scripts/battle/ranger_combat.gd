@@ -35,7 +35,7 @@ func movement_scale(enemy: BattleEnemy, tick: int) -> float:
 
 func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int, interval: int) -> void:
 	unit.update_basic_interval(interval, tick)
-	if tick < unit.next_attack_tick:
+	if not unit.can_act(tick) or tick < unit.next_attack_tick:
 		return
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
@@ -57,12 +57,14 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 		if ranger != null:
 			if enemy.definition.technological:
 				bonus += ranger.technological_bonus_percent
-			if unit.records_enhanced and enemy.focus_marked_until > tick:
+			if unit.records_enhanced and enemy.is_marked(tick):
 				bonus += ranger.focused_damage_bonus_percent
 		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0))
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill
+	if skill.effect == RangerSkill.Effect.SCAN:
+		return _scan(unit, deployment, skill)
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
 		return "No eligible enemy in range."
@@ -97,11 +99,27 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 				hit.emit(id, skill.damage)
 	return ""
 
+func _scan(unit: DeploymentState.Placement, deployment: DeploymentState, skill: RangerSkill) -> String:
+	var target: BattleEnemy
+	for enemy: BattleEnemy in _enemies.values():
+		if not deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+			continue
+		if target == null or enemy.definition.danger > target.definition.danger:
+			target = enemy
+		elif enemy.definition.danger == target.definition.danger and enemy.distance > target.distance:
+			target = enemy
+	if target == null:
+		return "No enemy in scan range."
+	var until := _clock.tick + CombatClock.ticks_for(skill.status_seconds)
+	target.revealed_until = maxi(target.revealed_until, until)
+	target.add_damage_mark(_clock.tick, until, skill.mark_damage_percent)
+	return ""
+
 func _candidates(unit: DeploymentState.Placement, deployment: DeploymentState) -> Array[int]:
 	var result: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
-		if enemy.is_targetable() and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+		if enemy.is_targetable(_clock.tick) and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			result.append(id)
 	return result
 
@@ -111,7 +129,7 @@ func _leading(ids: Array[int], prefer_focus := false) -> int:
 	var chosen_marked := false
 	for id in ids:
 		var enemy := _enemies[id]
-		var marked := prefer_focus and enemy.focus_marked_until > _clock.tick
+		var marked := prefer_focus and enemy.is_marked(_clock.tick)
 		if (marked and not chosen_marked) or (marked == chosen_marked and enemy.distance > chosen_distance):
 			chosen = id
 			chosen_distance = enemy.distance

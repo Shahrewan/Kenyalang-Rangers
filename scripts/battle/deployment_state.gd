@@ -14,6 +14,11 @@ class Placement:
 	var records_enhanced: bool
 	var skill_charges := 0
 	var skill_recharge_tick := 0
+	var jammed_until := 0
+	var attack_slow_until := 0
+	var attack_rate_scale := 1.0
+	var entangled_until := 0
+	var knocked_down_until := 0
 	var anchor: Vector2i
 	var paid_cost: int
 	var hp: int
@@ -66,6 +71,20 @@ class Placement:
 			var remaining := next_attack_tick - tick
 			next_attack_tick = tick + ceili(float(remaining * interval) / basic_interval_ticks)
 		basic_interval_ticks = interval
+
+	func can_act(tick: int) -> bool:
+		return tick >= maxi(entangled_until, knocked_down_until)
+
+	func attack_rate(tick: int) -> float:
+		return attack_rate_scale if tick < attack_slow_until else 1.0
+
+	func distance_to(cell: Vector2i) -> int:
+		var offset := (anchor - cell).abs()
+		var nearest := maxi(offset.x, offset.y)
+		for tile in spec.footprint(anchor):
+			var delta := (tile - cell).abs()
+			nearest = mini(nearest, maxi(delta.x, delta.y))
+		return nearest
 
 var map: BattleMap
 var clock: CombatClock
@@ -348,6 +367,12 @@ func _skill_error(unit: Placement) -> String:
 		if clock.tick < unit.build_deadline:
 			return "The Facility is still building."
 		return "" if unit.stock > 0 else "The Facility has no stock ready."
+	if clock.tick < unit.knocked_down_until:
+		return "This Ranger is knocked down."
+	if clock.tick < unit.entangled_until:
+		return "This Ranger is entangled."
+	if clock.tick < unit.jammed_until:
+		return "Signal Jammer is delaying this skill."
 	if unit.ranger == null:
 		return ""
 	var skill := unit.ranger.active_skill

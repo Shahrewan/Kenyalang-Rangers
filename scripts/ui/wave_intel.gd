@@ -32,15 +32,12 @@ static func enemy_name(enemy: BattleEnemyDefinition) -> String:
 	return String(enemy.enemy_id) if enemy.display_name.is_empty() else "%s · %s" % [enemy.enemy_id, enemy.display_name]
 
 static func enemy_details(enemy: BattleEnemyDefinition) -> String:
-	var movement := "Aerial" if enemy.aerial else "Ground"
-	if enemy.technological:
-		movement += " · Technological"
-	if enemy.concealed:
-		movement += " · Concealed"
+	var tags := enemy.tags()
+	if not enemy.aerial:
+		tags.insert(0, "Ground")
 	if enemy.heat_per_second > 0.0:
-		movement += " · Builds Heat"
-	if enemy.attack_profile != null and enemy.attack_profile.kind == EnemyAttackProfile.Kind.SIEGE:
-		movement += " · Siege"
-	return "%d HP  ·  Danger %d  ·  %s  ·  −%d Integrity on escape" % [
-		enemy.max_hp, enemy.danger, movement, enemy.escape_penalty,
+		tags.append("Builds Heat")
+	var escape := "Defeat on escape" if enemy.escape_causes_defeat else "−%d Integrity on escape" % enemy.escape_penalty
+	return "%d HP  ·  Danger %d  ·  %s  ·  %s" % [
+		enemy.max_hp, enemy.danger, " · ".join(tags), escape,
 	]

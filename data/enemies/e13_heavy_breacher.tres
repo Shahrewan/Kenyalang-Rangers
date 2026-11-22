@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="BattleEnemyDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/battle_enemy_definition.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/enemy_ability.gd" id="3"]
+
+[sub_resource type="Resource" id="Ability"]
+script = ExtResource("3")
+effect = 5
+repeat_seconds = 7.0
+windup_seconds = 0.5
+duration_seconds = 1.75
+radius = 1
+disruptible = true
+
+[resource]
+script = ExtResource("1")
+enemy_id = &"E13"
+display_name = "Heavy Breacher"
+danger = 4
+max_hp = 1050
+attack_damage = 45
+attack_seconds = 3.2
+tiles_per_second = 0.30
+escape_penalty = 10
+chaos_points = 60
+counterplay = "Barricade Ops resists the Knockdown that can release other blockers."
+heavy = true
+ability = SubResource("Ability")

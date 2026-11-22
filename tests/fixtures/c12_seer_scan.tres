@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+
+[sub_resource type="Resource" id="Scan"]
+script = ExtResource("2")
+label = "Seer Scan"
+effect = 3
+max_charges = 1
+recharge_seconds = 3.0
+status_seconds = 8.0
+mark_damage_percent = 2
+
+[resource]
+script = ExtResource("1")
+id = &"qa.seer_scan"
+label = "Seer Scan (test)"
+kind = 2
+ranger_class = 2
+cost = 18
+attack_range = 3
+targets_aerial = true
+skill = 1
+active_skill = SubResource("Scan")
