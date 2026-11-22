@@ -2,6 +2,7 @@ class_name BattleBoard
 extends Control
 
 var battle_map: BattleMap
+var routes: Array[BattleRoute]
 var battle: BattleSimulation
 var show_combat_hp := false
 var deployments: DeploymentState
@@ -50,6 +51,16 @@ func _draw() -> void:
 		var rect := Rect2(origin + Vector2(tile) * cell, Vector2.ONE * cell).grow(-2.0)
 		draw_rect(rect, Color("#69734A"))
 		draw_rect(Rect2(rect.position, Vector2(rect.size.x, 4.0)), Color("#AAB385"))
+	for route in routes:
+		for index in range(1, route.cells.size() - 1):
+			var origin_tile := cell_center(route.cells[index])
+			var direction := Vector2(route.cells[index + 1] - route.cells[index])
+			var perpendicular := Vector2(-direction.y, direction.x)
+			var tip := origin_tile + direction * cell * 0.13
+			var back := origin_tile - direction * cell * 0.02
+			var faint := Color("#887356")
+			draw_line(back + perpendicular * cell * 0.06, tip, faint, 2.0, true)
+			draw_line(tip, back - perpendicular * cell * 0.06, faint, 2.0, true)
 	for spawn in battle_map.spawns:
 		_draw_gate(origin + Vector2(spawn) * cell, cell, "Entry", Color("#894534"))
 	var tunnel := origin + Vector2(battle_map.tunnel) * cell

@@ -1,0 +1,129 @@
+[gd_resource type="Theme" load_steps=10 format=3]
+
+[sub_resource type="StyleBoxFlat" id="button"]
+bg_color = Color(0.953, 0.922, 0.867, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="hover"]
+bg_color = Color(0.733, 0.616, 0.451, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="active"]
+bg_color = Color(0.910, 0.725, 0.341, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="disabled"]
+bg_color = Color(0.204, 0.239, 0.196, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="primary"]
+bg_color = Color(0.910, 0.725, 0.341, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+bg_color = Color(0.204, 0.239, 0.196, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="light"]
+bg_color = Color(0.953, 0.922, 0.867, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(0.910, 0.725, 0.341, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.910, 0.725, 0.341, 1)
+
+[sub_resource type="StyleBoxFlat" id="subtle"]
+bg_color = Color(0.137, 0.176, 0.145, 1)
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[resource]
+default_font_size = 20
+Button/styles/normal = SubResource("button")
+Button/styles/hover = SubResource("hover")
+Button/styles/pressed = SubResource("active")
+Button/styles/hover_pressed = SubResource("active")
+Button/styles/disabled = SubResource("disabled")
+Button/styles/focus = SubResource("focus")
+Button/colors/font_color = Color(0.137, 0.176, 0.145, 1)
+Button/colors/font_hover_color = Color(0.137, 0.176, 0.145, 1)
+Button/colors/font_pressed_color = Color(0.137, 0.176, 0.145, 1)
+Button/colors/font_focus_color = Color(0.137, 0.176, 0.145, 1)
+Button/colors/font_hover_pressed_color = Color(0.137, 0.176, 0.145, 1)
+Button/colors/font_disabled_color = Color(0.78, 0.80, 0.73, 1)
+Label/colors/font_color = Color(0.953, 0.922, 0.867, 1)
+PrimaryButton/base_type = &"Button"
+PrimaryButton/styles/normal = SubResource("primary")
+PanelContainer/styles/panel = SubResource("panel")
+LightPanel/base_type = &"PanelContainer"
+LightPanel/styles/panel = SubResource("light")
+FieldPanel/base_type = &"PanelContainer"
+FieldPanel/styles/panel = SubResource("subtle")

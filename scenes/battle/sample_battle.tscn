@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/sample_board.gd" id="1"]
 
@@ -10,7 +10,13 @@
 
 [ext_resource type="Resource" path="res://data/stages/c04_logistics_rules.tres" id="6"]
 
+[ext_resource type="Theme" path="res://scenes/ui/ranger_theme.tres" id="7"]
+[ext_resource type="Script" path="res://scripts/ui/battle_hud.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/ui/battle_pause_overlay.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/ui/token_ticket.gd" id="10"]
+
 [node name="SampleBattle" type="Control"]
+theme = ExtResource("7")
 script = ExtResource("2")
 stage = ExtResource("3")
 
@@ -21,25 +27,75 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 7
 
 [node name="Header" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 16
+script = ExtResource("8")
 
 [node name="BackToMenu" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(180, 64)
+custom_minimum_size = Vector2(145, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 20
 text = "Back to menu"
 
 [node name="MissionTitle" type="Label" parent="Content/Header"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.953, 0.922, 0.867, 1)
-theme_override_font_sizes/font_size = 32
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+theme_override_font_sizes/font_size = 25
 text = "Sample battle"
+
+[node name="WaveCount" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Wave 1/2"
+
+[node name="DefeatedCount" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Defeated 0/14"
+
+[node name="IntegrityCount" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Integrity 100"
+
+[node name="Tokens" type="HBoxContainer" parent="Content/Header"]
+layout_mode = 2
+
+[node name="Icon" type="Control" parent="Content/Header/Tokens"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("10")
+
+[node name="TokenCount" type="Label" parent="Content/Header/Tokens"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "0 Tokens"
+tooltip_text = "Logistic Tokens"
+
+[node name="Pause" type="Button" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(120, 54)
+text = "Pause"
+
+[node name="Speed" type="Button" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(72, 54)
+text = "1×"
 
 [node name="Board" type="Control" parent="Content"]
 unique_name_in_owner = true
@@ -49,34 +105,24 @@ mouse_filter = 2
 script = ExtResource("1")
 
 [node name="Legend" type="Label" parent="Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Placeholder art · Sand route · Raised platforms · Enemy markers"
 horizontal_alignment = 1
 
-[node name="Status" type="Label" parent="Content/Header"]
+[node name="Status" type="Label" parent="Content"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 23
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
 
 [node name="Controls" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 12
-
-[node name="Pause" type="Button" parent="Content/Controls"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(120, 54)
-text = "Pause"
-
-[node name="Speed" type="Button" parent="Content/Controls"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(72, 54)
-text = "1×"
 
 [node name="OpenDialogue" type="Button" parent="Content/Controls"]
 unique_name_in_owner = true
@@ -101,7 +147,12 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(180, 54)
 
-[node name="DeploymentTray" type="HBoxContainer" parent="Content"]
+[node name="TrayScroll" type="ScrollContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+vertical_scroll_mode = 0
+
+[node name="DeploymentTray" type="HBoxContainer" parent="Content/TrayScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
@@ -110,11 +161,6 @@ theme_override_constants/separation = 8
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 12
-
-[node name="PreviewTokens" type="Label" parent="Content/PlacementControls"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Logistic Tokens: 0"
 
 [node name="PlacementFeedback" type="Label" parent="Content/PlacementControls"]
 unique_name_in_owner = true
@@ -146,6 +192,8 @@ text = "Retreat"
 [node name="MissionTip" type="Label" parent="Content"]
 unique_name_in_owner = true
 layout_mode = 2
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 
 [node name="DeploymentController" type="Node" parent="."]
@@ -154,6 +202,18 @@ script = ExtResource("4")
 roster = ExtResource("5")
 opening_rules = ExtResource("6")
 
+[node name="PauseOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09, 0.12, 0.10, 0.97)
+script = ExtResource("9")
+
 [node name="Dialogue" type="ColorRect" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -161,7 +221,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.10, 0.14, 0.11, 1)
+color = Color(0.09, 0.12, 0.10, 0.98)
 
 [node name="Center" type="CenterContainer" parent="Dialogue"]
 layout_mode = 1

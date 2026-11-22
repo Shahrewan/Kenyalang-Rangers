@@ -26,14 +26,20 @@ func _run() -> void:
 	_check(SafeArea.safe_margins(bounds, Rect2(0, 0, 1480, 820), offset) == Vector4i(24, 24, 24, 24), "Safe area clips to the logical viewport")
 
 	var main_path: String = ProjectSettings.get_setting("application/run/main_scene")
-	if change_scene_to_file(main_path) != OK:
+	var main := load(main_path) as PackedScene
+	if main == null:
 		_check(false, "Configured main scene loads")
 		_finish()
 		return
 
-	await scene_changed
+	var path := "user://project-smoke-%d.json" % OS.get_process_id()
+	var profile := FirstContactProgress.new(path)
+	profile.set_leader_name("Smoke test")
+	var launcher := main.instantiate()
+	launcher.save_path = path
+	root.add_child(launcher)
 	await process_frame
-	var container := current_scene.get_node("%ScreenContent")
+	var container := launcher.get_node("%ScreenContent")
 	var menu: Control = container.get_child(0)
 	_check(menu.scene_file_path == MENU.resource_path, "Launch opens Main Menu")
 
@@ -50,6 +56,7 @@ func _run() -> void:
 			_check(false, "Sample battle has a Back button")
 	else:
 		_check(false, "Main Menu has a sample-battle button")
+	DirAccess.remove_absolute(path)
 	_finish()
 
 func _check(condition: bool, label: String) -> void:

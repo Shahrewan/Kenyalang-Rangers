@@ -2,6 +2,9 @@ class_name BattleEnemyDefinition
 extends Resource
 
 @export var enemy_id: StringName
+@export var display_name: String
+@export var danger := 1
+@export_multiline var counterplay: String
 @export var tiles_per_second: float
 @export var escape_penalty: int
 

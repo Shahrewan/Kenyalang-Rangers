@@ -97,3 +97,24 @@ adb install -r build/android/kenyalang-rangers-c07-rig-preview.apk
 Run the C05 First Contact playtest first and record its result. Then open **Kenyalang Rangers (Scout Rig)** in landscape. Watch Idle, Deploy, Attack, Skill, Hit, Retreat and Defeat at normal phone scale. Flip facing and compare the tool grip, joints, feet and HP reference against the raised tile. Check that **Lock facing** prevents another flip, and that Pause and 1×/2× act on a running clip. Record the model, Android version, build and any joint gaps or scale/readability issues.
 
 To reproduce the standalone APK, use a temporary project copy. Point its main scene to `res://scenes/qa/scout_rig_preview.tscn`. In its Android Debug preset select the preview scene and `res://scripts/battle/combat_clock.gd` as export resources, and set the package ID to `com.shahrewan.kenyalangrangers.rigpreview`. Run the pinned editor import and standard debug export from that copy. The shipped C05 preset stays in the original checkout.
+
+## C09 navigation and battle UI phone check
+
+Build from the repository root with the configured Godot 4.7.2 editor and templates, then install on a USB-connected ARM64 Android phone. The workspace build uses `./.android/godot-android` for the `godot` commands.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c09-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c09-debug.apk
+```
+
+1. In airplane mode, open **Kenyalang Rangers (Dev)** in landscape. On a fresh test profile, enter a Leader name, relaunch and check that it persists. When updating an existing C05 install with the same debug key, verify that the Funds and clear records carry over. Leave existing test data in place during an update.
+2. Open **Story Mode**, check the reason shown for a locked node, then open **First Contact**. Review both Ranger costs, the free Starter Post outside the Mechanical slots, the fixed D01 debuff, the R&D unlock requirements, and the enemy details in both waves. Use Android Back to return to Story and reopen the plan.
+3. Start the operation and try Continue and Skip. Check that combat waits during the briefing. Drop the Post on an invalid footprint and verify zero Tokens and an empty board, then deploy it on a legal pair. In **Sample battle**, swipe sideways across an overflowing set of deployment cards, then drag a card up onto the board. The sideways swipe should only scroll the tray. Check affordability, hold-to-Retreat and cooldown feedback.
+4. In First Contact, change to 2×, pause, review incoming waves, and check that movement and payout timing wait. Open **Abandon operation**, tap **Keep playing**, then **Resume**. In a separate attempt confirm **Abandon**. The same plan should reopen with the original local Funds balance.
+5. Clear the mission using the placements in the [C05 playtest](#c05-first-contact-phone-playtest). Check results, the first-clear/perfect reward breakdown and the Story clear badge. Replay to check that the one-time Funds are only awarded once. On a run without defenses, verify defeat and zero payout.
+6. On a notched phone, repeat with default and enlarged system text settings. Check that both ends of the tray, the outer board cells, Pause and speed, the wave preview, and the results buttons remain reachable. Measure the visible hit areas against the 48 dp target using device density. Record the phone model, Android version, display resolution, density, safe-area insets, APK and outcomes in the [decision log](../docs/canon/DECISION_LOG.md#d-001-d-002-and-d-018-c09-integration--2026-11-22).
+
+The C09 APK passed package verification in the cloud. Physical installation and this phone run remain open.
