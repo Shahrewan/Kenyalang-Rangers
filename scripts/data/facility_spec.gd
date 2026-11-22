@@ -19,3 +19,12 @@ enum Role {
 @export var stock_capacity: int
 @export var heal_per_kit: int
 @export var cooldown_reduction_seconds: float
+
+@export_group("Turret effects")
+@export var splash_radius: int
+@export var slow_speed_scale := 1.0
+@export var slow_seconds: float
+@export var burst_hits := 1
+@export var burst_step_seconds: float
+@export var technological_bonus_percent: int
+@export var ground_damage_scale := 1.0

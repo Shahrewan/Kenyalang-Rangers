@@ -5,6 +5,9 @@ const POST: FacilitySpec = preload("res://data/facilities/logistics_post.tres")
 const CABIN: FacilitySpec = preload("res://data/facilities/medic_cabin.tres")
 const SKILL_RELAY: FacilitySpec = preload("res://data/facilities/skill_relay_station.tres")
 const DISPATCH: FacilitySpec = preload("res://data/facilities/dispatch_relay.tres")
+const SONIC: FacilitySpec = preload("res://data/facilities/sonic_turret.tres")
+const ELECTRIC: FacilitySpec = preload("res://data/facilities/electric_pulse_turret.tres")
+const CANOPY: FacilitySpec = preload("res://data/facilities/canopy_defense_launcher.tres")
 const SCOUT: RangerSpec = preload("res://data/rangers/scout_sniper.tres")
 const GUARD: RangerSpec = preload("res://data/rangers/guard_veteran.tres")
 const MECHANIC: RangerSpec = preload("res://data/rangers/outpost_mechanic.tres")
@@ -20,6 +23,9 @@ func _run() -> void:
 	_medic_stock()
 	_mechanic_repair()
 	_relay_cooldowns()
+	_sonic_turret()
+	_electric_turret()
+	_canopy_launcher()
 	print("Facility checks complete. Failures: ", _failed)
 	quit(0 if _failed == 0 else 1)
 
@@ -165,6 +171,66 @@ func _relay_cooldowns() -> void:
 	_frames(battle, 60)
 	_check(state.cooldown_ticks(GUARD.id) == 60 and state.cooldown_ticks(CABIN.id) == 480, "Dispatch reduces existing Ranger and Facility deployment cooldowns")
 	_check(state.build_ticks_left(CABIN.id) == 300 and scout.skill_recharge_tick == 1440, "Dispatch leaves construction and active-skill timers alone")
+
+func _sonic_turret() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	var upgraded := SONIC.duplicate() as FacilitySpec
+	upgraded.level = 100
+	state.deploy(upgraded, Vector2i(1, 0), 1)
+	var ground_one := _enemy(battle, 100, 0.7)
+	var ground_two := _enemy(battle, 101, 1.7)
+	var distant := _enemy(battle, 102, 4.2)
+	var aerial := _enemy(battle, 103, 1.0)
+	aerial.definition.aerial = true
+	_frames(battle, 419)
+	_check(state.build_ticks_left(SONIC.id) == 1 and ground_one.hp == 500, "Level 100 Sonic retains the full seven-second construction with no early shot")
+	_frames(battle, 1)
+	_check(ground_one.hp == 488 and ground_two.hp == 488 and distant.hp == 500 and aerial.hp == 500, "Sonic hits each ground target in its square for 12 HP")
+	var distance := ground_one.distance
+	_frames(battle, 1)
+	_check(ground_one.sonic_slow_until == 510 and is_equal_approx(ground_one.distance - distance, 0.065 * CombatClock.STEP_SECONDS), "Sonic's separate slow changes movement")
+	battle.clock.paused = true
+	_frames(battle, 180)
+	_check(battle.clock.tick == 421 and ground_one.hp == 488 and state.placed[SONIC.id].next_attack_tick == 588, "Pause holds the Sonic cadence and slow")
+	battle.clock.paused = false
+	_frames(battle, 167)
+	_check(ground_one.hp == 476, "Sonic attacks again after 2.8 combat seconds")
+
+func _electric_turret() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(ELECTRIC, Vector2i(1, 0), 1)
+	var tech := _enemy(battle, 100, 1.8)
+	tech.definition.technological = true
+	var ground := _enemy(battle, 101, 1.1)
+	_frames(battle, 480)
+	_check(tech.hp == 480 and ground.hp == 500 and state.placed[ELECTRIC.id].burst_remaining == 2, "Electric Pulse begins a three-hit burst with the rounded Technological bonus")
+	_frames(battle, 11)
+	_check(tech.hp == 480, "Electric burst hits remain separated in time")
+	battle.clock.set_speed(2)
+	_frames(battle, 1)
+	_check(tech.hp == 460 and battle.clock.tick == 493, "Second burst hit uses combat time at two-times speed")
+	battle.clock.set_speed(1)
+	_frames(battle, 11)
+	_check(tech.hp == 440 and state.placed[ELECTRIC.id].next_attack_tick == 834, "Third hit starts a 5.5-second recovery")
+	tech.distance = 7.0
+	_frames(battle, 329)
+	_check(ground.hp == 500, "Electric Pulse stays in recovery until the next burst")
+	_frames(battle, 1)
+	_check(ground.hp == 485 and state.placed[ELECTRIC.id].burst_remaining == 2, "The next burst deals 15 HP to a non-Technological target")
+
+func _canopy_launcher() -> void:
+	var battle := _encounter()
+	var state := battle.deployment
+	state.deploy(CANOPY, Vector2i(5, 2), 1)
+	var air := _enemy(battle, 100, 2.1)
+	air.definition.aerial = true
+	var near := _enemy(battle, 101, 4.8)
+	var leading := _enemy(battle, 102, 8.0)
+	_frames(battle, 540)
+	_check(air.hp == 466 and near.hp == 483 and leading.hp == 500, "Canopy centers its splash on Aerial priority with 34 aerial and 17 ground damage")
+	_check(state.placed[CANOPY.id].next_attack_tick == 750, "Canopy schedules its next attack after 3.5 combat seconds")
 
 func _encounter() -> BattleSimulation:
 	var stage := STAGE.duplicate() as BattleStage

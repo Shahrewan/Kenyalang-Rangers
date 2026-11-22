@@ -18,6 +18,8 @@ class Placement:
 	var paid_cost: int
 	var hp: int
 	var next_attack_tick := 0
+	var burst_remaining := 0
+	var burst_target := -1
 	var build_deadline: int
 	var next_payout_tick: int
 	var yield_remainder := 0

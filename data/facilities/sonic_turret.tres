@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = 3
+category = 1
+id = &"facility.sonic_turret"
+label = "Sonic Turret"
+role = 4
+recruitment_stage = &"C1-02"
+cost = 35
+max_hp = 250
+build_seconds = 7.0
+attack_range = 2
+attack_damage = 12
+attack_seconds = 2.8
+slow_speed_scale = 0.65
+slow_seconds = 1.5

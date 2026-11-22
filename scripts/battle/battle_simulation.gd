@@ -15,7 +15,7 @@ var escaped := 0
 var outcome := Outcome.RUNNING
 var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
-var facility_combat := FacilityCombat.new()
+var facility_combat: FacilityCombat
 var _enemy_combat := EnemyCombat.new()
 var wave_number := 0
 var wave_count: int:
@@ -34,6 +34,8 @@ func _init(stage: BattleStage) -> void:
 	_stage = stage
 	ranger_combat = RangerCombat.new(clock, active)
 	ranger_combat.hit.connect(_damage_enemy)
+	facility_combat = FacilityCombat.new(active)
+	facility_combat.hit.connect(_damage_enemy)
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
@@ -107,13 +109,18 @@ func _step(tick: int, seconds: float) -> void:
 		for enemy: BattleEnemy in active.values():
 			_enemy_combat.advance(enemy, deployment, tick)
 		facility_combat.advance(deployment, tick)
+		if not clock.is_running():
+			return
 		for unit: DeploymentState.Placement in deployment.placed.values():
 			if unit.spec.is_ranger():
 				ranger_combat.basic_attack(unit, deployment, tick)
 	_try_finish_wave(tick)
 
 func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:
-	seconds *= ranger_combat.movement_scale(enemy, tick)
+	var speed_scale := ranger_combat.movement_scale(enemy, tick)
+	if tick < enemy.sonic_slow_until:
+		speed_scale = minf(speed_scale, enemy.sonic_speed_scale)
+	seconds *= speed_scale
 	if deployment == null or enemy.definition.aerial:
 		return enemy.advance(seconds)
 	var next := enemy.distance + enemy.definition.tiles_per_second * seconds

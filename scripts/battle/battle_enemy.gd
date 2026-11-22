@@ -13,6 +13,8 @@ var distance := 0.0
 var focus_marked_until := 0
 var immobilized_until := 0
 var stunned_until := 0
+var sonic_slow_until := 0
+var sonic_speed_scale := 1.0
 
 func _init(enemy_definition: BattleEnemyDefinition, enemy_route: BattleRoute) -> void:
 	definition = enemy_definition

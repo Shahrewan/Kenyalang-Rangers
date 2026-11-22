@@ -1,13 +1,23 @@
 class_name FacilityCombat
 extends RefCounted
 
+signal hit(enemy_id: int, damage: int)
+
+var _enemies: Dictionary[int, BattleEnemy]
+
+func _init(enemies: Dictionary[int, BattleEnemy]) -> void:
+	_enemies = enemies
+
 func advance(deployment: DeploymentState, tick: int) -> void:
 	for unit: DeploymentState.Placement in deployment.placed.values():
-		if tick < unit.next_utility_tick:
-			continue
-		if unit.facility != null and unit.facility.work_seconds > 0.0:
-			_resource_pulse(unit, deployment, tick)
-		elif unit.ranger != null and unit.ranger.repair_hp > 0:
+		if not deployment.clock.is_running():
+			return
+		if unit.facility != null and tick >= unit.build_deadline:
+			if unit.facility.category == FacilitySpec.Category.SENTRY:
+				_fire_turret(unit, deployment, tick)
+			elif unit.facility.work_seconds > 0.0 and tick >= unit.next_utility_tick:
+				_resource_pulse(unit, deployment, tick)
+		elif unit.ranger != null and unit.ranger.repair_hp > 0 and tick >= unit.next_utility_tick:
 			_repair(unit, deployment, tick)
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState) -> String:
@@ -43,6 +53,72 @@ func _repair(unit: DeploymentState.Placement, deployment: DeploymentState, tick:
 	if not target.is_empty():
 		deployment.repair(target, unit.ranger.repair_hp)
 		unit.next_utility_tick = tick + maxi(1, CombatClock.ticks_for(unit.ranger.repair_seconds))
+
+func _fire_turret(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> void:
+	if tick < unit.next_attack_tick:
+		return
+	var spec := unit.facility
+	var targets := _turret_targets(unit, deployment)
+	if spec.role == FacilitySpec.Role.ELECTRIC_TURRET:
+		_electric_shot(unit, targets, tick)
+		return
+	if targets.is_empty():
+		return
+	unit.next_attack_tick = tick + maxi(1, CombatClock.ticks_for(spec.attack_seconds))
+	if spec.role == FacilitySpec.Role.SONIC_TURRET:
+		for id in targets:
+			var enemy := _enemies[id]
+			enemy.sonic_slow_until = tick + CombatClock.ticks_for(spec.slow_seconds)
+			enemy.sonic_speed_scale = spec.slow_speed_scale
+			hit.emit(id, spec.attack_damage)
+	elif spec.role == FacilitySpec.Role.CANOPY_LAUNCHER:
+		var center := _enemies[_leading_target(targets, true)].grid_cell()
+		for id in targets:
+			var enemy := _enemies[id]
+			var delta := (enemy.grid_cell() - center).abs()
+			if maxi(delta.x, delta.y) <= spec.splash_radius:
+				var scale := 1.0 if enemy.definition.aerial else spec.ground_damage_scale
+				hit.emit(id, roundi(spec.attack_damage * scale))
+
+func _electric_shot(unit: DeploymentState.Placement, targets: Array[int], tick: int) -> void:
+	var spec := unit.facility
+	if unit.burst_remaining == 0:
+		if targets.is_empty():
+			return
+		unit.burst_remaining = maxi(1, spec.burst_hits)
+	if unit.burst_target not in targets:
+		unit.burst_target = _leading_target(targets, false)
+	if unit.burst_target >= 0:
+		var enemy := _enemies[unit.burst_target]
+		var bonus := spec.technological_bonus_percent if enemy.definition.technological else 0
+		hit.emit(unit.burst_target, roundi(spec.attack_damage * (100 + bonus) / 100.0))
+	unit.burst_remaining -= 1
+	var interval := spec.burst_step_seconds
+	if unit.burst_remaining == 0:
+		unit.burst_target = -1
+		interval = spec.attack_seconds
+	unit.next_attack_tick = tick + maxi(1, CombatClock.ticks_for(interval))
+
+func _turret_targets(unit: DeploymentState.Placement, deployment: DeploymentState) -> Array[int]:
+	var targets: Array[int] = []
+	for id: int in _enemies:
+		var enemy := _enemies[id]
+		if deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+			targets.append(id)
+	return targets
+
+func _leading_target(targets: Array[int], prefer_aerial: bool) -> int:
+	var chosen := -1
+	var furthest := -1.0
+	var chosen_aerial := false
+	for id in targets:
+		var enemy := _enemies[id]
+		var priority := prefer_aerial and enemy.definition.aerial
+		if (priority and not chosen_aerial) or (priority == chosen_aerial and enemy.distance > furthest):
+			chosen = id
+			furthest = enemy.distance
+			chosen_aerial = priority
+	return chosen
 
 func _in_reach(center: Vector2i, radius: int, unit: DeploymentState.Placement) -> bool:
 	for cell in unit.spec.footprint(unit.anchor):
