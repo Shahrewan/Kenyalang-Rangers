@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = 3
+id = &"facility.skill_relay_station"
+label = "Skill Relay Station"
+role = 2
+chaos_threshold = 1000
+cost = 26
+max_hp = 190
+build_seconds = 6.0
+build_cooldown_seconds = 12.0
+attack_range = 2
+work_seconds = 8.0
+cooldown_reduction_seconds = 3.0

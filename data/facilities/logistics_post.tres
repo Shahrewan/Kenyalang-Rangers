@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = 3
+id = &"facility.logistics_post"
+label = "Logistics Post"
+recruitment_stage = &"C1-01"
+max_hp = 160
+logistics_post = true
+build_seconds = 6.0
+build_cooldown_seconds = 8.0

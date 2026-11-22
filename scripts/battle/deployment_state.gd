@@ -8,6 +8,9 @@ const NO_CELL := Vector2i(-1, -1)
 class Placement:
 	var spec: DeploymentSpec
 	var ranger: RangerSpec
+	var facility: FacilitySpec
+	var stock := 0
+	var next_utility_tick := 0
 	var records_enhanced: bool
 	var skill_charges := 0
 	var skill_recharge_tick := 0
@@ -26,7 +29,11 @@ class Placement:
 	func _init(definition: DeploymentSpec, cell: Vector2i, direction: int, paid: int, deadline: int, enhancements: Array[StringName]) -> void:
 		spec = definition
 		ranger = definition as RangerSpec
+		facility = definition as FacilitySpec
+		if facility != null:
+			next_utility_tick = deadline + CombatClock.ticks_for(facility.work_seconds)
 		if ranger != null:
+			next_utility_tick = deadline + CombatClock.ticks_for(ranger.repair_seconds)
 			records_enhanced = ranger.records_enhancement in enhancements
 			if ranger.active_skill != null and (not ranger.active_skill.requires_records or records_enhanced):
 				skill_charges = ranger.active_skill.max_charges
@@ -104,6 +111,12 @@ func _advance(tick: int, _seconds: float) -> void:
 func cooldown_ticks(id: StringName) -> int:
 	return maxi(0, _ready_tick.get(id, 0) - clock.tick)
 
+func reduce_deployment_cooldowns(ticks: int) -> void:
+	if not clock.is_running() or ticks <= 0:
+		return
+	for id: StringName in _ready_tick:
+		_ready_tick[id] = maxi(clock.tick, _ready_tick[id] - ticks)
+
 func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 	if not clock.is_running():
 		return "Deployment is paused."
@@ -165,6 +178,8 @@ func _release_cells(id: StringName, unit: Placement) -> void:
 	for cell in unit.spec.footprint(unit.anchor) + unit.spec.reserved(unit.anchor):
 		occupancy.erase(cell)
 	placed.erase(id)
+	if armed == id:
+		cancel_skill()
 
 func retreat(id: StringName) -> bool:
 	var unit: Placement = placed.get(id)
@@ -172,17 +187,42 @@ func retreat(id: StringName) -> bool:
 		return false
 	_release_cells(id, unit)
 	_ready_tick[id] = clock.tick + CombatClock.ticks_for(unit.spec.redeploy_seconds)
-	if armed == id:
-		cancel_skill()
 	return true
 
-func damage_ranger(id: StringName, damage: int) -> void:
+static func accepts_hit(spec: DeploymentSpec, kind: EnemyAttackProfile.Kind) -> bool:
+	if not spec.is_ranger():
+		return kind == EnemyAttackProfile.Kind.SIEGE
+	return kind != EnemyAttackProfile.Kind.SIEGE and (kind != EnemyAttackProfile.Kind.MELEE or spec.is_melee())
+
+func receive_hit(id: StringName, damage: int, kind: EnemyAttackProfile.Kind) -> bool:
 	var unit: Placement = placed.get(id)
-	if unit == null or not unit.spec.is_ranger():
-		return
+	if not clock.is_running() or damage <= 0 or unit == null or not accepts_hit(unit.spec, kind):
+		return false
 	unit.hp = maxi(0, unit.hp - damage)
 	if unit.hp == 0:
-		retreat(id)
+		if unit.spec.is_ranger():
+			retreat(id)
+		else:
+			_release_cells(id, unit)
+	return true
+
+static func accepts_repair(spec: DeploymentSpec) -> bool:
+	return not spec.is_ranger() or spec.id == &"ranger.barricade_ops"
+
+func repair(id: StringName, amount: int) -> int:
+	var unit: Placement = placed.get(id)
+	return _restore_hp(unit, amount) if unit != null and accepts_repair(unit.spec) else 0
+
+func heal_ranger(id: StringName, amount: int) -> int:
+	var unit: Placement = placed.get(id)
+	return _restore_hp(unit, amount) if unit != null and unit.spec.is_ranger() else 0
+
+func _restore_hp(unit: Placement, amount: int) -> int:
+	if not clock.is_running() or amount <= 0:
+		return 0
+	var restored := mini(amount, unit.spec.max_hp - unit.hp)
+	unit.hp += restored
+	return restored
 
 func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
@@ -230,7 +270,7 @@ func confirm_target(resolve: Callable = Callable()) -> bool:
 	last_skill_error = _skill_error(unit)
 	if not last_skill_error.is_empty():
 		return false
-	if pending_target == NO_CELL:
+	if pending_target == NO_CELL or not can_attack(unit, pending_target, false):
 		last_skill_error = "Choose a tile in range."
 		return false
 	return _activate_skill(unit, armed, pending_target, resolve)
@@ -240,6 +280,10 @@ func _skill_error(unit: Placement) -> String:
 		return "Combat is paused."
 	if unit == null or unit.spec.skill == DeploymentSpec.Skill.NONE:
 		return "No active skill available."
+	if unit.facility != null:
+		if clock.tick < unit.build_deadline:
+			return "The Facility is still building."
+		return "" if unit.stock > 0 else "The Facility has no stock ready."
 	if unit.ranger == null:
 		return ""
 	var skill := unit.ranger.active_skill
@@ -252,14 +296,17 @@ func _skill_error(unit: Placement) -> String:
 	return ""
 
 func _activate_skill(unit: Placement, id: StringName, target: Vector2i, resolve: Callable) -> bool:
-	if unit.ranger != null:
+	if unit.ranger != null or unit.facility != null:
 		if not resolve.is_valid():
 			last_skill_error = "The active skill needs a battle."
 			return false
 		last_skill_error = resolve.call(unit, target)
 		if not last_skill_error.is_empty():
 			return false
-		unit.spend_skill_charge(clock.tick)
+		if unit.facility != null:
+			unit.stock -= 1
+		else:
+			unit.spend_skill_charge(clock.tick)
 	cancel_skill()
 	skill_fired.emit(id, target)
 	return true

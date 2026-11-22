@@ -14,3 +14,4 @@ extends Resource
 @export var max_hp := 100
 @export var attack_damage := 6
 @export var attack_seconds := 1.8
+@export var attack_profile: EnemyAttackProfile

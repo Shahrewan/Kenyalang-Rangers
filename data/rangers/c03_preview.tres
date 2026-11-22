@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/data/deployment_roster.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/deployment_spec.gd" id="2"]
+[ext_resource type="Resource" path="res://data/facilities/logistics_post.tres" id="3"]
 
 [sub_resource type="Resource" id="patrolman"]
 script = ExtResource("2")
@@ -59,16 +60,6 @@ attack_range = 0
 targets_aerial = false
 skill = 0
 
-[sub_resource type="Resource" id="post"]
-script = ExtResource("2")
-id = &"facility.logistics_post"
-label = "Logistics Post"
-max_hp = 160
-kind = 3
-logistics_post = true
-build_seconds = 6.0
-build_cooldown_seconds = 8.0
-
 [sub_resource type="Resource" id="sonic"]
 script = ExtResource("2")
 id = &"facility.sonic_turret"
@@ -79,4 +70,4 @@ build_seconds = 7.0
 
 [resource]
 script = ExtResource("1")
-entries = Array[ExtResource("2")]([SubResource("patrolman"), SubResource("two_cell"), SubResource("scout"), SubResource("facility"), SubResource("sentry"), SubResource("post"), SubResource("sonic")])
+entries = Array[ExtResource("2")]([SubResource("patrolman"), SubResource("two_cell"), SubResource("scout"), SubResource("facility"), SubResource("sentry"), ExtResource("3"), SubResource("sonic")])

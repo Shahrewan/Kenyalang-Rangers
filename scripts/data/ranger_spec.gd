@@ -13,3 +13,8 @@ enum AttackPattern { SINGLE, SPLASH, FRONTAL }
 @export var records_enhancement: StringName
 @export var focused_damage_bonus_percent: int
 @export var active_skill: RangerSkill
+
+@export_group("Facility repair")
+@export var repair_hp: int
+@export var repair_seconds: float
+@export var repair_range: int

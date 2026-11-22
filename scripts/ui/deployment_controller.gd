@@ -244,8 +244,10 @@ func _retreat_ranger() -> void:
 
 func _tap_skill(id: StringName) -> void:
 	var unit := state.placed[id]
-	if unit.ranger != null:
-		if not _simulation.tap_ranger(id):
+	if unit.ranger != null or unit.facility != null:
+		if unit.spec.skill == DeploymentSpec.Skill.NONE:
+			return
+		if not _simulation.tap_unit(id):
 			_hint.text = state.last_skill_error
 			return
 	elif not preview_skills or not state.quick_tap(id):
@@ -257,7 +259,8 @@ func _confirm_skill() -> void:
 	var unit: DeploymentState.Placement = state.placed.get(state.armed)
 	if unit == null:
 		return
-	var fired := _simulation.confirm_ranger_target() if unit.ranger != null else state.confirm_target()
+	var live := unit.ranger != null or unit.facility != null
+	var fired := _simulation.confirm_skill_target() if live else state.confirm_target()
 	if not fired:
 		_hint.text = state.last_skill_error
 	_refresh()
@@ -269,6 +272,9 @@ func _cancel_skill() -> void:
 
 func _skill_fired(id: StringName, target: Vector2i) -> void:
 	var unit: DeploymentState.Placement = state.placed[id]
+	if unit.facility != null:
+		_hint.text = "Medic kit used."
+		return
 	if unit.ranger != null:
 		_hint.text = "%s used %s." % [unit.spec.label, unit.ranger.active_skill.label]
 		return
@@ -311,6 +317,8 @@ func _refresh() -> void:
 	_board.queue_redraw()
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
+	if unit.facility != null and unit.facility.role == FacilitySpec.Role.MEDIC_CABIN:
+		return "%d/%d kits" % [unit.stock, unit.facility.stock_capacity]
 	if unit.ranger == null or unit.ranger.active_skill == null:
 		return "Deployed"
 	var skill := unit.ranger.active_skill

@@ -15,6 +15,8 @@ var escaped := 0
 var outcome := Outcome.RUNNING
 var active: Dictionary[int, BattleEnemy] = {}
 var ranger_combat: RangerCombat
+var facility_combat := FacilityCombat.new()
+var _enemy_combat := EnemyCombat.new()
 var wave_number := 0
 var wave_count: int:
 	get:
@@ -61,12 +63,20 @@ func is_perfect() -> bool:
 	return outcome == Outcome.WON and escaped == 0
 
 func tap_ranger(id: StringName) -> bool:
-	return deployment != null and deployment.quick_tap(id, _use_ranger_skill)
+	return tap_unit(id)
 
 func confirm_ranger_target() -> bool:
-	return deployment != null and deployment.confirm_target(_use_ranger_skill)
+	return confirm_skill_target()
 
-func _use_ranger_skill(unit: DeploymentState.Placement, target: Vector2i) -> String:
+func tap_unit(id: StringName) -> bool:
+	return deployment != null and deployment.quick_tap(id, _use_skill)
+
+func confirm_skill_target() -> bool:
+	return deployment != null and deployment.confirm_target(_use_skill)
+
+func _use_skill(unit: DeploymentState.Placement, target: Vector2i) -> String:
+	if unit.facility != null:
+		return facility_combat.use_skill(unit, target, deployment)
 	return ranger_combat.use_skill(unit, target, deployment)
 
 func _damage_enemy(id: int, damage: int) -> void:
@@ -94,8 +104,12 @@ func _step(tick: int, seconds: float) -> void:
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
 		_spawn(tick)
 	if deployment != null:
+		for enemy: BattleEnemy in active.values():
+			_enemy_combat.advance(enemy, deployment, tick)
+		facility_combat.advance(deployment, tick)
 		for unit: DeploymentState.Placement in deployment.placed.values():
-			ranger_combat.basic_attack(unit, deployment, tick)
+			if unit.spec.is_ranger():
+				ranger_combat.basic_attack(unit, deployment, tick)
 	_try_finish_wave(tick)
 
 func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:
@@ -120,8 +134,8 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	if not blocker.is_empty():
 		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
-		if tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
-			deployment.damage_ranger(blocker, enemy.definition.attack_damage)
+		if enemy.definition.attack_profile == null and tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
+			deployment.receive_hit(blocker, enemy.definition.attack_damage, EnemyAttackProfile.Kind.MELEE)
 			enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	return enemy.advance(seconds, stop_at)
 

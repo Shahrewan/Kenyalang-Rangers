@@ -5,6 +5,9 @@ var definition: BattleEnemyDefinition
 var route: BattleRoute
 var hp: int
 var next_attack_tick := 0
+var profile_ready_tick := 0
+var aim_target: StringName
+var fire_tick := 0
 var blocked_by: StringName
 var distance := 0.0
 var focus_marked_until := 0

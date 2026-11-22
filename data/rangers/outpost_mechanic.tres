@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.outpost_mechanic"
+label = "Outpost Mechanic"
+ranger_class = 2
+recruitment_stage = &"C2-02"
+kind = 2
+cost = 16
+max_hp = 140
+attack_damage = 10
+attack_seconds = 2.2
+attack_range = 2
+targets_aerial = true
+repair_hp = 20
+repair_seconds = 3.0
+repair_range = 2
