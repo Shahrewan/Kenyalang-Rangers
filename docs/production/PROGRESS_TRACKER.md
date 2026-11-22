@@ -31,7 +31,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C15 Eleven-room HQ, 25 level-purchase tracks, shared Funds cap, v2 migration and recovery verified in Godot. 1,228 automated checks passed. Remaining raw-stat endpoints and the physical phone run are open. [C15 matrix](../qa/C15_HEADQUARTERS_MATRIX.md)
 - [~] C16 All 30 modifiers, Story selection limits and Chaos eligibility verified off-device. Godot passed 1,458 checks and produced a signed ARM64 APK. Physical Android and release overlap balance remain open. [C16 matrix](../qa/C16_MODIFIER_MATRIX.md)
 - [~] C17 Configurable Chaos, the exact 1,350-point example, qualifying settlement, shared trophy and interrupted-run recovery verified off-device. Godot passed 1,592 checks and produced a signed ARM64 APK. Physical Android and release pacing remain open. [C17 matrix](../qa/C17_CHAOS_MATRIX.md)
-- [ ] W18 Educational content research and final reviewed banks
+- [~] W18 [Education banks](W18_EDUCATION_BANKS.md) drafted and validated with 20 Outreach situations, 40 Records questions and a shared fact register. Team approval is required for C19 import. The final Records count, split and payout values remain provisional.
 - [ ] C19 Outreach and Records/Encyclopaedia modes
 - [ ] C20 Habitat Restoration, growth and milestone gates
 - [ ] W21 Production art/audio coverage and asset license checks

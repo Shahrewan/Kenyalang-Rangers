@@ -47,3 +47,11 @@ Inkscape re-exported six representative frame SVGs and a temporary S10 text edit
 ## W13 story source recovery — 22 November 2026
 
 Located the separately maintained team draft `dialog&story(test).docx` and read all seven pages. It contains five regional transitions, ten Chapter 2 briefings and both outcomes for every Chapter 2 operation. The [W13 handoff](W13_CAMPAIGN_CONTENT.md#chapter-2-source-and-adaptation) maps its pages and distinguishes the proposed adaptation and added dialogue. The internal draft remains with the narrative team. Final copy sign-off and the external educational banks remain open.
+
+## W18 education source review — 22 November 2026
+
+The PDFs, repository and available project-file search supplied design rules and sample panels. The separate finished 20-question Outreach and Records banks referenced in GDD pp. 25–27 §§ M.8–M.9 remain missing. W18 has source-checked draft replacements pending team approval. [Banks and review status](W18_EDUCATION_BANKS.md)
+
+Located the team's earlier `M.9 Habitat Restoration (Garden).docx`, referenced by GDD p. 33 § T.3. The draft's pp. 1–3 supply species names, proposed game durations and hornbill guide context. It is an internal design reference. The accepted plot, stage, checkpoint and reward rules use GDD p. 27 § M.10 and D-010. [Restoration rule](../canon/GAME_RULES.md#outreach-records-and-habitat-restoration)
+
+The [W18 fact and reference register](w18/references.json) records the evidence, locators, check date and reuse notes for education. [Art production handoff](../canon/ART_ASSET_MANIFEST.md#production-handoff) records the source and review policy for the project's assets. D-014 sign-offs remain open.
