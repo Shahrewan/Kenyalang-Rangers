@@ -8,6 +8,7 @@ const RESULTS := preload("res://scenes/menus/operation_results.tscn")
 const FIRST_CONTACT := preload("res://data/stages/c09_first_contact_operation.tres")
 const STORY_INDEX := preload("res://data/stages/story_index.tres")
 const SAMPLE_BATTLE := preload("res://scenes/battle/sample_battle.tscn")
+const MODIFIER_TRIAL := preload("res://data/stages/c16_modifier_trial.tres")
 
 @export var save_path := FirstContactProgress.DEFAULT_PATH
 @export var first_contact_trial := false
@@ -20,6 +21,7 @@ var _progress: FirstContactProgress
 var _campaign: CampaignContent
 var _campaign_progress: CampaignProgress
 var _draft: OperationPlan
+var _trial_plan: OperationPlan
 var _finance_elapsed := 0.0
 var _focused := true
 var _suspended := false
@@ -103,7 +105,12 @@ func show_menu() -> void:
 		garden.disabled = false
 		garden.text = "Reforestation"
 		garden.pressed.connect(func() -> void: _show_garden(show_menu))
-		page.get_node("Modes/Operations/Chaos/Description/Status").text = "Mode locked"
+		var chaos_card := page.get_node("Modes/Operations/Chaos/Description")
+		chaos_card.get_node("Status").hide()
+		var trial := StoryUI.action("Modifier trial")
+		trial.name = "OpenModifierTrial"
+		trial.pressed.connect(_show_trial_plan)
+		chaos_card.add_child(trial)
 		if _campaign_progress.load_status == CampaignProgress.LoadStatus.MIGRATED:
 			page.add_child(StoryUI.label(_campaign_progress.load_notice, 17, StoryUI.BEIGE))
 	_present(page, &"menu")
@@ -136,22 +143,74 @@ func _show_campaign_plan(operation: StoryOperation) -> void:
 	if not _campaign_progress.access_error(operation).is_empty():
 		show_story()
 		return
-	var profile := _profile()
-	var selection: Variant = null
 	if _draft == null or _draft.operation != operation:
 		_draft = OperationPlan.new(operation, [])
+		_draft.configure_campaign(_campaign_progress)
 	else:
-		selection = _draft.selected_ids.duplicate()
+		var selection := _draft.selected_ids.duplicate()
 		if _draft.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
 			selection.append(&"facility.logistics_post")
-	_draft.configure_campaign(_campaign_progress, selection)
+		_draft.configure_campaign(_campaign_progress, selection)
+	_render_campaign_plan()
+
+func _render_campaign_plan() -> void:
+	var operation := _draft.operation
+	var access := func() -> void: _open_headquarters(_show_campaign_plan.bind(operation))
+	_present_playable_plan(_draft, show_story, access, _start_campaign, _render_campaign_plan)
+
+func _show_trial_plan() -> void:
+	if _trial_plan == null:
+		var operation := StoryOperation.new()
+		operation.campaign_spec = true
+		operation.title = "Rainforest Chaos · Modifier trial"
+		operation.stage = MODIFIER_TRIAL
+		operation.roster = _campaign.roster
+		operation.opening_rules = LogisticsRules.new()
+		_trial_plan = OperationPlan.new(operation, [], true)
+		_trial_plan.configure_campaign(_campaign_progress)
+	else:
+		var selection := _trial_plan.selected_ids.duplicate()
+		if _trial_plan.facility_limit == 0 and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) > 0:
+			selection.append(&"facility.logistics_post")
+		_trial_plan.configure_campaign(_campaign_progress, selection)
+	_render_trial_plan()
+
+func _render_trial_plan() -> void:
+	var access := func() -> void: _open_headquarters(_show_trial_plan)
+	_present_playable_plan(_trial_plan, show_menu, access, _start_trial, _render_trial_plan)
+
+func _present_playable_plan(plan: OperationPlan, back: Callable, access: Callable, start: Callable, return_to_plan: Callable) -> void:
 	var page := PLANNING.instantiate()
-	page.plan = _draft
-	page.funds = profile.funds
-	page.back_requested.connect(show_story)
-	page.access_requested.connect(func() -> void: _open_headquarters(_show_campaign_plan.bind(operation)))
-	page.start_requested.connect(_start_campaign)
-	_present(page, &"plan")
+	page.plan = plan
+	page.funds = _campaign_progress.funds()
+	page.back_requested.connect(back)
+	page.access_requested.connect(access)
+	page.start_requested.connect(start)
+	page.modifiers_requested.connect(_show_modifier_picker.bind(plan, return_to_plan))
+	_present(page, &"plan", back)
+
+func _show_modifier_picker(plan: OperationPlan, back: Callable) -> void:
+	var page := ModifierPicker.new()
+	page.plan = plan
+	page.back_requested.connect(back)
+	_present(page, &"modifiers", back)
+
+func _start_trial() -> void:
+	if _trial_plan == null or not _trial_plan.can_start():
+		return
+	var page := SAMPLE_BATTLE.instantiate() as BattleScene
+	page.operation_plan = _trial_plan
+	page.stage = _trial_plan.resolved().stage
+	page.sandbox = true
+	page.sandbox_title = "Modifier trial"
+	page.sandbox_legend = "Placeholder board art"
+	page.sandbox_return_label = "Back to plan"
+	var controller := page.get_node("%DeploymentController")
+	controller.roster = _trial_plan.operation.roster
+	controller.records_enhancements = _campaign_progress.records_enhancements()
+	page.sandbox_exit_requested.connect(_render_trial_plan)
+	page.abandon_requested.connect(_render_trial_plan)
+	_present(page, &"sample", _render_trial_plan)
 
 func _open_headquarters(back: Callable) -> void:
 	_headquarters_return = back
@@ -231,6 +290,7 @@ func _show_settings(back: Callable) -> void:
 	page.reset_requested.connect(func() -> void:
 		if _campaign_progress.reset_profile():
 			_draft = null
+			_trial_plan = null
 			show_naming()
 		else:
 			page.show_error()
@@ -249,7 +309,7 @@ func _start_campaign() -> void:
 	page.progress = _campaign_progress
 	page.content = _campaign
 	page.campaign = true
-	page.stage = _draft.operation.stage
+	page.stage = _draft.resolved().stage
 	page.operation_plan = _draft
 	var controller := page.get_node("%DeploymentController")
 	controller.roster = _draft.operation.roster
@@ -287,7 +347,7 @@ func show_first_contact() -> void:
 	var page := SAMPLE_BATTLE.instantiate() as BattleScene
 	page.campaign = true
 	page.operation_plan = _draft
-	page.stage = _draft.operation.stage
+	page.stage = _draft.resolved().stage
 	page.save_path = save_path
 	page.abandon_requested.connect(show_planning)
 	page.operation_finished.connect(_show_results, CONNECT_DEFERRED)

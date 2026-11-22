@@ -213,3 +213,23 @@ adb install -r build/android/kenyalang-rangers-c15-debug.apk
 5. Use a disposable QA profile to open **Settings → Reset local progress**. Cancel first. Verify the profile is still present, then confirm on the disposable profile and check that a cold restart opens naming. Record the APK hash, phone model, Android version, density, cutout and observations.
 
 The C15 development APK passed host-side package and resource checks. Physical install and signed-update continuity await a connected phone. [C15 verification matrix](../docs/qa/C15_HEADQUARTERS_MATRIX.md)
+
+## C16 modifier phone check
+
+Use the pinned toolchain above and a USB-connected ARM64 Android 9 or later phone. Enable USB debugging and accept the authorization prompt. Run these commands on the connected PC from the repository root.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c16-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c16-debug.apk
+```
+
+1. Open **Kenyalang Rangers (Dev)** in airplane mode. Use a QA profile with Mechanical built and the ordinary Logistics Post equipped. Unlock B01 and B02 with R&D Eco Lv.3, and B13 and B15 with R&D Crisis Lv.5. Open **Rainforest Chaos → Modifier trial → Edit modifiers**.
+2. Select B01 in **R&D buffs** and D05 in **Debuffs**. Back in R&D buffs, scroll to B13 and check the conflict message. Return to planning, check **120 Tokens** and the effective slot count with the Post excluded, then start. Confirm the field tray has no Post. When the entry outline appears, pause and confirm the forecast and wave hold. Resume and place a Ranger by touch. Check the picker, field and pause controls in both landscape orientations.
+3. Return to the plan, clear D05, and combine B13 and B15 with a Post. Check for 35 opening Tokens, then place a Lv.1 Post to verify the 9-Token payout per 10 combat seconds. With Guard Veteran or Medic Cabin equipped, try an available active by touch and check the disabled message.
+4. Compare two runs with Sonic Turret and a Post equipped. Select D09 and D10 in one run. Place the first Post at `(8, 0)` and Sonic Turret beside the entrance at `(1, 0)`. Check that the Post stays instant and Sonic's build grows from seven to 8.75 combat seconds. Watch the first Demolitionist in Wave 2 deal 60 HP normally or 75 with D09. Toggle B02 and D14 to compare Heat when Ignition Operator is active.
+5. In **Story Mode**, open a Chapter 1 and an unlocked Chapter 2 operation. Check their fixed debuffs and one- and two-buff limits. Verify that B02 is ineligible on First Contact. Record the installed APK hash, device model, Android version, density, cutout, touch results and whether offline launch succeeded. [C16 matrix](../docs/qa/C16_MODIFIER_MATRIX.md)
+
+The C16 APK passed host-side package, resource and UI checks. Installation awaits a connected physical phone.

@@ -63,10 +63,10 @@ func _debuffs(content: CampaignContent) -> void:
 	var early := content.operation(&"C1-01")
 	var e01 := early.stage.waves[0].groups[0].enemy
 	var pursuit := _enemy(content.operation(&"C1-02"), &"E01")
-	var tough := CampaignDebuffs.enemy(e01, [&"D08"])
+	var tough := BattleModifiers.new([&"D08"]).enemy(e01)
 	_check(is_equal_approx(pursuit.tiles_per_second, e01.tiles_per_second * 1.10) and tough.max_hp == 115, "D02 speed and D08 HP derive from the base enemy")
 	var scout := _unit(content, &"ranger.scout_sniper") as RangerSpec
-	var modified := CampaignDebuffs.deployable(scout, [&"D03", &"D04", &"D12"]) as RangerSpec
+	var modified := BattleModifiers.new([&"D03", &"D04", &"D12"]).deployable(scout) as RangerSpec
 	_check(modified.max_hp == roundi(scout.max_hp * 0.85) and modified.cost == 14 and is_equal_approx(modified.active_skill.recharge_seconds, scout.active_skill.recharge_seconds * 1.2), "D03, D04 and D12 apply through the effective Ranger definition")
 	_check(scout.cost == 12 and modified.active_skill != scout.active_skill, "Campaign effects preserve the base kit")
 	var smoke := _enemy(content.operation(&"C2-01"), &"E06")
@@ -75,20 +75,20 @@ func _debuffs(content: CampaignContent) -> void:
 	var drone := _enemy(content.operation(&"C2-03"), &"E08")
 	var base_drone := _enemy(content.operation(&"C2-04"), &"E08")
 	_check(drone != null and base_drone != null and is_equal_approx(drone.tiles_per_second, base_drone.tiles_per_second * 1.25), "D11 affects aerial movement")
-	_check(content.operation(&"C2-03").stage.waves[0].rest_after_seconds == 12.0 and content.operation(&"C2-04").stage.waves[0].groups[0].interval_seconds == 1.6, "D07 and D13 scale authored rests and group intervals")
+	_check(_effective_stage(content.operation(&"C2-03")).waves[0].rest_after_seconds == 12.0 and _effective_stage(content.operation(&"C2-04")).waves[0].groups[0].interval_seconds == 1.6, "D07 and D13 scale authored rests and group intervals")
 	var siege := _enemy(content.operation(&"C2-02"), &"E11")
 	var normal_siege := CampaignContent.ENEMIES.entries.filter(func(entry: BattleEnemyDefinition) -> bool: return entry.enemy_id == &"E11")[0] as BattleEnemyDefinition
 	_check(siege.is_siege_capable() and siege.attack_damage == roundi(normal_siege.attack_damage * 1.25), "D09 modifies only the Siege-capable definition")
 	var cabin := _unit(content, &"facility.medic_cabin")
-	var slow := CampaignDebuffs.deployable(cabin, [&"D10"])
+	var slow := BattleModifiers.new([&"D10"]).deployable(cabin)
 	_check(is_equal_approx(slow.build_seconds, cabin.build_seconds * 1.25), "D10 modifies timed construction")
 	var late := content.operation(&"C2-09")
-	var ordinary := late.stage.waves[0].groups[0].enemy
+	var ordinary := _effective_stage(late).waves[0].groups[0].enemy
 	_check(ordinary.escape_penalty == 15 and _enemy(late, &"E15").escape_causes_defeat, "D15 rounds ordinary loss and preserves fatal E15")
 	var key := &"C2-07"
 	for operation in content.operations:
 		var is_heat := operation.stage.stage_id in [key, &"C2-08"]
-		_check(operation.has_heat == is_heat and is_equal_approx(operation.stage.heat_gain_scale, 1.3 if is_heat else 1.0), "%s has correct D14 and Heat visibility" % operation.stage.stage_id)
+		_check(operation.has_heat == is_heat and is_equal_approx(_effective_stage(operation).heat_gain_scale, 1.3 if is_heat else 1.0), "%s has correct D14 and Heat visibility" % operation.stage.stage_id)
 
 func _openings(content: CampaignContent) -> void:
 	var profile := CampaignProgress.new(_path)
@@ -97,7 +97,7 @@ func _openings(content: CampaignContent) -> void:
 	var plan := OperationPlan.new(first, [])
 	plan.configure_campaign(profile)
 	_check(plan.deployment_entries().size() == 3 and plan.can_start() and plan.selected_ids.is_empty(), "C1-01 supplies three cards outside regular slots")
-	var rules := first.opening_rules
+	var rules := plan.resolved().opening
 	var state := DeploymentState.new(first.stage.map, CombatClock.new(), 0, rules)
 	var post := _unit(content, &"facility.logistics_post")
 	_check(state.deploy(post, Vector2i(1, 0), 1).is_empty() and state.placed[&"facility.logistics_post#1"].build_deadline == 0, "Starter Post deploys free and instantly on a legal pair")
@@ -176,11 +176,14 @@ func _medic(content: CampaignContent) -> void:
 	_check(ally.hp == patrol.max_hp - 60 + medic.heal_hp, "Combat Medic restores nearby Ranger HP on the shared clock")
 
 func _enemy(operation: StoryOperation, id: StringName) -> BattleEnemyDefinition:
-	for wave in operation.stage.waves:
+	for wave in _effective_stage(operation).waves:
 		for group in wave.groups:
 			if group.enemy.enemy_id == id:
 				return group.enemy
 	return null
+
+func _effective_stage(operation: StoryOperation) -> BattleStage:
+	return BattleModifiers.new(operation.fixed_debuff_ids).stage(operation.stage)
 
 func _unit(content: CampaignContent, id: StringName) -> DeploymentSpec:
 	for spec in content.roster.entries:

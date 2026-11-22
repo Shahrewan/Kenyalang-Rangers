@@ -5,10 +5,6 @@ signal back_requested
 signal activity_requested(room: HeadquartersRoom)
 
 const UNLOCK_LABELS := {
-	"B01": "Trail Reconnaissance", "B02": "Fireline Preparation", "B03": "Visibility Sweep", "B04": "Safe Extraction Plan",
-	"B05": "Tranquilizer Calibration", "B06": "Rapid Response Drills", "B07": "Skill Coordination", "B08": "Exploit Weakness",
-	"B09": "Field Endurance", "B10": "Improved First Aid", "B11": "Reinforced Positions", "B12": "Brace Training",
-	"B13": "Emergency Requisition", "B14": "High-Stakes Intervention", "B15": "Silent Mobilization",
 	"records_chapter.scout_sniper": "Scout Sniper · Steady Aim",
 	"records_chapter.patrolman": "Patrolman · Reinforced Patrol",
 	"records_chapter.combat_medic": "Combat Medic · Emergency Treatment",
@@ -143,7 +139,8 @@ func _unlock_summary(ids: PackedStringArray) -> String:
 	var labels := PackedStringArray()
 	for id in ids:
 		var label: String = UNLOCK_LABELS.get(id, id)
-		labels.append("%s · %s" % [id, label] if id.begins_with("B") else label)
+		var modifier := BattleModifiers.CATALOG.definition(StringName(id))
+		labels.append("%s · %s" % [id, modifier.display_name] if modifier != null else label)
 	return "" if labels.is_empty() else "\n" + "\n".join(labels)
 
 func _process(_delta: float) -> void:

@@ -34,7 +34,8 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 	var reduction := CombatClock.ticks_for(spec.cooldown_reduction_seconds)
 	match spec.role:
 		FacilitySpec.Role.MEDIC_CABIN, FacilitySpec.Role.SPECIALIST_CALLTOWER:
-			unit.stock = mini(spec.stock_capacity, unit.stock + 1)
+			if deployment.effects.amount(&"disable_skills") == 0:
+				unit.stock = mini(spec.stock_capacity, unit.stock + 1)
 		FacilitySpec.Role.SKILL_RELAY:
 			for ally: DeploymentState.Placement in deployment.placed.values():
 				if ally.skill_recharge_tick > tick and _in_reach(unit.anchor, spec.attack_range, ally):
@@ -67,15 +68,19 @@ func heat_multiplier(deployment: DeploymentState, tick: int) -> float:
 func attack_interval(deployment: DeploymentState, unit: DeploymentState.Placement, tick: int) -> int:
 	var base := CombatClock.ticks_for(unit.spec.attack_seconds)
 	var rate := unit.attack_rate(tick)
+	if unit.spec.is_ranger() and unit.spec.attack_damage > 0:
+		rate *= deployment.effects.scale(&"ranger_attack_rate_percent")
 	var hub := _zone(deployment, FacilitySpec.Role.COORDINATION_HUB, unit.spec.footprint(unit.anchor), tick)
 	if hub != null:
 		rate *= (100 + maxi(0, hub.attack_rate_bonus_percent)) / 100.0
 	return maxi(1, ceili(base / rate))
 
 func enemy_damage(deployment: DeploymentState, enemy: BattleEnemy, target: DeploymentState.Placement, tick: int) -> int:
-	var disrupt := _zone(deployment, FacilitySpec.Role.DISRUPTION, [enemy.grid_cell()], tick)
+	var disrupt := disruption_at(deployment, enemy.grid_cell(), tick)
 	var cover := _zone(deployment, FacilitySpec.Role.REINFORCED_COVER, target.spec.footprint(target.anchor), tick)
 	var factor := 1.0
+	if target.spec.is_ranger() and target.blocking_count > 0:
+		factor *= deployment.effects.scale(&"blocking_damage_percent")
 	if disrupt != null:
 		factor *= clampf(1.0 - disrupt.outgoing_reduction_percent / 100.0, 0.0, 1.0)
 	if cover != null:
@@ -83,8 +88,11 @@ func enemy_damage(deployment: DeploymentState, enemy: BattleEnemy, target: Deplo
 	return roundi(enemy.definition.attack_damage * factor)
 
 func ability_delay(deployment: DeploymentState, cell: Vector2i, tick: int) -> int:
-	var disrupt := _zone(deployment, FacilitySpec.Role.DISRUPTION, [cell], tick)
+	var disrupt := disruption_at(deployment, cell, tick)
 	return maxi(0, CombatClock.ticks_for(disrupt.ability_delay_seconds)) if disrupt != null else 0
+
+func disruption_at(deployment: DeploymentState, cell: Vector2i, tick: int) -> FacilitySpec:
+	return _zone(deployment, FacilitySpec.Role.DISRUPTION, [cell], tick)
 
 func _zone(deployment: DeploymentState, role: FacilitySpec.Role, cells: Array[Vector2i], tick: int) -> FacilitySpec:
 	for unit: DeploymentState.Placement in deployment.placed.values():

@@ -1,0 +1,278 @@
+[gd_resource type="Resource" script_class="ModifierCatalog" load_steps=33 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/modifier_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/battle_modifier.gd" id="2"]
+
+[sub_resource type="Resource" id="B01"]
+script = ExtResource("2")
+id = &"B01"
+display_name = "Trail Reconnaissance"
+description = "Warns of entry points up to 5 combat seconds before a wave."
+chaos_points = -100
+applies_to = 0
+effects = Dictionary[StringName, float]({&"recon_seconds": 5.0})
+
+[sub_resource type="Resource" id="B02"]
+script = ExtResource("2")
+id = &"B02"
+display_name = "Fireline Preparation"
+description = "Heat buildup −25%."
+chaos_points = -100
+applies_to = 1
+effects = Dictionary[StringName, float]({&"heat_gain_percent": -25.0})
+
+[sub_resource type="Resource" id="B03"]
+script = ExtResource("2")
+id = &"B03"
+display_name = "Visibility Sweep"
+description = "Reveal concealed enemies for 3 combat seconds after they spawn."
+chaos_points = -100
+applies_to = 2
+effects = Dictionary[StringName, float]({&"reveal_seconds": 3.0})
+
+[sub_resource type="Resource" id="B04"]
+script = ExtResource("2")
+id = &"B04"
+display_name = "Safe Extraction Plan"
+description = "Ordinary escape Integrity loss −25%, minimum 1. Escapes still count."
+chaos_points = -100
+applies_to = 3
+effects = Dictionary[StringName, float]({&"escape_reduction_percent": -25.0})
+
+[sub_resource type="Resource" id="B05"]
+script = ExtResource("2")
+id = &"B05"
+display_name = "Tranquilizer Calibration"
+description = "Ranger attack damage +10%."
+chaos_points = -100
+applies_to = 4
+effects = Dictionary[StringName, float]({&"ranger_damage_percent": 10.0})
+
+[sub_resource type="Resource" id="B06"]
+script = ExtResource("2")
+id = &"B06"
+display_name = "Rapid Response Drills"
+description = "Ranger auto-attack speed +12%."
+chaos_points = -100
+applies_to = 5
+effects = Dictionary[StringName, float]({&"ranger_attack_rate_percent": 12.0})
+
+[sub_resource type="Resource" id="B07"]
+script = ExtResource("2")
+id = &"B07"
+display_name = "Skill Coordination"
+description = "Active skill cooldown recovery +20%."
+chaos_points = -100
+applies_to = 6
+effects = Dictionary[StringName, float]({&"skill_recovery_percent": 20.0})
+
+[sub_resource type="Resource" id="B08"]
+script = ExtResource("2")
+id = &"B08"
+display_name = "Exploit Weakness"
+description = "Damage +20% against a target with an active negative effect or mark. Applies once per hit."
+chaos_points = -200
+applies_to = 7
+effects = Dictionary[StringName, float]({&"weakness_damage_percent": 20.0})
+
+[sub_resource type="Resource" id="B09"]
+script = ExtResource("2")
+id = &"B09"
+display_name = "Field Endurance"
+description = "Ranger maximum HP +15%."
+chaos_points = -100
+applies_to = 8
+effects = Dictionary[StringName, float]({&"ranger_hp_percent": 15.0})
+
+[sub_resource type="Resource" id="B10"]
+script = ExtResource("2")
+id = &"B10"
+display_name = "Improved First Aid"
+description = "Rangers receive 20% more healing."
+chaos_points = -100
+applies_to = 9
+effects = Dictionary[StringName, float]({&"healing_percent": 20.0})
+
+[sub_resource type="Resource" id="B11"]
+script = ExtResource("2")
+id = &"B11"
+display_name = "Reinforced Positions"
+description = "Rangers take 12% less damage while blocking an enemy."
+chaos_points = -100
+applies_to = 10
+effects = Dictionary[StringName, float]({&"blocking_damage_percent": -12.0})
+
+[sub_resource type="Resource" id="B12"]
+script = ExtResource("2")
+id = &"B12"
+display_name = "Brace Training"
+description = "Ignore the first enemy Knockdown per Ranger deployment."
+chaos_points = -100
+applies_to = 11
+effects = Dictionary[StringName, float]({&"brace_charges": 1.0})
+
+[sub_resource type="Resource" id="B13"]
+script = ExtResource("2")
+id = &"B13"
+display_name = "Emergency Requisition"
+description = "Start with 35 more Tokens. Logistics Post yield −30%."
+chaos_points = -200
+applies_to = 12
+effects = Dictionary[StringName, float]({&"opening_tokens": 35.0, &"post_yield_percent": -30.0})
+
+[sub_resource type="Resource" id="B14"]
+script = ExtResource("2")
+id = &"B14"
+display_name = "High-Stakes Intervention"
+description = "Ranger damage +30%. Ranger maximum HP −25%."
+chaos_points = -200
+applies_to = 4
+effects = Dictionary[StringName, float]({&"ranger_damage_percent": 30.0, &"ranger_hp_percent": -25.0})
+
+[sub_resource type="Resource" id="B15"]
+script = ExtResource("2")
+id = &"B15"
+display_name = "Silent Mobilization"
+description = "Redeploy cooldown −35%. Post yield +20%. Active skills are disabled."
+chaos_points = -200
+applies_to = 13
+effects = Dictionary[StringName, float]({&"redeploy_percent": -35.0, &"post_yield_percent": 20.0, &"disable_skills": 1.0})
+
+[sub_resource type="Resource" id="D01"]
+script = ExtResource("2")
+id = &"D01"
+display_name = "Thin Supply Line"
+description = "Logistics Post yield −10%."
+chaos_points = 100
+applies_to = 14
+effects = Dictionary[StringName, float]({&"post_yield_percent": -10.0})
+
+[sub_resource type="Resource" id="D02"]
+script = ExtResource("2")
+id = &"D02"
+display_name = "Urgent Pursuit"
+description = "All enemy movement speed +10%."
+chaos_points = 100
+applies_to = 15
+effects = Dictionary[StringName, float]({&"enemy_speed_percent": 10.0})
+
+[sub_resource type="Resource" id="D03"]
+script = ExtResource("2")
+id = &"D03"
+display_name = "Field Fatigue"
+description = "Ranger maximum HP −15%."
+chaos_points = 100
+applies_to = 8
+effects = Dictionary[StringName, float]({&"ranger_hp_percent": -15.0})
+
+[sub_resource type="Resource" id="D04"]
+script = ExtResource("2")
+id = &"D04"
+display_name = "Radio Static"
+description = "Active skill cooldown durations +20%."
+chaos_points = 100
+applies_to = 6
+effects = Dictionary[StringName, float]({&"skill_duration_percent": 20.0})
+
+[sub_resource type="Resource" id="D05"]
+script = ExtResource("2")
+id = &"D05"
+display_name = "Fixed Stockpile"
+description = "Start with exactly 120 Tokens. Logistics Posts are unavailable."
+chaos_points = 200
+applies_to = 16
+effects = Dictionary[StringName, float]({&"fixed_stockpile": 1.0})
+
+[sub_resource type="Resource" id="D06"]
+script = ExtResource("2")
+id = &"D06"
+display_name = "Persistent Concealment"
+description = "Enemy smoke lasts 2 extra combat seconds."
+chaos_points = 100
+applies_to = 17
+effects = Dictionary[StringName, float]({&"smoke_seconds": 2.0})
+
+[sub_resource type="Resource" id="D07"]
+script = ExtResource("2")
+id = &"D07"
+display_name = "Limited Respite"
+description = "Rest between waves −40%."
+chaos_points = 100
+applies_to = 18
+effects = Dictionary[StringName, float]({&"wave_rest_percent": -40.0})
+
+[sub_resource type="Resource" id="D08"]
+script = ExtResource("2")
+id = &"D08"
+display_name = "Toughened Crew"
+description = "Enemy maximum HP +15%."
+chaos_points = 100
+applies_to = 15
+effects = Dictionary[StringName, float]({&"enemy_hp_percent": 15.0})
+
+[sub_resource type="Resource" id="D09"]
+script = ExtResource("2")
+id = &"D09"
+display_name = "High-Impact Siege"
+description = "Siege damage to Facilities +25%."
+chaos_points = 200
+applies_to = 19
+effects = Dictionary[StringName, float]({&"siege_damage_percent": 25.0})
+
+[sub_resource type="Resource" id="D10"]
+script = ExtResource("2")
+id = &"D10"
+display_name = "Delayed Construction"
+description = "Facility construction duration +25%. The first free Post stays instant."
+chaos_points = 100
+applies_to = 20
+effects = Dictionary[StringName, float]({&"build_time_percent": 25.0})
+
+[sub_resource type="Resource" id="D11"]
+script = ExtResource("2")
+id = &"D11"
+display_name = "Aerial Tailwind"
+description = "Aerial enemy movement speed +25%."
+chaos_points = 100
+applies_to = 21
+effects = Dictionary[StringName, float]({&"aerial_speed_percent": 25.0})
+
+[sub_resource type="Resource" id="D12"]
+script = ExtResource("2")
+id = &"D12"
+display_name = "Strained Logistics"
+description = "Ranger Token costs +10%, rounded up."
+chaos_points = 100
+applies_to = 22
+effects = Dictionary[StringName, float]({&"ranger_cost_percent": 10.0})
+
+[sub_resource type="Resource" id="D13"]
+script = ExtResource("2")
+id = &"D13"
+display_name = "Compressed Arrivals"
+description = "Time between scheduled arrivals −20%."
+chaos_points = 200
+applies_to = 23
+effects = Dictionary[StringName, float]({&"spawn_interval_percent": -20.0})
+
+[sub_resource type="Resource" id="D14"]
+script = ExtResource("2")
+id = &"D14"
+display_name = "Heat Surge"
+description = "Heat buildup +30%."
+chaos_points = 200
+applies_to = 1
+effects = Dictionary[StringName, float]({&"heat_gain_percent": 30.0})
+
+[sub_resource type="Resource" id="D15"]
+script = ExtResource("2")
+id = &"D15"
+display_name = "Critical Escape"
+description = "Ordinary escape Integrity loss +50%, rounded up."
+chaos_points = 200
+applies_to = 3
+effects = Dictionary[StringName, float]({&"escape_increase_percent": 50.0})
+
+[resource]
+script = ExtResource("1")
+entries = Array[ExtResource("2")]([SubResource("B01"), SubResource("B02"), SubResource("B03"), SubResource("B04"), SubResource("B05"), SubResource("B06"), SubResource("B07"), SubResource("B08"), SubResource("B09"), SubResource("B10"), SubResource("B11"), SubResource("B12"), SubResource("B13"), SubResource("B14"), SubResource("B15"), SubResource("D01"), SubResource("D02"), SubResource("D03"), SubResource("D04"), SubResource("D05"), SubResource("D06"), SubResource("D07"), SubResource("D08"), SubResource("D09"), SubResource("D10"), SubResource("D11"), SubResource("D12"), SubResource("D13"), SubResource("D14"), SubResource("D15")])

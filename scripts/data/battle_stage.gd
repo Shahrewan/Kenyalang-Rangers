@@ -13,6 +13,8 @@ extends Resource
 @export var capture_boss_id: StringName
 @export var waves: Array[BattleWave]
 
+var modifier_ids: Array[StringName] = []
+
 func enemy_count() -> int:
 	var count := 0
 	for wave in waves:

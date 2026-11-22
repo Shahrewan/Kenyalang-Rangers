@@ -9,7 +9,7 @@ extends Resource
 @export var ranger_ids: Array[StringName]
 @export var supply_ids: Array[StringName]
 @export var fixed_debuff: String
-@export var buff_choices: Array[PlanningBuff]
+@export var buff_ids: Array[StringName]
 @export var has_heat := false
 @export var campaign_spec := false
 @export var prerequisite: StringName

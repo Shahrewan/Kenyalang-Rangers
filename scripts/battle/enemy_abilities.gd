@@ -81,8 +81,11 @@ func _apply(enemy: BattleEnemy, ability: EnemyAbility, deployment: DeploymentSta
 			_interrupt(deployment, id)
 		EnemyAbility.Effect.KNOCKDOWN:
 			if unit.spec.id != &"ranger.barricade_ops":
-				unit.knocked_down_until = maxi(unit.knocked_down_until, until)
-				_interrupt(deployment, id)
+				if unit.brace_charges > 0:
+					unit.brace_charges -= 1
+				else:
+					unit.knocked_down_until = maxi(unit.knocked_down_until, until)
+					_interrupt(deployment, id)
 
 func _interrupt(deployment: DeploymentState, id: StringName) -> void:
 	if deployment.armed == id:

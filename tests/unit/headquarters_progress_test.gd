@@ -170,7 +170,7 @@ func _leveling() -> void:
 	for i in LogisticsRules.PAYOUT_TICKS:
 		state.clock.advance_frame()
 	_check(state.tokens == 15, "A deployed Lv.100 Post yields exactly 15 after ten combat seconds")
-	_check(plan.select_buff(plan.operation.buff_choices[2]), "R&D Combat Lv.2 unlocks the playable B05 effect")
+	_check(plan.set_modifier(BattleModifiers.CATALOG.definition(&"B05"), true), "R&D Combat Lv.2 unlocks the playable B05 effect")
 	plan = OperationPlan.new(content.operation(&"C1-01"), [])
 	plan.configure_campaign(profile)
 	chosen = plan.deployment_entries().filter(func(spec: DeploymentSpec) -> bool: return spec.logistics_post)
