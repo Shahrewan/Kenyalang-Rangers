@@ -196,6 +196,7 @@ Downstream catalogs may use deterministic tests for dependencies pending integra
 
 ### KR-29 · Reviewed educational content banks
 
+- [W18 draft review](W18_EDUCATION_BANKS.md) has the validated banks, source register and approval status.
 - Supply and review the final **20** distinct Outreach prompts, four graded answers and explanations each, and the final four-chapter Records bank with explanations and provenance. Associate facts with referenced sources and approved Restoration discoveries. Preserve the distinction between the provisional ~40 Records questions and the final count.
 - Verify every content record is attributable and selectable in its correct mode. Ensure no production item is a recycled unreviewed storyboard sample. Check approved factual wording and protection of sensitive nest locations.
 - **Evidence.** GDD pp. 25–27, 29–33 §§ M.8–10, P, R, S.2, T.3–4; UI pp. 10–11, 77–88, 95, 102. Gates D-004, D-014, D-016.

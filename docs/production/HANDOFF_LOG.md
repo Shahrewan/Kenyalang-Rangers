@@ -146,3 +146,9 @@
 - The composer uses the six approved boards and existing enemy catalog. It clamps five independent wave slots, skips empty slots and shows the live score, qualifying Funds and trophy preview beside wave or loadout edits. The worked Mulu fixture gives 1,350 Medal Score and 54,000 Funds.
 - Real combat settles the frozen score. One profile commit pays Funds, applies the cap, grants newly reached Facilities and updates the best. Registered escapes and defeat forfeit settlement. Relaunch after an interruption recovers the configuration at planning.
 - Godot import, startup and 1,592 checks across 20 runners passed. Linux pointer play verified a mixed cap and a 200-Funds victory. The signed ARM64 export passed host-side package and gameplay checks. Physical installation and touch remain open. [C17 verification](../qa/C17_CHAOS_MATRIX.md)
+
+## W18 Education banks — 2026-11-22
+
+- Located the team's early Restoration brief. Finished Outreach and Records sources remain missing from the available material. Draft revision 1 supplies 20 four-choice Outreach situations, 40 four-choice Records questions, 20 facts, five proposed Garden fact links and 32 referenced publications. Each answer has a rationale or explanation. [W18 handoff](W18_EDUCATION_BANKS.md)
+- `python3 docs/production/w18/validate.py` passed the three schemas, reference and ID checks, four chapter-to-Ranger bindings, 480 Outreach permutations and numeric location scan. Editorial review checked source scope and location clues. Pinned Godot 4.7.2 editor import, headless startup and 1,592 existing checks across 20 runners passed on C17.
+- The mode reviewer and project owner need to approve the bank revision before C19 imports it. Records count and split, final education payouts and new on-device quiz checks remain open. [D-004, D-014 and D-016](../canon/DECISION_LOG.md#open-decisions)
