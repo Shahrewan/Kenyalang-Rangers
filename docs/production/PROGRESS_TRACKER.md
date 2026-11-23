@@ -38,6 +38,6 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [x] W21 [Production asset audit](W21_PRODUCTION_ASSET_AUDIT.md) maps all 116 frames, verifies asset availability and assigns every observed placeholder to one of 15 tickets. Art/audio replacement, rights sign-off and on-device validation carry into C22–C24.
 - [~] C22 Source audit corrected pause navigation, text presets, placement feedback, reference credits, dialogue and the Chaos cap preview. Physical Android and release content review remain open. [C22 source audit](../qa/C22_SOURCE_AUDIT.md)
 - [~] C23 Host regression and interrupted-save recovery passed. The 60-day ledger exposes the Garden shortfall and repeatable Chaos pacing. The 50-enemy ARM64 benchmark is ready. Physical Android frame time, five field kits and content/balance decisions remain open. [C23 audit and evidence](../qa/C23_SYSTEM_AUDIT.md)
-- [ ] C24 Android signing, APK, install/benchmark/release checklist
+- [~] C24 Internal RC1 release-template APK exported and verified with the development signer. Packaged host gameplay and C23 save continuity passed. Physical install, full phone playthrough, final identity, artwork and content clearance remain open. [Sign-off](../qa/C24_RELEASE_SIGNOFF.md)
 
 For each row add: owner, Git commit, actual automated test log, manual Android verification, known issues, acceptance sign-off date. These are milestones, NOT estimates of equal development effort.

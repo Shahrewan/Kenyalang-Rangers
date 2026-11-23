@@ -193,3 +193,8 @@
 - Implementation `1780f08` passed 1,975 checks in 28 runners, including the repeatable dense-wave, save failure and catalog checks. The process-kill test and two identical 60-day ledgers passed separately.
 - The reference budget funds the 24.16M target on day 58 with staged spending. The installed-content schedule earns 6,363,600. Garden has a 4.71M upper bound and a three-enemy Chaos setup earns 41,200 per clear. Balance proposals await owner review.
 - The signed standalone benchmark runs from a separate Android package. Three Linux runs measured 42.47–50.78 FPS. ADB listed zero devices. The release gate awaits actual candidate phone results. [Audit, evidence and open gates](../qa/C23_SYSTEM_AUDIT.md)
+
+## C24 Android candidate — 2026-11-23
+
+- Built RC1 from `19cdf2a` for private testing. Version code 2 shares the development identity and signing certificate with C23 code 1. Release-template libraries, package settings, signatures, alignment, offline permissions and asset selection were checked.
+- The clean project passed 1,977 assertions. Packaged host tests covered Story, bosses, HQ, Chaos and Garden, with fresh and cross-version save rehearsals. Physical Android and owner release sign-off remain open. [Candidate, evidence and checklist](../qa/C24_RELEASE_SIGNOFF.md)

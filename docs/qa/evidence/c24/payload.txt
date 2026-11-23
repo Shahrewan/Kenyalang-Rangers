@@ -1,0 +1,12 @@
+boot PASS
+campaign_story_test Campaign story: 249 checks, 0 failures
+headquarters_ui_test Headquarters UI: 40 checks, 0 failures
+chaos_rules_test Chaos rules: 94 checks, 0 failures
+chaos_ui_test Chaos UI: 43 checks, 0 failures
+restoration_rules_test Restoration rules: 95 checks, 0 failures
+fresh-seed 10 checks
+fresh-resume 5 checks
+fresh-verify 2 checks
+update-seed 10 checks
+update-resume 5 checks
+update-verify 2 checks

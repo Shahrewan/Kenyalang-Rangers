@@ -1,0 +1,28 @@
+{
+  "source_commit": "19cdf2a5e6119261304581c2a30df4da03a64856",
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "templates": "4.7.2.stable",
+  "package": "com.shahrewan.kenyalangrangers.dev",
+  "version_code": 2,
+  "version_name": "0.1.0-rc.1",
+  "icon": "res://assets/placeholders/dev_icon.png",
+  "unsigned_apk": "com.shahrewan.kenyalangrangers.dev-0.1.0-rc.1-2-unsigned.apk",
+  "unsigned_sha256": "4c2374ef3da41932bbc7b2ed6a9eb65f4f4f9b4ca7eb9a23baaeddb9e3894688",
+  "signed_apk": "kenyalang-rangers-0.1.0-rc.1-internal.apk",
+  "signed_sha256": "655473bf4a97758d16e0e1688e4103e598c62e4e938bfc8a0c05d1eae6048394",
+  "signed_bytes": 27750367,
+  "release_template_sha256": "6d1bb2cfa126a1b1c87e064a35b3cbd181bef0ec784dec1efd1d64dffa8be6cb",
+  "cert_sha256": "0b79cac72bf38357eb4aa0dcb68e0b34bff7d2a9503a32e0928186f00b1bf052",
+  "signature_schemes_verified": [
+    "v2",
+    "v3"
+  ],
+  "signer_role": "local development identity for internal update testing",
+  "apk_assets": 390,
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "abi": "arm64-v8a",
+  "orientation": "landscape",
+  "renderer": "gl_compatibility",
+  "android_permissions": []
+}

@@ -1,5 +1,7 @@
 # First Android debug APK
 
+For the current private release-template build, use the [C24 install, update and signing guide](C24_HANDOFF.md).
+
 This procedure checks the placeholder launcher and static sample field on one physical phone. Use the **Android Debug** preset and its development package ID `com.shahrewan.kenyalangrangers.dev`. Use an ARM64 phone for this preset. Release signing and distribution follow D-015 in the [decision log](../docs/canon/DECISION_LOG.md).
 
 ## Export on the PC

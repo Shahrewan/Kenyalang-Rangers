@@ -2,6 +2,10 @@
 
 Godot **4.7.2 stable** (GDScript) game project for Android landscape, offline single-player.
 
+## Android candidate
+
+RC1 is available for private device testing. The handoff covers the signed APK, offline installation, controls, save continuity and the remaining Android and content gates. [RC1 handoff](export/C24_HANDOFF.md) · [Release sign-off](docs/qa/C24_RELEASE_SIGNOFF.md)
+
 ## Starting points
 - `project.godot`: Godot project file.
 - `AGENTS.md`: development and Codex working rules.
