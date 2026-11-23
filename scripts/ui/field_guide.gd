@@ -3,6 +3,7 @@ extends VBoxContainer
 
 signal closed
 
+const CREDITS := "Credits and engine license"
 const CONTROLS := "Battle controls"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
@@ -48,6 +49,13 @@ func _render(id: String) -> void:
 		_link("References", "References")
 	elif id == "References":
 		_show_references()
+	elif id == CREDITS:
+		_body.add_child(StoryUI.label(CREDITS, 28))
+		_body.add_child(StoryUI.label("Game design and storyboard · Group SimSimi", 22))
+		_body.add_child(StoryUI.label("The Scout cutout and restoration trees use original project artwork. The garden clearing is a project-directed generated illustration. Music and interface sounds are synthesized locally.", 20))
+		_body.add_child(StoryUI.label("Godot Engine", 24, StoryUI.AMBER))
+		_body.add_child(StoryUI.label(Engine.get_license_text(), 18))
+		_body.add_child(StoryUI.label("Engine and third-party notices: https://godotengine.org/license/", 18))
 	elif id == CONTROLS:
 		_body.add_child(StoryUI.label(CONTROLS, 28))
 		_body.add_child(StoryUI.label(TOPICS[DEPLOY_TOPIC], 22))
@@ -64,6 +72,7 @@ func _render(id: String) -> void:
 
 func _show_references() -> void:
 	_body.add_child(StoryUI.label("Offline references", 28))
+	_link(CREDITS, CREDITS)
 	for url: String in REFERENCES:
 		_body.add_child(StoryUI.label(REFERENCES[url], 22, StoryUI.AMBER))
 		_body.add_child(StoryUI.label(url, 18, StoryUI.BEIGE))
