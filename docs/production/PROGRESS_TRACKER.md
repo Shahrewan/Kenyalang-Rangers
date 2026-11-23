@@ -42,5 +42,6 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [x] W25 [Campaign content completion plan](W25_CAMPAIGN_COMPLETION.md) audits the C24 baseline, all 15 mission checklists, open decisions and implementation tests. The selected placeholder approvals are in the C26 decision log.
 
 - [~] C26 Reviewed Campaign placeholder content, first-clear funding, faster enemies and repeat deployment verified. Remaining live reward amounts, late-mission player clears and Android validation are open. [Campaign matrix](../qa/C26_CAMPAIGN_MATRIX.md)
+- [~] W27 [First Contact production art](W27_FIRST_CONTACT_ART.md) defines eight review batches, exact C1-01 asset coverage and Godot cutout contracts. Owner approved the first batch and bare-headed enemies. The [study-matched cutout delivery](w27/IMPORT_ACCEPTANCE.md) verifies Patrolman and E01 independently of live Story binding. Phone review remains open.
 
 For each row add: owner, Git commit, actual automated test log, manual Android verification, known issues, acceptance sign-off date. These are milestones, NOT estimates of equal development effort.
