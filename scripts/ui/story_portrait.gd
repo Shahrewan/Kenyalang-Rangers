@@ -7,6 +7,15 @@ const GESTURE := {
 	"confronting": Vector2(71, 4), "captured": Vector2(-9, 48),
 }
 
+const FIRST_CONTACT := {
+	"portrait.manager": {
+		"briefing": preload("res://assets/imported/first_contact/manager_briefing.png"),
+		"relieved": preload("res://assets/imported/first_contact/manager_relieved.png"),
+	},
+	"portrait.leader": {"steady": preload("res://assets/imported/first_contact/leader_radio.png")},
+}
+var illustrated := false
+
 var identity := ""
 var pose := ""
 var _settle := 0.0
@@ -17,10 +26,12 @@ func present(key: String, expression: String) -> void:
 	pose = expression
 	if _motion != null:
 		_motion.kill()
+	queue_redraw()
+	if illustrated and FIRST_CONTACT.has(identity):
+		return
 	_settle = -5.0
 	_motion = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	_motion.tween_method(_settle_pose, -5.0, 0.0, 0.18)
-	queue_redraw()
 
 func _settle_pose(offset: float) -> void:
 	_settle = offset
@@ -28,6 +39,13 @@ func _settle_pose(offset: float) -> void:
 
 # Labelled storyboard stand-in. Silhouette, head angle and brows follow the speaker and pose.
 func _draw() -> void:
+	if illustrated:
+		var poses: Dictionary = FIRST_CONTACT.get(identity, {})
+		var texture: Texture2D = poses.get(pose, poses.values().front() if not poses.is_empty() else null)
+		if texture != null:
+			var extent := minf(size.x, size.y)
+			draw_texture_rect(texture, Rect2(Vector2((size.x - extent) * 0.5, size.y - extent), Vector2.ONE * extent), false)
+			return
 	var center := size * 0.5 + Vector2(0, _settle)
 	var lean := -0.12 if pose in ["concerned", "captured"] else (0.10 if pose in ["alert", "confronting"] else 0.0)
 	draw_set_transform(center, lean, Vector2.ONE * minf(1.55, size.y / 124.0))

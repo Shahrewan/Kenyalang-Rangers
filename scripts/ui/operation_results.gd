@@ -13,6 +13,16 @@ func _ready() -> void:
 	var result := StoryUI.panel(StoryUI.scroll_column(body), true)
 	var state: String = report.outcome
 	var successful := state != "Defeat"
+	var skin := FirstContactSkin.new()
+	if report.get("campaign", false) and report.stage_id == &"C1-01" and not skin.registration().is_empty():
+		var badge := TextureRect.new()
+		var artwork := "result_perfect" if report.perfect else ("result_clear" if successful else "result_defeat")
+		badge.texture = skin.region("interface", artwork)
+		badge.custom_minimum_size.y = 78
+		badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		badge.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		result.add_child(badge)
 	result.add_child(StoryUI.label(state, 40, StoryUI.INK))
 	var explanation := "No combat enemies escaped." if report.get("perfect", state == "Perfect clear") else "%d combat enemies escaped." % report.escaped
 	if not successful:

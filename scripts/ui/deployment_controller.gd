@@ -24,6 +24,7 @@ const MOUSE_POINTER := -1
 var state: DeploymentState
 var mode := 0
 var preview_skills := true
+var _illustrated_cards := {}
 var _simulation: BattleSimulation
 var _gesture := DeploymentGesture.new()
 var _entries: Array[DeploymentSpec]
@@ -78,6 +79,15 @@ func _ready() -> void:
 		_tray.add_child(card)
 	_resize_cards()
 	get_viewport().size_changed.connect(_resize_cards)
+
+func illustrate(skin: FirstContactSkin) -> void:
+	for state_name in ["tray_starter", "tray_ready", "tray_wait"]:
+		_illustrated_cards[state_name] = skin.panel(state_name, 15)
+	for i in _cards.size():
+		if skin.registration().thumbnails.regions.has(String(_entries[i].id)):
+			var portrait = _cards[i].get_child(0).get_child(0)
+			portrait.badge = skin.region("badge", String(_entries[i].id))
+			portrait.queue_redraw()
 
 func _resize_cards() -> void:
 	var minimum := Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
@@ -389,6 +399,14 @@ func _refresh() -> void:
 			continue
 		var ticks := state.cooldown_ticks(spec.id)
 		var copies: Array = deployed.get(spec.id, [])
+		if not _illustrated_cards.is_empty():
+			var key := "tray_wait"
+			if spec.logistics_post and state.posts_deployed == 0:
+				key = "tray_starter"
+			elif ticks == 0 and state.tokens >= state.cost_for(spec) and not (spec.logistics_post and state.rules.starter_only):
+				key = "tray_ready"
+			_cards[i].add_theme_stylebox_override("panel", _illustrated_cards[key])
+			_labels[i].add_theme_color_override("font_color", StoryUI.INK)
 		var detail := "%d Tokens" % state.cost_for(spec)
 		if spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
 			detail = "Starter deployed"

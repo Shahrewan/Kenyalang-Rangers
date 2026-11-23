@@ -242,3 +242,9 @@
 - The terminal sand trail now crosses the east edge into overlapping woodland. The trail runout, back trees and foreground trees have editable SVG sources and independent transparent exports. Foreground placement conceals the E01 art at the existing escape cell. [Woodland preview](first-contact-stage/woodland_exit_preview.jpg)
 - The stage kit includes 56 individual atlas regions, four roster badges and four Post layers in draw order. The presentation manifest links the 19 Scout, 17 Patrolman and 15 Trespasser parts to their existing source manifests. [Integration handoff](FIRST_CONTACT_STAGE_ART.md#woodland-edge-and-separate-exports)
 - Godot 4.7.2 loaded 76 registered stage textures. The regression suite passed 2,011 checks and the W27 rig probe passed 916 pose samples. Foreground occlusion was checked at 80 and 60 units per cell. [Verification](FIRST_CONTACT_STAGE_ART.md#verification-and-simulation-handoff)
+
+## C28-A Illustrated First Contact — 2026-11-24
+
+- Integrated the approved woodland branch at `63edd68`. Added the 17-part Patrolman and 15-part E01 scenes and field bindings for the 19-part Scout. T01 art follows the live board positions, and rigs and effects follow the shared combat clock.
+- Registered the four Post layers, illustrated HUD, Story nodes, radio portraits and result badges. First Contact outcomes were reproduced through the Story launcher with real combat. The existing C26 movement and repeated placement rules remain in force. [Cases, screenshots and phone checklist](../qa/C28_A_FIRST_CONTACT.md)
+- Pinned editor import and startup, 2,037 regression checks, 916 cutout samples and both native captures passed. The signed ARM64 APK passed package checks and host replay. A physical Android review remains open.
