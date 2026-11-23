@@ -61,6 +61,12 @@ func records_enhancements() -> Array[StringName]:
 func restoration_percent() -> int:
 	return CampaignActivities.restoration_percent(_data.garden)
 
+func garden_state() -> Dictionary:
+	return _data.garden.duplicate(true)
+
+func discovered_facts() -> Array:
+	return _data.encyclopaedia.discovered_facts.duplicate()
+
 func outreach_successes() -> int:
 	return int(_data.outreach.successes)
 
@@ -372,8 +378,7 @@ func record_quiz_answer(question: String, choice: int, correct: bool, reward: in
 		next.encyclopaedia.first_correct.append(question)
 	if correct:
 		for id: String in discovered:
-			if id not in next.encyclopaedia.discovered_facts:
-				next.encyclopaedia.discovered_facts.append(id)
+			_discover_fact(next, id)
 	next.encyclopaedia.attempt.answers[question] = {
 		"choice": choice, "correct": correct, "credited": settlement.credited, "discarded": settlement.discarded,
 	}
@@ -420,25 +425,111 @@ func _is_current_question(attempt: Dictionary, question: String) -> bool:
 		and attempt.answers.size() < attempt.questions.size() and attempt.questions[attempt.answers.size()] == question
 	)
 
-func save_garden(state: Dictionary, award_id := "", reward := 0) -> Dictionary:
-	var current: Dictionary = _data.garden
-	var capacity := room_capacity(HeadquartersCatalog.ECOLOGY)
-	if capacity == 0 or reward < 0 or (reward > 0 and award_id.is_empty()) or award_id in current.settled_awards:
+func plant_garden(slot: int, species: String, now: int) -> String:
+	var id := RestorationRules.plot_id(slot)
+	if slot < 0 or slot >= room_capacity(HeadquartersCatalog.ECOLOGY) or not RestorationRules.SPECIES.has(species) or not _valid_garden_time(now):
+		return ""
+	if _data.garden.plots.has(id):
+		return ""
+	var next := snapshot()
+	var garden: Dictionary = next.garden
+	var used: Array = garden.settled_awards.duplicate()
+	for plot: Dictionary in garden.plots.values():
+		used.append(plot.cycle_id)
+	var serial := int(garden.get("cycle_serial", 0))
+	var cycle := "garden_cycle.%d" % (serial + 1)
+	while cycle in used:
+		serial += 1
+		cycle = "garden_cycle.%d" % (serial + 1)
+	if serial >= ProfileFile.MAX_EXACT_INTEGER:
+		return ""
+	garden.cycle_serial = serial + 1
+	garden.plots[id] = {"cycle_id": cycle, "species": species, "planted_at": now, "watered_at": 0, "reached_seconds": 0}
+	return cycle if _commit(next) else ""
+
+func water_garden(slot: int, cycle: String, now: int) -> bool:
+	var id := RestorationRules.plot_id(slot)
+	var plot: Dictionary = _data.garden.plots.get(id, {})
+	if not _valid_garden_time(now) or plot.get("cycle_id") != cycle or not RestorationRules.needs_water(plot, now):
+		return false
+	var next := snapshot()
+	next.garden.plots[id].watered_at = now
+	next.garden.plots[id].reached_seconds = RestorationRules.midpoint(plot.species)
+	return _commit(next)
+
+func collect_garden(slot: int, cycle: String, now: int) -> Dictionary:
+	var id := RestorationRules.plot_id(slot)
+	var plot: Dictionary = _data.garden.plots.get(id, {})
+	if not _valid_garden_time(now) or plot.get("cycle_id") != cycle or cycle in _data.garden.settled_awards:
 		return {}
-	if not CampaignActivities.valid_garden(state, capacity) or state.settled_awards != current.settled_awards:
-		return {}
-	for key in ["collected_species", "milestones"]:
-		for entry in current[key]:
-			if entry not in state[key]:
-				return {}
-	if (current.extra_collection and not state.extra_collection) or (current.nest_box_seen and not state.nest_box_seen):
+	if RestorationRules.stage(plot, now) != RestorationRules.Stage.MATURE:
 		return {}
 	var next := snapshot()
-	next.garden = state.duplicate(true)
-	if not award_id.is_empty():
-		next.garden.settled_awards.append(award_id)
-	var settlement := FundsWallet.apply(next, reward)
+	var garden: Dictionary = next.garden
+	var species: String = plot.species
+	var before := restoration_percent()
+	var first: bool = species not in garden.collected_species
+	if first:
+		garden.collected_species.append(species)
+	elif garden.collected_species.size() == RestorationRules.SPECIES.size():
+		garden.extra_collection = true
+	var species_fact: String = RestorationRules.SPECIES[species].fact
+	if first:
+		_discover_fact(next, species_fact)
+	var visitor: bool = first and garden.collected_species.size() == RestorationRules.SPECIES.size() and not garden.nest_box_seen
+	if visitor:
+		garden.nest_box_seen = true
+		_discover_fact(next, RestorationRules.NEST_FACT)
+	var milestone := CampaignActivities.restoration_percent(garden)
+	var milestone_id := "restoration_milestone.%d" % milestone
+	var milestone_funds := 0
+	if milestone > before and milestone_id not in garden.milestones:
+		garden.milestones.append(milestone_id)
+		milestone_funds = RestorationRules.MILESTONES[milestone]
+	garden.plots.erase(id)
+	garden.scenery[id] = species
+	garden.settled_awards.append(cycle)
+	var cycle_funds: int = RestorationRules.SPECIES[species].funds
+	var settlement := FundsWallet.apply(next, cycle_funds + milestone_funds)
+	settlement.merge({
+		"species": species, "cycle_funds": cycle_funds, "milestone_funds": milestone_funds, "milestone": milestone,
+		"fact": species_fact if first else "", "visitor": visitor,
+	})
 	return settlement if _commit(next) else {}
+
+func checkpoint_garden(now: int) -> bool:
+	if not _valid_garden_time(now):
+		return false
+	var next := snapshot()
+	var changed := false
+	for plot: Dictionary in next.garden.plots.values():
+		var elapsed := RestorationRules.elapsed(plot, now)
+		if elapsed <= int(plot.get("reached_seconds", 0)):
+			continue
+		if not plot.has("reached_seconds") and plot.watered_at > 0:
+			var early_water_end := int(plot.planted_at) + RestorationRules.midpoint(plot.species)
+			if plot.watered_at < early_water_end:
+				if now < early_water_end:
+					continue
+				plot.watered_at = early_water_end
+		plot.reached_seconds = elapsed
+		changed = true
+	return not changed or _commit(next)
+
+func visit_garden_guide() -> bool:
+	if room_capacity(HeadquartersCatalog.ECOLOGY) == 0:
+		return false
+	var next := snapshot()
+	return not _discover_fact(next, RestorationRules.GUIDE_FACT) or _commit(next)
+
+static func _discover_fact(profile: Dictionary, id: String) -> bool:
+	if id in profile.encyclopaedia.discovered_facts:
+		return false
+	profile.encyclopaedia.discovered_facts.append(id)
+	return true
+
+static func _valid_garden_time(now: int) -> bool:
+	return now >= 1 and now <= CampaignActivities.LAST_TIMESTAMP
 
 func reset_profile() -> bool:
 	if not _reset_confirmed() and not ProfileFile.replace(_path + ".reset", {"confirmed": true}, false):

@@ -93,9 +93,11 @@ func _all_rooms() -> void:
 			if room.gate != HeadquartersRoom.Gate.NONE and target == room.gate_level:
 				_check(not profile.room_quote(room.id).error.is_empty() and not profile.purchase_room(room.id).is_empty(), "%s Lv.5 requires participation with enough Funds" % room.label)
 				if room.gate == HeadquartersRoom.Gate.RESTORATION:
-					var state: Dictionary = profile.snapshot().garden
-					state.collected_species = CampaignActivities.SPECIES.slice(0, 3)
-					_check(not profile.save_garden(state).is_empty() and profile.restoration_percent() == 60, "Three distinct mature species reach the Ecology gate")
+					for species: String in RestorationRules.SPECIES.keys().slice(0, 3):
+						var cycle := profile.plant_garden(0, species, 400000)
+						profile.water_garden(0, cycle, 400000 + RestorationRules.midpoint(species))
+						profile.collect_garden(0, cycle, 400000 + RestorationRules.duration(species))
+					_check(profile.restoration_percent() == 60, "Three distinct mature species reach the Ecology gate")
 				else:
 					_outreach_batch(profile, 90000)
 					for question: String in profile.snapshot().outreach.batch:
@@ -211,18 +213,13 @@ func _activities() -> void:
 	_check(again.credited == 0 and not again.first_correct and timeout.credited == 0 and profile.finish_quiz(600).credited == 0, "Replay and timeout preserve prior rewards without reissuing them")
 
 	profile.purchase_room(HeadquartersCatalog.ECOLOGY)
-	var garden: Dictionary = profile.snapshot().garden
-	garden.plots["garden_plot.01"] = {"cycle_id": "test.cycle1", "species": "species.strangler_fig", "planted_at": 400000, "watered_at": 432401}
-	_check(not profile.save_garden(garden).is_empty(), "Ecology stores planted and watered timestamps")
+	var cycle := profile.plant_garden(0, "species.strangler_fig", 400000)
+	_check(profile.water_garden(0, cycle, 432401), "Ecology stores planted and watered timestamps")
 	profile = CampaignProgress.new(path)
 	_check(profile.snapshot().garden.plots["garden_plot.01"].watered_at == 432401, "Garden timer anchors survive cold load")
-	garden.plots["garden_plot.03"] = garden.plots["garden_plot.01"].duplicate()
-	_check(profile.save_garden(garden).is_empty(), "Cannot persist planting in a locked plot")
-	garden.plots.clear()
-	garden.collected_species.append("species.strangler_fig")
-	garden.scenery["garden_plot.01"] = "species.strangler_fig"
-	var collection := profile.save_garden(garden, "test.cycle1", 3000)
-	_check(collection.credited == 3000 and profile.restoration_percent() == 20 and profile.save_garden(garden, "test.cycle1", 3000).is_empty(), "Restoration event and wallet commit together with repeat protection")
+	_check(profile.plant_garden(2, "species.strangler_fig", 400000).is_empty(), "Cannot persist planting in a locked plot")
+	var collection := profile.collect_garden(0, cycle, 464801)
+	_check(collection.credited == 53000 and profile.restoration_percent() == 20 and profile.collect_garden(0, cycle, 464801).is_empty(), "Restoration event and wallet commit together with repeat protection")
 
 func _migration_and_recovery() -> void:
 	var path := _path("migration")

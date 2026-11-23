@@ -5,7 +5,6 @@ const GRADES := ["best", "acceptable", "poor", "harmful"]
 const OUTREACH_INTERVAL := 20 * 60 * 60
 const QUIZ_TICKS := 15 * 60
 const LAST_TIMESTAMP := 253402300799
-const SPECIES := ["species.strangler_fig", "species.belian", "species.red_meranti", "species.mengaris"]
 
 static func new_outreach() -> Dictionary:
 	return {"rotation": [], "batch": [], "choice_order": {}, "responses": {}, "refreshed_at": 0, "successes": 0}
@@ -16,7 +15,7 @@ static func new_encyclopaedia() -> Dictionary:
 static func new_garden() -> Dictionary:
 	return {
 		"plots": {}, "scenery": {}, "collected_species": [], "extra_collection": false,
-		"milestones": [], "nest_box_seen": false, "settled_awards": [],
+		"milestones": [], "nest_box_seen": false, "settled_awards": [], "cycle_serial": 0,
 	}
 
 static func restoration_percent(garden: Dictionary) -> int:
@@ -99,10 +98,12 @@ static func valid_garden(state: Variant, capacity: int) -> bool:
 		return false
 	if not state.get("extra_collection") is bool or not state.get("nest_box_seen") is bool:
 		return false
+	if not ProfileFile.whole_between(state.get("cycle_serial", 0), 0, ProfileFile.MAX_EXACT_INTEGER):
+		return false
 	for id: String in state.collected_species:
-		if not id in SPECIES:
+		if not RestorationRules.SPECIES.has(id):
 			return false
-	if (state.extra_collection or state.nest_box_seen) and state.collected_species.size() < SPECIES.size():
+	if (state.extra_collection or state.nest_box_seen) and state.collected_species.size() < RestorationRules.SPECIES.size():
 		return false
 	for id: String in state.milestones:
 		if not id in ["restoration_milestone.20", "restoration_milestone.40", "restoration_milestone.60", "restoration_milestone.80", "restoration_milestone.100"]:
@@ -110,12 +111,12 @@ static func valid_garden(state: Variant, capacity: int) -> bool:
 		if int(id.get_slice(".", 1)) > restoration_percent(state):
 			return false
 	var plot_ids := PackedStringArray()
-	for index in range(1, capacity + 1):
-		plot_ids.append("garden_plot.%02d" % index)
+	for slot in capacity:
+		plot_ids.append(RestorationRules.plot_id(slot))
 	var active_cycles := {}
 	for id: String in state.plots:
 		var plot: Variant = state.plots[id]
-		if not id in plot_ids or not plot is Dictionary or not plot.get("species") in SPECIES:
+		if not id in plot_ids or not plot is Dictionary or not RestorationRules.SPECIES.has(plot.get("species")):
 			return false
 		var cycle: Variant = plot.get("cycle_id")
 		if not cycle is String or cycle.is_empty() or active_cycles.has(cycle):
@@ -123,9 +124,18 @@ static func valid_garden(state: Variant, capacity: int) -> bool:
 		active_cycles[cycle] = true
 		if not ProfileFile.whole_between(plot.get("planted_at"), 1, LAST_TIMESTAMP) or not ProfileFile.whole_between(plot.get("watered_at"), 0, LAST_TIMESTAMP):
 			return false
-		if plot.watered_at > 0 and plot.watered_at < plot.planted_at:
+		var halfway := RestorationRules.midpoint(plot.species)
+		var limit := halfway if plot.watered_at == 0 else RestorationRules.duration(plot.species)
+		var reached: Variant = plot.get("reached_seconds", 0)
+		if not ProfileFile.whole_between(reached, 0, limit):
 			return false
+		if plot.watered_at > 0:
+			# A saved midpoint allows watering even when the local clock went back before planting.
+			if plot.has("reached_seconds") and reached < halfway:
+				return false
+			if not plot.has("reached_seconds") and plot.watered_at < plot.planted_at:
+				return false
 	for id: String in state.scenery:
-		if not id in plot_ids or not state.scenery[id] in SPECIES:
+		if not id in plot_ids or not RestorationRules.SPECIES.has(state.scenery[id]):
 			return false
 	return true

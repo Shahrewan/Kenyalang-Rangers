@@ -148,6 +148,7 @@ func _overflow_and_garden() -> void:
 	var ecology := _open_room(app, "ecology")
 	_confirm_room(ecology)
 	ecology._activity.pressed.emit()
+	app._screen.find_child("Plot6", true, false).pressed.emit()
 	_check(app._screen is HeadquartersGarden and _labels(app._screen).contains("2 available plots") and _labels(app._screen).contains("Plot 6"), "Built Ecology reaches the same Garden with two open plots")
 	app._go_back()
 	app._go_back()

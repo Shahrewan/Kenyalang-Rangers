@@ -21,6 +21,7 @@ var _progress: FirstContactProgress
 var _campaign: CampaignContent
 var _campaign_progress: CampaignProgress
 var education_catalog: EducationCatalog
+var garden_time: Callable = Time.get_unix_time_from_system
 var _draft: OperationPlan
 var _trial_plan: OperationPlan
 var _chaos_configuration := ChaosConfiguration.new()
@@ -377,7 +378,7 @@ func _show_room_activity(room: HeadquartersRoom) -> void:
 		HeadquartersRoom.Role.HR, HeadquartersRoom.Role.MECHANICAL:
 			_show_roster(room)
 		HeadquartersRoom.Role.ECOLOGY:
-			_show_garden(_show_hq_room.bind(room))
+			_show_garden(_show_hq_room.bind(room), true)
 		HeadquartersRoom.Role.OUTREACH:
 			_show_outreach(room)
 		HeadquartersRoom.Role.RECORDS:
@@ -430,12 +431,15 @@ func _show_unit(spec: DeploymentSpec, room: HeadquartersRoom) -> void:
 	page.back_requested.connect(back)
 	_present(page, &"hq_levels", back)
 
-func _show_garden(back: Callable) -> void:
+func _show_garden(back: Callable, from_ecology := false) -> void:
 	var page := HeadquartersGarden.new()
 	page.progress = _campaign_progress
+	page.catalog = _education()
+	page.read_time = garden_time
 	page.back_requested.connect(back)
 	page.ecology_requested.connect(func() -> void:
-		_headquarters_return = show_menu
+		if not from_ecology:
+			_headquarters_return = back
 		_show_hq_room(CampaignProgress.HEADQUARTERS.room(HeadquartersCatalog.ECOLOGY))
 	)
 	_present(page, &"hq_garden", back)
