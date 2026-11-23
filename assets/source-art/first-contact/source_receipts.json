@@ -1,0 +1,33 @@
+{
+  "source_date": "2026-11-23",
+  "records": {
+    "reference_storyboard": {
+      "filename": "Kenyalang_Rangers_Tileset_UI_Storyboard.pdf",
+      "sha256": "fd07f38b582f2b64b9cd81b0eede8923fe681c9b6fb07aa16800ad8ec7360a39"
+    },
+    "gdd": {
+      "filename": "SimSimi.pdf",
+      "sha256": "19e1b63d9f6872bf658a8ca197c715617d9f1bd77acac575c7a28eb726c0fb57"
+    },
+    "forest_edit_source": {
+      "filename": "battlefield.png",
+      "sha256": "8add7a65310a7f7ae2d166413c5782d76ec63adcda3aeedb6915073fc1b71e5c"
+    },
+    "forest_edit_output": {
+      "filename": "exec-87443533-f640-4fa4-91ba-c8cafc4091f9.png",
+      "sha256": "ca848e28d72677a7282481c3cd1399ec97d04c705579cdfc5a5c56c470e9efcc"
+    },
+    "manager_pose_sheet": {
+      "filename": "manager.png",
+      "sha256": "a37a4924d2f96b13a3691a55f42d694ef9af1ff1def8e9b846fece915b38bf72"
+    },
+    "leader_pose_sheet": {
+      "filename": "leader_poacher.png",
+      "sha256": "ad3acda24a3aacd8d2ae3962a2748be12b76b1419424eb9ca9d6578694c3c431"
+    }
+  },
+  "backdrop_method": "Reference-guided edit of the storyboard candidate. Retain the waterfall and painted perimeter, replace the right-side baked tunnel with solid tree art, and clear the central field. Output cropped to 1280×720 and encoded as an opaque JPEG. Runtime tunnel is KRT_48.",
+  "portrait_method": "Independent RGBA crops of the supplied storyboard portrait sheets. Manager concerned reuses briefing, Leader reassuring reuses steady. The asset contract leaves the existing dialogue keys in place.",
+  "original_vectors": "Terrain and UI atlases, projectile and effect shapes, and mission-node backplate were authored for this project and reference only the storyboard grammar.",
+  "actor_badges": "C07 Scout, W27 Patrolman, E01 rust and Logistics Post Ready composites."
+}
