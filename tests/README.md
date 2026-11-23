@@ -66,3 +66,5 @@ The C19 rules and UI runners use synthetic banks and isolated profiles. They exe
 The C20 rules runner injects exact local timestamps to check all species, offline and backward clock behaviour, watering, replanting, Ecology access, the cap, and save retry. The UI runner opens both garden entrances, sends a touch event through the viewport, and checks all live stages, the one-time visitor and approval-gated discoveries in Records. Both use isolated profiles. [C20 matrix](../docs/qa/C20_RESTORATION_MATRIX.md)
 
 The C22 runner verifies FAQ and article return routes, live mix settings, enlarged text, failed writes, reset cancellation, cold reload, sound generation and a 14-card battle tray. [C22 matrix](../docs/qa/C22_PRESENTATION_MATRIX.md)
+
+Run all Godot smoke and unit checks with `python3 tools/run_regression.py`. Each runner gets a private user directory and log. C23 also supplies the separate process-kill test, 60-day economy ledger and rendered benchmark. [Commands and measured results](../docs/qa/C23_SYSTEM_AUDIT.md#reproduce)

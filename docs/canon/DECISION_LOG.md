@@ -95,7 +95,7 @@ The remaining values and verification below carry forward from the W00b approval
 | Export template pin | Checksum-verified `4.7.2.stable` standard Android debug and release APK templates installed in the local editor profile. |
 | Rendering and layout | GDScript, Compatibility renderer, 1280×720 logical baseline, landscape with expanding canvas and Android safe-area margins. |
 | Provisional Android target | ARM64, OpenGL ES 3, Android 9 and 3 GB RAM. Android 11+ and 4 GB preferred. |
-| First physical test phone | Model, Android/API, RAM/GPU, display and cutout, and installed build details TBD. USB is unavailable in the cloud workspace and ADB cannot initialize its default directory on the read-only home filesystem. |
+| First physical test phone | Model, Android/API, RAM/GPU, display and cutout, and installed build details TBD. C23 started the ADB server successfully. Its attached-device list was empty and the cloud workspace exposes no USB bus. |
 | Evidence | Headless editor import, runtime startup, 9 automated checks and Linux/X11 pointer navigation passed. Debug APK export then succeeded with JDK 17.0.21.1, SDK 36, Build-Tools 36.1.0 and Platform-Tools 37.0.3. Android tools verified v2/v3 signatures, alignment and the ARM64 landscape manifest for `com.shahrewan.kenyalangrangers.dev` version `0.1.0-dev`, code 1, min API 24 and target API 36. See [the phone smoke procedure](../../export/README.md). |
 
 ## D-006 C02 fixture evidence — 2026-11-21
@@ -219,3 +219,9 @@ The team draft is available for D-004 review. W13 adapts its Chapter 2 regional 
 - The Linux Compatibility recording verified the mix and opening dialogue. Godot `4.7.2.stable.official.ed1daf0bf` and matching templates produced the ARM64 debug build. Physical device identity, Android version, touch, cutout and speaker results await a connected phone. [C22 verification](../qa/C22_PRESENTATION_MATRIX.md)
 
 - C22 source review. Pause Settings shares the saved audio and text controls and returns to the frozen battle. Main Menu and recovery Settings provide the confirmed wipe. The S53 conservation citations are available offline while reviewed articles use the approved-bank gate. [Source and gameplay audit](../qa/C22_SOURCE_AUDIT.md)
+
+## C23 audit — 2026-11-23
+
+- D-005, D-006, D-009 and D-010. The prototype 9,999,999 cap, stage award data, restoration values and Chaos rules retain their existing settings. The six-source budget, measured Chaos loop, Garden ceiling and delayed-spending loss are submitted for balance review. Firebreak permanent recruitment and W18 approval remain open. [60-day model and proposals](../qa/C23_SYSTEM_AUDIT.md#sixty-day-balance)
+- D-013 and D-015. Godot `4.7.2.stable.official.ed1daf0bf`, matching templates, Compatibility, ARM64, target API 36 and minimum API 24. C23 exported a separate development benchmark package. Three runs on Linux software rendering reached 42.47–50.78 FPS. Candidate phone model, OS, GPU, memory and measured FPS await an attached device. [Benchmark and artifacts](../qa/C23_SYSTEM_AUDIT.md#dense-wave-benchmark)
+- D-018. Failed abandon/discard writes preserve retryable state. Records rejects invalid revisions and garden recovery detects already-settled active cycles. A forced Linux process kill with a partial temporary file preserved the committed answer and plant. The save schema stays at v2.

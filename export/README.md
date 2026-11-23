@@ -309,3 +309,25 @@ adb install -r build/android/kenyalang-rangers-c22-debug.apk
 2. Start C1-01. Read the portrait dialogue and check Continue and Skip with enlarged text. Open Controls and Settings from pause. Return to pause and verify the same wave, speed and Tokens before resuming. Repeat after backgrounding. Check the board, HUD and pinned actions against the cutout in both landscape orientations. In a developed loadout, swipe from the first to the last card. Check that horizontal swipes preserve Tokens.
 3. Try a valid and an occupied placement, a held Retreat and a targeted skill. Check the captions during recon, a Siege attack and Heat overflow with Master muted. Restore sound and check the cues on the phone speaker. Measure the smallest button and slider touch bounds against 48dp using the device density.
 4. Open an available field note from Garden and Records on an approved-content build. Verify Back retains the originating view. Record device model, Android version, density, cutout, APK hash and pass/fail results. [C22 source audit](../docs/qa/C22_SOURCE_AUDIT.md)
+
+## C23 physical phone benchmark
+
+Build from the committed C23 checkout with Godot 4.7.2 and its matching Android templates. The benchmark exporter uses a disposable copy of HEAD and installs under its own package ID. The normal player's save and launcher have their own package.
+
+```sh
+python3 tools/export_c23_benchmark.py --godot ./.android/godot-android
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c23-benchmark.apk
+adb shell getprop ro.product.model
+adb shell getprop ro.build.version.sdk
+adb shell wm size
+adb shell wm density
+```
+
+With a locally configured editor/SDK, omit the `--godot` option. On each candidate ARM64 phone, enable airplane mode, keep it in landscape and record the Android version, RAM, display refresh rate, resolution, cutout, and thermal/power state. Use `adb -s SERIAL` when multiple phones are attached. Keep serials out of shared evidence.
+
+1. Start a log capture on the PC with `adb logcat -T 1 -v time -s godot:I`. Leave it running. Launch the app from its icon or use `adb shell monkey -p com.shahrewan.kenyalangrangers.c23bench 1`. The opening allows eight seconds of construction. The boss introduction closes automatically. Leave the app in the foreground until it exits and emits one `C23_BENCH` JSON row.
+2. Collect three uninterrupted runs. Save each row with its APK hash and phone model. Check for 50 residents, four deployables, live Siege and Heat events, nonzero samples and measured memory. Record FPS and p50/p95/p99/max frame intervals against the 60 FPS / 16.67 ms goal. On a separate pass use `adb shell dumpsys meminfo com.shahrewan.kenyalangrangers.c23bench` while all 50 are visible for total PSS. Android presentation timing and thermal stability can be profiled over a longer repeated trace with Perfetto.
+3. For save continuity, use the ordinary C23 development APK and a disposable player profile. In airplane mode plant and water a tree, background the app, run `adb shell am force-stop com.shahrewan.kenyalangrangers.dev`, and relaunch. Check the planted cycle and balance before and after one harvest. Repeat on a paused Chaos operation and verify that reopening restores the configuration. Capture any failure with package version and stage. Outreach answer continuity can be checked on phone once the approved bank is installed.
+
+The cloud run on 23 November 2026 returned an empty ADB device list. Linux timings, package verification and outstanding sign-off are recorded in the [C23 audit](../docs/qa/C23_SYSTEM_AUDIT.md).
