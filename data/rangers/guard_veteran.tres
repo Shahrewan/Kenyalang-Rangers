@@ -15,6 +15,7 @@ status_seconds = 1.0
 [resource]
 script = ExtResource("1")
 id = &"ranger.guard_veteran"
+redeploy_seconds = 18.0
 label = "Guard Veteran"
 recruitment_stage = &"C1-03"
 cost = 16

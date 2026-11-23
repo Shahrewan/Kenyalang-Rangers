@@ -127,7 +127,7 @@ func selected_card() -> DeploymentSpec:
 
 func can_afford_ranger() -> bool:
 	for spec: DeploymentSpec in _offered.values():
-		if spec.is_ranger() and state.cost_for(spec) <= state.tokens and state.cooldown_ticks(spec.id) == 0 and not state.placed.has(spec.id):
+		if spec.is_ranger() and state.cost_for(spec) <= state.tokens and state.cooldown_ticks(spec.id) == 0:
 			return true
 	return false
 
@@ -378,24 +378,32 @@ func _refresh() -> void:
 	_cancel.visible = armed
 	_confirm.disabled = not state.clock.is_running() or state.pending_target == DeploymentState.NO_CELL
 	_cancel.disabled = not state.clock.is_running()
+	var deployed := {}
+	for unit: DeploymentState.Placement in state.placed.values():
+		var copies: Array = deployed.get_or_add(unit.spec.id, [])
+		copies.append(unit)
 	for i in _labels.size():
 		var spec: DeploymentSpec = _offered.get(_entries[i].id)
 		_cards[i].visible = spec != null
 		if spec == null:
 			continue
 		var ticks := state.cooldown_ticks(spec.id)
+		var copies: Array = deployed.get(spec.id, [])
 		var detail := "%d Tokens" % state.cost_for(spec)
-		var build := state.build_ticks_left(spec.id)
-		if build > 0:
-			detail = "Building %ds" % ceili(float(build) / CombatClock.TICKS_PER_SECOND)
-		elif state.placed.has(spec.id):
-			detail = _deployed_card_detail(state.placed[spec.id])
-		elif spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
+		if spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
 			detail = "Starter deployed"
 		elif spec.logistics_post and state.posts_deployed == 0:
 			detail = "Free · instant"
 		elif ticks > 0:
 			detail = "Cooldown %ds" % ceili(float(ticks) / CombatClock.TICKS_PER_SECOND)
+		if not copies.is_empty() and not (spec.logistics_post and state.rules.starter_only):
+			detail += " · %d on field" % copies.size()
+		if copies.size() == 1 and not (spec.logistics_post and state.rules.starter_only):
+			var unit: DeploymentState.Placement = copies[0]
+			var build := state.build_ticks_left(unit.id)
+			var status := "Building %ds" % ceili(float(build) / CombatClock.TICKS_PER_SECOND) if build > 0 else _deployed_card_detail(unit)
+			if status != "Deployed":
+				detail += "\n" + status
 		_labels[i].text = "%s\n%s" % [spec.label, detail]
 	_board.queue_redraw()
 

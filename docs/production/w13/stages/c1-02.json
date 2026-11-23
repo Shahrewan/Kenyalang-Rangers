@@ -79,25 +79,25 @@
       "id": "hint.c1_02.block",
       "condition": "first_ground_ranger_selected",
       "text": "Place a blocker on the path facing the approach.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_02.support",
       "condition": "first_elevated_ranger_selected",
       "text": "Use raised tiles for eligible ranged support.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_02.integrity",
       "condition": "first_combat_escape",
       "text": "A combat escape lowers Integrity. At zero, the operation ends.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c1_02.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -115,7 +115,7 @@
     },
     {
       "id": "dialogue.c1_02.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -133,7 +133,7 @@
     },
     {
       "id": "dialogue.c1_02.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -151,7 +151,7 @@
     },
     {
       "id": "dialogue.c1_02.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

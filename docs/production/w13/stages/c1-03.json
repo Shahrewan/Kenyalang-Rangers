@@ -96,19 +96,19 @@
       "id": "hint.c1_03.skill",
       "condition": "first_ranger_skill_ready",
       "text": "Release a quick tap to use a ready skill. Confirm a target if prompted.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_03.retreat",
       "condition": "first_ranger_placed",
       "text": "Hold a Ranger to see Retreat. Wait for the card's cooldown before redeploying.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c1_03.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -120,13 +120,13 @@
         {
           "speaker_id": "speaker.leader",
           "pose_key": "steady",
-          "text": "Use a ready skill when you need it. If a Ranger is in trouble, retreat them and wait for redeployment."
+          "text": "If a Ranger is in trouble, hold to reveal Retreat. Watch the deployment card for the cooldown. On a later run, you can try a skill once it is unlocked and ready."
         }
       ]
     },
     {
       "id": "dialogue.c1_03.messenger",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "wave_resolved", "wave": 2, "presentation_event_id": "cinematic.c1_03_messenger_withdrawal"},
       "lines": [
@@ -149,7 +149,7 @@
     },
     {
       "id": "dialogue.c1_03.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -167,7 +167,7 @@
     },
     {
       "id": "dialogue.c1_03.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

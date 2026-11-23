@@ -98,25 +98,25 @@
       "id": "hint.c1_04.facing",
       "condition": "first_ground_ranger_selected",
       "text": "Choose left or right before dropping a melee Ranger. That direction stays locked.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_04.heal",
       "condition": "combat_medic_selected",
       "text": "Place the Medic on a raised tile with an eligible ally in reach.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_04.intel",
       "condition": "e05_first_seen",
       "text": "Pause and inspect a Rifle Spotter's effective HP and range threat.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c1_04.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -134,7 +134,7 @@
     },
     {
       "id": "dialogue.c1_04.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -152,14 +152,14 @@
     },
     {
       "id": "dialogue.c1_04.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
         {
           "speaker_id": "speaker.operations_manager",
           "pose_key": "relieved",
-          "text": "We've held the ridge. Woods Tracker and the Reinforced Cover Station team are standing by."
+          "text": "We've held the ridge. The Reinforced Cover Station is ready. Woods Tracker joins the roster and still needs field preparation."
         },
         {
           "speaker_id": "speaker.leader",
@@ -170,7 +170,7 @@
     },
     {
       "id": "dialogue.c1_04.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

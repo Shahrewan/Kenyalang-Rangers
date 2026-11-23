@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = &"ranger.patrolman"
+redeploy_seconds = 12.0
 label = "Patrolman"
 ranger_class = 1
 cost = 10

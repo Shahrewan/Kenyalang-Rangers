@@ -79,8 +79,8 @@
     "foreman_escape_trial": null
   },
   "rewards": {
-    "status": "tbd",
-    "first_clear_funds": null,
+    "status": "first_clear_approved_c26_other_awards_tbd",
+    "first_clear_funds": 10000,
     "first_perfect_funds": null,
     "replay_funds": null,
     "existing_c05_fixture": {"first_clear_funds": 100, "first_perfect_funds": 50}
@@ -90,25 +90,25 @@
       "id": "hint.c1_01.starter_post",
       "condition": "starter_post_available",
       "text": "Drag the free Starter Post onto two adjacent raised tiles.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_01.deploy_rangers",
       "condition": "can_afford_selected_ranger",
       "text": "Drag Patrolman onto the route or Scout Sniper onto a raised tile.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_01.basic_attacks",
       "condition": "first_ranger_placed",
       "text": "Rangers attack eligible threats automatically. Check their HP underneath them.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c1_01.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -131,7 +131,7 @@
     },
     {
       "id": "dialogue.c1_01.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -149,7 +149,7 @@
     },
     {
       "id": "dialogue.c1_01.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -167,7 +167,7 @@
     },
     {
       "id": "dialogue.c1_01.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

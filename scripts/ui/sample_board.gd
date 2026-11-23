@@ -177,7 +177,7 @@ func _draw_deployments() -> void:
 			_draw_direction(preview_cell, preview_facing, border)
 	var armed: DeploymentState.Placement = deployments.placed.get(deployments.armed)
 	if armed != null:
-		for cell in deployments.coverage(armed.spec, armed.anchor, armed.facing):
+		for cell in deployments.coverage(armed.spec, armed.anchor, armed.facing, armed.id):
 			draw_rect(_tile_rect(cell), Color(0.55, 0.82, 0.88, 0.33))
 		if deployments.pending_target != DeploymentState.NO_CELL:
 			draw_rect(_tile_rect(deployments.pending_target), Color("#E8F9FF"), false, 4.0)

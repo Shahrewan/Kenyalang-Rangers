@@ -164,7 +164,7 @@
   "dialogue_sequences": [
     {
       "id": "dialogue.c2_10.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -182,7 +182,7 @@
     },
     {
       "id": "dialogue.c2_10.wave_4",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "before_wave_first_spawn", "wave": 4},
       "lines": [
@@ -200,7 +200,7 @@
     },
     {
       "id": "dialogue.c2_10.boss_intro",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "boss_intro", "boss_id": "boss.poacher_leader"},
       "lines": [
@@ -218,7 +218,7 @@
     },
     {
       "id": "dialogue.c2_10.boss_phase_1",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "boss_phase_changed", "boss_id": "boss.poacher_leader", "phase_index": 1},
       "lines": [
@@ -236,7 +236,7 @@
     },
     {
       "id": "dialogue.c2_10.boss_phase_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "boss_phase_changed", "boss_id": "boss.poacher_leader", "phase_index": 2},
       "lines": [
@@ -254,7 +254,7 @@
     },
     {
       "id": "dialogue.c2_10.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -277,7 +277,7 @@
     },
     {
       "id": "dialogue.c2_10.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [
@@ -295,7 +295,7 @@
     },
     {
       "id": "dialogue.c2_10.defeat_trafficker",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "E15"},
       "lines": [
@@ -313,7 +313,7 @@
     },
     {
       "id": "dialogue.c2_10.defeat_leader",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "boss.poacher_leader"},
       "lines": [
@@ -331,7 +331,7 @@
     },
     {
       "id": "dialogue.c2_10.epilogue",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "after_victory_dialogue", "first_clear_only": true},
       "lines": [

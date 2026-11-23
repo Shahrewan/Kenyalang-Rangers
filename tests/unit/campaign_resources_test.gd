@@ -21,7 +21,7 @@ func _initialize() -> void:
 		_openings(content)
 		_settlement(content)
 		_medic(content)
-	for suffix in ["", ".bak", ".tmp", ".bak.tmp", ".rewards", ".rewards.bak", ".rewards.tmp", ".rewards.bak.tmp"]:
+	for suffix in ["", ".bak", ".tmp", ".bak.tmp", ".legacy", ".legacy.bak", ".rewards", ".rewards.bak", ".rewards.tmp", ".rewards.bak.tmp"]:
 		if FileAccess.file_exists(_path + suffix):
 			DirAccess.remove_absolute(_path + suffix)
 	print("Campaign resources: %d checks, %d failures" % [_checks, _failed])
@@ -51,7 +51,9 @@ func _manifest(content: CampaignContent) -> void:
 		for modifier in operation.fixed_debuff_ids:
 			debuffs[modifier] = true
 		_check(operation.fixed_debuff_ids.size() == (1 if i < 5 else 2), "%s has the fixed Story slot count" % id)
-		_check(operation.rewards.has("first_clear_funds") and operation.rewards.first_clear_funds == null and operation.rewards.first_perfect_funds == null and operation.rewards.replay_funds == null, "%s preserves pending rewards" % id)
+		_check(operation.rewards.has("first_clear_funds") and operation.rewards.first_clear_funds == (10000 if i == 0 else null) and operation.rewards.first_perfect_funds == null and operation.rewards.replay_funds == null, "%s only settles approved reward amounts" % id)
+		_check(operation.dialogue.all(func(beat: Dictionary) -> bool: return beat.status == "approved_c26_placeholder")
+			and operation.hints.all(func(hint: Dictionary) -> bool: return hint.status == "approved_c26_placeholder"), "%s uses the reviewed placeholder script" % id)
 		dialogue_count += operation.dialogue.size()
 		previous = id
 	_check(maps.size() == 6 and debuffs.size() == 15 and dialogue_count == 73, "Six maps, fifteen fixed effects and 73 beats")
@@ -106,12 +108,12 @@ func _openings(content: CampaignContent) -> void:
 	_check(state.tokens == 9, "D01 generates nine Tokens after ten combat seconds")
 	_check(not profile.begin_attempt(next), "Fresh profile cannot enter C1-02 ahead of C1-01")
 	profile.begin_attempt(first)
-	profile.complete(first, true)
+	var first_clear := profile.complete(first, false)
+	_check(first_clear.credited == 10000 and not first_clear.first_perfect, "A normal C1-01 clear earns 10,000 without a perfect")
 	plan = OperationPlan.new(next, [])
 	plan.configure_campaign(profile)
-	_check(not plan.can_start() and plan.facility_limit == 0 and profile.snapshot().funds == 10000, "C1-02 requires Mechanical and keeps C05 reward out of the wallet")
-	profile.advance_finance(5000.0)
-	_check(profile.claim_finance() and profile.snapshot().funds == 20000 and profile.purchase_room(HeadquartersCatalog.MECHANICAL).is_empty(), "Finance funds the exact 20,000 Mechanical purchase")
+	_check(not plan.can_start() and plan.facility_limit == 0 and profile.funds() == 20000, "C1-02 requires Mechanical and the first clear funds its exact price")
+	_check(profile.purchase_room(HeadquartersCatalog.MECHANICAL).is_empty() and profile.funds() == 0, "Mechanical is funded without injected time or a perfect")
 	plan.configure_campaign(profile)
 	state = DeploymentState.new(next.stage.map, CombatClock.new(), 0, next.opening_rules)
 	_check(plan.can_start() and plan.facility_limit == 2 and state.deploy(post, Vector2i(1, 0), 1).is_empty() and state.tokens == 0, "C1-02 has a legal free ordinary Post after Mechanical")
@@ -134,6 +136,16 @@ func _openings(content: CampaignContent) -> void:
 	_check(firebreak not in plan.choices and String(firebreak.id) not in profile.snapshot().owned, "Firebreak is neither owned nor supplied to C2-08")
 
 func _settlement(content: CampaignContent) -> void:
+	var legacy := CampaignSave.fresh()
+	legacy.records["C1-01"] = {"cleared": true, "perfect": false}
+	_check(ProfileFile.replace(_path + ".legacy", legacy, false), "Write a v2 pre-C26 clear fixture")
+	var returning := CampaignProgress.new(_path + ".legacy")
+	var live_first := content.operation(&"C1-01")
+	returning.begin_attempt(live_first)
+	var later_perfect := returning.complete(live_first, true)
+	returning = CampaignProgress.new(_path + ".legacy")
+	_check(not later_perfect.first_clear and later_perfect.first_perfect and later_perfect.credited == 0
+		and returning.funds() == 10000 and returning.record_for(&"C1-01").perfect, "Earlier first clear remains consumed while a later perfect still records")
 	var profile := CampaignProgress.new(_path + ".rewards")
 	var trial := content.operation(&"C1-01").duplicate() as StoryOperation
 	trial.rewards = {"first_clear_funds": 120, "first_perfect_funds": 30, "replay_funds": 7, "story_completion_reward_present": true, "story_completion_funds": 500}
@@ -174,6 +186,16 @@ func _medic(content: CampaignContent) -> void:
 	sim.clock.dialogue_open = false
 	sim.clock.advance_frame()
 	_check(ally.hp == patrol.max_hp - 60 + medic.heal_hp, "Combat Medic restores nearby Ranger HP on the shared clock")
+
+	# Let the next Medic action choose between two independent Patrolmen.
+	while sim.deployment.cooldown_ticks(patrol.id) > 0:
+		sim.clock.advance_frame()
+	var second_tile := Vector2i(7, 3)
+	_check(sim.deployment.deploy(patrol, second_tile, -1).is_empty(), "A second Patrolman joins the Medic's range")
+	var second := sim.deployment.placed[sim.deployment.interaction_id(second_tile)]
+	second.hp -= 60
+	sim.clock.advance_frame()
+	_check(ally.hp == patrol.max_hp and second.hp == patrol.max_hp - 60 + medic.heal_hp, "Medic heals the injured copy through its placement ID")
 
 func _enemy(operation: StoryOperation, id: StringName) -> BattleEnemyDefinition:
 	for wave in _effective_stage(operation).waves:
