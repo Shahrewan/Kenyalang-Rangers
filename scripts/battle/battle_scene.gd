@@ -222,6 +222,11 @@ func _abandon() -> void:
 		battle.clock.stopped = true
 		abandon_requested.emit()
 
+func abandon_save_failed() -> void:
+	battle.clock.stopped = false
+	_pause_overlay.show_abandon_error()
+	_refresh()
+
 func _toggle_speed() -> void:
 	battle.clock.set_speed(3 - battle.clock.get_speed())
 	_refresh()

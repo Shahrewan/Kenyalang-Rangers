@@ -13,6 +13,7 @@ var _confirm_view: VBoxContainer
 var _resume: Button
 var _cancel: Button
 var _abandon: Button
+var _confirm_message: Label
 var _options: HBoxContainer
 
 func _ready() -> void:
@@ -56,7 +57,8 @@ func _ready() -> void:
 
 	_confirm_view = StoryUI.column(box)
 	_confirm_view.add_child(StoryUI.label("Abandon this operation?", 30))
-	_confirm_view.add_child(StoryUI.label("Return to your plan without earning Funds.", 20))
+	_confirm_message = StoryUI.label("", 20)
+	_confirm_view.add_child(_confirm_message)
 	var confirm_controls := StoryUI.row(_confirm_view)
 	_cancel = StoryUI.action("Keep playing", true)
 	_cancel.name = "CancelAbandon"
@@ -83,7 +85,11 @@ func request_back() -> void:
 	else:
 		resume_requested.emit()
 
+func show_abandon_error() -> void:
+	_confirm_message.text = "Could not save. Check local storage and retry Abandon."
+
 func _show_confirmation() -> void:
+	_confirm_message.text = "Return to your plan without earning Funds."
 	_pause_view.hide()
 	_confirm_view.show()
 	_cancel.grab_focus()

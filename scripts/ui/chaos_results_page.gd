@@ -9,6 +9,7 @@ var run: ChaosRun
 var progress: CampaignProgress
 var settlement: Dictionary
 var _discard: ConfirmationDialog
+var _error: Label
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 14)
@@ -27,7 +28,8 @@ func _ready() -> void:
 
 	var rewards := StoryUI.panel(StoryUI.scroll_column(panes))
 	if settlement.is_empty():
-		rewards.add_child(StoryUI.label("Result could not be saved. Check local storage and retry.", 21, StoryUI.AMBER))
+		_error = StoryUI.label("Result could not be saved. Check local storage and retry.", 21, StoryUI.AMBER)
+		rewards.add_child(_error)
 	else:
 		var credit := StoryUI.label("%s Funds credited" % StoryUI.funds(settlement.credited), 25, StoryUI.AMBER)
 		credit.name = "ChaosCreditedFunds"
@@ -54,6 +56,9 @@ func _ready() -> void:
 	else:
 		_action(actions, "Back to routes", "ChaosRoutes", request_back)
 		_action(actions, "Review configuration", "ReviewChaos", func() -> void: review_requested.emit(), true)
+
+func show_discard_error() -> void:
+	_error.text = "Could not discard the saved configuration. Check local storage and retry."
 
 func request_back() -> void:
 	if _discard != null:

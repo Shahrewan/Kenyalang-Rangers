@@ -337,10 +337,10 @@ func _start_chaos(review: Callable) -> void:
 	controller.roster = _chaos_plan.operation.roster
 	controller.records_enhancements = _campaign_progress.records_enhancements()
 	page.abandon_requested.connect(func() -> void:
-		var closed := _campaign_progress.abandon_chaos(run)
-		review.call()
-		if not closed:
-			_screen.show_error("Could not close the interrupted configuration. Check local storage.")
+		if _campaign_progress.abandon_chaos(run):
+			review.call()
+		else:
+			page.abandon_save_failed()
 	)
 	page.completed.connect(func() -> void:
 		if _screen == page:
@@ -359,8 +359,7 @@ func _render_chaos_result(run: ChaosRun, review: Callable) -> void:
 		if closed:
 			_show_chaos_routes()
 		else:
-			review.call()
-			_screen.show_error("Could not close the saved configuration. Check local storage.")
+			page.show_discard_error()
 	)
 	page.review_requested.connect(func() -> void:
 		_refresh_hq_choices(_chaos_plan)
@@ -530,10 +529,10 @@ func _start_campaign() -> void:
 	controller.roster = _draft.operation.roster
 	controller.records_enhancements = _campaign_progress.records_enhancements()
 	page.abandon_requested.connect(func() -> void:
-		var saved := _campaign_progress.abandon_attempt()
-		_show_campaign_plan(_draft.operation)
-		if not saved:
-			_screen.show_error("Could not close the saved attempt. Check local storage.")
+		if _campaign_progress.abandon_attempt():
+			_show_campaign_plan(_draft.operation)
+		else:
+			page.abandon_save_failed()
 	)
 	page.operation_finished.connect(_show_results, CONNECT_DEFERRED)
 	_present(page, &"battle")
