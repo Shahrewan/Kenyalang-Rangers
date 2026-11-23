@@ -93,8 +93,8 @@ func cue(id: String) -> void:
 	_start_player(player)
 
 func _start_player(player: AudioStreamPlayer) -> void:
-	# The headless server has no playback device. Streams remain available for decoding and tests.
-	if DisplayServer.get_name() != "headless" or not Engine.get_write_movie_path().is_empty():
+	# A window can also be running without an audio output. Movie capture supplies its own mixer.
+	if AudioServer.get_driver_name() != "Dummy" or not Engine.get_write_movie_path().is_empty():
 		player.play()
 
 func _exit_tree() -> void:
