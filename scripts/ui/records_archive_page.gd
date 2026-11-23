@@ -19,9 +19,13 @@ func _ready() -> void:
 	archive.add_child(StoryUI.label("Facts archive", 25))
 	if catalog.facts.is_empty():
 		archive.add_child(StoryUI.label("The archive is awaiting approved facts.", 20, StoryUI.BEIGE))
-	for fact: Dictionary in catalog.facts.values():
+	var discoveries := progress.discovered_facts()
+	for id: String in catalog.facts:
+		var fact: Dictionary = catalog.facts[id]
 		var card := StoryUI.panel(archive, true)
 		card.add_child(StoryUI.label(fact.title, 22, StoryUI.INK))
+		if id in discoveries:
+			card.add_child(StoryUI.label("Discovered", 17, StoryUI.INK))
 		card.add_child(StoryUI.label(fact.text, 20, StoryUI.INK))
 		EducationUI.credit_sources(card, catalog, fact.source_ids, StoryUI.INK)
 	var chapters := StoryUI.scroll_column(body)

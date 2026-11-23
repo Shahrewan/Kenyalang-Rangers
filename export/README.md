@@ -272,3 +272,23 @@ adb install -r build/android/kenyalang-rangers-c19-debug.apk
 4. Complete a perfect chapter and replay. Compare the wallet, first-correct awards and enhancement after a cold restart. Check the longest approved prompts and answers with enlarged text and record touch sizes and any clipping. Capture the APK hash, phone model, Android version, screen density, cutout and offline launch result. [C19 matrix](../docs/qa/C19_EDUCATION_MATRIX.md)
 
 The C19 APK passed host-side tests. Physical installation and approved-content reading checks remain open.
+
+## C20 Restoration phone check
+
+Use the pinned toolchain above and a USB-connected ARM64 Android 9 or later phone. Use a disposable QA profile for tests that change the phone's clock.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c20-debug.apk
+adb devices
+adb install -r build/android/kenyalang-rangers-c20-debug.apk
+```
+
+1. In airplane mode, open **Reforestation** from the Main Menu. With Ecology unbuilt, verify that **Open Ecology** leads to the room. On a QA profile with the 20,000 Funds build price, build Ecology Lv.1 and tap **Reforestation** in the room. Confirm the same garden opens with two available plots. Tap a locked plot and verify the required room level.
+2. Plant Strangler Fig in Plot 1 and verify Seed and the nine-hour Water timer. Close the app and return at least nine hours later. To shorten the check, move the QA phone's clock forward while the app is closed. Confirm Sapling and **Water**. Wait or advance the clock again before watering and verify it still waits at halfway. Tap **Water** and verify the new nine-hour timer.
+3. Close the app again. At least nine hours after watering, reopen from the other entrance. Collect the first Fig and verify the 20% milestone, 53,000 Funds before the wallet cap, and retained tree art. Replant the same plot, relaunch, and confirm the old cycle cannot pay again. Move the clock backward after observing a new checkpoint and verify the stage holds. Restore automatic date and time after the check.
+4. On a developed QA profile, collect a third distinct species and check the 60% gate and 900,000 Funds purchase price in Ecology. After buying Lv.5, use the sixth plot. The fourth distinct species triggers one visitor flight and the nest box. Relaunch to check the box stays and the flight has finished. One further mature collection reaches 100%.
+5. Check the plot and side controls in both landscape orientations, including cutout and edge reach. Record the APK hash, phone model, Android version, screen density, cutout and offline launch result. [C20 matrix](../docs/qa/C20_RESTORATION_MATRIX.md)
+
+The C20 APK passed package and host gameplay checks. Physical installation and touch await a connected phone.

@@ -163,4 +163,10 @@
 
 - Delivered the four species at Seed, Sapling and Mature with a shared ground pivot. The art kit includes a flat 3:2 clearing, a reusable plot bed, two hornbill poses, a nest box, two four-frame effects and nine editable foreground sources. Reference facts use the W18 IDs. [W19b handoff and review sheet](W19B_RESTORATION_ART.md)
 - Inspected transparent exports and rendered the two- and six-plot layout references at 960 × 540. Godot 4.7.2 editor import, headless startup, 19 texture loads and 1,680 existing checks across 22 runners passed.
-- C20 owns live garden integration and device checks. Editable background layers, the team fact approval and D-014 release sign-offs remain open.
+- The original `d435892` commit landed on `main` at `4984ccd`. Editable background layers and D-014 release sign-offs remain open. [Pull request 21](https://github.com/Shahrewan/Kenyalang-Rangers/pull/21)
+
+## C20 Habitat Restoration — 2026-11-23
+
+- Main Menu and Ecology open the shared garden with two to six plots. The W19b clearing and sprites show Seed, Sapling and Mature. Device timestamps advance growth offline and stop at the midpoint until watered. One save commits the collection, retained tree, capped Funds, milestones and discovery IDs.
+- Three distinct species meet Ecology's Lv.5 participation requirement. The fourth distinct species brings the one-time hornbill visitor and nest box. A further mature collection reaches 100%. The live build uses the GDD's provisional payouts. Garden discoveries appear with citations when their reference copy is approved.
+- Passed pinned import and startup, 1,801 checks across 24 runners, and Linux pointer play at 960×540. The signed ARM64 APK passed host verification with all 19 restoration textures. Phone installation and touch remain open. [C20 matrix](../qa/C20_RESTORATION_MATRIX.md)
