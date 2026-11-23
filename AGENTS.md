@@ -25,7 +25,7 @@ If a cited or referenced file is absent, say so and use placeholders. Do not fab
 - Headquarters has 11 rooms Lv.1–5 and Ranger/Facility levels 1–100. Each deployable's baseline cumulative upgrade cost from Lv1 to Lv100 is exactly 1,000,000 Funds. R&D has 15 distinct buffs, with no duplicate selections or level-scaled potency.
 - Rainforest Chaos has up to 5 wave slots, hard limit 50 enemies **per populated wave** (across types), no rest for empty slots, additive Medal Score, and piecewise linear Funds payout with threshold jumps at 1000, 2000, 3000. Filled loadout slots deduct 100 points each. Trophy appearance stops changing at 3000.
 - Outreach: up to five four-option questions every 20 hours from a 20-question bank, grading Best/Acceptable/Poor/Harmful. Records: four chapters, 15 seconds per quiz question, one-time first-correct Funds rewards and named Ranger enhancements. Restoration: up to six plots, four species, three visible growth stages, paused progress when watering is missed, offline local timestamps.
-- On-field sprites are flat, mouthless, earthy chibi cutout characters with high contrast at actual phone size. Portrait rigs may be more detailed. The exit is a tree-veiled forest tunnel, NOT an egg or nest. HUD must not block the field.
+- On-field sprites are flat, mouthless, earthy chibi cutout characters with high contrast at actual phone size. Portrait rigs may be more detailed. On T01 the escape trail runs into dense woods at the east map edge. HUD must not block the field.
 - The 127-page PDF is a design reference, NOT a ready-made sliceable atlas or functioning UI. Additional source files described inside it were not in the provided ZIP.
 
 ## Coding practice

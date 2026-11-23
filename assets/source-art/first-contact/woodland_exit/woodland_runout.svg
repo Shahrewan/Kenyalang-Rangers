@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="144" height="128" viewBox="0 0 90 80">
+<g id="trail" inkscape:groupmode="layer" inkscape:label="Trail" transform="">
+<path d="M0 0H45q13 1 23 16l13 26-11 22q-11 16-27 16H0Z" fill="#C4AC79" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0 1.25H42q13 0 25 16M0 78.75H43q14-1 27-16" fill="none" stroke="#94794F" stroke-width="2.5" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 22q8-3 19-1m-16 40q6 0 11-2" fill="none" stroke="#D9C096" stroke-width="1.8" opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M39 11q14 6 25 13m-16 41q9-4 16-11" fill="none" stroke="#A18A5B" stroke-width="2.0" opacity="0.64" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

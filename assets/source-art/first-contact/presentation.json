@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "visual_status": "prepared for C1-01 integration",
+  "visual_status": "separate art prepared for C1-01 integration",
   "reference_viewport": [
     1280,
     720
@@ -582,7 +582,71 @@
         3
       ],
       "region": "KRT_48",
-      "approach": "from west"
+      "approach": "from west",
+      "display": "woodland_edge",
+      "layers": [
+        {
+          "id": "woodland_runout",
+          "texture": "assets/imported/first_contact/parts/woodland_exit/woodland_runout.png",
+          "source_svg": "assets/source-art/first-contact/woodland_exit/woodland_runout.svg",
+          "size_px": [
+            144,
+            128
+          ],
+          "display_size_units": [
+            90,
+            80
+          ],
+          "offset_units_from_terminal_top_left": [
+            80,
+            0
+          ],
+          "draw_phase": "ground"
+        },
+        {
+          "id": "woodland_trees_back",
+          "texture": "assets/imported/first_contact/parts/woodland_exit/woodland_trees_back.png",
+          "source_svg": "assets/source-art/first-contact/woodland_exit/woodland_trees_back.svg",
+          "size_px": [
+            280,
+            211
+          ],
+          "display_size_units": [
+            175,
+            132
+          ],
+          "offset_units_from_terminal_top_left": [
+            0,
+            -54
+          ],
+          "draw_phase": "behind_actors"
+        },
+        {
+          "id": "woodland_trees_front",
+          "texture": "assets/imported/first_contact/parts/woodland_exit/woodland_trees_front.png",
+          "source_svg": "assets/source-art/first-contact/woodland_exit/woodland_trees_front.svg",
+          "size_px": [
+            253,
+            202
+          ],
+          "display_size_units": [
+            158,
+            126
+          ],
+          "offset_units_from_terminal_top_left": [
+            0,
+            -46
+          ],
+          "draw_phase": "in_front_of_actors"
+        }
+      ],
+      "anchor": "Terminal-cell top left. Multiply offsets and displayed sizes by the current tile_size() / 80.",
+      "occlusion": "Draw the foreground after actors, their HP and world effects, before the HUD. Use the existing escape event and place any decorative exit motion behind the trees.",
+      "escape_world_cell": [
+        11,
+        3
+      ],
+      "clip_decorative_runout": "Clip to the world viewport, outside gameplay interaction bounds."
     },
     "background": {
       "file": "assets/imported/first_contact/t01_forest_backdrop.jpg",
@@ -865,6 +929,12 @@
         96,
         96
       ]
+    },
+    "standalone_textures": {
+      "ranger.scout_sniper": "assets/imported/first_contact/parts/badges/ranger_scout_sniper.png",
+      "ranger.patrolman": "assets/imported/first_contact/parts/badges/ranger_patrolman.png",
+      "E01": "assets/imported/first_contact/parts/badges/E01.png",
+      "facility.logistics_post": "assets/imported/first_contact/parts/badges/facility_logistics_post.png"
     }
   },
   "portraits": {
@@ -908,5 +978,56 @@
     "ground_actor": "Point at cell center plus y offset from existing visual sizing.",
     "logistics_post": "One center at the midpoint of two adjacent legal raised cells. Reuse four W27 layers.",
     "viewport": "Use the 1280x720 preview to judge overlap. Keep artwork out of touch-routing and sim data."
+  },
+  "actor_rigs": {
+    "ranger.scout_sniper": {
+      "manifest": "assets/source-art/rangers/scout_sniper/manifest.json",
+      "scene": "scenes/units/scout_rig.tscn"
+    },
+    "ranger.patrolman": {
+      "manifest": "assets/source-art/rangers/patrolman/manifest.json"
+    },
+    "E01": {
+      "manifest": "assets/source-art/enemies/e01/manifest.json"
+    },
+    "facility.logistics_post": {
+      "stage_supply_id": "stage_supply.c1_01_starter_post",
+      "manifest": "docs/production/w27/review/logistics_post/manifest.json",
+      "layer_size_px": [
+        640,
+        288
+      ],
+      "anchor_px": [
+        320,
+        228
+      ],
+      "pixels_per_unit": 4,
+      "token_socket_units": [
+        114,
+        34
+      ],
+      "layers": [
+        {
+          "id": "base",
+          "texture": "assets/imported/first_contact/parts/logistics_post/base.png",
+          "draw_order": 0
+        },
+        {
+          "id": "supply_crate",
+          "texture": "assets/imported/first_contact/parts/logistics_post/supply_crate.png",
+          "draw_order": 1
+        },
+        {
+          "id": "radio",
+          "texture": "assets/imported/first_contact/parts/logistics_post/radio.png",
+          "draw_order": 2
+        },
+        {
+          "id": "indicator",
+          "texture": "assets/imported/first_contact/parts/logistics_post/indicator.png",
+          "draw_order": 3
+        }
+      ]
+    }
   }
 }

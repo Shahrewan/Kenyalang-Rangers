@@ -19,7 +19,8 @@
           64,
           64
         ],
-        "role": "Quiet noninteractive ground"
+        "role": "Quiet noninteractive ground",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_01.png"
       },
       "KRT_08": {
         "region_px": [
@@ -32,7 +33,8 @@
           64,
           64
         ],
-        "role": "Ground route connection mask 3"
+        "role": "Ground route connection mask 3",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_08.png"
       },
       "KRT_10": {
         "region_px": [
@@ -45,7 +47,8 @@
           64,
           64
         ],
-        "role": "Ground route connection mask 5"
+        "role": "Ground route connection mask 5",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_10.png"
       },
       "KRT_15": {
         "region_px": [
@@ -58,7 +61,8 @@
           64,
           64
         ],
-        "role": "Ground route connection mask 10"
+        "role": "Ground route connection mask 10",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_15.png"
       },
       "KRT_17": {
         "region_px": [
@@ -71,7 +75,8 @@
           64,
           64
         ],
-        "role": "Ground route connection mask 12"
+        "role": "Ground route connection mask 12",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_17.png"
       },
       "KRT_21": {
         "region_px": [
@@ -84,7 +89,8 @@
           64,
           64
         ],
-        "role": "Raised platform base"
+        "role": "Raised platform base",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_21.png"
       },
       "KRT_25": {
         "region_px": [
@@ -97,7 +103,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_25.png"
       },
       "KRT_26": {
         "region_px": [
@@ -110,7 +117,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_26.png"
       },
       "KRT_27": {
         "region_px": [
@@ -123,7 +131,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_27.png"
       },
       "KRT_28": {
         "region_px": [
@@ -136,7 +145,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_28.png"
       },
       "KRT_29": {
         "region_px": [
@@ -149,7 +159,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_29.png"
       },
       "KRT_30": {
         "region_px": [
@@ -162,7 +173,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_30.png"
       },
       "KRT_31": {
         "region_px": [
@@ -175,7 +187,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_31.png"
       },
       "KRT_32": {
         "region_px": [
@@ -188,7 +201,8 @@
           64,
           64
         ],
-        "role": "Raised lip or corner detail"
+        "role": "Raised lip or corner detail",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_32.png"
       },
       "KRT_40": {
         "region_px": [
@@ -201,7 +215,8 @@
           64,
           112
         ],
-        "role": "Noninteractive fern"
+        "role": "Noninteractive fern",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_40.png"
       },
       "KRT_42": {
         "region_px": [
@@ -214,7 +229,8 @@
           64,
           112
         ],
-        "role": "Noninteractive root edge"
+        "role": "Noninteractive root edge",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_42.png"
       },
       "KRT_46": {
         "region_px": [
@@ -227,7 +243,8 @@
           64,
           64
         ],
-        "role": "West entry sign; traversal mark overlays separately"
+        "role": "West entry sign; traversal mark overlays separately",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_46.png"
       },
       "KRT_48": {
         "region_px": [
@@ -240,7 +257,8 @@
           64,
           64
         ],
-        "role": "East forest tunnel; opening faces the route"
+        "role": "Terminal T01 sand trail continuing directly to the woodland at the east map edge",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_48.png"
       },
       "KRT_51": {
         "region_px": [
@@ -253,7 +271,8 @@
           64,
           64
         ],
-        "role": "Valid placement"
+        "role": "Valid placement",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_51.png"
       },
       "KRT_52": {
         "region_px": [
@@ -266,7 +285,8 @@
           64,
           64
         ],
-        "role": "Invalid placement"
+        "role": "Invalid placement",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_52.png"
       },
       "KRT_53": {
         "region_px": [
@@ -279,7 +299,8 @@
           64,
           64
         ],
-        "role": "Range"
+        "role": "Range",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_53.png"
       },
       "KRT_54": {
         "region_px": [
@@ -292,7 +313,8 @@
           64,
           64
         ],
-        "role": "Facing east; rotate per input"
+        "role": "Facing east; rotate per input",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_54.png"
       },
       "KRT_55": {
         "region_px": [
@@ -305,7 +327,8 @@
           64,
           64
         ],
-        "role": "Reserved cell"
+        "role": "Reserved cell",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_55.png"
       },
       "KRT_56": {
         "region_px": [
@@ -318,7 +341,8 @@
           64,
           64
         ],
-        "role": "Construction overlay"
+        "role": "Construction overlay",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/KRT_56.png"
       },
       "route_arrow": {
         "region_px": [
@@ -331,7 +355,8 @@
           64,
           64
         ],
-        "role": "Travel arrow artwork points east"
+        "role": "Travel arrow artwork points east",
+        "standalone_texture": "assets/imported/first_contact/parts/terrain/route_arrow.png"
       }
     }
   },
@@ -355,7 +380,8 @@
           80,
           56
         ],
-        "role": "Mission fog medallion"
+        "role": "Mission fog medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_fog.png"
       },
       "node_locked": {
         "region_px": [
@@ -368,7 +394,8 @@
           80,
           56
         ],
-        "role": "Mission locked medallion"
+        "role": "Mission locked medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_locked.png"
       },
       "node_available": {
         "region_px": [
@@ -381,7 +408,8 @@
           80,
           56
         ],
-        "role": "Mission available medallion"
+        "role": "Mission available medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_available.png"
       },
       "node_selected": {
         "region_px": [
@@ -394,7 +422,8 @@
           80,
           56
         ],
-        "role": "Mission selected medallion"
+        "role": "Mission selected medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_selected.png"
       },
       "node_cleared": {
         "region_px": [
@@ -407,7 +436,8 @@
           80,
           56
         ],
-        "role": "Mission cleared medallion"
+        "role": "Mission cleared medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_cleared.png"
       },
       "node_perfect": {
         "region_px": [
@@ -420,7 +450,8 @@
           80,
           56
         ],
-        "role": "Mission perfect medallion"
+        "role": "Mission perfect medallion",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/node_perfect.png"
       },
       "fog_band": {
         "region_px": [
@@ -433,7 +464,8 @@
           80,
           56
         ],
-        "role": "Segmented opaque haze; slice or stretch inside the group"
+        "role": "Segmented opaque haze; slice or stretch inside the group",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/fog_band.png"
       },
       "story_panel": {
         "region_px": [
@@ -446,7 +478,8 @@
           80,
           56
         ],
-        "role": "9-slice Story and result panel, 16 px edges"
+        "role": "9-slice Story and result panel, 16 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/story_panel.png"
       },
       "battle_hud": {
         "region_px": [
@@ -459,7 +492,8 @@
           80,
           56
         ],
-        "role": "9-slice combat HUD, 16 px edges"
+        "role": "9-slice combat HUD, 16 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/battle_hud.png"
       },
       "dialogue_panel": {
         "region_px": [
@@ -472,7 +506,8 @@
           80,
           56
         ],
-        "role": "9-slice tutorial and dialogue, 16 px edges"
+        "role": "9-slice tutorial and dialogue, 16 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/dialogue_panel.png"
       },
       "tray_ready": {
         "region_px": [
@@ -485,7 +520,8 @@
           80,
           56
         ],
-        "role": "9-slice deployment card, 15 px edges"
+        "role": "9-slice deployment card, 15 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/tray_ready.png"
       },
       "tray_starter": {
         "region_px": [
@@ -498,7 +534,8 @@
           80,
           56
         ],
-        "role": "9-slice deployment card, 15 px edges"
+        "role": "9-slice deployment card, 15 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/tray_starter.png"
       },
       "tray_wait": {
         "region_px": [
@@ -511,7 +548,8 @@
           80,
           56
         ],
-        "role": "9-slice deployment card, 15 px edges"
+        "role": "9-slice deployment card, 15 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/tray_wait.png"
       },
       "button_primary": {
         "region_px": [
@@ -524,7 +562,8 @@
           80,
           56
         ],
-        "role": "9-slice amber action, 16 px edges"
+        "role": "9-slice amber action, 16 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/button_primary.png"
       },
       "button_secondary": {
         "region_px": [
@@ -537,7 +576,8 @@
           80,
           56
         ],
-        "role": "9-slice secondary action, 16 px edges"
+        "role": "9-slice secondary action, 16 px edges",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/button_secondary.png"
       },
       "token": {
         "region_px": [
@@ -550,7 +590,8 @@
           80,
           56
         ],
-        "role": "Logistic token"
+        "role": "Logistic token",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/token.png"
       },
       "integrity": {
         "region_px": [
@@ -563,7 +604,8 @@
           80,
           56
         ],
-        "role": "Operational integrity"
+        "role": "Operational integrity",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/integrity.png"
       },
       "pause": {
         "region_px": [
@@ -576,7 +618,8 @@
           80,
           56
         ],
-        "role": "Pause"
+        "role": "Pause",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/pause.png"
       },
       "wave": {
         "region_px": [
@@ -589,7 +632,8 @@
           80,
           56
         ],
-        "role": "Wave"
+        "role": "Wave",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/wave.png"
       },
       "funds": {
         "region_px": [
@@ -602,7 +646,8 @@
           80,
           56
         ],
-        "role": "Funds"
+        "role": "Funds",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/funds.png"
       },
       "result_perfect": {
         "region_px": [
@@ -615,7 +660,8 @@
           80,
           56
         ],
-        "role": "Result emblem"
+        "role": "Result emblem",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/result_perfect.png"
       },
       "result_clear": {
         "region_px": [
@@ -628,7 +674,8 @@
           80,
           56
         ],
-        "role": "Result emblem"
+        "role": "Result emblem",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/result_clear.png"
       },
       "result_defeat": {
         "region_px": [
@@ -641,7 +688,8 @@
           80,
           56
         ],
-        "role": "Result emblem"
+        "role": "Result emblem",
+        "standalone_texture": "assets/imported/first_contact/parts/interface/result_defeat.png"
       }
     }
   },
@@ -665,7 +713,8 @@
           48,
           40
         ],
-        "role": "East-facing in-flight Scout tracer, visual only"
+        "role": "East-facing in-flight Scout tracer, visual only",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/scout_bolt.png"
       },
       "scout_muzzle": {
         "region_px": [
@@ -678,7 +727,8 @@
           48,
           40
         ],
-        "role": "Brief Scout muzzle cue"
+        "role": "Brief Scout muzzle cue",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/scout_muzzle.png"
       },
       "scout_impact": {
         "region_px": [
@@ -691,7 +741,8 @@
           48,
           40
         ],
-        "role": "Brief impact tick"
+        "role": "Brief impact tick",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/scout_impact.png"
       },
       "patrol_block": {
         "region_px": [
@@ -704,7 +755,8 @@
           48,
           40
         ],
-        "role": "Shield block"
+        "role": "Shield block",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/patrol_block.png"
       },
       "patrol_strike": {
         "region_px": [
@@ -717,7 +769,8 @@
           48,
           40
         ],
-        "role": "Baton strike sweep"
+        "role": "Baton strike sweep",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/patrol_strike.png"
       },
       "enemy_hit": {
         "region_px": [
@@ -730,7 +783,8 @@
           48,
           40
         ],
-        "role": "Ground enemy hit"
+        "role": "Ground enemy hit",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/enemy_hit.png"
       },
       "post_ready": {
         "region_px": [
@@ -743,7 +797,8 @@
           48,
           40
         ],
-        "role": "Ready or token pulse"
+        "role": "Ready or token pulse",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/post_ready.png"
       },
       "deploy_dust": {
         "region_px": [
@@ -756,7 +811,8 @@
           48,
           40
         ],
-        "role": "Grounded deployment puff"
+        "role": "Grounded deployment puff",
+        "standalone_texture": "assets/imported/first_contact/parts/effects/deploy_dust.png"
       }
     }
   }

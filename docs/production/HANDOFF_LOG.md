@@ -236,3 +236,9 @@
 
 - Delivered the T01 forest plate, numbered terrain regions, separate entrance and tunnel, placement overlays, interface atlas, three dialogue poses and Scout shot effects. The battle, tutorial, opening and result previews use the approved W27 characters and supplied Post art. [Assets and registrations](FIRST_CONTACT_STAGE_ART.md)
 - Prepared the 15-node Story board with Control fog, prerequisite locks and cleared/perfect stamps. Control Lv.1 and Lv.5 previews show the same locations. Godot passed 2,011 regression checks, verified the 56 atlas regions and loaded nine textures. Live scene binding and physical Android verification remain open.
+
+## First Contact woodland edge — 2026-11-23
+
+- The terminal sand trail now crosses the east edge into overlapping woodland. The trail runout, back trees and foreground trees have editable SVG sources and independent transparent exports. Foreground placement conceals the E01 art at the existing escape cell. [Woodland preview](first-contact-stage/woodland_exit_preview.jpg)
+- The stage kit includes 56 individual atlas regions, four roster badges and four Post layers in draw order. The presentation manifest links the 19 Scout, 17 Patrolman and 15 Trespasser parts to their existing source manifests. [Integration handoff](FIRST_CONTACT_STAGE_ART.md#woodland-edge-and-separate-exports)
+- Godot 4.7.2 loaded 76 registered stage textures. The regression suite passed 2,011 checks and the W27 rig probe passed 916 pose samples. Foreground occlusion was checked at 80 and 60 units per cell. [Verification](FIRST_CONTACT_STAGE_ART.md#verification-and-simulation-handoff)
