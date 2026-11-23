@@ -250,3 +250,15 @@ The owner authorized C26 to approve consistent W25 Campaign content for the play
 | D-006 / D-008 · C26 owner movement and deployment | Multiply the original 15 enemy and three boss movement speeds by 1.10 in the shared resources. Existing speed and aerial modifiers apply to the new bases. All ordinary cards permit repeated placements. Base Ranger cooldowns are Patrolman 12 s, Scout Sniper 14 s, Combat Medic and Outpost Mechanic 16 s, Guard Veteran and Crowd Controller 18 s, Barricade Ops 20 s. Sonic Turret uses 11 s and the other Facility resources keep their existing 8–15 s values. These timings are documented C26 placeholder choices. |
 
 W25-FUNDS-2/3 lack 45 exact integer amounts. W18 remains a reviewed draft with undecided Records payouts. The five pending field kits, W21 asset queue, final Firebreak ownership and final Foreman tuning remain separately open. [W25 proposals](../production/w25/PROPOSALS.md) · [C26 evidence](../qa/C26_CAMPAIGN_MATRIX.md)
+
+## D-012 and D-014 W27 cutout direction — 2026-11-23
+
+The owner approved the First Contact review batch for production redraw and specified removing caps from the Trespasser and enemies generally. Bare heads distinguish enemies from the Rangers’ caps and Scout’s marked hat at combat scale. W27 applies this to the new E01 kit. The existing Scout and four Logistics Post layers remain the reference assets for their roles. Final runtime appearance, phone checks and D-014 release clearance remain open. [First batch](../production/w27/ART_REVIEW_BATCH_01.md) · [Cutout import evidence](../production/w27/IMPORT_ACCEPTANCE.md)
+
+## D-012 W27 exact study fidelity — 2026-11-23
+
+The owner rejected the independently redrawn W27 actor artwork and directed the cutouts to replicate the studies. Preserve the approved image's visible pixels, including proportions, colors and shading, when separating parts. Hidden areas get the fill needed for articulation. E01 retains the bare-head direction from the preceding decision. [Study comparison](../production/w27/review/study_comparison.png) · [Rig verification](../production/w27/IMPORT_ACCEPTANCE.md)
+
+## D-012 W27 approved style and enemy palette — 2026-11-23
+
+The owner approved the study-matched style and requested a stronger red presence for enemy artwork. Use restrained rust and brick accents in enemy cloth or equipment. E01's rust jacket is the first reference, with its original silhouette and cutout registration preserved. [W27 palette and validation](../production/w27/IMPORT_ACCEPTANCE.md#enemy-palette)

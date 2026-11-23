@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     width="160" height="72" viewBox="0 0 160 72">
+  <title>Kenyalang Rangers Logistics Post, W27 review candidate</title>
+  <desc>Original editable First Contact supply-crate and radio assembly. Ground baseline y=57.</desc>
+  <g id="base" inkscape:groupmode="layer" inkscape:label="01 Mount base"
+     stroke="#2b2622" stroke-width="2.4" stroke-linejoin="round">
+    <path fill="#675b47" d="M22 48h116l5 5v3H17v-3z"/>
+    <path fill="#b5a17b" d="M26 52h16v4H23zm92 0h15l4 4h-19z"/>
+  </g>
+  <g id="supply_crate" inkscape:groupmode="layer" inkscape:label="02 Supply crate"
+     stroke="#2b2622" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#8e895e" d="M22 29h76v22H22z"/>
+    <path fill="#6f6c4a" d="M78 30h20v21H78z"/>
+    <path fill="#b5a17b" d="M35 17h51l12 12H22z"/>
+    <path fill="#8e895e" d="m36 19 46 0 7 8H28z" stroke="none"/>
+    <path fill="#d0b482" d="m41 17 10 0-8 12v22H32V29zm27 0h9l-2 12v22H64V29z"/>
+    <path fill="#b5a17b" d="M32 34h11v6H32zm32 0h11v6H64z"/>
+    <path fill="#5b4941" d="M48 41h11v4H48z" stroke="none"/>
+  </g>
+  <g id="radio" inkscape:groupmode="layer" inkscape:label="03 Radio body and antenna"
+     stroke="#2b2622" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#675b47" d="M124 15h5v12h-5z"/>
+    <circle cx="126.5" cy="13" r="4" fill="#b5a17b"/>
+    <rect x="89" y="25" width="48" height="27" rx="6" fill="#6f6c4a"/>
+    <path fill="#8e895e" d="M95 28h36l3 3v14l-3 3H94V32z" stroke="none"/>
+    <path d="M102 45h9m8 0h7" fill="none"/>
+  </g>
+  <g id="indicator" inkscape:groupmode="layer" inkscape:label="04 Ready indicator"
+     stroke="#2b2622" stroke-width="2.4" stroke-linejoin="round">
+    <rect x="99" y="31" width="30" height="9" rx="2.5" fill="#e8b957"/>
+    <path fill="#f0dec2" d="M103 33h13v2h-13z" stroke="none"/>
+  </g>
+</svg>

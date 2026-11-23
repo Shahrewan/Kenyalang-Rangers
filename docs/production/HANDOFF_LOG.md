@@ -210,3 +210,24 @@
 - Reviewed W25 `f473668`, accepted its authored dialogue, hints and queue baseline for placeholder use, and applied the 10,000 Funds first C1-01 award. Existing v2 first-clear flags retain their settlement meaning.
 - Base enemy and boss movement is 10% faster. Shared type cooldowns permit repeat Ranger and Facility placements with independent HP, footprint and interaction state.
 - First Contact and Hold the Line cleared with automatic combat. All remaining Story results and boss branches ran with scripted combat in the ordered runner. W25's unpriced awards, late-stage balance and the physical playthrough remain open. [Verification and phone procedure](../qa/C26_CAMPAIGN_MATRIX.md)
+
+## W27 First Contact art — 2026-11-23
+
+- Reconciled the C24 First Contact route with the storyboard, W21, W06 and the existing Scout manifest. The plan covers the T01 board, live and placeholder assets, recommended batch order, drop-in cutout format and per-batch tests. [Production plan](W27_FIRST_CONTACT_ART.md)
+- The first review batch has two transparent concept studies, an editable Logistics Post SVG with four registered layers and a same-scale comparison against the W06 Scout. The two unit studies are flattened. Accept visual direction before authoring separate cutouts. [Review sheet](w27/ART_REVIEW_BATCH_01.md)
+- Godot 4.7.2 passed editor import, headless startup and 741 checks across 10 existing runners. A separate project loaded eight review resources. Live art binding, D-014 approval and physical landscape review remain open.
+
+## W27 First Contact cutout delivery — 2026-11-23
+
+- The owner approved the initial review and selected bare heads for the Trespasser and enemy art. Delivered original editable Patrolman and E01 masters, 32 independent alpha exports, measured pivots, grip sockets, and separate animation contracts. The original Scout rig and the four editable Logistics Post layers match the previous revision. [Cutout review sheet](w27/review/cutout_review.png)
+- Godot 4.7.2 loaded all 32 exports in an isolated rig probe. Sampled all 13 clips in both directions, checked 30 joined pivots and verified 916 neutral and animated samples. Live binding and the physical landscape check remain open. [Import acceptance](w27/IMPORT_ACCEPTANCE.md)
+
+## W27 study-fidelity correction — 2026-11-23
+
+- The owner rejected the illustrated redraw. Rebuilt the 17 Patrolman and 15 E01 parts directly from the approved studies, with new art confined to hidden joints and E01's bare-hair patch. The neutral reassembly matches the normalized study targets within 2/255 per premultiplied channel. [Study comparison](w27/review/study_comparison.png)
+- Godot loaded all 32 exports and verified 916 pose samples. The first-contact battle, Scout rig and Logistics Post retain their existing implementations. [Acceptance report](w27/IMPORT_ACCEPTANCE.md)
+
+## W27 approved faction color — 2026-11-23
+
+- The owner approved the study-matched style. Forest Trespasser now has a muted rust jacket and sleeves. The full E01 alpha mask and all 15 part pivots match the approved kit. Use this treatment as a reference for future enemy accents. [Comparison](w27/review/study_comparison.png)
+- Re-exported and verified the 32 Patrolman and E01 transparent parts and sampled all 13 clips through 916 poses. The isolation probe also checked the four editable Logistics Post layers. Editor import, startup and 2,011 existing checks across 28 runners passed on C26 merge `8a28739`. Live Story bindings and physical Android review remain open. [Rig acceptance](w27/IMPORT_ACCEPTANCE.md)

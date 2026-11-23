@@ -1,0 +1,554 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.2.0",
+  "ranger_id": "ranger.patrolman",
+  "display_name": "Patrolman",
+  "status": "study-matched cutout source and independent exports",
+  "source_svg": "assets/source-art/rangers/patrolman/patrolman.svg",
+  "coordinate_system": "Top-left origin, +x right, +y down",
+  "canvas_units": [
+    96,
+    96
+  ],
+  "normalized_raster_canvas_px": [
+    384,
+    384
+  ],
+  "pixels_per_unit": 4,
+  "godot_units_per_png_pixel": 0.25,
+  "tile_units": 80,
+  "ground_anchor_units": [
+    48,
+    84
+  ],
+  "ground_anchor_normalized": [
+    0.5,
+    0.875
+  ],
+  "target_visible_height_units": 68,
+  "neutral_facing": "right",
+  "horizontal_mirror_origin": "Ground anchor on Facing node",
+  "underfoot_hp_offset_units": [
+    0,
+    5
+  ],
+  "export": {
+    "format": "PNG RGBA",
+    "minimum_padding_px": 4,
+    "filter": "linear",
+    "rasterizer": "Inkscape 1.4",
+    "crop_offset_origin": "top-left of normalized raster canvas"
+  },
+  "provenance": {
+    "creator": "Kenyalang Rangers W27 study-derived cutouts",
+    "source": "Visible regions are clipped directly from the approved Patrolman study. Hidden joints use independently drawn underpaint.",
+    "revision": "2026-11-23",
+    "license_status": "Project owner approved the reference batch for redraw. Final asset release clearance remains in D-014.",
+    "review_source": "docs/production/w27/review/actors/patrolman_study.png",
+    "review_source_sha256": "89eadacdd2dbce02eaf8613a171fe6112ec33b2c9431abcf42cfae8fb984cd6b"
+  },
+  "animation_contract": "assets/source-art/rangers/patrolman/animation_contract.json",
+  "sockets": {
+    "far_shield_grip": {
+      "part": "hand_far",
+      "canvas_units": [
+        65.125,
+        63.375
+      ]
+    },
+    "near_baton_grip": {
+      "part": "hand_near",
+      "canvas_units": [
+        34.125,
+        71.875
+      ]
+    },
+    "attack_fx": {
+      "part": "baton",
+      "canvas_units": [
+        30.61,
+        81.854
+      ]
+    },
+    "block_contact_fx": {
+      "part": "shield",
+      "canvas_units": [
+        69.608,
+        64.834
+      ]
+    }
+  },
+  "parts": [
+    {
+      "id": "thigh_far",
+      "label": "Far thigh",
+      "svg_layer_id": "part_thigh_far",
+      "parent": "torso",
+      "draw_order": 1,
+      "png": "assets/imported/rangers/patrolman/thigh_far.png",
+      "pivot_canvas_units": [
+        54.625,
+        75.375
+      ],
+      "canvas_rect_px": [
+        190,
+        288,
+        50,
+        37
+      ],
+      "pivot_canvas_normalized": [
+        0.56901042,
+        0.78515625
+      ],
+      "pivot_local_px": [
+        28.5,
+        13.5
+      ],
+      "sha256": "16ba47a6d68dbfed0f9251b0fc3ffae33c81464af678f42c1e64c9f31639b181"
+    },
+    {
+      "id": "shin_far",
+      "label": "Far shin",
+      "svg_layer_id": "part_shin_far",
+      "parent": "thigh_far",
+      "draw_order": 2,
+      "png": "assets/imported/rangers/patrolman/shin_far.png",
+      "pivot_canvas_units": [
+        55.125,
+        77.875
+      ],
+      "canvas_rect_px": [
+        193,
+        298,
+        48,
+        36
+      ],
+      "pivot_canvas_normalized": [
+        0.57421875,
+        0.81119792
+      ],
+      "pivot_local_px": [
+        27.5,
+        13.5
+      ],
+      "sha256": "ce55f1384109d814abbb64c040238668d782e7febe5af5f6869b72caf8e437b8"
+    },
+    {
+      "id": "boot_far",
+      "label": "Far boot",
+      "svg_layer_id": "part_boot_far",
+      "parent": "shin_far",
+      "draw_order": 3,
+      "png": "assets/imported/rangers/patrolman/boot_far.png",
+      "pivot_canvas_units": [
+        55.625,
+        80.125
+      ],
+      "canvas_rect_px": [
+        194,
+        307,
+        48,
+        35
+      ],
+      "pivot_canvas_normalized": [
+        0.57942708,
+        0.83463542
+      ],
+      "pivot_local_px": [
+        28.5,
+        13.5
+      ],
+      "sha256": "9fa23d2a05d74f6f2a508c097fdda70382d31fbeea0201e143514c81b2d4db7d"
+    },
+    {
+      "id": "thigh_near",
+      "label": "Near thigh",
+      "svg_layer_id": "part_thigh_near",
+      "parent": "torso",
+      "draw_order": 4,
+      "png": "assets/imported/rangers/patrolman/thigh_near.png",
+      "pivot_canvas_units": [
+        42.625,
+        75.625
+      ],
+      "canvas_rect_px": [
+        139,
+        289,
+        62,
+        37
+      ],
+      "pivot_canvas_normalized": [
+        0.44401042,
+        0.78776042
+      ],
+      "pivot_local_px": [
+        31.5,
+        13.5
+      ],
+      "sha256": "a94248ec766ebb04e03df28ad3b3e1a778a43d57412693bd6ccd26a933da9baf"
+    },
+    {
+      "id": "shin_near",
+      "label": "Near shin",
+      "svg_layer_id": "part_shin_near",
+      "parent": "thigh_near",
+      "draw_order": 5,
+      "png": "assets/imported/rangers/patrolman/shin_near.png",
+      "pivot_canvas_units": [
+        42.375,
+        78.125
+      ],
+      "canvas_rect_px": [
+        139,
+        299,
+        62,
+        35
+      ],
+      "pivot_canvas_normalized": [
+        0.44140625,
+        0.81380208
+      ],
+      "pivot_local_px": [
+        30.5,
+        13.5
+      ],
+      "sha256": "93fefc2ecd1c557f080fc44b757037da78349e839d1abe584f1d2f843c8afe34"
+    },
+    {
+      "id": "boot_near",
+      "label": "Near boot",
+      "svg_layer_id": "part_boot_near",
+      "parent": "shin_near",
+      "draw_order": 6,
+      "png": "assets/imported/rangers/patrolman/boot_near.png",
+      "pivot_canvas_units": [
+        41.875,
+        80.125
+      ],
+      "canvas_rect_px": [
+        141,
+        307,
+        59,
+        35
+      ],
+      "pivot_canvas_normalized": [
+        0.43619792,
+        0.83463542
+      ],
+      "pivot_local_px": [
+        26.5,
+        13.5
+      ],
+      "sha256": "d3408a5b1d46e6eba80911b48b1e7bed6773ecddc42c4a18dc2d03b5d6087643"
+    },
+    {
+      "id": "upper_arm_far",
+      "label": "Far upper arm",
+      "svg_layer_id": "part_upper_arm_far",
+      "parent": "torso",
+      "draw_order": 7,
+      "png": "assets/imported/rangers/patrolman/upper_arm_far.png",
+      "pivot_canvas_units": [
+        57.375,
+        58.875
+      ],
+      "canvas_rect_px": [
+        216,
+        222,
+        40,
+        38
+      ],
+      "pivot_canvas_normalized": [
+        0.59765625,
+        0.61328125
+      ],
+      "pivot_local_px": [
+        13.5,
+        13.5
+      ],
+      "sha256": "04544501270c8fd344b56523f74924358255a8e43e98de82036d0106ea407a2e"
+    },
+    {
+      "id": "forearm_far",
+      "label": "Far forearm",
+      "svg_layer_id": "part_forearm_far",
+      "parent": "upper_arm_far",
+      "draw_order": 8,
+      "png": "assets/imported/rangers/patrolman/forearm_far.png",
+      "pivot_canvas_units": [
+        60.625,
+        61.625
+      ],
+      "canvas_rect_px": [
+        229,
+        233,
+        38,
+        29
+      ],
+      "pivot_canvas_normalized": [
+        0.63151042,
+        0.64192708
+      ],
+      "pivot_local_px": [
+        13.5,
+        13.5
+      ],
+      "sha256": "99e16d51200e27f12a5ff84a485148224537bc309c42e7dc6b4add405528a5ba"
+    },
+    {
+      "id": "torso",
+      "label": "Olive jacket",
+      "svg_layer_id": "part_torso",
+      "parent": null,
+      "draw_order": 9,
+      "png": "assets/imported/rangers/patrolman/torso.png",
+      "pivot_canvas_units": [
+        48.625,
+        70.375
+      ],
+      "canvas_rect_px": [
+        114,
+        206,
+        163,
+        129
+      ],
+      "pivot_canvas_normalized": [
+        0.50651042,
+        0.73307292
+      ],
+      "pivot_local_px": [
+        80.5,
+        75.5
+      ],
+      "sha256": "f21ef1d0090fc93e7a5eb7456b6b43639dc28aa1f2dd6a8506c6b6354cbcb676"
+    },
+    {
+      "id": "shield",
+      "label": "Curved shield",
+      "svg_layer_id": "part_shield",
+      "parent": "hand_far",
+      "draw_order": 10,
+      "png": "assets/imported/rangers/patrolman/shield.png",
+      "pivot_canvas_units": [
+        65.125,
+        63.375
+      ],
+      "canvas_rect_px": [
+        218,
+        211,
+        73,
+        131
+      ],
+      "pivot_canvas_normalized": [
+        0.67838542,
+        0.66015625
+      ],
+      "pivot_local_px": [
+        42.5,
+        42.5
+      ],
+      "sha256": "c9b62a074594ec1662b9db26bb58aa3636b9e13290c3b7ca04cf430ff533a9e4"
+    },
+    {
+      "id": "hand_far",
+      "label": "Far shield hand",
+      "svg_layer_id": "part_hand_far",
+      "parent": "forearm_far",
+      "draw_order": 11,
+      "png": "assets/imported/rangers/patrolman/hand_far.png",
+      "pivot_canvas_units": [
+        63.375,
+        62.125
+      ],
+      "canvas_rect_px": [
+        240,
+        235,
+        34,
+        32
+      ],
+      "pivot_canvas_normalized": [
+        0.66015625,
+        0.64713542
+      ],
+      "pivot_local_px": [
+        13.5,
+        13.5
+      ],
+      "sha256": "bef509a695f54816782c9286fe2af5a8000f87cf1bcc04226543d42e98d5f22b"
+    },
+    {
+      "id": "upper_arm_near",
+      "label": "Near upper arm",
+      "svg_layer_id": "part_upper_arm_near",
+      "parent": "torso",
+      "draw_order": 12,
+      "png": "assets/imported/rangers/patrolman/upper_arm_near.png",
+      "pivot_canvas_units": [
+        38.125,
+        58.625
+      ],
+      "canvas_rect_px": [
+        119,
+        220,
+        64,
+        51
+      ],
+      "pivot_canvas_normalized": [
+        0.39713542,
+        0.61067708
+      ],
+      "pivot_local_px": [
+        33.5,
+        14.5
+      ],
+      "sha256": "d28d97498e707e3feb6ea74d47484985c4eb6eb25d29b8717144e20607a6cc0a"
+    },
+    {
+      "id": "forearm_near",
+      "label": "Near forearm",
+      "svg_layer_id": "part_forearm_near",
+      "parent": "upper_arm_near",
+      "draw_order": 13,
+      "png": "assets/imported/rangers/patrolman/forearm_near.png",
+      "pivot_canvas_units": [
+        36.375,
+        63.625
+      ],
+      "canvas_rect_px": [
+        116,
+        241,
+        57,
+        46
+      ],
+      "pivot_canvas_normalized": [
+        0.37890625,
+        0.66276042
+      ],
+      "pivot_local_px": [
+        29.5,
+        13.5
+      ],
+      "sha256": "139ae5dcba6b7189055d6830d7240d36c25a5cf78a05a2eac3c779279c701952"
+    },
+    {
+      "id": "baton",
+      "label": "Baton",
+      "svg_layer_id": "part_baton",
+      "parent": "hand_near",
+      "draw_order": 14,
+      "png": "assets/imported/rangers/patrolman/baton.png",
+      "pivot_canvas_units": [
+        34.125,
+        71.875
+      ],
+      "canvas_rect_px": [
+        109,
+        274,
+        43,
+        71
+      ],
+      "pivot_canvas_normalized": [
+        0.35546875,
+        0.74869792
+      ],
+      "pivot_local_px": [
+        27.5,
+        13.5
+      ],
+      "sha256": "12fd702c238b9988873bcfc712518a26640ee4db005332cd188ecb03ad9d4581"
+    },
+    {
+      "id": "hand_near",
+      "label": "Near baton hand",
+      "svg_layer_id": "part_hand_near",
+      "parent": "forearm_near",
+      "draw_order": 15,
+      "png": "assets/imported/rangers/patrolman/hand_near.png",
+      "pivot_canvas_units": [
+        35.125,
+        68.375
+      ],
+      "canvas_rect_px": [
+        114,
+        259,
+        55,
+        43
+      ],
+      "pivot_canvas_normalized": [
+        0.36588542,
+        0.71223958
+      ],
+      "pivot_local_px": [
+        26.5,
+        14.5
+      ],
+      "sha256": "d62925c599da3483ec5be4fbbe3f50a8dcfcc5e10c72b110a9519972a46d41c6"
+    },
+    {
+      "id": "head",
+      "label": "Head and hair",
+      "svg_layer_id": "part_head",
+      "parent": "torso",
+      "draw_order": 16,
+      "png": "assets/imported/rangers/patrolman/head.png",
+      "pivot_canvas_units": [
+        50.125,
+        54.875
+      ],
+      "canvas_rect_px": [
+        89,
+        127,
+        207,
+        111
+      ],
+      "pivot_canvas_normalized": [
+        0.52213542,
+        0.57161458
+      ],
+      "pivot_local_px": [
+        111.5,
+        92.5
+      ],
+      "sha256": "7471b8c31d431d03f5fa1a0807451b7cb3612946b54c31f860b0256c189271c5"
+    },
+    {
+      "id": "hat",
+      "label": "Short rounded cap",
+      "svg_layer_id": "part_hat",
+      "parent": "head",
+      "draw_order": 17,
+      "png": "assets/imported/rangers/patrolman/hat.png",
+      "pivot_canvas_units": [
+        47.875,
+        35.125
+      ],
+      "canvas_rect_px": [
+        102,
+        60,
+        202,
+        103
+      ],
+      "pivot_canvas_normalized": [
+        0.49869792,
+        0.36588542
+      ],
+      "pivot_local_px": [
+        89.5,
+        80.5
+      ],
+      "sha256": "4a1e98e7335a0ebfb9c3fbed87722da310206ac642ed7ede04fa66da41a89e5e"
+    }
+  ],
+  "source_sha256": "b53949a4195f27e6691cbc7c517ea4546fe8fde20ef0ed2349d57af9010d42c0",
+  "art_bounds_units": [
+    23.25,
+    16.0,
+    51.75,
+    69.25
+  ],
+  "measured_visible_height_units": 69.25,
+  "neutral_rgba_reassembly_max_delta": 1,
+  "study_reference": "assets/source-art/rangers/patrolman/study_reference.png",
+  "study_reference_sha256": "57cf2ef19a6cc8643c04c5eadb7103dfcd4983e6b1711c77fe1f407988b9e161",
+  "study_reassembly_max_delta": 2
+}

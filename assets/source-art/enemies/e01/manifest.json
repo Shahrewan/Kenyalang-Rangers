@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.3.0",
+  "enemy_id": "E01",
+  "display_name": "Forest Trespasser",
+  "status": "study-matched cutout source and independent exports",
+  "source_svg": "assets/source-art/enemies/e01/e01.svg",
+  "coordinate_system": "Top-left origin, +x right, +y down",
+  "canvas_units": [
+    96,
+    96
+  ],
+  "normalized_raster_canvas_px": [
+    384,
+    384
+  ],
+  "pixels_per_unit": 4,
+  "godot_units_per_png_pixel": 0.25,
+  "tile_units": 80,
+  "ground_anchor_units": [
+    48,
+    84
+  ],
+  "ground_anchor_normalized": [
+    0.5,
+    0.875
+  ],
+  "target_visible_height_units": 66,
+  "neutral_facing": "right",
+  "horizontal_mirror_origin": "Ground anchor on Facing node",
+  "underfoot_hp_offset_units": [
+    0,
+    5
+  ],
+  "export": {
+    "format": "PNG RGBA",
+    "minimum_padding_px": 4,
+    "filter": "linear",
+    "rasterizer": "Inkscape 1.4",
+    "crop_offset_origin": "top-left of normalized raster canvas"
+  },
+  "provenance": {
+    "creator": "Kenyalang Rangers W27 study-derived cutouts",
+    "source": "Visible regions preserve the original E01 study below an isolated cap-removal hair edit. Hidden joints use independently drawn underpaint.",
+    "revision": "2026-11-23",
+    "license_status": "Project owner approved the reference batch for redraw. Final asset release clearance remains in D-014.",
+    "review_source": "docs/production/w27/review/actors/e01_study.png",
+    "review_source_sha256": "a29c6a158cf03f956bc0a82a3294713a2ce4183d0afb1a55586569dcbd8068da",
+    "bare_head_edit": "docs/production/w27/review/actors/e01_bare_head_edit.png",
+    "bare_head_edit_sha256": "b68d25d9d9674a54ca9870a3dd88b484694c3c23e984fa23714c9f9687923cef",
+    "palette": "Faction rust overlay mapped to the jacket cloth. Original study, skin, gear, cuffs, outline, silhouette and rig structure stay registered."
+  },
+  "animation_contract": "assets/source-art/enemies/e01/animation_contract.json",
+  "sockets": {
+    "pouch_pin": {
+      "part": "torso",
+      "canvas_units": [
+        35.875,
+        70.375
+      ]
+    },
+    "attack_fx": {
+      "part": "hand_near",
+      "canvas_units": [
+        36.807,
+        69.804
+      ]
+    }
+  },
+  "parts": [
+    {
+      "id": "thigh_far",
+      "label": "Far thigh",
+      "svg_layer_id": "part_thigh_far",
+      "parent": "torso",
+      "draw_order": 1,
+      "png": "assets/imported/enemies/e01/thigh_far.png",
+      "pivot_canvas_units": [
+        53.625,
+        70.125
+      ],
+      "canvas_rect_px": [
+        198,
+        267,
+        49,
+        43
+      ],
+      "pivot_canvas_normalized": [
+        0.55859375,
+        0.73046875
+      ],
+      "pivot_local_px": [
+        16.5,
+        13.5
+      ],
+      "sha256": "b16ed0991112b882a17d293f9973ad5e223a669299a0bdfa2f4ede4272f8f793"
+    },
+    {
+      "id": "shin_far",
+      "label": "Far shin",
+      "svg_layer_id": "part_shin_far",
+      "parent": "thigh_far",
+      "draw_order": 2,
+      "png": "assets/imported/enemies/e01/shin_far.png",
+      "pivot_canvas_units": [
+        54.125,
+        74.125
+      ],
+      "canvas_rect_px": [
+        192,
+        283,
+        56,
+        42
+      ],
+      "pivot_canvas_normalized": [
+        0.56380208,
+        0.77213542
+      ],
+      "pivot_local_px": [
+        24.5,
+        13.5
+      ],
+      "sha256": "55af4c92953eb1d5035669a3faf2e529343bc9749f0f6cc5048b377254c5ab67"
+    },
+    {
+      "id": "boot_far",
+      "label": "Far boot",
+      "svg_layer_id": "part_boot_far",
+      "parent": "shin_far",
+      "draw_order": 3,
+      "png": "assets/imported/enemies/e01/boot_far.png",
+      "pivot_canvas_units": [
+        54.875,
+        77.875
+      ],
+      "canvas_rect_px": [
+        192,
+        298,
+        59,
+        44
+      ],
+      "pivot_canvas_normalized": [
+        0.57161458,
+        0.81119792
+      ],
+      "pivot_local_px": [
+        27.5,
+        13.5
+      ],
+      "sha256": "dd4696eb1c95c7f995778119ce69d845c199db51bbb16d447b582d3931bfc161"
+    },
+    {
+      "id": "thigh_near",
+      "label": "Near thigh",
+      "svg_layer_id": "part_thigh_near",
+      "parent": "torso",
+      "draw_order": 4,
+      "png": "assets/imported/enemies/e01/thigh_near.png",
+      "pivot_canvas_units": [
+        44.125,
+        70.375
+      ],
+      "canvas_rect_px": [
+        158,
+        268,
+        50,
+        43
+      ],
+      "pivot_canvas_normalized": [
+        0.45963542,
+        0.73307292
+      ],
+      "pivot_local_px": [
+        18.5,
+        13.5
+      ],
+      "sha256": "bf467f682f4115749f5178a7cbc1a5eea0e275356715a3377a7ed8b49238d4a1"
+    },
+    {
+      "id": "shin_near",
+      "label": "Near shin",
+      "svg_layer_id": "part_shin_near",
+      "parent": "thigh_near",
+      "draw_order": 5,
+      "png": "assets/imported/enemies/e01/shin_near.png",
+      "pivot_canvas_units": [
+        43.125,
+        74.375
+      ],
+      "canvas_rect_px": [
+        144,
+        284,
+        59,
+        41
+      ],
+      "pivot_canvas_normalized": [
+        0.44921875,
+        0.77473958
+      ],
+      "pivot_local_px": [
+        28.5,
+        13.5
+      ],
+      "sha256": "1cf06c10ff8645f1fa2c9392faedb597eb8403843d31bb75d27e3bdb0825fc5b"
+    },
+    {
+      "id": "boot_near",
+      "label": "Near boot",
+      "svg_layer_id": "part_boot_near",
+      "parent": "shin_near",
+      "draw_order": 6,
+      "png": "assets/imported/enemies/e01/boot_near.png",
+      "pivot_canvas_units": [
+        42.375,
+        77.875
+      ],
+      "canvas_rect_px": [
+        137,
+        298,
+        65,
+        44
+      ],
+      "pivot_canvas_normalized": [
+        0.44140625,
+        0.81119792
+      ],
+      "pivot_local_px": [
+        32.5,
+        13.5
+      ],
+      "sha256": "275748bc06a90adf26295c783fbbdd0bcb4a4e31fd3dccae1ef826fbfdcfac28"
+    },
+    {
+      "id": "upper_arm_far",
+      "label": "Far upper arm",
+      "svg_layer_id": "part_upper_arm_far",
+      "parent": "torso",
+      "draw_order": 7,
+      "png": "assets/imported/enemies/e01/upper_arm_far.png",
+      "pivot_canvas_units": [
+        56.125,
+        59.125
+      ],
+      "canvas_rect_px": [
+        211,
+        217,
+        41,
+        44
+      ],
+      "pivot_canvas_normalized": [
+        0.58463542,
+        0.61588542
+      ],
+      "pivot_local_px": [
+        13.5,
+        19.5
+      ],
+      "sha256": "4394789b958675df262d9e1f73b6a256fd8cb0e622d8eac9939672afefa2304d"
+    },
+    {
+      "id": "forearm_far",
+      "label": "Far forearm",
+      "svg_layer_id": "part_forearm_far",
+      "parent": "upper_arm_far",
+      "draw_order": 8,
+      "png": "assets/imported/enemies/e01/forearm_far.png",
+      "pivot_canvas_units": [
+        59.375,
+        61.875
+      ],
+      "canvas_rect_px": [
+        224,
+        234,
+        40,
+        49
+      ],
+      "pivot_canvas_normalized": [
+        0.61848958,
+        0.64453125
+      ],
+      "pivot_local_px": [
+        13.5,
+        13.5
+      ],
+      "sha256": "16c53a4cfcad8a4a0b5ee99fefe8c9cdae9cf0b1b5df3f1117b25d2d6f6c14da"
+    },
+    {
+      "id": "hand_far",
+      "label": "Far fist",
+      "svg_layer_id": "part_hand_far",
+      "parent": "forearm_far",
+      "draw_order": 9,
+      "png": "assets/imported/enemies/e01/hand_far.png",
+      "pivot_canvas_units": [
+        60.875,
+        67.375
+      ],
+      "canvas_rect_px": [
+        230,
+        256,
+        36,
+        47
+      ],
+      "pivot_canvas_normalized": [
+        0.63411458,
+        0.70182292
+      ],
+      "pivot_local_px": [
+        13.5,
+        13.5
+      ],
+      "sha256": "ca470e15b23677b4e2c5fbc599b098f24f30a1a32062eacd984a4fb15ed250bd"
+    },
+    {
+      "id": "torso",
+      "label": "Bark jacket",
+      "svg_layer_id": "part_torso",
+      "parent": null,
+      "draw_order": 10,
+      "png": "assets/imported/enemies/e01/torso.png",
+      "pivot_canvas_units": [
+        49.125,
+        66.125
+      ],
+      "canvas_rect_px": [
+        129,
+        191,
+        136,
+        145
+      ],
+      "pivot_canvas_normalized": [
+        0.51171875,
+        0.68880208
+      ],
+      "pivot_local_px": [
+        67.5,
+        73.5
+      ],
+      "sha256": "730b6e1e5e3a280bf5ae829b1bce195502fc938407f1d27802e24a1595d1191e"
+    },
+    {
+      "id": "pouch",
+      "label": "Hip pouch",
+      "svg_layer_id": "part_pouch",
+      "parent": "torso",
+      "draw_order": 11,
+      "png": "assets/imported/enemies/e01/pouch.png",
+      "pivot_canvas_units": [
+        35.875,
+        70.375
+      ],
+      "canvas_rect_px": [
+        110,
+        259,
+        58,
+        56
+      ],
+      "pivot_canvas_normalized": [
+        0.37369792,
+        0.73307292
+      ],
+      "pivot_local_px": [
+        33.5,
+        22.5
+      ],
+      "sha256": "87252d5ce10ad269a63e0f517326ba9a5e4bb49f7c12d49b3ffc0ceca3d8bed8"
+    },
+    {
+      "id": "upper_arm_near",
+      "label": "Near upper arm",
+      "svg_layer_id": "part_upper_arm_near",
+      "parent": "torso",
+      "draw_order": 12,
+      "png": "assets/imported/enemies/e01/upper_arm_near.png",
+      "pivot_canvas_units": [
+        39.625,
+        58.625
+      ],
+      "canvas_rect_px": [
+        129,
+        208,
+        59,
+        55
+      ],
+      "pivot_canvas_normalized": [
+        0.41276042,
+        0.61067708
+      ],
+      "pivot_local_px": [
+        29.5,
+        26.5
+      ],
+      "sha256": "bdcaf480c09cf90b672debb5cf8abcb7db28d98d8753ab6a3223f00dd4dc7f78"
+    },
+    {
+      "id": "forearm_near",
+      "label": "Near forearm",
+      "svg_layer_id": "part_forearm_near",
+      "parent": "upper_arm_near",
+      "draw_order": 13,
+      "png": "assets/imported/enemies/e01/forearm_near.png",
+      "pivot_canvas_units": [
+        37.875,
+        62.375
+      ],
+      "canvas_rect_px": [
+        123,
+        236,
+        59,
+        46
+      ],
+      "pivot_canvas_normalized": [
+        0.39453125,
+        0.64973958
+      ],
+      "pivot_local_px": [
+        28.5,
+        13.5
+      ],
+      "sha256": "061c68259acf0677413f7f39b56a33ed23703c12a4713c1e73f98014a0239824"
+    },
+    {
+      "id": "hand_near",
+      "label": "Near fist",
+      "svg_layer_id": "part_hand_near",
+      "parent": "forearm_near",
+      "draw_order": 14,
+      "png": "assets/imported/enemies/e01/hand_near.png",
+      "pivot_canvas_units": [
+        37.125,
+        67.125
+      ],
+      "canvas_rect_px": [
+        126,
+        255,
+        47,
+        42
+      ],
+      "pivot_canvas_normalized": [
+        0.38671875,
+        0.69921875
+      ],
+      "pivot_local_px": [
+        22.5,
+        13.5
+      ],
+      "sha256": "8db6373a632686a705772ae2d63ffe3f393e60b58bf50789ac51b8b6007eff4b"
+    },
+    {
+      "id": "head",
+      "label": "Bare head and tousled hair",
+      "svg_layer_id": "part_head",
+      "parent": "torso",
+      "draw_order": 15,
+      "png": "assets/imported/enemies/e01/head.png",
+      "pivot_canvas_units": [
+        48.125,
+        51.125
+      ],
+      "canvas_rect_px": [
+        87,
+        65,
+        201,
+        161
+      ],
+      "pivot_canvas_normalized": [
+        0.50130208,
+        0.53255208
+      ],
+      "pivot_local_px": [
+        105.5,
+        139.5
+      ],
+      "sha256": "42eebf5bfbe4a7ef0a54dde43e04f44dacc1015e33e66472579a4f44507b7abf"
+    }
+  ],
+  "source_sha256": "53c445e08b3a7e50ea105cf59de29ced240638079bddbf9c24438826199a28ac",
+  "art_bounds_units": [
+    22.75,
+    17.25,
+    48.25,
+    67.25
+  ],
+  "measured_visible_height_units": 67.25,
+  "neutral_rgba_reassembly_max_delta": 1,
+  "study_reference": "assets/source-art/enemies/e01/rust_reference.png",
+  "study_reference_sha256": "55d85d58f46bdba8d9629e7e78349cfee9c4de9931233d083901676f89df0792",
+  "study_reassembly_max_delta": 2
+}
