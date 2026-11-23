@@ -1,6 +1,8 @@
 # C22 presentation and accessibility checks
 
-23 November 2026 · Godot 4.7.2 stable · Compatibility
+23 November 2026 · Godot 4.7.2 stable · Compatibility · Original C22 merge `49832e8`
+
+The source comparison, corrections and new regression evidence are recorded in the [C22 source and gameplay audit](C22_SOURCE_AUDIT.md).
 
 | Area | Evidence |
 |---|---|

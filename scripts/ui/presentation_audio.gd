@@ -2,6 +2,7 @@ class_name PresentationAudio
 extends Node
 
 const DEFAULTS := {"master": 80, "music": 45, "sfx": 75, "text": 100}
+const TEXT_SIZES := [100, 115, 130]
 const TRACKS := {
 	"office": [220, 330, 294, 247, 262, 330, 294, 196],
 	"story": [196, 247, 294, 220, 196, 294, 262, 220],
@@ -36,7 +37,7 @@ func _ready() -> void:
 
 func valid_setting(key: String, value: Variant) -> bool:
 	if key == "text":
-		return ProfileFile.whole_between(value, 100, 130) and int(value) in [100, 115, 130]
+		return ProfileFile.whole_between(value, TEXT_SIZES.front(), TEXT_SIZES.back()) and int(value) in TEXT_SIZES
 	return key in DEFAULTS and ProfileFile.whole_between(value, 0, 100)
 
 func change(key: String, value: int) -> bool:

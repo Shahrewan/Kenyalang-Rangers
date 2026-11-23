@@ -129,9 +129,9 @@ func _refresh() -> void:
 	var gross := ChaosScore.payout(points)
 	_score.text = StoryUI.funds(points)
 	_payout.text = "%s Funds on qualifying victory" % StoryUI.funds(gross)
-	var discarded: int = FundsWallet.quote(progress.funds(), gross).discarded
-	if discarded > 0:
-		_payout.text += "\n%s above the wallet cap" % StoryUI.funds(discarded)
+	var wallet := FundsWallet.quote(progress.funds(), gross)
+	if wallet.discarded > 0:
+		_payout.text += "\n%s Funds credited · %s permanently discarded" % [StoryUI.funds(wallet.credited), StoryUI.funds(wallet.discarded)]
 	var projected := ChaosScore.tier(maxi(points, progress.chaos_personal_best()))
 	_tier.text = "Trophy tier after victory · %d" % projected if projected > 0 else "Trophy · Unranked"
 	var enemy_label := "enemy" if score.configured_enemies == 1 else "enemies"

@@ -9,21 +9,36 @@ const GESTURE := {
 
 var identity := ""
 var pose := ""
+var _settle := 0.0
+var _motion: Tween
 
 func present(key: String, expression: String) -> void:
 	identity = key
 	pose = expression
+	if _motion != null:
+		_motion.kill()
+	_settle = -5.0
+	_motion = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_motion.tween_method(_settle_pose, -5.0, 0.0, 0.18)
+	queue_redraw()
+
+func _settle_pose(offset: float) -> void:
+	_settle = offset
 	queue_redraw()
 
 # Labelled storyboard stand-in. Silhouette, head angle and brows follow the speaker and pose.
 func _draw() -> void:
-	var center := size * 0.5
+	var center := size * 0.5 + Vector2(0, _settle)
 	var lean := -0.12 if pose in ["concerned", "captured"] else (0.10 if pose in ["alert", "confronting"] else 0.0)
 	draw_set_transform(center, lean, Vector2.ONE * minf(1.55, size.y / 124.0))
 	var uniform := Color("#77926f") if identity in ["portrait.leader", "portrait.manager"] else Color("#ab7759")
 	draw_colored_polygon(PackedVector2Array([Vector2(-67,60),Vector2(-48,30),Vector2(-22,19),Vector2(22,19),Vector2(48,30),Vector2(67,60)]), uniform)
-	draw_circle(Vector2(0,-8), 35, StoryUI.BEIGE)
+	if identity != "portrait.leader":
+		draw_circle(Vector2(0,-8), 35, StoryUI.BEIGE)
 	match identity:
+		"portrait.leader":
+			draw_colored_polygon(PackedVector2Array([Vector2(-42, 9), Vector2(-43, -22), Vector2(-26, -47), Vector2(11, -51), Vector2(38, -28), Vector2(39, 3), Vector2(19, 26), Vector2(-20, 25)]), Color("#8C8D5E"))
+			draw_colored_polygon(PackedVector2Array([Vector2(-28, 3), Vector2(-26, -19), Vector2(-9, -33), Vector2(17, -35), Vector2(28, -21), Vector2(26, 2), Vector2(14, 18), Vector2(-13, 16)]), StoryUI.INK)
 		"portrait.manager":
 			draw_rect(Rect2(-38,-44,76,13), uniform)
 			draw_circle(Vector2(32,-7), 8, StoryUI.INK)

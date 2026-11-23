@@ -90,6 +90,7 @@ func _next_beat() -> void:
 	dialogue_id = _active_beat.id
 	_line_index = 0
 	battle.clock.dialogue_open = true
+	$Content.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED
 	_dialogue.show()
 	_render_line()
 	%Continue.grab_focus()
@@ -102,7 +103,7 @@ func _render_line() -> void:
 		label += " " + progress.snapshot().leader_name
 	%DialogueTitle.text = label
 	_portrait.present(speaker.portrait_key, line.pose_key)
-	_pose.text = "Draft dialogue · Portrait placeholder · %s" % String(line.pose_key).capitalize()
+	_pose.text = "Story paused · Draft dialogue · Portrait placeholder · %s" % String(line.pose_key).capitalize()
 	%DialogueText.get_parent().scroll_vertical = 0
 	%DialogueText.text = line.text
 

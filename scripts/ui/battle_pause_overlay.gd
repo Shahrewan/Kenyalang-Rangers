@@ -3,6 +3,8 @@ extends ColorRect
 
 signal resume_requested
 signal abandon_requested
+signal settings_requested
+signal controls_requested
 
 var _intel: WaveIntel
 var _active: Label
@@ -11,6 +13,7 @@ var _confirm_view: VBoxContainer
 var _resume: Button
 var _cancel: Button
 var _abandon: Button
+var _options: HBoxContainer
 
 func _ready() -> void:
 	var center := CenterContainer.new()
@@ -39,6 +42,17 @@ func _ready() -> void:
 	_abandon.name = "AskAbandon"
 	_abandon.pressed.connect(_show_confirmation)
 	controls.add_child(_abandon)
+	_options = StoryUI.row(_pause_view)
+	var help := StoryUI.action("Controls")
+	help.name = "PauseControls"
+	help.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	help.pressed.connect(func() -> void: controls_requested.emit())
+	_options.add_child(help)
+	var settings := StoryUI.action("Settings")
+	settings.name = "PauseSettings"
+	settings.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	settings.pressed.connect(func() -> void: settings_requested.emit())
+	_options.add_child(settings)
 
 	_confirm_view = StoryUI.column(box)
 	_confirm_view.add_child(StoryUI.label("Abandon this operation?", 30))
@@ -54,10 +68,11 @@ func _ready() -> void:
 	confirm_controls.add_child(leave)
 	_confirm_view.hide()
 
-func show_battle(stage: BattleStage, battle: BattleSimulation, can_abandon: bool) -> void:
+func show_battle(stage: BattleStage, battle: BattleSimulation, can_abandon: bool, can_open_options: bool) -> void:
 	_intel.show_stage(stage, battle)
 	_active.text = "Wave %d/%d   ·   %d active" % [battle.wave_number, battle.wave_count, battle.active.size()]
 	_abandon.visible = can_abandon
+	_options.visible = can_open_options
 	show()
 	_cancel_confirmation()
 	StoryUI.size_buttons(self)
