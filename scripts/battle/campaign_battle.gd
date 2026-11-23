@@ -10,6 +10,7 @@ var _line_index := 0
 var _report: Dictionary
 var _seen_enemies: Dictionary
 var _placed_ranger := false
+var _portrait := StoryPortrait.new()
 var _pose: Label
 
 func _prepare_campaign() -> void:
@@ -17,9 +18,13 @@ func _prepare_campaign() -> void:
 	%Legend.text = "%s · Placeholder board art" % stage.map.map_id
 	_pose = StoryUI.label("", 17, StoryUI.BEIGE)
 	_pose.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var body: VBoxContainer = %DialogueText.get_parent()
+	var body: VBoxContainer = %DialogueTitle.get_parent()
+	_portrait.custom_minimum_size.y = 190
+	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	body.add_child(_portrait)
+	body.move_child(_portrait, %DialogueText.get_parent().get_index())
 	body.add_child(_pose)
-	body.move_child(_pose, %DialogueText.get_index())
+	body.move_child(_pose, %DialogueText.get_parent().get_index())
 
 func _open_operation() -> void:
 	_queue.clear()
@@ -96,7 +101,9 @@ func _render_line() -> void:
 	if line.speaker_id == "speaker.leader":
 		label += " " + progress.snapshot().leader_name
 	%DialogueTitle.text = label
+	_portrait.present(speaker.portrait_key, line.pose_key)
 	_pose.text = "Draft dialogue · Portrait placeholder · %s" % String(line.pose_key).capitalize()
+	%DialogueText.get_parent().scroll_vertical = 0
 	%DialogueText.text = line.text
 
 func close_dialogue() -> void:

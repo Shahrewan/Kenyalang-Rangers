@@ -28,6 +28,8 @@ From **Headquarters**, build Outreach or Records to open their activity screens.
 
 Build **Ecology**, then open **Reforestation** from the Main Menu or the Ecology room. Plant a seed for free, water it halfway and collect it at maturity. Growth advances offline as far as the next watering check. Collection releases the plot and keeps the mature tree in the garden. Ecology upgrades expand capacity from two to six plots. The fourth distinct species brings a hornbill visitor and the nest box. [C20 verification](docs/qa/C20_RESTORATION_MATRIX.md)
 
+Open **FAQ** for touch instructions and offline references. **Settings** stores Master, Music, Sound effects and text size on the device. [C22 checks](docs/qa/C22_PRESENTATION_MATRIX.md)
+
 **Sample battle** opens the separate deployment and construction fixtures for testing.
 
 Open `scenes/qa/ranger_sandbox.tscn` with **F6** or run `godot --path . scenes/qa/ranger_sandbox.tscn` to try the C10 Offense Rangers. This sandbox has its own 100-Token budget and a Records fixture for Scout's Focus. [Sandbox controls and phone check](export/README.md#c10-offense-sandbox-phone-check)
@@ -78,9 +80,10 @@ godot --headless --path . --script res://tests/unit/education_rules_test.gd
 godot --headless --path . --script res://tests/unit/education_ui_test.gd
 godot --headless --path . --script res://tests/unit/restoration_rules_test.gd
 godot --headless --path . --script res://tests/unit/restoration_ui_test.gd
+godot --headless --path . --script res://tests/unit/presentation_test.gd
 ```
 
-Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 24 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
+Expect `4.7.2.stable` in the version, an import and startup free of script errors, and zero failures across the 25 test scripts. The logical layout starts at 1280×720, expands for other landscape aspect ratios, and maps Android system safe bounds into the UI margins. [Test descriptions](tests/README.md)
 
 ## Android export prerequisites
 
@@ -88,7 +91,7 @@ Expect `4.7.2.stable` in the version, an import and startup free of script error
 - Install OpenJDK 17 and the Android SDK. Install SDK Command-line Tools, accept the SDK licenses, and install Platform-Tools (`adb`), Build-Tools (`apksigner`), and Android Platform 36. The verified export used Build-Tools 36.1.0. The linked export guide lists the full Godot 4.7 toolchain, including packages for custom builds. [Godot 4.7 Android export guide](https://docs.godotengine.org/en/4.7/tutorials/export/exporting_for_android.html)
 - In **Editor → Editor Settings → Export → Android**, set **Java SDK Path** to the JDK root, and **Android SDK Path** to the SDK root. Configure debug signing locally if prompted. The team release identity and key custody are tracked separately.
 
-The C20 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB access to a phone. [Export and C20 phone steps](export/README.md#c20-restoration-phone-check)
+The C22 cloud build produced a signed ARM64 debug APK. Physical installation remains pending because the workspace has no USB access to a phone. [Export and C22 phone steps](export/README.md#c22-presentation-phone-check)
 
 ## Reference documents
 The GDD and 127-page tileset/UI storyboard are separate production references. They are **not automatically included** in this public repository. See `docs/reference/README.md` before uploading PDFs, especially any academic covers containing personal information or signatures.

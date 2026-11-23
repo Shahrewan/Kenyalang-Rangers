@@ -1,6 +1,7 @@
 class_name OutreachPage
 extends VBoxContainer
 
+signal sound_requested(id: String)
 signal back_requested
 
 var progress: CampaignProgress
@@ -107,6 +108,7 @@ func _submit(question: String, option: int) -> void:
 	if _session.submit(question, option, now).is_empty():
 		_notice.text = "Could not save this response. Check local storage and retry."
 	else:
+		sound_requested.emit("education")
 		_notice.text = ""
 		_render()
 

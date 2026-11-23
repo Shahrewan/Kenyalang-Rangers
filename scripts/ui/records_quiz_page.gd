@@ -1,6 +1,7 @@
 class_name RecordsQuizPage
 extends VBoxContainer
 
+signal sound_requested(id: String)
 signal back_requested
 
 var progress: CampaignProgress
@@ -43,7 +44,10 @@ func _toggle_pause() -> void:
 		quiz.pause()
 
 func _process(delta: float) -> void:
+	var was_reviewing := quiz.reviewing()
 	quiz.advance(delta)
+	if not was_reviewing and quiz.reviewing():
+		sound_requested.emit("education")
 	_update_clock()
 
 func _exit_tree() -> void:
@@ -88,7 +92,8 @@ func _ask() -> void:
 		_body.add_child(EducationUI.answer_button(item.choices[index].text, "QuizAnswer%d" % index, _answer.bind(index)))
 
 func _answer(index: int) -> void:
-	quiz.answer(index)
+	if quiz.answer(index):
+		sound_requested.emit("education")
 
 func _review() -> void:
 	var item := quiz.question()

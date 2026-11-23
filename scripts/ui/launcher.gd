@@ -28,6 +28,9 @@ var _chaos_configuration := ChaosConfiguration.new()
 var _chaos_plan: OperationPlan
 var _chaos_origin: Callable
 var _finance_elapsed := 0.0
+var presentation := PresentationAudio.new()
+var _guide: FieldGuide
+var _guide_origin: Control
 var _focused := true
 var _suspended := false
 var _headquarters_return: Callable
@@ -36,6 +39,9 @@ var _return_action: Callable
 var unlocked_buff_ids: Array[StringName] = []
 
 func _ready() -> void:
+	presentation.path = campaign_save_path + ".settings"
+	add_child(presentation)
+	get_tree().node_added.connect(_control_added)
 	get_tree().quit_on_go_back = false
 	get_viewport().size_changed.connect(_resize_controls)
 	if first_contact_trial:
@@ -71,6 +77,10 @@ func _profile() -> Dictionary:
 	return _progress.snapshot() if first_contact_trial else _campaign_progress.snapshot()
 
 func _process(delta: float) -> void:
+	if _screen is BattleScene and _screen.battle != null:
+		presentation.hold(not _screen.battle.clock.is_running())
+	elif _screen is RecordsQuizPage:
+		presentation.hold(_screen.quiz.paused)
 	if _campaign_progress == null or not _focused or _suspended or _route in [&"name", &"recovery"]:
 		return
 	if _screen is BattleScene and (_screen.battle == null or not _screen.battle.clock.is_running()):
@@ -112,6 +122,13 @@ func show_menu() -> void:
 		var settings: Button = page.get_node("%OpenSettings")
 		settings.show()
 		settings.pressed.connect(func() -> void: _show_settings(show_menu))
+		var spacer := Control.new()
+		spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		page.get_node("Footer").add_child(spacer)
+		var faq := StoryUI.action("FAQ")
+		faq.name = "OpenFAQ"
+		page.get_node("Footer").add_child(faq)
+		faq.pressed.connect(_open_guide.bind(""))
 		var garden: Button = page.get_node("%Garden")
 		garden.disabled = false
 		garden.text = "Reforestation"
@@ -350,6 +367,7 @@ func _render_chaos_result(run: ChaosRun, review: Callable) -> void:
 		review.call()
 	)
 	_present(page, &"chaos_results", page.request_back)
+	presentation.cue("victory" if run.qualifies() else "defeat")
 
 func _open_headquarters(back: Callable) -> void:
 	_headquarters_return = back
@@ -463,6 +481,9 @@ func _show_recovery() -> void:
 func _show_settings(back: Callable) -> void:
 	var page := ProfileSettingsPage.new()
 	page.progress = _campaign_progress
+	page.preferences = presentation
+	page.text_changed.connect(_restyle)
+	page.help_requested.connect(_open_guide.bind(""))
 	page.back_requested.connect(back)
 	page.reset_requested.connect(func() -> void:
 		if _campaign_progress.reset_profile():
@@ -474,7 +495,7 @@ func _show_settings(back: Callable) -> void:
 		else:
 			page.show_error()
 	)
-	_present(page, &"settings", back)
+	_present(page, &"settings", page.request_back)
 
 func _start_campaign() -> void:
 	if _draft == null or not _draft.can_start():
@@ -544,6 +565,7 @@ func _show_results(report: Dictionary) -> void:
 		page.planning_requested.connect(_show_campaign_plan.bind(_draft.operation))
 	page.story_requested.connect(show_story)
 	_present(page, &"results")
+	presentation.cue("defeat" if report.outcome == "Defeat" else "victory")
 
 func _present(page: Control, route: StringName, back := Callable()) -> void:
 	if is_instance_valid(_screen):
@@ -552,9 +574,60 @@ func _present(page: Control, route: StringName, back := Callable()) -> void:
 	_route = route
 	_return_action = back
 	_screen = page
+	if page.has_signal("article_requested"):
+		page.connect("article_requested", _open_guide)
+	if page.has_signal("sound_requested"):
+		page.connect("sound_requested", presentation.cue)
+	presentation.set_route(route)
 	_content.add_child(page)
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_resize_controls()
+
+func _open_guide(fact_id: String) -> void:
+	if is_instance_valid(_guide):
+		return
+	_guide_origin = get_viewport().gui_get_focus_owner()
+	_screen.hide()
+	_guide = FieldGuide.new()
+	_guide.catalog = _education()
+	_guide.initial_fact = fact_id
+	_guide.closed.connect(_close_guide)
+	_content.add_child(_guide)
+	_guide.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_guide.find_children("*", "Button", true, false)[0].grab_focus()
+
+func _close_guide() -> void:
+	_content.remove_child(_guide)
+	_guide.queue_free()
+	_guide = null
+	_screen.show()
+	if is_instance_valid(_guide_origin) and _guide_origin.is_visible_in_tree():
+		_guide_origin.grab_focus()
+
+func _control_added(node: Node) -> void:
+	if node is Control and is_ancestor_of(node):
+		_style_control.call_deferred(weakref(node))
+
+func _restyle() -> void:
+	for control: Control in _content.find_children("*", "Control", true, false):
+		_style_control(weakref(control))
+
+func _style_control(reference: WeakRef) -> void:
+	var control := reference.get_ref() as Control
+	if not is_instance_valid(control) or not control.is_inside_tree():
+		return
+	if control is BaseButton or control is Slider:
+		control.custom_minimum_size = control.custom_minimum_size.max(StoryUI.android_touch_minimum(control))
+	if control is Button and not control.pressed.is_connected(_click_sound):
+		control.pressed.connect(_click_sound)
+	if control is Label or control is Button or control is LineEdit:
+		if not control.has_meta("base_font_size"):
+			control.set_meta("base_font_size", control.get_theme_font_size("font_size"))
+		control.add_theme_font_size_override("font_size", roundi(float(control.get_meta("base_font_size")) * presentation.values.text / 100.0))
+
+func _click_sound() -> void:
+	if not presentation.effects.playing:
+		presentation.cue("confirm")
 
 func _resize_controls() -> void:
 	if is_instance_valid(_screen):
@@ -572,8 +645,13 @@ func _notification(what: int) -> void:
 			_focused = false
 		else:
 			_suspended = true
+		if _screen is BattleScene and _screen.battle != null and _screen.battle.clock.is_running():
+			_screen.request_back()
 		if _campaign_progress != null:
 			_campaign_progress.flush_finance()
+
+	if is_instance_valid(presentation) and presentation.is_node_ready() and what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_IN, NOTIFICATION_APPLICATION_RESUMED]:
+		presentation.background(not _focused or _suspended)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -581,6 +659,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _go_back() -> void:
+	if is_instance_valid(_guide):
+		_guide.back()
+		return
 	if _return_action.is_valid():
 		_return_action.call()
 		return

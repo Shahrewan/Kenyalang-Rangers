@@ -1,7 +1,9 @@
 class_name HeadquartersGarden
 extends VBoxContainer
 
+signal article_requested(id: String)
 signal back_requested
+signal sound_requested(id: String)
 signal ecology_requested
 
 enum View { PLOT, SEEDS, GUIDE, MILESTONES, COLLECTION }
@@ -177,7 +179,9 @@ func _render_seeds() -> void:
 	_details.add_child(StoryUI.label("Planting is free. These are in-game growth times.", 18, StoryUI.BEIGE))
 	for id: String in RestorationRules.SPECIES:
 		var species: Dictionary = RestorationRules.SPECIES[id]
-		_add_button(_details, "%s\n%dh · %s Funds per cycle" % [species.label, species.hours, StoryUI.funds(species.funds)], "Plant_" + id.get_slice(".", 1), _plant.bind(_slot, id))
+		var button := _add_button(_details, "%s\n%dh · %s Funds per cycle" % [species.label, species.hours, StoryUI.funds(species.funds)], "Plant_" + id.get_slice(".", 1), _plant.bind(_slot, id))
+		button.icon = _board._texture("trees/%s/seed.png" % id.get_slice(".", 1))
+		button.add_theme_constant_override("icon_max_width", 44)
 
 func _render_guide() -> void:
 	_details.add_child(StoryUI.label("Rhinoceros Hornbill guide", 25, StoryUI.AMBER))
@@ -223,6 +227,7 @@ func _show_facts(ids: PackedStringArray) -> void:
 		_details.add_child(StoryUI.label(fact.title, 21, StoryUI.AMBER))
 		_details.add_child(StoryUI.label(fact.text, 19))
 		EducationUI.credit_sources(_details, catalog, fact.source_ids, StoryUI.BEIGE)
+		_add_button(_details, "Read article", "Article_" + id.get_slice(".", 1), func() -> void: article_requested.emit(id))
 	if pending:
 		_details.add_child(StoryUI.label("Field note awaiting approval.", 17, StoryUI.BEIGE))
 
@@ -246,6 +251,7 @@ func _water(slot: int, cycle: String) -> void:
 		return
 	_notice.hide()
 	_refresh()
+	sound_requested.emit("water")
 	_board.play_effect("water", slot)
 
 func _collect(slot: int, cycle: String) -> void:
@@ -259,6 +265,7 @@ func _collect(slot: int, cycle: String) -> void:
 	_view = View.COLLECTION
 	_notice.hide()
 	_refresh()
+	sound_requested.emit("visitor" if settlement.visitor else "collect")
 	_board.play_effect("collect", slot, settlement.visitor)
 
 func _plot() -> Dictionary:
@@ -273,8 +280,9 @@ func _time_caption(plot: Dictionary) -> String:
 	var duration := "%dh %02dm" % [floori(minutes / 60.0), minutes % 60] if minutes >= 60 else "%dm" % minutes
 	return ("Ready to water in %s" if plot.watered_at == 0 else "Ready to collect in %s") % duration
 
-static func _add_button(parent: Container, caption: String, node_name: String, callback: Callable, primary := false) -> void:
+static func _add_button(parent: Container, caption: String, node_name: String, callback: Callable, primary := false) -> Button:
 	var button := StoryUI.action(caption, primary)
 	button.name = node_name
 	button.pressed.connect(callback)
 	parent.add_child(button)
+	return button

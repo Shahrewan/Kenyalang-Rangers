@@ -1,6 +1,7 @@
 class_name RecordsArchivePage
 extends VBoxContainer
 
+signal article_requested(id: String)
 signal back_requested
 signal quiz_requested(quiz: RecordsQuiz)
 
@@ -28,6 +29,9 @@ func _ready() -> void:
 			card.add_child(StoryUI.label("Discovered", 17, StoryUI.INK))
 		card.add_child(StoryUI.label(fact.text, 20, StoryUI.INK))
 		EducationUI.credit_sources(card, catalog, fact.source_ids, StoryUI.INK)
+		var read := StoryUI.action("Read article")
+		read.pressed.connect(func() -> void: article_requested.emit(id))
+		card.add_child(read)
 	var chapters := StoryUI.scroll_column(body)
 	var heading := StoryUI.label("Quiz chapters", 25)
 	chapters.add_child(heading)
