@@ -110,7 +110,10 @@ def check_live_sources(assets, surfaces):
                         if path.is_file() and path.suffix in {'.png', '.jpg', '.svg', '.webp'}}
     need(textures == scanned_textures, 'Imported texture inventory differs')
     need(not any(path.endswith(('.wav', '.ogg', '.mp3', '.flac', '.opus')) for path in tracked), 'Audit newly added audio files')
-    need(not any(re.search(r'\bAudioStreamPlayer(?:2D|3D)?\b', block) for block in text.values()), 'Audit new playback nodes')
+    playback = {path for path, block in text.items() if re.search(r'\bAudioStreamPlayer(?:2D|3D)?\b', block)}
+    audio_bindings = {path for row in assets.values() if row['family'] == 'audio'
+                      for path in row['binding_paths'].split('|') if path}
+    need(playback <= audio_bindings, f'Unmapped playback nodes {sorted(playback - audio_bindings)}')
 
     source_markers = {(path, index) for path, block in text.items() if path.endswith(('.tscn', '.gd'))
                       for index, line in enumerate(block.splitlines(), 1) if PLACEHOLDER.search(line)}

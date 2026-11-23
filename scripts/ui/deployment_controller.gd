@@ -1,5 +1,7 @@
 extends Node
 
+signal sound_requested(id: String)
+
 const Portrait := preload("res://scripts/ui/deployment_portrait.gd")
 
 @export var opening_rules: LogisticsRules
@@ -81,6 +83,9 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	var opening_budget := plan.resolved().tokens if plan != null else maxi(0, preview_budget)
 	state = DeploymentState.new(map, simulation.clock, opening_budget, rules, records_enhancements, simulation.effects)
 	state.skill_fired.connect(_skill_fired)
+	state.hp_restored.connect(func() -> void: sound_requested.emit("support"))
+	state.tokens_produced.connect(func() -> void: sound_requested.emit("tokens"))
+	state.skill_recharged.connect(func() -> void: sound_requested.emit("skill"))
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
 	_cancel_pointer()
@@ -217,6 +222,7 @@ func _release(at: Vector2) -> void:
 		DeploymentGesture.Release.DROP:
 			var spec := _gesture.dragging
 			var error := state.deploy(spec, cell, _board.facing_at(at))
+			sound_requested.emit("deploy" if error.is_empty() else "invalid")
 			_hint.text = "%s deployed." % spec.label if error.is_empty() else error
 		DeploymentGesture.Release.TAP:
 			if state.interaction_id(cell) == _gesture.unit:
@@ -267,6 +273,7 @@ func _tap_skill(id: StringName) -> void:
 				_hint.text = "%s · %d/%d HP" % [unit.spec.label, unit.hp, unit.spec.max_hp]
 			return
 		if not _simulation.tap_unit(id):
+			sound_requested.emit("invalid")
 			_hint.text = state.last_skill_error
 			return
 	elif not preview_skills or not state.quick_tap(id):
@@ -290,6 +297,7 @@ func _cancel_skill() -> void:
 	_refresh()
 
 func _skill_fired(id: StringName, target: Vector2i) -> void:
+	sound_requested.emit("skill")
 	var unit: DeploymentState.Placement = state.placed[id]
 	if unit.facility != null:
 		if unit.facility.role == FacilitySpec.Role.SPECIALIST_CALLTOWER:

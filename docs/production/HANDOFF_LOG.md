@@ -176,3 +176,9 @@
 - Audited C20 merge `fbeb1c7` against the 127-page storyboard and GDD. The ledger has 358 asset records, all 116 frame mappings and 38 placeholder, conditional and QA surfaces, each linked to a production ticket. All six original maps match the design package. The archive's atlas and illustration sources are candidates. The live Garden has all 19 textures, and Scout uses two of its 19 parts in the tray. [W21 audit and queue](W21_PRODUCTION_ASSET_AUDIT.md)
 - The audit validator confirmed 247 external source file fingerprints, 39 static media references and 15 explicit placeholder labels. Godot 4.7.2 loaded the 39 textures and 12 packed scenes. Pinned editor import, startup and all 1,801 existing checks across 24 runners passed.
 - C22 begins with field readability and reusable state bindings. Audio, approved portraits, production terrain, D-014 reviews and device validation remain open. [Priorities](W21_PRODUCTION_ASSET_AUDIT.md#production-tickets)
+
+## W21 and C22 — 2026-11-23
+
+- W21 commit `07205a7` merged through PR #23 at `66905b2`. The source validator passed 358 asset records and all 116 frame mappings.
+- C22 connects the help and reference reader, shared article navigation, persistent mix and text settings, dedicated dialogue portraits and combat feedback. The audit tracks the new runtime bindings and development assets.
+- The Godot regression suite, native mixed-audio recording and ARM64 package checks passed. Physical phone validation, released art/audio and education approval are open. [Verification and phone procedure](../qa/C22_PRESENTATION_MATRIX.md)

@@ -3,6 +3,8 @@ extends RefCounted
 
 signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
+signal siege_hit
+signal heat_overflow
 signal cinematic_withdrawal
 signal before_wave_first_spawn(wave: int)
 signal wave_resolved(wave: int)
@@ -124,6 +126,8 @@ func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackPro
 		return
 	var amount := facility_combat.enemy_damage(deployment, enemy, target, clock.tick)
 	deployment.receive_hit(id, amount, kind)
+	if kind == EnemyAttackProfile.Kind.SIEGE:
+		siege_hit.emit()
 
 func damage_enemy(id: int, damage: int) -> void:
 	var enemy: BattleEnemy = active.get(id)
@@ -244,6 +248,7 @@ func _advance_heat(tick: int, seconds: float) -> void:
 	heat += rate * seconds * scale * _stage.heat_gain_scale
 	if heat > _stage.heat_capacity or is_equal_approx(heat, _stage.heat_capacity):
 		heat = 0.0
+		heat_overflow.emit()
 		lose_integrity(_stage.heat_integrity_loss)
 
 func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts: Dictionary[StringName, int]) -> bool:

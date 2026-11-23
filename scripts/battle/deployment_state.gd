@@ -1,6 +1,9 @@
 class_name DeploymentState
 extends RefCounted
 
+signal hp_restored
+signal tokens_produced
+signal skill_recharged
 signal skill_fired(unit_id: StringName, target: Vector2i)
 
 const NO_CELL := Vector2i(-1, -1)
@@ -145,11 +148,17 @@ func _advance(tick: int, _seconds: float) -> void:
 	if not clock.is_running():
 		return
 	for unit: Placement in placed.values():
+		var charges := unit.skill_charges
 		unit.recharge_skill(tick)
+		if unit.skill_charges > charges:
+			skill_recharged.emit()
 		if not unit.spec.logistics_post or tick < unit.next_payout_tick:
 			continue
 		var amount := unit.yield_remainder + rules.post_yield_numerator(unit.spec.level)
-		tokens += floori(float(amount) / LogisticsRules.YIELD_DENOMINATOR)
+		var produced := floori(float(amount) / LogisticsRules.YIELD_DENOMINATOR)
+		tokens += produced
+		if produced > 0:
+			tokens_produced.emit()
 		unit.yield_remainder = amount % LogisticsRules.YIELD_DENOMINATOR
 		unit.next_payout_tick += LogisticsRules.PAYOUT_TICKS
 
@@ -318,6 +327,8 @@ func _restore_hp(unit: Placement, amount: int) -> int:
 		return 0
 	var restored := mini(amount, unit.spec.max_hp - unit.hp)
 	unit.hp += restored
+	if restored > 0:
+		hp_restored.emit()
 	return restored
 
 func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vector2i]:

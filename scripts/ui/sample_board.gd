@@ -167,7 +167,12 @@ func _draw_deployments() -> void:
 			draw_rect(_tile_rect(cell), Color(0.93, 0.73, 0.32, 0.26))
 		for cell in preview_spec.footprint(preview_cell) + preview_spec.reserved(preview_cell):
 			if Rect2i(Vector2i.ZERO, battle_map.size).has_point(cell):
-				draw_rect(_tile_rect(cell), border, false, 3.0)
+				var bounds := _tile_rect(cell)
+				draw_rect(bounds, border, false, 3.0)
+				if not valid:
+					var mark := bounds.grow(-tile_size() * 0.27)
+					draw_line(mark.position, mark.end, border, 3.0)
+					draw_line(Vector2(mark.end.x, mark.position.y), Vector2(mark.position.x, mark.end.y), border, 3.0)
 		if preview_spec.is_melee():
 			_draw_direction(preview_cell, preview_facing, border)
 	var armed: DeploymentState.Placement = deployments.placed.get(deployments.armed)

@@ -292,3 +292,20 @@ adb install -r build/android/kenyalang-rangers-c20-debug.apk
 5. Check the plot and side controls in both landscape orientations, including cutout and edge reach. Record the APK hash, phone model, Android version, screen density, cutout and offline launch result. [C20 matrix](../docs/qa/C20_RESTORATION_MATRIX.md)
 
 The C20 APK passed package and host gameplay checks. Physical installation and touch await a connected phone.
+
+## C22 presentation phone check
+
+Use an authorized ARM64 phone with USB debugging and the pinned Android Debug preset.
+
+```sh
+mkdir -p build/android
+godot --headless --path . --editor --import --quit
+godot --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c22-debug.apk
+adb devices
+adb install -r build/android/kenyalang-rangers-c22-debug.apk
+```
+
+1. Launch offline. Open FAQ and References, then navigate back to the Main Menu. From Settings, mute Master, change Music and Sound effects independently, and select 130% text. Relaunch and verify the same choices. Open Reset and cancel with Back.
+2. Start C1-01. Read the portrait dialogue and check Continue and Skip with enlarged text. Pause and return from background. Check the board, HUD and pinned actions against the cutout in both landscape orientations. In a developed loadout, swipe from the first to the last card. Check that horizontal swipes preserve Tokens.
+3. Try a valid and an occupied placement, a held Retreat and a targeted skill. Check the captions during recon, a Siege attack and Heat overflow with Master muted. Restore sound and check the cues on the phone speaker. Measure the smallest button and slider touch bounds against 48dp using the device density.
+4. Open an available field note from Garden and Records on an approved-content build. Verify Back retains the originating view. Record device model, Android version, density, cutout, APK hash and pass/fail results. [C22 verification](../docs/qa/C22_PRESENTATION_MATRIX.md)

@@ -1,6 +1,7 @@
 class_name BattleScene
 extends Control
 
+signal sound_requested(id: String)
 signal abandon_requested
 signal operation_finished(report: Dictionary)
 signal sandbox_exit_requested
@@ -18,6 +19,8 @@ var _progress: FirstContactProgress
 var _reported := false
 var _tips := true
 var _boss_briefing := false
+var _alert_until := 0
+var _alert_message := ""
 
 @onready var _hud = %Header
 @onready var _pause_overlay: BattlePauseOverlay = %PauseOverlay
@@ -36,6 +39,7 @@ var _boss_briefing := false
 var battle: BattleSimulation
 
 func _ready() -> void:
+	%DeploymentController.sound_requested.connect(func(id: String) -> void: sound_requested.emit(id))
 	_pause.pressed.connect(_toggle_pause)
 	_pause_overlay.resume_requested.connect(_resume)
 	_pause_overlay.abandon_requested.connect(_abandon)
@@ -149,6 +153,11 @@ func _restart() -> void:
 		_retry.disabled = true
 		return
 	battle = BattleSimulation.new(stage)
+	battle.boss_intro.connect(func(_serial: int, _boss: BossSpec) -> void: sound_requested.emit("boss"))
+	battle.boss_phase_changed.connect(func(_serial: int, _phase: BossPhase) -> void: sound_requested.emit("boss"))
+	_alert_until = 0
+	battle.heat_overflow.connect(_critical_notice.bind("heat", "Heat overflow · Integrity lost"))
+	battle.siege_hit.connect(_critical_notice.bind("siege", "Siege hit · Facility struck"))
 	battle.boss_intro.connect(_open_boss_intro)
 	battle.boss_phase_changed.connect(_open_boss_phase)
 	_boss_briefing = false
@@ -170,6 +179,11 @@ func _restart() -> void:
 	if campaign:
 		_open_operation()
 	_refresh()
+
+func _critical_notice(cue: String, message: String) -> void:
+	_alert_message = message
+	_alert_until = battle.clock.tick + CombatClock.TICKS_PER_SECOND * 2
+	sound_requested.emit(cue)
 
 func _open_operation() -> void:
 	open_dialogue()
@@ -248,6 +262,8 @@ func _refresh() -> void:
 		%HeatGauge.value = battle.heat
 		%HeatLabel.text = "Heat %d/%d" % [floori(battle.heat), roundi(stage.heat_capacity)]
 	var warned := battle.recon_entries()
+	if not warned.is_empty() and not %ReconNotice.visible:
+		sound_requested.emit("recon")
 	%ReconNotice.visible = not warned.is_empty()
 	if %ReconNotice.visible:
 		var names := PackedStringArray()
@@ -260,6 +276,11 @@ func _refresh() -> void:
 	if battle.outcome != BattleSimulation.Outcome.RUNNING:
 		_status.show()
 		_status.text = _outcome_label()
+	elif _alert_until > battle.clock.tick:
+		_status.text = _alert_message
+		_status.show()
+	else:
+		_status.hide()
 	var clock := battle.clock
 	_pause.text = "Resume" if clock.paused else "Pause"
 	_speed.text = "%d×" % clock.get_speed()

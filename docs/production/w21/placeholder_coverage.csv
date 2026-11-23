@@ -1,9 +1,9 @@
 surface_id,kind,evidence_path,locator,observed_rendering,tickets
 literal.sample_battle.148,literal,scenes/battle/sample_battle.tscn,148,Shared board legend,W21-A01|W21-A03|W21-A04|W21-A05
 literal.facility_sandbox.43,literal,scenes/qa/facility_sandbox.tscn,43,Facility QA board legend,W21-A01|W21-A04|W21-A05|W21-A15
-literal.battle_scene.11,literal,scripts/battle/battle_scene.gd,11,Ranger and Facility sandbox default legend,W21-A01|W21-A03|W21-A04|W21-A05|W21-A15
-literal.campaign_battle.17,literal,scripts/battle/campaign_battle.gd,17,Story board or portrait label,W21-A01|W21-A06
-literal.campaign_battle.99,literal,scripts/battle/campaign_battle.gd,99,Story board or portrait label,W21-A01|W21-A06
+literal.battle_scene.11,literal,scripts/battle/battle_scene.gd,12,Ranger and Facility sandbox default legend,W21-A01|W21-A03|W21-A04|W21-A05|W21-A15
+literal.campaign_battle.17,literal,scripts/battle/campaign_battle.gd,18,Story board or portrait label,W21-A01|W21-A06
+literal.campaign_battle.99,literal,scripts/battle/campaign_battle.gd,105,Story board or portrait label,W21-A01|W21-A06
 literal.chaos_battle.12,literal,scripts/battle/chaos_battle.gd,12,Chaos board legend,W21-A01|W21-A05
 literal.chaos_route_page.39,literal,scripts/ui/chaos_route_page.gd,39,Chaos route illustration label,W21-A02
 literal.chaos_trophy.23,literal,scripts/ui/chaos_trophy.gd,23,HQ and Chaos trophy label,W21-A09
@@ -12,8 +12,8 @@ literal.garden_board.104,literal,scripts/ui/garden_board.gd,104,Conditional Gard
 literal.garden_board.110,literal,scripts/ui/garden_board.gd,110,Conditional Garden texture fallback,W21-A15
 literal.garden_board.129,literal,scripts/ui/garden_board.gd,129,Conditional Garden texture fallback,W21-A15
 literal.headquarters_overview.42,literal,scripts/ui/headquarters_overview.gd,42,Office cross-section label,W21-A07
-literal.launcher.108,literal,scripts/ui/launcher.gd,108,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
-literal.launcher.222,literal,scripts/ui/launcher.gd,222,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
+literal.launcher.108,literal,scripts/ui/launcher.gd,118,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
+literal.launcher.222,literal,scripts/ui/launcher.gd,239,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
 surface.entry_icon,active,project.godot,assets/placeholders/dev_icon.png,Developer icon on the default project,W21-A14
 surface.menu_office,active,scripts/ui/headquarters_sketch.gd,func _draw(),Home office sketch,W21-A07|W21-A14
 surface.office_rooms,active,scripts/ui/headquarters_office_art.gd,func _draw(),Geometric shell and office modules,W21-A07
@@ -32,8 +32,9 @@ surface.outreach_portrait,content_gated,scripts/ui/outreach_page.gd,func _review
 surface.records_visuals,content_gated,scripts/ui/records_archive_page.gd,Facts archive,Text archive and chapter treatment,W21-A10
 surface.garden_draw_art,conditional,scripts/ui/garden_board.gd,func _draw_art(,"Missing clearing, bed, tree, guide, nest box or visitor draws a local text fallback",W21-A15
 surface.garden_draw_fx,conditional,scripts/ui/garden_board.gd,func _draw_effect(),Missing effect file leaves the gameplay label and receipt visible,W21-A15
-surface.garden_seed_picker,active,scripts/ui/headquarters_garden.gd,func _render_seeds(),Text-only seed selection. Reuse imported Seed textures.,W21-A10
+surface.garden_seed_picker,active,scripts/ui/headquarters_garden.gd,func _render_seeds(),"Four seed buttons use the corresponding W19b seed crop, duration and cycle Funds.",W21-A10
 surface.naming_sample,functional_pilot,scripts/ui/leader_naming.gd,input.placeholder_text,Standard empty input hint. Keep readable with the final text scale.,W21-A14
 surface.scout_preview,qa_only,scenes/qa/scout_rig_preview.tscn,res://scenes/units/scout_rig.tscn,W06 rig pose and anchor checking view,W21-A03|W21-A15
 surface.scout_preview_guides,qa_only,scripts/animation/scout_preview.gd,func _draw_stage(),Rig preview guides. Keep the QA context distinct from the field view.,W21-A03|W21-A15
 surface.launcher_sample,qa_entry,scenes/menus/main_menu.tscn,OpenSample,Developer sample route reachable from the shell,W21-A14|W21-A15
+surface.story_portrait,active,scripts/ui/story_portrait.gd,func _draw(),Pose-dependent procedural portrait with matching speaker caption. Final illustrations await clearance.,W21-A06

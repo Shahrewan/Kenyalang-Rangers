@@ -260,11 +260,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.09, 0.12, 0.10, 0.98)
 
-[node name="Center" type="CenterContainer" parent="Dialogue"]
+[node name="Center" type="MarginContainer" parent="Dialogue"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
 
 [node name="Body" type="VBoxContainer" parent="Dialogue/Center"]
 layout_mode = 2
@@ -277,11 +282,17 @@ theme_override_font_sizes/font_size = 27
 text = "Dialogue preview"
 horizontal_alignment = 1
 
-[node name="DialogueText" type="Label" parent="Dialogue/Center/Body"]
+[node name="Lines" type="ScrollContainer" parent="Dialogue/Center/Body"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DialogueText" type="Label" parent="Dialogue/Center/Body/Lines"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
-custom_minimum_size = Vector2(620, 0)
+size_flags_horizontal = 3
+size_flags_vertical = 4
 autowrap_mode = 3
 text = "The messenger withdraws off the battlefield."
 horizontal_alignment = 1
