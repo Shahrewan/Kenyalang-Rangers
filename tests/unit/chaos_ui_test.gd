@@ -66,6 +66,18 @@ func _run() -> void:
 		_toggle(app, id, true)
 	_press(app, "ApplyModifiers")
 	_check(_label(app, "MedalScore") == "1,350" and "54,000 Funds" in _label(app, "ChaosPayout") and _label(app, "ProjectedTrophy").ends_with("1"), "Composer displays the exact worked score, payout and projected Trophy Tier 1")
+	var composer := app._screen as ChaosComposer
+	var wallet_fixture := composer.progress.snapshot()
+	wallet_fixture.funds = 9990000
+	var wallet_path := _path + ".cap"
+	ProfileFile.replace(wallet_path, wallet_fixture, false)
+	var actual_progress := composer.progress
+	composer.progress = CampaignProgress.new(wallet_path)
+	composer._refresh()
+	_check("9,999 Funds credited" in _label(app, "ChaosPayout") and "44,001 permanently discarded" in _label(app, "ChaosPayout") and composer.progress.funds() == 9990000, "Near-cap preview shows the S58 credit and discard without settling a payout")
+	composer.progress = actual_progress
+	composer._refresh()
+	DirAccess.remove_absolute(wallet_path)
 	_check("High-Impact Siege  +200" in _label(app, "ScoreBreakdown") and "3 Ranger / 2 Facility slots  −500" in _label(app, "ScoreBreakdown"), "The score breakdown shows individual effects and effective loadout deductions")
 	_press(app, "EditWaves")
 	_check((app._screen as ChaosComposer).wave_editor.slot == 1, "Returning to the editor preserves the chosen slot")

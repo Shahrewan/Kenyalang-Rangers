@@ -181,8 +181,9 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 			return "This operation supplies one Starter Post."
 	elif placed.has(spec.id):
 		return "This unit is already deployed."
-	if cooldown_ticks(spec.id) > 0:
-		return "This deployment is cooling down."
+	var cooldown := cooldown_ticks(spec.id)
+	if cooldown > 0:
+		return "Ready to deploy in %d s." % ceili(float(cooldown) / CombatClock.TICKS_PER_SECOND)
 	var footprint := footprint_error(spec, anchor)
 	if not footprint.is_empty():
 		return footprint
@@ -201,6 +202,8 @@ func footprint_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 		if occupancy.has(cell) and (tower == null or cell != anchor):
 			return "A footprint cell is occupied."
 		if map.tile_at(cell) != required:
+			if spec.kind == DeploymentSpec.Kind.FACILITY_PAIR:
+				return "Needs two adjacent elevated tiles."
 			return "Ground tiles required." if spec.is_melee() else "Elevated tiles required."
 	for cell in spec.reserved(anchor):
 		if not bounds.has_point(cell) or cell in map.spawns or cell == map.tunnel or occupancy.has(cell):

@@ -182,3 +182,8 @@
 - W21 commit `07205a7` merged through PR #23 at `66905b2`. The source validator passed 358 asset records and all 116 frame mappings.
 - C22 connects the help and reference reader, shared article navigation, persistent mix and text settings, dedicated dialogue portraits and combat feedback. The audit tracks the new runtime bindings and development assets.
 - The Godot regression suite, native mixed-audio recording and ARM64 package checks passed. Physical phone validation, released art/audio and education approval are open. [Verification and phone procedure](../qa/C22_PRESENTATION_MATRIX.md)
+
+## C22 source review — 2026-11-23
+
+- Compared the merge, archived screenshots and 1,838-check baseline with the attached design PDFs. The fixes connect pause Settings and Controls, improve enlarged controls and local drop feedback, identify the conservation sources, restore the Leader's hood, and itemize the Chaos wallet cap preview.
+- The updated suite passed 1,861 checks across 25 runners. Linux captures and the signed APK payload support the corrected flows. User and physical-phone sign-off remain open. [C22 source audit](../qa/C22_SOURCE_AUDIT.md)

@@ -30,7 +30,7 @@ var _chaos_origin: Callable
 var _finance_elapsed := 0.0
 var presentation := PresentationAudio.new()
 var _guide: FieldGuide
-var _guide_origin: Control
+var _battle_settings: ProfileSettingsPage
 var _focused := true
 var _suspended := false
 var _headquarters_return: Callable
@@ -479,11 +479,8 @@ func _show_recovery() -> void:
 	_present(page, &"recovery")
 
 func _show_settings(back: Callable) -> void:
-	var page := ProfileSettingsPage.new()
+	var page := _settings_page()
 	page.progress = _campaign_progress
-	page.preferences = presentation
-	page.text_changed.connect(_restyle)
-	page.help_requested.connect(_open_guide.bind(""))
 	page.back_requested.connect(back)
 	page.reset_requested.connect(func() -> void:
 		if _campaign_progress.reset_profile():
@@ -496,6 +493,24 @@ func _show_settings(back: Callable) -> void:
 			page.show_error()
 	)
 	_present(page, &"settings", page.request_back)
+
+func _settings_page() -> ProfileSettingsPage:
+	var page := ProfileSettingsPage.new()
+	page.preferences = presentation
+	page.text_changed.connect(_restyle)
+	page.help_requested.connect(_open_guide.bind(""))
+	return page
+
+func _open_battle_settings() -> void:
+	if is_instance_valid(_battle_settings):
+		return
+	_battle_settings = _settings_page()
+	_battle_settings.back_requested.connect(_close_battle_settings)
+	_open_overlay(_battle_settings)
+
+func _close_battle_settings() -> void:
+	_close_overlay(_battle_settings)
+	_battle_settings = null
 
 func _start_campaign() -> void:
 	if _draft == null or not _draft.can_start():
@@ -568,6 +583,12 @@ func _show_results(report: Dictionary) -> void:
 	presentation.cue("defeat" if report.outcome == "Defeat" else "victory")
 
 func _present(page: Control, route: StringName, back := Callable()) -> void:
+	while _content.get_child_count() > 1:
+		var overlay := _content.get_child(-1)
+		_content.remove_child(overlay)
+		overlay.queue_free()
+	_guide = null
+	_battle_settings = null
 	if is_instance_valid(_screen):
 		_content.remove_child(_screen)
 		_screen.queue_free()
@@ -578,31 +599,48 @@ func _present(page: Control, route: StringName, back := Callable()) -> void:
 		page.connect("article_requested", _open_guide)
 	if page.has_signal("sound_requested"):
 		page.connect("sound_requested", presentation.cue)
+	if page is BattleScene:
+		page.settings_requested.connect(_open_battle_settings)
+		page.controls_requested.connect(_open_guide.bind(FieldGuide.CONTROLS))
 	presentation.set_route(route)
 	_content.add_child(page)
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_resize_controls()
 
-func _open_guide(fact_id: String) -> void:
+func _open_guide(initial_page: String) -> void:
 	if is_instance_valid(_guide):
 		return
-	_guide_origin = get_viewport().gui_get_focus_owner()
-	_screen.hide()
 	_guide = FieldGuide.new()
 	_guide.catalog = _education()
-	_guide.initial_fact = fact_id
+	_guide.initial_page = initial_page
 	_guide.closed.connect(_close_guide)
-	_content.add_child(_guide)
-	_guide.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_guide.find_children("*", "Button", true, false)[0].grab_focus()
+	_open_overlay(_guide)
 
 func _close_guide() -> void:
-	_content.remove_child(_guide)
-	_guide.queue_free()
+	_close_overlay(_guide)
 	_guide = null
-	_screen.show()
-	if is_instance_valid(_guide_origin) and _guide_origin.is_visible_in_tree():
-		_guide_origin.grab_focus()
+
+func _open_overlay(page: Control) -> void:
+	var focus := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(focus):
+		page.set_meta("return_focus", weakref(focus))
+	var previous := _content.get_child(-1) as Control
+	previous.hide()
+	_content.add_child(page)
+	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	StoryUI.size_buttons(page)
+	page.find_children("*", "Button", true, false)[0].grab_focus()
+
+func _close_overlay(page: Control) -> void:
+	var reference: WeakRef = page.get_meta("return_focus", null) if page.has_meta("return_focus") else null
+	_content.remove_child(page)
+	page.queue_free()
+	var previous := _content.get_child(-1) as Control
+	previous.show()
+	if reference != null:
+		var focus := reference.get_ref() as Control
+		if is_instance_valid(focus) and focus.is_visible_in_tree():
+			focus.grab_focus()
 
 func _control_added(node: Node) -> void:
 	if node is Control and is_ancestor_of(node):
@@ -630,8 +668,8 @@ func _click_sound() -> void:
 		presentation.cue("confirm")
 
 func _resize_controls() -> void:
-	if is_instance_valid(_screen):
-		StoryUI.size_buttons(_screen)
+	for page: Control in _content.get_children():
+		StoryUI.size_buttons(page)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_node_ready():
@@ -661,6 +699,12 @@ func _unhandled_input(event: InputEvent) -> void:
 func _go_back() -> void:
 	if is_instance_valid(_guide):
 		_guide.back()
+		return
+	if is_instance_valid(_battle_settings):
+		_battle_settings.request_back()
+		return
+	if _screen is BattleScene and _screen.get_node("%PauseOverlay").visible:
+		_screen.request_back()
 		return
 	if _return_action.is_valid():
 		_return_action.call()

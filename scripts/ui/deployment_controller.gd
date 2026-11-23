@@ -36,16 +36,29 @@ var _press_at := Vector2.ZERO
 var _scroll_start := 0
 var _pan_tray := false
 var _drag_to_field := false
+var _local_notice: PanelContainer
+var _notice_text: Label
+var _notice_until := 0
 
 func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
 	_cancel.pressed.connect(_cancel_skill)
 	_retreat.pressed.connect(_retreat_ranger)
+	_local_notice = PanelContainer.new()
+	_local_notice.theme_type_variation = &"LightPanel"
+	_local_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_notice_text = StoryUI.label("", 18, StoryUI.INK)
+	_notice_text.name = "PlacementError"
+	_notice_text.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_notice_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_local_notice.add_child(_notice_text)
+	_board.add_child(_local_notice)
+	_local_notice.hide()
+	_board.resized.connect(_local_notice.hide)
 	_entries = roster.entries.duplicate()
 	_entries.append_array(support_entries)
 	for spec in _entries:
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var layout := HBoxContainer.new()
 		layout.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -63,6 +76,13 @@ func _ready() -> void:
 		_cards.append(card)
 		_labels.append(label)
 		_tray.add_child(card)
+	_resize_cards()
+	get_viewport().size_changed.connect(_resize_cards)
+
+func _resize_cards() -> void:
+	var minimum := Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
+	for card in _cards:
+		card.custom_minimum_size = minimum
 
 func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = null) -> void:
 	_simulation = simulation
@@ -90,6 +110,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	_scroll.scroll_horizontal = 0
 	_cancel_pointer()
 	_hide_retreat()
+	_local_notice.hide()
 	if plan != null and plan.operation.campaign_spec and not plan.operation.hints.is_empty():
 		_hint.text = ""
 	else:
@@ -113,6 +134,8 @@ func can_afford_ranger() -> bool:
 func _process(_delta: float) -> void:
 	if state == null:
 		return
+	if state.clock.tick >= _notice_until or not state.clock.is_running():
+		_local_notice.hide()
 	if not state.clock.is_running():
 		_cancel_pointer()
 		_hide_retreat()
@@ -179,6 +202,7 @@ func _press(id: int, at: Vector2) -> bool:
 	var in_tray := _tray_clip().has_point(at)
 	if card == null and actor.is_empty() and not targeting and not in_tray:
 		return false
+	_local_notice.hide()
 	if card != null:
 		state.cancel_skill()
 	_pointer = id
@@ -222,8 +246,12 @@ func _release(at: Vector2) -> void:
 		DeploymentGesture.Release.DROP:
 			var spec := _gesture.dragging
 			var error := state.deploy(spec, cell, _board.facing_at(at))
-			sound_requested.emit("deploy" if error.is_empty() else "invalid")
-			_hint.text = "%s deployed." % spec.label if error.is_empty() else error
+			if error.is_empty():
+				sound_requested.emit("deploy")
+				_hint.text = "%s deployed." % spec.label
+			else:
+				_show_local_error(error, at)
+				_hint.text = "Placement cancelled · no Tokens spent."
 		DeploymentGesture.Release.TAP:
 			if state.interaction_id(cell) == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
@@ -231,9 +259,26 @@ func _release(at: Vector2) -> void:
 				else:
 					_tap_skill(_gesture.unit)
 		DeploymentGesture.Release.HOLD:
-			_show_retreat(_gesture.unit)
+			if _retreat.visible and _gesture.moved and _retreat.get_global_rect().has_point(at):
+				_retreat_ranger()
+			else:
+				_show_retreat(_gesture.unit)
 		DeploymentGesture.Release.TARGET:
-			_hint.text = "Confirm the selected tile." if state.select_target(cell) else "Choose a tile in range."
+			if state.select_target(cell):
+				_hint.text = "Confirm the selected tile."
+			else:
+				_show_local_error("Choose a tile in range.", at)
+				_hint.text = "Choose a highlighted tile, then confirm."
+
+func _show_local_error(message: String, at: Vector2) -> void:
+	_notice_text.text = message
+	_local_notice.reset_size()
+	var local := _board.get_global_transform_with_canvas().affine_inverse() * at
+	var offset := Vector2(12, -_local_notice.size.y - 12)
+	_local_notice.position = (local + offset).clamp(Vector2.ZERO, (_board.size - _local_notice.size).max(Vector2.ZERO))
+	_notice_until = state.clock.tick + CombatClock.TICKS_PER_SECOND * 3
+	_local_notice.show()
+	sound_requested.emit("invalid")
 
 func _cancel_pointer() -> void:
 	_pointer = NO_POINTER
@@ -248,9 +293,15 @@ func _show_retreat(id: StringName) -> void:
 	if unit == null or (not unit.spec.is_ranger() and not building):
 		return
 	_retreat_unit = id
-	var at: Vector2 = _board.cell_center(unit.anchor) + Vector2(20, 10)
-	_retreat.position = at.clamp(Vector2.ZERO, (_board.size - _retreat.size).max(Vector2.ZERO))
 	_retreat.text = "Cancel build" if building else "Retreat"
+	_retreat.reset_size()
+	var anchor := _board.cell_center(unit.anchor)
+	var gap := _board.tile_size() * 0.5 + 8
+	var x := anchor.x + gap
+	if x + _retreat.size.x > _board.size.x:
+		x = anchor.x - gap - _retreat.size.x
+	var at := Vector2(x, anchor.y - _retreat.size.y * 0.5)
+	_retreat.position = at.clamp(Vector2.ZERO, (_board.size - _retreat.size).max(Vector2.ZERO))
 	_retreat.show()
 	_hint.text = "Cancel to refund the paid Tokens." if building else "Choose Retreat to remove this Ranger."
 
@@ -273,7 +324,7 @@ func _tap_skill(id: StringName) -> void:
 				_hint.text = "%s · %d/%d HP" % [unit.spec.label, unit.hp, unit.spec.max_hp]
 			return
 		if not _simulation.tap_unit(id):
-			sound_requested.emit("invalid")
+			_show_local_error(state.last_skill_error, _board.get_global_transform_with_canvas() * _board.cell_center(unit.anchor))
 			_hint.text = state.last_skill_error
 			return
 	elif not preview_skills or not state.quick_tap(id):
@@ -285,9 +336,11 @@ func _confirm_skill() -> void:
 	var unit: DeploymentState.Placement = state.placed.get(state.armed)
 	if unit == null:
 		return
+	var cell := state.pending_target if state.pending_target != DeploymentState.NO_CELL else unit.anchor
 	var live := unit.ranger != null or unit.facility != null
 	var fired := _simulation.confirm_skill_target() if live else state.confirm_target()
 	if not fired:
+		_show_local_error(state.last_skill_error, _board.get_global_transform_with_canvas() * _board.cell_center(cell))
 		_hint.text = state.last_skill_error
 	_refresh()
 

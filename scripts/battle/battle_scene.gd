@@ -5,6 +5,8 @@ signal sound_requested(id: String)
 signal abandon_requested
 signal operation_finished(report: Dictionary)
 signal sandbox_exit_requested
+signal settings_requested
+signal controls_requested
 
 @export var stage: BattleStage
 @export var sandbox := false
@@ -19,8 +21,7 @@ var _progress: FirstContactProgress
 var _reported := false
 var _tips := true
 var _boss_briefing := false
-var _alert_until := 0
-var _alert_message := ""
+var _alert_deadlines: Dictionary[String, int] = {}
 
 @onready var _hud = %Header
 @onready var _pause_overlay: BattlePauseOverlay = %PauseOverlay
@@ -43,6 +44,8 @@ func _ready() -> void:
 	_pause.pressed.connect(_toggle_pause)
 	_pause_overlay.resume_requested.connect(_resume)
 	_pause_overlay.abandon_requested.connect(_abandon)
+	_pause_overlay.settings_requested.connect(func() -> void: settings_requested.emit())
+	_pause_overlay.controls_requested.connect(func() -> void: controls_requested.emit())
 	_speed.pressed.connect(_toggle_speed)
 	_dialogue_button.pressed.connect(_open_preview_dialogue)
 	_defeat.pressed.connect(_defeat_first)
@@ -155,7 +158,7 @@ func _restart() -> void:
 	battle = BattleSimulation.new(stage)
 	battle.boss_intro.connect(func(_serial: int, _boss: BossSpec) -> void: sound_requested.emit("boss"))
 	battle.boss_phase_changed.connect(func(_serial: int, _phase: BossPhase) -> void: sound_requested.emit("boss"))
-	_alert_until = 0
+	_alert_deadlines.clear()
 	battle.heat_overflow.connect(_critical_notice.bind("heat", "Heat overflow · Integrity lost"))
 	battle.siege_hit.connect(_critical_notice.bind("siege", "Siege hit · Facility struck"))
 	battle.boss_intro.connect(_open_boss_intro)
@@ -181,8 +184,7 @@ func _restart() -> void:
 	_refresh()
 
 func _critical_notice(cue: String, message: String) -> void:
-	_alert_message = message
-	_alert_until = battle.clock.tick + CombatClock.TICKS_PER_SECOND * 2
+	_alert_deadlines[message] = battle.clock.tick + CombatClock.TICKS_PER_SECOND * 2
 	sound_requested.emit(cue)
 
 func _open_operation() -> void:
@@ -196,7 +198,7 @@ func _toggle_pause() -> void:
 	else:
 		battle.clock.paused = true
 		if _uses_combat_presentation():
-			_pause_overlay.show_battle(stage, battle, operation_plan != null)
+			_pause_overlay.show_battle(stage, battle, operation_plan != null, settings_requested.has_connections())
 		_refresh()
 
 func request_back() -> void:
@@ -276,11 +278,15 @@ func _refresh() -> void:
 	if battle.outcome != BattleSimulation.Outcome.RUNNING:
 		_status.show()
 		_status.text = _outcome_label()
-	elif _alert_until > battle.clock.tick:
-		_status.text = _alert_message
-		_status.show()
 	else:
-		_status.hide()
+		var alerts := PackedStringArray()
+		for message: String in _alert_deadlines.keys():
+			if _alert_deadlines[message] > battle.clock.tick:
+				alerts.append(message)
+			else:
+				_alert_deadlines.erase(message)
+		_status.text = "   |   ".join(alerts)
+		_status.visible = not alerts.is_empty()
 	var clock := battle.clock
 	_pause.text = "Resume" if clock.paused else "Pause"
 	_speed.text = "%d×" % clock.get_speed()
@@ -295,6 +301,7 @@ func _refresh() -> void:
 	_opening.disabled = clock.dialogue_open
 	_dialogue.visible = clock.dialogue_open
 	_pause_overlay.visible = _uses_combat_presentation() and clock.paused and not clock.dialogue_open and not clock.stopped
+	$Content.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED if _dialogue.visible or _pause_overlay.visible else Control.FOCUS_BEHAVIOR_INHERITED
 	_board.queue_redraw()
 
 func _uses_combat_presentation() -> bool:

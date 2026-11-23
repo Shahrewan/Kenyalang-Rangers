@@ -217,3 +217,5 @@ The team draft is available for D-004 review. W13 adapts its Chapter 2 regional 
 
 - Development defaults are Master 80%, Music 45%, SFX 75% and text 100%, with 115% and 130% alternatives. Presentation preferences use a separate local file so Campaign reset and recovery can keep the controls readable. Original procedural music and cues support mix testing. Speaker silhouettes and pose captions support dialogue pending approved portrait imports.
 - The Linux Compatibility recording verified the mix and opening dialogue. Godot `4.7.2.stable.official.ed1daf0bf` and matching templates produced the ARM64 debug build. Physical device identity, Android version, touch, cutout and speaker results await a connected phone. [C22 verification](../qa/C22_PRESENTATION_MATRIX.md)
+
+- C22 source review. Pause Settings shares the saved audio and text controls and returns to the frozen battle. Main Menu and recovery Settings provide the confirmed wipe. The S53 conservation citations are available offline while reviewed articles use the approved-bank gate. [Source and gameplay audit](../qa/C22_SOURCE_AUDIT.md)
