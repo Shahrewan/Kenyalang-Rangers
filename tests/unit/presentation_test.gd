@@ -25,6 +25,10 @@ func _run() -> void:
 	_click(app._guide, "References")
 	_check(_contains(app._guide, "Forest Department Sarawak") and _contains(app._guide, "iucnhornbills.org/rhinoceros-hornbill/"), "The standard offline reader includes both S53 source attributions")
 	_check(_contains(app._guide, "Conservation articles await review") and not _contains(app._guide, "Synthetic fact"), "Cited sources are readable while the bank remains gated")
+	_click(app._guide, FieldGuide.CREDITS)
+	_check(_contains(app._guide, "Group SimSimi") and _contains(app._guide, "Permission is hereby granted"), "Credits and Godot license are readable offline")
+	app._go_back()
+	_check(_contains(app._guide, "Offline references"), "Credits return to the conservation source index")
 	app._go_back()
 	app._go_back()
 	app.education_catalog = fixture
