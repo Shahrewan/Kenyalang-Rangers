@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "w13_content_design_for_review",
+  "status": "c26_placeholder_content",
   "design_authority": ["Approved decisions", "GDD v1.0 in SimSimi.pdf", "127-page UI storyboard and W08 geometry"],
   "content_paths": [
     "stages/c1-01.json",
@@ -41,7 +41,7 @@
     "pages": 7,
     "located": "2026-11-22",
     "coverage": "Five regional transitions and opening, victory and defeat beats for all ten C2 missions.",
-    "status": "team_draft_located_adapted_copy_review_pending"
+    "status": "adapted_copy_approved_for_c26_placeholder"
   },
   "presentation_defaults": {
     "dialogue": "full_screen",
@@ -124,7 +124,7 @@
       "source": "Forest Department Sarawak · Rhinoceros Hornbill (Buceros rhinoceros)",
       "url": "https://forestry.sarawak.gov.my/web/subpage/webpage_view/854",
       "source_checked": "2026-11-22",
-      "editorial_status": "source_checked_candidate_awaiting_team_review"
+      "editorial_status": "approved_for_c26_campaign_epilogue"
     }
   }
 }

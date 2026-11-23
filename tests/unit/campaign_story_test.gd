@@ -30,31 +30,24 @@ func _run() -> void:
 	_check(_node(app._screen, c2).disabled and _node(app._screen, c4).disabled and _node(app._screen, c4).text == "C1-04", "Story conceals fogged titles and locks a revealed successor")
 	var troops := await _play_first_contact(app, c1)
 	_check(troops.defeated == 14 and troops.escaped == 0 and troops.outcome == "Perfect clear", "C1-01 wins both W13 waves with touch deployment and automatic Ranger combat")
-	_check(troops.settlement.credited == 0 and troops.settlement.pending_awards.size() == 2, "C1-01 result identifies the pending first-clear and perfect Funds")
+	_check(troops.settlement.credited == 10000 and troops.settlement.pending_awards == ["first_perfect_funds"], "C1-01 pays the approved first clear and identifies the pending perfect award")
 	app.show_story()
 	_check(not _node(app._screen, c2).disabled and _node(app._screen, c4).disabled, "Clearing the predecessor unlocks the next revealed operation only")
 	_node(app._screen, c2).pressed.emit()
-	_check(app._screen.find_child("StartOperation", true, false).disabled, "Fresh C1-02 plan rejects an unfunded opening")
+	_check(app._screen.find_child("StartOperation", true, false).disabled, "C1-02 plan needs the Mechanical slot before Start")
 	app._screen.find_child("OpenHeadquarters", true, false).pressed.emit()
 	app._screen.find_child("Room_mechanical", true, false).pressed.emit()
 	var mechanical := app._screen as HeadquartersRoomPage
-	_check(mechanical._purchase.disabled, "Mechanical shows the 20,000 Funds purchase gate")
-	mechanical.back_requested.emit()
-	app._screen.find_child("Room_finance_room", true, false).pressed.emit()
-	var finance := app._screen as HeadquartersRoomPage
-	progress.advance_finance(5000.0)
-	finance._claim.pressed.emit()
-	finance.back_requested.emit()
-	app._screen.find_child("Room_mechanical", true, false).pressed.emit()
-	mechanical = app._screen as HeadquartersRoomPage
+	_check(not mechanical._purchase.disabled and progress.funds() == 20000, "C1-01 earns exactly enough for Mechanical")
 	mechanical._purchase.pressed.emit()
 	mechanical._dialog.hide()
 	mechanical._dialog.confirmed.emit()
-	_check(progress.room_level(HeadquartersCatalog.MECHANICAL) == 1 and progress.funds() == 0, "Finance Claim and Build Mechanical work by their real buttons")
+	_check(progress.room_level(HeadquartersCatalog.MECHANICAL) == 1 and progress.funds() == 0, "Build Mechanical debits the approved Campaign earnings exactly")
 	mechanical.back_requested.emit()
 	(app._screen as HeadquartersOverview).back_requested.emit()
 	_check(app._screen.plan.can_start() and app._screen.plan.facility_limit == 2, "Returning from Access equips the newly legal Logistics Post")
 	await _funded_launch_resume(app, c2)
+	_play_second_operation(app._screen.plan)
 	# Simulated active accrual exercises the real storage cap, claim and upgrade
 	# purchases while W13's release payouts await approval.
 	_fund_control(progress, 5)
@@ -170,6 +163,27 @@ func _funded_launch_resume(app: Control, operation: StoryOperation) -> void:
 	modal.find_child("AskAbandon", true, false).pressed.emit()
 	modal.find_child("ConfirmAbandon", true, false).pressed.emit()
 	_check(app._route == &"plan" and app._campaign_progress.snapshot().pending_attempt.is_empty() and app._campaign_progress.record_for(operation.stage.stage_id).is_empty(), "Confirmed abandon clears the attempt without clearing the mission")
+
+func _play_second_operation(plan: OperationPlan) -> void:
+	var resolved := plan.resolved()
+	var battle := BattleSimulation.new(resolved.stage)
+	var state := DeploymentState.new(resolved.stage.map, battle.clock, resolved.tokens, resolved.opening, [], battle.effects)
+	battle.deployment = state
+	var scout := _entry(plan, &"ranger.scout_sniper")
+	var patrol := _entry(plan, &"ranger.patrolman")
+	var post := _entry(plan, &"facility.logistics_post")
+	_check(state.deploy(post, Vector2i(1, 0), 1).is_empty(), "C1-02 starts with an ordinary free Post")
+	var queue: Array = [[scout, Vector2i(5, 2)], [patrol, Vector2i(6, 3)], [scout, Vector2i(6, 2)],
+		[patrol, Vector2i(9, 3)], [scout, Vector2i(8, 2)]]
+	for frame in 15000:
+		if battle.outcome != BattleSimulation.Outcome.RUNNING:
+			break
+		battle.clock.advance_frame()
+		if not queue.is_empty() and state.deploy(queue[0][0], queue[0][1], -1).is_empty():
+			queue.pop_front()
+	_check(queue.is_empty(), "C1-02 places repeat Rangers with earned Tokens and per-type cooldowns")
+	_check(battle.outcome == BattleSimulation.Outcome.WON and battle.integrity == 90 and battle.defeated == 17 and battle.escaped == 1 and not battle.is_perfect(),
+		"C1-02 clears via autonomous combat with one ordinary escape")
 
 func _open(app: Control, operation: StoryOperation) -> CampaignBattle:
 	app.show_story()

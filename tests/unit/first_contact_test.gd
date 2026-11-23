@@ -41,7 +41,7 @@ func _normal_clear_and_loss() -> void:
 	_frames(normal, 1200)
 	deployment.deploy(ROSTER.entries[2], Vector2i(6, 4), -1)
 	_frames(normal, 600)
-	deployment.deploy(ROSTER.entries[0], Vector2i(5, 3), -1)
+	deployment.deploy(ROSTER.entries[0], Vector2i(7, 3), -1)
 	_frames(normal, 12500)
 	_check(normal.outcome == BattleSimulation.Outcome.WON and normal.integrity == 90 and normal.escaped == 1 and normal.defeated == 13 and not normal.is_perfect(), "Alternate deployment earns a normal clear with one 10-Integrity escape")
 

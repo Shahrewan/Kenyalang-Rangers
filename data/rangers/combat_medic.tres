@@ -13,6 +13,7 @@ healing = 65
 [resource]
 script = ExtResource("1")
 id = &"ranger.combat_medic"
+redeploy_seconds = 16.0
 label = "Combat Medic"
 ranger_class = 2
 recruitment_stage = &"C1-02"

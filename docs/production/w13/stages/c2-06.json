@@ -105,7 +105,7 @@
   "dialogue_sequences": [
     {
       "id": "dialogue.c2_06.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -123,7 +123,7 @@
     },
     {
       "id": "dialogue.c2_06.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -141,14 +141,14 @@
     },
     {
       "id": "dialogue.c2_06.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
         {
           "speaker_id": "speaker.operations_manager",
           "pose_key": "relieved",
-          "text": "The coastal extraction route is closed. Strike Team and Dispatch Relay are available."
+          "text": "The coastal extraction route is closed. Dispatch Relay is ready. Strike Team joins the roster and is preparing for field duty."
         },
         {
           "speaker_id": "speaker.leader",
@@ -159,7 +159,7 @@
     },
     {
       "id": "dialogue.c2_06.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

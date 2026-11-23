@@ -203,7 +203,7 @@ func _relay_cooldowns() -> void:
 	state.retreat(GUARD.id)
 	state.deploy(CABIN, Vector2i(5, 0), 1)
 	_frames(battle, 60)
-	_check(state.cooldown_ticks(GUARD.id) == 60 and state.cooldown_ticks(CABIN.id) == 480, "Dispatch reduces existing Ranger and Facility deployment cooldowns")
+	_check(state.cooldown_ticks(GUARD.id) == CombatClock.ticks_for(GUARD.redeploy_seconds) - 240 and state.cooldown_ticks(CABIN.id) == 480, "Dispatch reduces existing Ranger and Facility deployment cooldowns")
 	_check(state.build_ticks_left(CABIN.id) == 300 and scout.skill_recharge_tick == 1440, "Dispatch leaves construction and active-skill timers alone")
 
 func _sonic_turret() -> void:
@@ -398,15 +398,17 @@ func _replaced_siege_target() -> void:
 	var battle := _encounter()
 	var state := battle.deployment
 	var anchor := Vector2i(1, 0)
-	state.deploy(SONIC, anchor, 1)
+	var turret := SONIC.duplicate() as FacilitySpec
+	turret.build_cooldown_seconds = 0.0
+	state.deploy(turret, anchor, 1)
 	var siege := _enemy(battle, 100, 1.0)
 	_set_attack(siege, EnemyAttackProfile.Kind.SIEGE, 60, 0.5)
 	_frames(battle, 1)
 	var old_site := state.placed[SONIC.id]
 	state.cancel_construction(SONIC.id)
-	state.deploy(SONIC, anchor, 1)
+	state.deploy(turret, anchor, 1)
 	_frames(battle, 30)
-	_check(old_site != state.placed[SONIC.id] and state.placed[SONIC.id].hp == 250, "A cancelled Siege target cannot transfer the pending attack to a new construction instance")
+	_check(old_site != state.placed[state.interaction_id(anchor)] and state.placed[state.interaction_id(anchor)].hp == 250, "A cancelled Siege target cannot transfer the pending attack to a new construction instance")
 
 func _combined_damage_zones() -> void:
 	var battle := _encounter()

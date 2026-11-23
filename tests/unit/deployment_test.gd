@@ -16,6 +16,7 @@ func _initialize() -> void:
 
 func _run() -> void:
 	_placements()
+	_repeat_type()
 	_attacks_and_skills()
 	_gestures()
 	await _touch_scene()
@@ -57,6 +58,32 @@ func _placements() -> void:
 	_check(state.cooldown_ticks(&"two_cell") == 2, "Redeploy cooldown uses 2× combat time")
 	clock.advance_frame()
 	_check(_deploy(state, PAIR, Vector2i(5, 3), -1), "Redeploy succeeds exactly at the cooldown deadline")
+
+func _repeat_type() -> void:
+	var clock := CombatClock.new()
+	var state := DeploymentState.new(STAGE.map, clock, 100)
+	var first := Vector2i(5, 3)
+	var second := Vector2i(9, 3)
+	_check(_deploy(state, PAIR, first, 1), "First copy starts its deployment cooldown")
+	_reject(state, PAIR, second, "Open tiles cannot bypass the same-type cooldown")
+	clock.set_speed(2)
+	clock.dialogue_open = true
+	clock.advance_frame()
+	_check(clock.tick == 0 and state.cooldown_ticks(&"two_cell") == 300, "Dialogue holds the repeat cooldown")
+	clock.dialogue_open = false
+	for frame in 150:
+		clock.advance_frame()
+	_check(_deploy(state, PAIR, second, -1) and state.tokens == 72, "Same card buys another unit at the 2× deadline")
+	var original := state.interaction_id(first + Vector2i.RIGHT)
+	var duplicate := state.interaction_id(second + Vector2i.RIGHT)
+	_check(original != duplicate and state.placed[original].facing == 1 and state.placed[duplicate].facing == -1, "Two live copies retain independent footprints and facing")
+	state.receive_hit(duplicate, 10, EnemyAttackProfile.Kind.MELEE)
+	_check(state.placed[original].hp == 100 and state.placed[duplicate].hp == 90, "Damage is applied to one placement, not the type")
+	_check(state.retreat(duplicate) and not state.occupancy.has(second) and state.occupancy.has(first)
+		and state.cooldown_ticks(&"two_cell") == 300, "Retreat releases only the selected copy and tracks readiness by type")
+	for frame in 150:
+		clock.advance_frame()
+	_check(_deploy(state, PAIR, second) and state.interaction_id(second) != duplicate and state.placed.size() == 2, "A later copy receives a fresh interaction ID")
 
 func _attacks_and_skills() -> void:
 	var state := DeploymentState.new(STAGE.map, CombatClock.new(), 60)

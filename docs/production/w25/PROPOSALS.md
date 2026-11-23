@@ -1,6 +1,6 @@
 # W25 · Campaign proposals awaiting approval
 
-These options are for review against the [preserved rules and current evidence](../W25_CAMPAIGN_COMPLETION.md). A recommended option is a proposal. Enter an explicit owner decision before applying any data change. Keep the stage structure and existing IDs as acceptance constraints.
+The [C26 decision record](../../canon/DECISION_LOG.md#c26-campaign-placeholder-scope--2026-11-23) records the selected placeholder approvals. The options below describe the original review against the [preserved rules and current evidence](../W25_CAMPAIGN_COMPLETION.md). A recommended option is a proposal. Enter an explicit owner decision before applying any data change. Keep the stage structure and existing IDs as acceptance constraints.
 
 ## Fund the first ordinary opening
 

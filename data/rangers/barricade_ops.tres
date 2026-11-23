@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = &"ranger.barricade_ops"
+redeploy_seconds = 20.0
 label = "Barricade Ops"
 ranger_class = 1
 recruitment_stage = &"C1-05"

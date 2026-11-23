@@ -103,7 +103,8 @@ func _render_line() -> void:
 		label += " " + progress.snapshot().leader_name
 	%DialogueTitle.text = label
 	_portrait.present(speaker.portrait_key, line.pose_key)
-	_pose.text = "Story paused · Draft dialogue · Portrait placeholder · %s" % String(line.pose_key).capitalize()
+	var status := "" if _active_beat.get("status") == "approved_c26_placeholder" else "Draft dialogue · "
+	_pose.text = "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
 	%DialogueText.get_parent().scroll_vertical = 0
 	%DialogueText.text = line.text
 

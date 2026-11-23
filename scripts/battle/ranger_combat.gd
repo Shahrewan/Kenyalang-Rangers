@@ -73,7 +73,7 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 func _attacks(enemy: BattleEnemy, unit: DeploymentState.Placement, tick: int) -> bool:
 	if tick < enemy.stunned_until:
 		return false
-	return enemy.aim_placement == unit or (enemy.definition.attack_profile == null and enemy.blocked_by == unit.spec.id)
+	return enemy.aim_placement == unit or (enemy.definition.attack_profile == null and enemy.blocked_by == unit.id)
 
 func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -> bool:
 	var reach := deployment.coverage(medic.spec, medic.anchor, medic.facing)
@@ -85,7 +85,7 @@ func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -
 			if tile in reach and (chosen == null or ally.hp < chosen.hp):
 				chosen = ally
 				break
-	return chosen != null and deployment.heal_ranger(chosen.spec.id, medic.ranger.heal_hp) > 0
+	return chosen != null and deployment.heal_ranger(chosen.id, medic.ranger.heal_hp) > 0
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill

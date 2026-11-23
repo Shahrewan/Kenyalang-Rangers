@@ -100,7 +100,7 @@ func _cooldown_and_silence() -> void:
 	building.stock = 1
 	_check(state.placed[guard.id].skill_charges == 0 and not silent.tap_ranger(guard.id) and "Silent Mobilization" in state.last_skill_error, "B15 blocks Ranger skills and grants no charges")
 	_check(not silent.tap_unit(cabin.id) and state.armed.is_empty() and building.stock == 1, "B15 blocks a Facility skill before arming or spending stock")
-	_check(state.retreat(guard.id) and state.cooldown_ticks(guard.id) == 195, "B15 applies the 35% shorter redeploy cooldown")
+	_check(state.retreat(guard.id) and state.cooldown_ticks(guard.id) == 702, "B15 applies the 35% shorter redeploy cooldown")
 	_check(state.cooldown_ticks(cabin.id) == 468 and state.build_ticks_left(cabin.id) == 360, "Facility cooldown shortens while construction time stays fixed")
 
 func _logistics_and_siege() -> void:
@@ -149,9 +149,9 @@ func _support_and_weakness() -> void:
 	_frames(battle, 450)
 	_check(unit.knocked_down_until > battle.clock.tick, "The second Knockdown affects the same placement")
 	state.retreat(blocker.id)
-	_frames(battle, 300)
+	_frames(battle, CombatClock.ticks_for(blocker.redeploy_seconds))
 	state.deploy(blocker, Vector2i(2, 1), -1)
-	_check(state.placed[blocker.id].brace_charges == 1, "Redeployment grants a fresh Brace charge")
+	_check(state.placed[state.interaction_id(Vector2i(2, 1))].brace_charges == 1, "Redeployment grants a fresh Brace charge")
 
 	enemy.stunned_until = battle.clock.tick + 1
 	enemy.sonic_slow_until = battle.clock.tick + 1

@@ -16,6 +16,7 @@ field_speed_scale = 0.5
 [resource]
 script = ExtResource("1")
 id = &"ranger.crowd_controller"
+redeploy_seconds = 18.0
 label = "Crowd Controller"
 recruitment_stage = &"C2-04"
 kind = 2

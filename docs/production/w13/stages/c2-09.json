@@ -131,7 +131,7 @@
   "dialogue_sequences": [
     {
       "id": "dialogue.c2_09.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -154,7 +154,7 @@
     },
     {
       "id": "dialogue.c2_09.wave_3",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "before_wave_first_spawn", "wave": 3},
       "lines": [
@@ -172,7 +172,7 @@
     },
     {
       "id": "dialogue.c2_09.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -190,7 +190,7 @@
     },
     {
       "id": "dialogue.c2_09.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [
@@ -208,7 +208,7 @@
     },
     {
       "id": "dialogue.c2_09.defeat_trafficker",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "E15"},
       "lines": [

@@ -93,11 +93,17 @@ func _construction_and_stockpile() -> void:
 	_check(state.cancel_construction(SONIC_ID) and state.tokens == 120 and state.occupancy.is_empty(), "Sonic refund reconciles and frees both cells")
 	var max_level := _sonic.duplicate() as DeploymentSpec
 	max_level.level = 100
-	state.deploy(max_level, LATER, 1)
-	_check(state.build_ticks_left(SONIC_ID) == 420, "Level 100 retains Sonic's seven-second construction")
+	_check(not state.deploy(max_level, LATER, 1).is_empty() and state.tokens == 120, "Cancelling Sonic preserves its per-type cooldown")
+	_frames(state, state.cooldown_ticks(SONIC_ID))
+	_check(state.deploy(max_level, LATER, 1).is_empty(), "Sonic can be placed again after its cooldown")
+	var rebuilt := state.interaction_id(LATER)
+	_check(state.build_ticks_left(rebuilt) == 420, "Level 100 retains Sonic's seven-second construction")
 	_frames(state, 210)
-	_check(state.build_ticks_left(SONIC_ID) == 0 and not state.cancel_construction(SONIC_ID) and not state.retreat(SONIC_ID), "Finished Facility cannot cancel or retreat")
-	_check(not state.deploy(max_level, NEXT, 1).is_empty() and state.tokens == 85 and state.occupancy.has(LATER), "Finished Facility cannot be moved or charged a second time")
+	_check(state.build_ticks_left(rebuilt) == 0 and not state.cancel_construction(rebuilt) and not state.retreat(rebuilt), "Finished Facility cannot cancel or retreat")
+	_check(not state.deploy(max_level, NEXT, 1).is_empty() and state.tokens == 85, "Finished Facility keeps the type cooldown until its deadline")
+	_frames(state, state.cooldown_ticks(SONIC_ID))
+	_check(state.deploy(max_level, NEXT, 1).is_empty() and state.interaction_id(NEXT) != rebuilt
+		and state.occupancy.has(LATER) and state.tokens == 50, "Another copy builds while the earlier Facility stays in place")
 
 func _scene_workflow() -> void:
 	var scene := SCENE.instantiate() as BattleScene

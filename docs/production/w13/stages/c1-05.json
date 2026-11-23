@@ -99,19 +99,19 @@
       "id": "hint.c1_05.stockpile",
       "condition": "effective_opening_ready",
       "text": "Fixed Stockpile starts at 120 Tokens. Logistics Posts are unavailable.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     },
     {
       "id": "hint.c1_05.capture",
       "condition": "captain_arrived",
       "text": "Stop the Diversion Captain before the tunnel to finish the capture.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c1_05.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -129,7 +129,7 @@
     },
     {
       "id": "dialogue.c1_05.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -147,7 +147,7 @@
     },
     {
       "id": "dialogue.c1_05.boss_intro",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "boss_intro", "boss_id": "boss.diversion_captain"},
       "lines": [
@@ -170,7 +170,7 @@
     },
     {
       "id": "dialogue.c1_05.boss_phase_1",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "boss_phase_changed", "boss_id": "boss.diversion_captain", "phase_index": 1},
       "lines": [
@@ -188,7 +188,7 @@
     },
     {
       "id": "dialogue.c1_05.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -206,7 +206,7 @@
     },
     {
       "id": "dialogue.c1_05.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [
@@ -224,7 +224,7 @@
     },
     {
       "id": "dialogue.c1_05.defeat_captain",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_chapter_1",
       "trigger": {"event": "defeat", "cause": "fatal_escape", "enemy_id": "boss.diversion_captain"},
       "lines": [

@@ -1,6 +1,6 @@
 # W25 · Campaign implementation tickets
 
-**Implementation awaits recorded approval.** These cards describe future edits. C24 merge `bdbb8f2` is the comparison point. Read the [mission checklist](MISSION_APPROVAL_CHECKLIST.md) for exact text keys, queue order and evidence and the [proposal register](PROPOSALS.md) for open choices.
+**Approval and delivery status.** See the [C26 decision record](../../canon/DECISION_LOG.md#c26-campaign-placeholder-scope--2026-11-23) for the selected inputs and the [verification matrix](../../qa/C26_CAMPAIGN_MATRIX.md) for completed and pending checks. These cards describe the original W25 acceptance criteria. C24 merge `bdbb8f2` is the comparison point. Read the [mission checklist](MISSION_APPROVAL_CHECKLIST.md) for exact text keys, queue order and evidence and the [proposal register](PROPOSALS.md) for open choices.
 
 ## How to apply a mission ticket
 

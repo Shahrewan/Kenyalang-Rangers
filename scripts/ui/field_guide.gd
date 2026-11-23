@@ -8,7 +8,7 @@ const CONTROLS := "Battle controls"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
 const TOPICS := {
-	DEPLOY_TOPIC: "Swipe across the tray to browse your loadout. Drag a card to a highlighted tile. For melee Rangers, release on the left or right half to lock facing. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
+	DEPLOY_TOPIC: "Swipe across the tray to browse your loadout. Drag a card to a highlighted tile. After its cooldown, use the same card to deploy another copy on a free footprint. For melee Rangers, release on the left or right half to lock facing. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
 	ESCAPE_TOPIC: "Combat enemies that reach the tree-veiled tunnel reduce Operational Integrity. At zero Integrity the operation ends in defeat. Pause to inspect the waves and active enemies.",
 	"Where do I earn and spend Funds?": "Claim stored Funds in Finance. Operations and side activities can pay Funds. Use them for Headquarters rooms and deployable upgrades. Logistic Tokens pay for deployment during a battle.",
 	"How does the garden grow offline?": "Build Ecology to open two plots. Water halfway through the in-game growth time. Collect the mature tree to free the plot. The tree stays in the garden.",

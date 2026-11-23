@@ -1,6 +1,6 @@
 # W25 · Post-C24 Campaign completion
 
-**Review package · 23 November 2026 · C24 merge `bdbb8f2`.** RC1 runs the W13 stage files through the existing Campaign loader. Treat the GDD, approved decisions and current implementation as separate evidence. Owner and narrative approval are pending for the proposals in this package. [W13 handoff](W13_CAMPAIGN_CONTENT.md) · [C14 verification](../qa/C14_CAMPAIGN_MATRIX.md) · [C24 sign-off](../qa/C24_RELEASE_SIGNOFF.md)
+**Review package · 23 November 2026 · C24 merge `bdbb8f2`.** RC1 runs the W13 stage files through the existing Campaign loader. Treat the GDD, approved decisions and current implementation as separate evidence. The package below records the C24 review baseline. C26 records the selected placeholder approvals and release gates in the decision log. [W13 handoff](W13_CAMPAIGN_CONTENT.md) · [C14 verification](../qa/C14_CAMPAIGN_MATRIX.md) · [C24 sign-off](../qa/C24_RELEASE_SIGNOFF.md)
 
 | Deliverable | Review use |
 |---|---|

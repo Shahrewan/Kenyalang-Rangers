@@ -9,6 +9,7 @@ signal skill_fired(unit_id: StringName, target: Vector2i)
 const NO_CELL := Vector2i(-1, -1)
 
 class Placement:
+	var id: StringName
 	var spec: DeploymentSpec
 	var ranger: RangerSpec
 	var facility: FacilitySpec
@@ -104,6 +105,7 @@ var armed: StringName
 var pending_target := NO_CELL
 var last_skill_error := ""
 var _ready_tick: Dictionary[StringName, int] = {}
+var _deployment_counts: Dictionary[StringName, int] = {}
 var _enhancements: Array[StringName]
 
 func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null, enhancements: Array[StringName] = [], modifiers: BattleModifiers = null) -> void:
@@ -179,8 +181,6 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 			return "Fixed Stockpile prohibits Logistics Posts."
 		if rules.starter_only and posts_deployed > 0:
 			return "This operation supplies one Starter Post."
-	elif placed.has(spec.id):
-		return "This unit is already deployed."
 	var cooldown := cooldown_ticks(spec.id)
 	if cooldown > 0:
 		return "Ready to deploy in %d s." % ceili(float(cooldown) / CombatClock.TICKS_PER_SECOND)
@@ -216,12 +216,16 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 		return error
 	var first_post := spec.logistics_post and posts_deployed == 0
 	var cost := cost_for(spec)
+	var serial: int = _deployment_counts.get(spec.id, 0) + 1
+	_deployment_counts[spec.id] = serial
 	var id := spec.id
 	if spec.logistics_post:
 		posts_deployed += 1
-		id = StringName("%s#%d" % [spec.id, posts_deployed])
+	if spec.logistics_post or serial > 1:
+		id = StringName("%s#%d" % [spec.id, serial])
 	var build_ticks := 0 if first_post or spec.is_ranger() else CombatClock.ticks_for(spec.build_seconds)
 	var unit := Placement.new(spec, anchor, facing, cost, clock.tick + build_ticks, _enhancements)
+	unit.id = id
 	if spec.is_ranger():
 		unit.brace_charges = int(effects.amount(&"brace_charges"))
 	if effects.amount(&"disable_skills") > 0:
@@ -237,8 +241,9 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 	tokens -= cost
 	if _is_specialist(spec):
 		specialist_discount = 0
-	if not first_post and not spec.is_ranger():
-		_ready_tick[spec.id] = clock.tick + _redeploy_ticks(spec.build_cooldown_seconds)
+	if not first_post:
+		var seconds := spec.redeploy_seconds if spec.is_ranger() else spec.build_cooldown_seconds
+		_ready_tick[spec.id] = clock.tick + _redeploy_ticks(seconds)
 	cancel_skill()
 	return ""
 
@@ -290,7 +295,8 @@ func retreat(id: StringName) -> bool:
 	if not clock.is_running() or unit == null or not unit.spec.is_ranger():
 		return false
 	_release_cells(id, unit)
-	_ready_tick[id] = clock.tick + _redeploy_ticks(unit.spec.redeploy_seconds)
+	var type_id := unit.spec.id
+	_ready_tick[type_id] = maxi(_ready_tick.get(type_id, 0), clock.tick + _redeploy_ticks(unit.spec.redeploy_seconds))
 	return true
 
 func _redeploy_ticks(seconds: float) -> int:
@@ -334,14 +340,14 @@ func _restore_hp(unit: Placement, amount: int) -> int:
 		hp_restored.emit()
 	return restored
 
-func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vector2i]:
+func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int, placement_id := &"") -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	var reach := spec.attack_range
 	if reach <= 0:
 		return cells
 	if spec.kind == DeploymentSpec.Kind.ELEVATED and spec.attack_damage > 0:
 		var tower := _completed_tower(anchor)
-		if tower != null and (tower.mounted_ranger.is_empty() or tower.mounted_ranger == spec.id):
+		if tower != null and (tower.mounted_ranger.is_empty() or tower.mounted_ranger == placement_id):
 			reach += tower.facility.mount_range_bonus
 	if spec.is_melee():
 		var front := anchor
@@ -359,7 +365,7 @@ func coverage(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> Array[Vect
 func can_attack(unit: Placement, cell: Vector2i, aerial: bool) -> bool:
 	if aerial and (unit.spec.is_melee() or not unit.spec.targets_aerial):
 		return false
-	return cell in coverage(unit.spec, unit.anchor, unit.facing)
+	return cell in coverage(unit.spec, unit.anchor, unit.facing, unit.id)
 
 func quick_tap(id: StringName, resolve: Callable = Callable()) -> bool:
 	var unit: Placement = placed.get(id)

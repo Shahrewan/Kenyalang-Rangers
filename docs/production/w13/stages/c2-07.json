@@ -140,13 +140,13 @@
       "id": "hint.c2_07.heat",
       "condition": "mission_supply_visible",
       "text": "The supplied Firebreak Beacon uses its normal cost and an elevated footprint. It slows Heat while built.",
-      "status": "proposed_review_pending"
+      "status": "approved_c26_placeholder"
     }
   ],
   "dialogue_sequences": [
     {
       "id": "dialogue.c2_07.opening",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "operation_opening"},
       "lines": [
@@ -169,7 +169,7 @@
     },
     {
       "id": "dialogue.c2_07.wave_2",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "new_proposed_binding_and_copy",
       "trigger": {"event": "before_wave_first_spawn", "wave": 2},
       "lines": [
@@ -187,7 +187,7 @@
     },
     {
       "id": "dialogue.c2_07.victory",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "victory", "fallback": true},
       "lines": [
@@ -205,7 +205,7 @@
     },
     {
       "id": "dialogue.c2_07.defeat",
-      "status": "proposed_review_pending",
+      "status": "approved_c26_placeholder",
       "origin": "proposed_adaptation_of_team_draft",
       "trigger": {"event": "defeat", "fallback": true},
       "lines": [

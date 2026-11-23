@@ -156,11 +156,11 @@ func _guard_charges() -> void:
 	battle.clock.set_speed(2)
 	_frames(battle, 390)
 	_check(guard.skill_charges == 2 and battle.clock.tick == 1660, "The next Guard charge restores separately at two times speed")
-	_check(state.retreat(GUARD.id) and state.cooldown_ticks(GUARD.id) == 300 and not state.occupancy.has(anchor), "Guard retreat frees its tile and starts combat-time redeploy cooldown")
+	_check(state.retreat(GUARD.id) and state.cooldown_ticks(GUARD.id) == CombatClock.ticks_for(GUARD.redeploy_seconds) and not state.occupancy.has(anchor), "Guard retreat frees its tile and starts combat-time redeploy cooldown")
 	var funds := state.tokens
 	_check(not state.deploy(GUARD, anchor, 1).is_empty() and state.tokens == funds, "A cooldown drop preserves Tokens")
-	_frames(battle, 150)
-	_check(state.deploy(GUARD, anchor, 1).is_empty() and state.placed[GUARD.id].facing == 1 and state.placed[GUARD.id].skill_charges == 4, "Redeploy after cooldown makes a fresh Guard placement with chosen facing")
+	_frames(battle, ceili(CombatClock.ticks_for(GUARD.redeploy_seconds) / 2.0))
+	_check(state.deploy(GUARD, anchor, 1).is_empty() and state.placed[state.interaction_id(anchor)].facing == 1 and state.placed[state.interaction_id(anchor)].skill_charges == 4, "Redeploy after cooldown makes a fresh Guard placement with chosen facing")
 
 func _emp_wave_completion() -> void:
 	var stage := STAGE.duplicate() as BattleStage
