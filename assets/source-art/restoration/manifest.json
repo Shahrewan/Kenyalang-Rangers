@@ -1,0 +1,494 @@
+{
+  "version": 1,
+  "revision": "W19b-2026-11-23",
+  "status": "art_ready_for_review",
+  "stages": [
+    "seed",
+    "sapling",
+    "mature"
+  ],
+  "tree_sprite_size": [
+    256,
+    256
+  ],
+  "tree_ground_pivot": [
+    128,
+    224
+  ],
+  "species": {
+    "species.strangler_fig": {
+      "name": "Strangler Fig",
+      "guide_fact_id": "fact.strangler_fig_start",
+      "stage_assets": {
+        "seed": {
+          "id": "restoration_art.tree.strangler_fig.seed",
+          "texture": "res://assets/imported/restoration/trees/strangler_fig/seed.png",
+          "source": "assets/source-art/restoration/trees/strangler_fig.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        "sapling": {
+          "id": "restoration_art.tree.strangler_fig.sapling",
+          "texture": "res://assets/imported/restoration/trees/strangler_fig/sapling.png",
+          "source": "assets/source-art/restoration/trees/strangler_fig.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            256,
+            0,
+            256,
+            256
+          ]
+        },
+        "mature": {
+          "id": "restoration_art.tree.strangler_fig.mature",
+          "texture": "res://assets/imported/restoration/trees/strangler_fig/mature.png",
+          "source": "assets/source-art/restoration/trees/strangler_fig.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            512,
+            0,
+            256,
+            256
+          ]
+        }
+      }
+    },
+    "species.belian": {
+      "name": "Belian / Bornean Ironwood",
+      "guide_fact_id": "fact.belian_identity",
+      "stage_assets": {
+        "seed": {
+          "id": "restoration_art.tree.belian.seed",
+          "texture": "res://assets/imported/restoration/trees/belian/seed.png",
+          "source": "assets/source-art/restoration/trees/belian.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        "sapling": {
+          "id": "restoration_art.tree.belian.sapling",
+          "texture": "res://assets/imported/restoration/trees/belian/sapling.png",
+          "source": "assets/source-art/restoration/trees/belian.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            256,
+            0,
+            256,
+            256
+          ]
+        },
+        "mature": {
+          "id": "restoration_art.tree.belian.mature",
+          "texture": "res://assets/imported/restoration/trees/belian/mature.png",
+          "source": "assets/source-art/restoration/trees/belian.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            512,
+            0,
+            256,
+            256
+          ]
+        }
+      }
+    },
+    "species.red_meranti": {
+      "name": "Red Meranti",
+      "guide_fact_id": "fact.red_meranti_example",
+      "stage_assets": {
+        "seed": {
+          "id": "restoration_art.tree.red_meranti.seed",
+          "texture": "res://assets/imported/restoration/trees/red_meranti/seed.png",
+          "source": "assets/source-art/restoration/trees/red_meranti.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        "sapling": {
+          "id": "restoration_art.tree.red_meranti.sapling",
+          "texture": "res://assets/imported/restoration/trees/red_meranti/sapling.png",
+          "source": "assets/source-art/restoration/trees/red_meranti.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            256,
+            0,
+            256,
+            256
+          ]
+        },
+        "mature": {
+          "id": "restoration_art.tree.red_meranti.mature",
+          "texture": "res://assets/imported/restoration/trees/red_meranti/mature.png",
+          "source": "assets/source-art/restoration/trees/red_meranti.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            512,
+            0,
+            256,
+            256
+          ]
+        }
+      }
+    },
+    "species.mengaris": {
+      "name": "Mengaris",
+      "guide_fact_id": "fact.mengaris_identity",
+      "stage_assets": {
+        "seed": {
+          "id": "restoration_art.tree.mengaris.seed",
+          "texture": "res://assets/imported/restoration/trees/mengaris/seed.png",
+          "source": "assets/source-art/restoration/trees/mengaris.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        "sapling": {
+          "id": "restoration_art.tree.mengaris.sapling",
+          "texture": "res://assets/imported/restoration/trees/mengaris/sapling.png",
+          "source": "assets/source-art/restoration/trees/mengaris.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            256,
+            0,
+            256,
+            256
+          ]
+        },
+        "mature": {
+          "id": "restoration_art.tree.mengaris.mature",
+          "texture": "res://assets/imported/restoration/trees/mengaris/mature.png",
+          "source": "assets/source-art/restoration/trees/mengaris.svg",
+          "pixel_size": [
+            256,
+            256
+          ],
+          "pivot": [
+            128,
+            224
+          ],
+          "source_region_xywh": [
+            512,
+            0,
+            256,
+            256
+          ]
+        }
+      }
+    }
+  },
+  "board_art": {
+    "id": "restoration_art.clearing",
+    "texture": "res://assets/imported/restoration/garden_clearing.jpg",
+    "pixel_size": [
+      1200,
+      800
+    ],
+    "editable_source": "flat_raster"
+  },
+  "plot_art": {
+    "id": "restoration_art.plot_bed",
+    "texture": "res://assets/imported/restoration/plot_bed.png",
+    "source": "assets/source-art/restoration/plot_bed.svg",
+    "pixel_size": [
+      320,
+      208
+    ],
+    "pivot": [
+      160,
+      133
+    ]
+  },
+  "guide_art": {
+    "id": "restoration_art.guide",
+    "texture": "res://assets/imported/restoration/hornbill_guide.png",
+    "source": "assets/source-art/restoration/hornbill.svg",
+    "pixel_size": [
+      256,
+      256
+    ],
+    "pivot": [
+      132,
+      192
+    ],
+    "source_region_xywh": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "intro_fact_id": "fact.hornbill_tree_cavity"
+  },
+  "nest_box": {
+    "event_id": "restoration_event.nest_box",
+    "fact_id": "fact.nest_box_habitat",
+    "prop": {
+      "id": "restoration_art.nest_box",
+      "texture": "res://assets/imported/restoration/nest_box.png",
+      "source": "assets/source-art/restoration/nest_box.svg",
+      "pixel_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        83,
+        81
+      ]
+    },
+    "visitor": {
+      "id": "restoration_art.visitor",
+      "texture": "res://assets/imported/restoration/hornbill_visitor.png",
+      "source": "assets/source-art/restoration/hornbill.svg",
+      "pixel_size": [
+        256,
+        256
+      ],
+      "pivot": [
+        133,
+        133
+      ],
+      "source_region_xywh": [
+        256,
+        0,
+        256,
+        256
+      ]
+    }
+  },
+  "effects": {
+    "water": {
+      "id": "restoration_art.fx.water",
+      "texture": "res://assets/imported/restoration/effects/water.png",
+      "source": "assets/source-art/restoration/effects/water.svg",
+      "pixel_size": [
+        512,
+        128
+      ],
+      "pivot": [
+        64,
+        96
+      ],
+      "frame_size": [
+        128,
+        128
+      ],
+      "frame_count": 4,
+      "suggested_frame_ms": [
+        90,
+        90,
+        100,
+        140
+      ]
+    },
+    "collect": {
+      "id": "restoration_art.fx.collect",
+      "texture": "res://assets/imported/restoration/effects/collect.png",
+      "source": "assets/source-art/restoration/effects/collect.svg",
+      "pixel_size": [
+        512,
+        128
+      ],
+      "pivot": [
+        64,
+        96
+      ],
+      "frame_size": [
+        128,
+        128
+      ],
+      "frame_count": 4,
+      "suggested_frame_ms": [
+        100,
+        100,
+        100,
+        160
+      ]
+    }
+  },
+  "layout_example": {
+    "coordinate_space": [
+      1200,
+      800
+    ],
+    "plots": [
+      {
+        "id": "garden_plot.01",
+        "plant_anchor": [
+          281,
+          347
+        ],
+        "art_scale": 0.82,
+        "minimum_ecology_level": 1
+      },
+      {
+        "id": "garden_plot.02",
+        "plant_anchor": [
+          600,
+          347
+        ],
+        "art_scale": 0.82,
+        "minimum_ecology_level": 1
+      },
+      {
+        "id": "garden_plot.03",
+        "plant_anchor": [
+          919,
+          347
+        ],
+        "art_scale": 0.82,
+        "minimum_ecology_level": 2
+      },
+      {
+        "id": "garden_plot.04",
+        "plant_anchor": [
+          281,
+          618
+        ],
+        "art_scale": 0.9,
+        "minimum_ecology_level": 3
+      },
+      {
+        "id": "garden_plot.05",
+        "plant_anchor": [
+          600,
+          618
+        ],
+        "art_scale": 0.9,
+        "minimum_ecology_level": 4
+      },
+      {
+        "id": "garden_plot.06",
+        "plant_anchor": [
+          919,
+          618
+        ],
+        "art_scale": 0.9,
+        "minimum_ecology_level": 5
+      }
+    ],
+    "guide_perch": {
+      "anchor": [
+        1116,
+        746
+      ],
+      "art_scale": 0.48
+    },
+    "nest_box_mount": {
+      "anchor": [
+        1154,
+        164
+      ],
+      "art_scale": 0.72
+    }
+  },
+  "provenance": {
+    "vector_art": {
+      "source": "Original W19b paths authored for Kenyalang Rangers",
+      "status": "project review pending"
+    },
+    "garden_clearing": {
+      "source": "Original generated raster illustration for Kenyalang Rangers",
+      "references": [
+        "UI storyboard p. 89 S47",
+        "W06 Scout Sniper v0.2.0 cutout review sheet"
+      ],
+      "selected_master_sha256": "e90b455c6cfa5bbdc8ed98f775578cca252f3433242dbddf699be52ef26dcfd5",
+      "export": "1200 by 800 JPEG from a 1536 by 1024 raster master",
+      "status": "project review pending"
+    },
+    "facts": "docs/production/w18/references.json",
+    "instruction_and_review": "docs/production/W19B_RESTORATION_ART.md"
+  }
+}

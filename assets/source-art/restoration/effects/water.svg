@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="128" viewBox="0 0 512 128">
+  <title>Watering — four 128-unit frames</title>
+  <desc>Read frames left to right. Ground pivot at (64,96). Three pale drops settle into one soft ripple.</desc>
+  <g id="frame_0" stroke="#415b50" stroke-width="3" stroke-linejoin="round">
+    <path d="M41 32c-3 7-9 12-9 18a9 9 0 0 0 18 0c0-6-6-11-9-18z" fill="#98cbc0"/>
+    <path d="M66 20c-2 5-6 9-6 13a6 6 0 1 0 12 0c0-4-4-8-6-13z" fill="#b8d9c8"/>
+    <path d="M85 42c-2 6-6 9-6 14a7 7 0 0 0 14 0c0-5-6-11-8-14z" fill="#9bc9bd"/>
+  </g>
+  <g id="frame_1" transform="translate(128 0)" stroke="#415b50" stroke-width="3" stroke-linejoin="round">
+    <path d="M41 60c-3 7-9 12-9 18a9 9 0 0 0 18 0c0-6-6-11-9-18z" fill="#98cbc0"/>
+    <path d="M66 53c-2 5-6 9-6 13a6 6 0 1 0 12 0c0-4-4-8-6-13z" fill="#b8d9c8"/>
+    <path d="M85 69c-2 6-6 9-6 14a7 7 0 0 0 14 0c0-5-6-11-8-14z" fill="#9bc9bd"/>
+    <path d="M51 97q13 6 27 0" fill="none" stroke="#99c6b5" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g id="frame_2" transform="translate(256 0)">
+    <ellipse cx="64" cy="97" rx="34" ry="10" fill="none" stroke="#96c5b3" stroke-width="4" opacity=".9"/>
+    <ellipse cx="64" cy="97" rx="21" ry="5" fill="#a7d1b8" opacity=".58"/>
+    <path d="M39 87q-6-7-10-6m58 6q6-8 11-6m-35 6v-8" fill="none" stroke="#cae2c6" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g id="frame_3" transform="translate(384 0)">
+    <ellipse cx="64" cy="98" rx="41" ry="11" fill="none" stroke="#9fcab3" stroke-width="3.5" opacity=".45"/>
+    <path d="M46 98q19 4 39-1" fill="none" stroke="#a3c9ac" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+  </g>
+</svg>

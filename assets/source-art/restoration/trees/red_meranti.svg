@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="256" viewBox="0 0 768 256">
+  <title>Red Meranti — Seed, Sapling, Mature</title>
+  <desc>Three 256-unit export areas. Ground pivot at (128,224) in each area. The winged fruit is a Seed-stage cue.</desc>
+  <g id="seed" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="226" rx="38" ry="7" fill="#705239" opacity=".24" stroke="none"/>
+    <path d="M94 217c10-9 25-13 36-12 14 0 26 5 33 12-15 8-52 9-69 0z" fill="#987250" stroke-width="5"/>
+    <path d="M128 204c-13-3-29-14-32-26 17-2 31 8 36 21 1-19 10-36 24-42 5 17-5 33-19 44 13-9 26-9 36-2-9 12-23 16-36 13z" fill="#b58151" stroke-width="5"/>
+    <path d="M141 204c5-3 13-4 18-1m-25-3c3-12 9-22 16-32m-27 28c-6-7-12-11-18-14" fill="none" stroke="#dcb47e" stroke-width="3"/>
+    <path d="M119 205c2-5 12-8 18-5 6 3 7 11 1 16-7 4-19 0-19-11z" fill="#84533b" stroke-width="5"/>
+  </g>
+  <g id="sapling" transform="translate(256 0)" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="225" rx="34" ry="7" fill="#705239" opacity=".24" stroke="none"/>
+    <path d="M104 221c13-9 17-16 17-42l-2-75 11-1 8 77c1 19 2 33 13 40-11 6-34 7-47 1z" fill="#9a6b48" stroke-width="6"/>
+    <path d="M123 122c-16-26-11-55 5-68 18 21 18 46-5 68z" fill="#a39d56" stroke-width="6"/>
+    <path d="M130 145c9-33 28-46 52-47-1 30-21 45-52 47z" fill="#868c50" stroke-width="6"/>
+    <path d="M125 164c-35 1-52-21-56-43 27 1 48 12 56 43z" fill="#71804d" stroke-width="6"/>
+    <path d="M137 179c11-20 36-28 54-22-11 19-32 27-54 22z" fill="#7b8148" stroke-width="6"/>
+    <path d="M125 109c5-14 7-26 5-39m17 65c9-10 18-17 25-23m-63 41-26-21m68 42 28-10" fill="none" stroke="#b6af6d" stroke-width="3"/>
+  </g>
+  <g id="mature" transform="translate(512 0)" stroke="#2b2822" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="128" cy="225" rx="58" ry="9" fill="#705239" opacity=".24" stroke="none"/>
+    <g id="trunk_and_buttresses">
+      <path d="M77 223c5-13 25-24 28-41l11-89-30-20 10-13 33 19 24-36 15 9-18 47-4 74c0 25 8 35 28 47-9 7-25 6-39-2l-7-18-11 18c-10 5-26 8-40 5z" fill="#9c6d4d" stroke-width="7"/>
+      <path d="M130 100c-4 31-5 63-4 91m-11-34c-1 26-4 42-16 54m42-25c3 13 6 23 14 29" fill="none" stroke="#d29b65" stroke-width="4"/>
+      <path d="M115 197c-6 12-10 16-15 19" fill="none" stroke="#715139" stroke-width="3"/>
+    </g>
+    <g id="crown" stroke-width="6">
+      <path d="M34 112c-7-17 6-28 22-30-5-12 3-23 14-25 0-18 18-29 36-24 6-20 32-28 46-11 14-7 31 0 39 16 22-2 34 17 31 34 16 11 18 29 6 44-9 13-26 16-40 13-6 12-24 17-39 13-13 13-35 14-51 5-13 11-36 8-46-5-16-1-25-13-18-30z" fill="#546144"/>
+      <path d="M69 67c5-12 18-16 29-14 0-13 13-22 28-19 6-10 19-12 30 1 11-1 27 6 31 17 12 4 17 17 11 26-11 13-27 14-38 8-13 9-32 7-41-1-16 12-38 8-50-2-4-4-4-11 0-16z" fill="#8a9356"/>
+      <path d="M43 104c8-12 25-13 35-6 11-9 27-8 39 3 11-3 20 4 20 14-3 14-25 23-40 14-16 9-33 7-41-2-13 2-19-12-13-23z" fill="#758449" stroke-width="5"/>
+      <path d="M162 104c12-10 27-8 37-1 10-8 18-2 19 9-12 15-31 15-45 7-8-3-12-9-11-15z" fill="#74804b" stroke-width="4"/>
+      <path d="M114 53c11-8 20-9 31-6m-76 65c10-4 17-4 25-2" fill="none" stroke="#b7ab6b" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

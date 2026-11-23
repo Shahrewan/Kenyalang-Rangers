@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="208" viewBox="0 0 320 208">
+  <title>Restoration plot bed</title>
+  <desc>Plant pivot at (160,133). Flat raised soil with rounded timber rails and end caps.</desc>
+  <path d="M11 171q129 22 296-1 12 20-10 26-127 18-273 1-26-4-13-26Z" fill="#58412e" opacity=".24"/>
+  <g stroke="#473629" stroke-linejoin="round" stroke-linecap="round">
+    <path id="soil" d="M56 35h207l27 130q-130 9-260 0Z" fill="#937155" stroke-width="7"/>
+    <path d="M58 45q90 9 198 0l13 61q-52-12-109 1-64 15-116 3z" fill="#9f7c5b"/>
+    <path d="M51 127q74 8 119-6 49-14 107-3l7 30q-148 14-242 1Z" fill="#8a664b"/>
+    <g id="soil_details" fill="none" stroke="#72533d" stroke-width="4.5">
+      <path d="M74 85q6-6 13 0m-18 36q7-6 13 0m144-49q5-4 10 1m-6 49q6-6 14 0m-51 14q4-5 11-1m-80-65q4-4 9 0"/>
+    </g>
+    <g id="rails" stroke-width="6">
+      <path d="M47 32q107-8 230 0v19q-113-8-225 0z" fill="#aa855b"/>
+      <path d="M54 39 25 166l-11-5L38 39z" fill="#9b784f"/>
+      <path d="m268 38 28 122 10 3-24-124z" fill="#a68255"/>
+      <path d="M28 156q133 13 263 0v32q-134 16-263-1Z" fill="#9e774f"/>
+      <path d="M32 158q133 11 256 0v10q-128 14-258 0z" fill="#bf9866" stroke="none"/>
+      <path d="M54 179q119 7 212 0m-199-8 19 2m140 1 20-2" fill="none" stroke="#795a41" stroke-width="3"/>
+    </g>
+    <g id="back_posts" stroke-width="5.5">
+      <path d="M36 30v23q18 9 37-1V30zM144 30v15q16 7 33 0V30zM245 30v23q17 10 37 0V30z" fill="#ad865b"/>
+      <ellipse cx="54" cy="30" rx="18" ry="10" fill="#deba83"/>
+      <ellipse cx="160" cy="30" rx="16" ry="8" fill="#d8b17b"/>
+      <ellipse cx="263" cy="30" rx="18" ry="10" fill="#deba83"/>
+      <path d="M27 98v21q11 8 23 2l5-22zm238 1 5 22q12 7 24-2l-4-21z" fill="#b18b5e"/>
+      <ellipse cx="41" cy="99" rx="14" ry="8" fill="#d7b07a"/>
+      <ellipse cx="277" cy="99" rx="14" ry="8" fill="#d7b07a"/>
+    </g>
+    <g id="front_posts" stroke-width="6">
+      <path d="M9 162v22c0 15 42 16 42 0v-22zM269 162v22c1 15 43 15 43-1v-21z" fill="#ac8358"/>
+      <ellipse cx="30" cy="163" rx="21" ry="12" fill="#e1ba7e"/>
+      <ellipse cx="290" cy="163" rx="21" ry="12" fill="#e1ba7e"/>
+      <path d="M19 162q11-5 23 0m237 0q12-5 23 0" fill="none" stroke="#bd905e" stroke-width="3"/>
+      <path d="M21 179v8m16-8v10m246-9v7m16-6v6" fill="none" stroke="#896744" stroke-width="4"/>
+    </g>
+  </g>
+</svg>
