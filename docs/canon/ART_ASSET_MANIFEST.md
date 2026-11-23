@@ -4,13 +4,15 @@
 
 **References** UI = *Kenyalang_Rangers_Tileset_UI_Storyboard.pdf*, GDD = *SimSimi.pdf*, Task 1, and Archive = the separate `Kenyalang_Rangers_Design_Pack_v2.zip`. See the [source inventory](../production/SOURCE_INVENTORY.md), [source identities](DECISION_LOG.md#source-identity) and [UI component bindings](UI_COMPONENT_SPEC.md).
 
+The [W21 production audit](../production/W21_PRODUCTION_ASSET_AUDIT.md) records the C20 build's current asset bindings, placeholder locations and ticket priorities. The W08 tables document the design sources and geometry.
+
 ## Source and runtime availability
 
 | Status | Item | Evidence and intended use |
 |---|---|---|
 | Reference PDF | 127-page storyboard, 116 labeled views | UI pp. 12–127 carry one frame per page. UI pp. 2–11 define the visual system, maps and handoff. Use frame IDs as acceptance cases. |
 | Recovered design sources | 116 `screens/<frame>.svg`, 116 `renders/<frame>.png`, `storyboard_manifest.json`, `index.html`, `PROJECT_MEMORY.md` | In the separate Archive. IDs and 1280 × 720 raster dimensions match the PDF and all 483 relative art links resolve. SVGs retain text and vector geometry. See [source validation](#source-validation). |
-| Recovered technical sources | `tile_grammar.svg`, `tile_layouts.json`, `tile_atlas_spec.svg`, `tile_piece_catalog.json` | In the Archive. Six proposed layouts and 56 technical pieces. T01's geometry matches the existing game. T02–T06 have documented coordinates for future runtime import. [UI pp. 4–6, 10] |
+| Recovered technical sources | `tile_grammar.svg`, `tile_layouts.json`, `tile_atlas_spec.svg`, `tile_piece_catalog.json` | In the Archive. The six layouts match C20 geometry. The 56 technical pieces have archived geometry and await production art exports. [UI pp. 4–6, 10] · [W21 verification](../production/W21_PRODUCTION_ASSET_AUDIT.md#verification) |
 | Recovered illustration candidates | Ten PNGs in the Archive's `assets/` | The exact files are listed below. Use them as style or layer candidates pending production review. |
 | Verified off-device | W06 Scout Sniper v0.2.0 source and 19 cutouts, C07 rig pilot | In the repository, exercised in the isolated Godot preview. Physical landscape readability and rig validation remain open. [W06 specification](../production/W06_RANGER_SPRITE_SPEC.md) · [C07 rig guide](../production/C07_SCOUT_RIG.md) |
 | Production gaps | Runtime atlas with original textures and region overlays, remaining clean cutouts and portraits, deployable/context icons, room and garden layers, authored text banks | Work is listed by dependency in [asset tickets](#prioritized-asset-tickets). Final story, education and Restoration source text follow D-004. Release rights and credits follow D-014. |
@@ -58,7 +60,7 @@ The Archive values below identify the input files in `assets/`. Alpha describes 
 | Routes and ground | Each ordered `routes` list becomes a route resource. Use the inclusive waypoints below and expand each straight segment through adjacent cells. Include the endpoints in route arrays. The union of interior cells is the ground placement mask. For T02 read both ordered routes. The single `entry` and `ground_path` fields in the design JSON are first-route views. |
 | Elevated and remaining cells | Copy the per-row masks exactly. Other cells are scenery/nondeployable. No route cell overlaps an elevated top. Two-cell deployables validate every occupied cell. Most Facilities need 2×1 elevated. Sentry Tower requires one elevated cell and one valid reservation above. |
 | Layering and encounter | Preserve backdrop → ground → elevation → placement preview → entities → effects → HUD. The art projection and input grid share one transform, including the safe HUD/tray margins. Heat, supply, waves and bonuses belong to the encounter. |
-| Runtime check | Current T01 `BattleMap` and `BattleRoute` match the catalog after removing endpoints from ground deployment. Keep that resource shared by all C1 stages. T02–T06 below are validated geometry for authoring. Run bounds, adjacency, approach, gate/tunnel, mask, and default Facility/Sentry footprint fixtures before using each one in play. |
+| Runtime check | T01–T06 map and route resources match the archived raised cells and ordered routes. Endpoints are excluded from ground deployment. Keep T01 shared by Chapter 1 and confirm the final atlas aligns with all approved footprints. [W21 verification](../production/W21_PRODUCTION_ASSET_AUDIT.md#verification) |
 
 [Existing T01 map](../../data/stages/t01_forgotten_patrol.tres) · [Existing T01 route](../../data/stages/t01_route.tres) · [Existing resource validator](../../scripts/data/battle_map.gd) · [Map data contract](DATA_CONTRACTS.md#maps-stages-and-battle-state)
 

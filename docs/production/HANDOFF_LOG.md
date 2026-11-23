@@ -170,3 +170,9 @@
 - Main Menu and Ecology open the shared garden with two to six plots. The W19b clearing and sprites show Seed, Sapling and Mature. Device timestamps advance growth offline and stop at the midpoint until watered. One save commits the collection, retained tree, capped Funds, milestones and discovery IDs.
 - Three distinct species meet Ecology's Lv.5 participation requirement. The fourth distinct species brings the one-time hornbill visitor and nest box. A further mature collection reaches 100%. The live build uses the GDD's provisional payouts. Garden discoveries appear with citations when their reference copy is approved.
 - Passed pinned import and startup, 1,801 checks across 24 runners, and Linux pointer play at 960×540. The signed ARM64 APK passed host verification with all 19 restoration textures. Phone installation and touch remain open. [C20 matrix](../qa/C20_RESTORATION_MATRIX.md)
+
+## W21 Production asset audit — 2026-11-23
+
+- Audited C20 merge `fbeb1c7` against the 127-page storyboard and GDD. The ledger has 358 asset records, all 116 frame mappings and 38 placeholder, conditional and QA surfaces, each linked to a production ticket. All six original maps match the design package. The archive's atlas and illustration sources are candidates. The live Garden has all 19 textures, and Scout uses two of its 19 parts in the tray. [W21 audit and queue](W21_PRODUCTION_ASSET_AUDIT.md)
+- The audit validator confirmed 247 external source file fingerprints, 39 static media references and 15 explicit placeholder labels. Godot 4.7.2 loaded the 39 textures and 12 packed scenes. Pinned editor import, startup and all 1,801 existing checks across 24 runners passed.
+- C22 begins with field readability and reusable state bindings. Audio, approved portraits, production terrain, D-014 reviews and device validation remain open. [Priorities](W21_PRODUCTION_ASSET_AUDIT.md#production-tickets)
