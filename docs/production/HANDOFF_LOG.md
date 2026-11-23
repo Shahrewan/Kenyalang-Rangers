@@ -198,3 +198,9 @@
 
 - Built RC1 from `19cdf2a` for private testing. Version code 2 shares the development identity and signing certificate with C23 code 1. Release-template libraries, package settings, signatures, alignment, offline permissions and asset selection were checked.
 - The clean project passed 1,977 assertions. Packaged host tests covered Story, bosses, HQ, Chaos and Garden, with fresh and cross-version save rehearsals. Physical Android and owner release sign-off remain open. [Candidate, evidence and checklist](../qa/C24_RELEASE_SIGNOFF.md)
+
+## W25 Campaign completion plan — 2026-11-23
+
+- Reconciled the original GDD, W13 and C14/C24 with all 15 loaded stage files. The review documents cover 49 ordered base waves, 73 draft dialogue sequences, 14 hints, 46 pending Funds amounts and 23 implementation tickets. [Approval plan](W25_CAMPAIGN_COMPLETION.md)
+- Review starts with the C1-01 to C1-02 funding gap, then covers first-play skill teaching, grants whose field kits are pending, the Firebreak acquisition choice and the Foreman escape branch. The proposals require separate approval.
+- On C24 merge `bdbb8f2`, Godot 4.7.2 editor import, headless startup and 1,977 checks across 28 runners passed. The separate 60-day audit reproduced 13 clears and zero Campaign Funds. Authentic later-stage clears and physical Android review remain open.
