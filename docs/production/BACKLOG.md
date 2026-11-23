@@ -221,6 +221,8 @@ Downstream catalogs may use deterministic tests for dependencies pending integra
 
 ## M6 · Android release validation
 
+The [W21 production queue](W21_PRODUCTION_ASSET_AUDIT.md#production-tickets) links each existing placeholder and missing art/audio family to a verification ticket. Use its P0 combat cues and shared UI work for C22.
+
 ### KR-33 · Main navigation, settings and References
 
 - **Depends on KR-19–KR-22, KR-27–KR-32.** From a fresh session and a developed save, walk the main menu, room-first navigation, Story, Chaos, garden, Settings and FAQ. Verify auto-load and first-name prompts. Settings can cancel/confirm reset and uses the KR-20 save behavior.

@@ -35,7 +35,7 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C19 Outreach and Records mechanics, persistence and launcher UI verified with synthetic data. The actual banks and Records award values await approval. Physical Android verification remains open. [C19 matrix](../qa/C19_EDUCATION_MATRIX.md)
 - [x] W19b [Restoration art kit](W19B_RESTORATION_ART.md) is on `main` via PR #21. All 19 textures import in Godot. D-014 tracks final art review.
 - [~] C20 The shared Habitat Restoration garden, local growth, milestone and Funds settlement, and Ecology gates passed off-device checks. Physical Android verification and fact approval remain open. [C20 matrix](../qa/C20_RESTORATION_MATRIX.md)
-- [ ] W21 Production art/audio coverage and asset license checks
+- [x] W21 [Production asset audit](W21_PRODUCTION_ASSET_AUDIT.md) maps all 116 frames, verifies asset availability and assigns every observed placeholder to one of 15 tickets. Art/audio replacement, rights sign-off and on-device validation carry into C22–C24.
 - [ ] C22 Full UI/settings/accessibility/audio integration
 - [ ] C23 Save migration, QA/load testing, 60-day balance simulation
 - [ ] C24 Android signing, APK, install/benchmark/release checklist

@@ -1,0 +1,39 @@
+surface_id,kind,evidence_path,locator,observed_rendering,tickets
+literal.sample_battle.148,literal,scenes/battle/sample_battle.tscn,148,Shared board legend,W21-A01|W21-A03|W21-A04|W21-A05
+literal.facility_sandbox.43,literal,scenes/qa/facility_sandbox.tscn,43,Facility QA board legend,W21-A01|W21-A04|W21-A05|W21-A15
+literal.battle_scene.11,literal,scripts/battle/battle_scene.gd,11,Ranger and Facility sandbox default legend,W21-A01|W21-A03|W21-A04|W21-A05|W21-A15
+literal.campaign_battle.17,literal,scripts/battle/campaign_battle.gd,17,Story board or portrait label,W21-A01|W21-A06
+literal.campaign_battle.99,literal,scripts/battle/campaign_battle.gd,99,Story board or portrait label,W21-A01|W21-A06
+literal.chaos_battle.12,literal,scripts/battle/chaos_battle.gd,12,Chaos board legend,W21-A01|W21-A05
+literal.chaos_route_page.39,literal,scripts/ui/chaos_route_page.gd,39,Chaos route illustration label,W21-A02
+literal.chaos_trophy.23,literal,scripts/ui/chaos_trophy.gd,23,HQ and Chaos trophy label,W21-A09
+literal.enemy_sandbox.97,literal,scripts/ui/enemy_sandbox.gd,97,Enemy and boss QA board legend,W21-A01|W21-A05|W21-A15
+literal.garden_board.104,literal,scripts/ui/garden_board.gd,104,Conditional Garden texture fallback,W21-A15
+literal.garden_board.110,literal,scripts/ui/garden_board.gd,110,Conditional Garden texture fallback,W21-A15
+literal.garden_board.129,literal,scripts/ui/garden_board.gd,129,Conditional Garden texture fallback,W21-A15
+literal.headquarters_overview.42,literal,scripts/ui/headquarters_overview.gd,42,Office cross-section label,W21-A07
+literal.launcher.108,literal,scripts/ui/launcher.gd,108,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
+literal.launcher.222,literal,scripts/ui/launcher.gd,222,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
+surface.entry_icon,active,project.godot,assets/placeholders/dev_icon.png,Developer icon on the default project,W21-A14
+surface.menu_office,active,scripts/ui/headquarters_sketch.gd,func _draw(),Home office sketch,W21-A07|W21-A14
+surface.office_rooms,active,scripts/ui/headquarters_office_art.gd,func _draw(),Geometric shell and office modules,W21-A07
+surface.story_cards,active,scripts/ui/campaign_story_page.gd,func _ready(),Text-first Story map list and operation cards,W21-A02
+surface.field_background,active,scenes/battle/sample_battle.tscn,"type=""ColorRect""",Plain world backing used across regions,W21-A02
+surface.grid,active,scripts/ui/sample_board.gd,func _draw(),Flat ground/elevation rectangles and arrow lanes,W21-A01
+surface.gates,active,scripts/ui/sample_board.gd,func _draw_gate(,Entry and Tunnel rectangles,W21-A01
+surface.deployables,active,scripts/ui/sample_board.gd,func _draw_deployments(),All combat Rangers and Facilities as rectangles,W21-A03|W21-A04
+surface.enemy_boss,active,scripts/ui/sample_board.gd,func _draw_enemy_status(,Standard and boss circles and status labels,W21-A05|W21-A13
+surface.siege_warning,active,scripts/ui/sample_board.gd,func _draw_siege_warnings(),"Title, outline and target rectangle",W21-A05|W21-A13
+surface.status_fields,active,scripts/ui/sample_board.gd,func _draw_slow_fields(),EMP field and shared status shapes,W21-A13
+surface.deployment_cards,active,scripts/ui/deployment_portrait.gd,elif spec.is_ranger():,Generic Ranger face and Facility badge. Scout uses the W06 tray crop.,W21-A03|W21-A04|W21-A08
+surface.token_ticket,functional_pilot,scripts/ui/token_ticket.gd,func _draw(),Procedural ticket used in UI. Validate the existing silhouette in the final theme.,W21-A08
+surface.trophy,active,scripts/ui/chaos_trophy.gd,func _draw(),Tiered geometric trophies and unranked mount,W21-A09
+surface.outreach_portrait,content_gated,scripts/ui/outreach_page.gd,func _review(,Textual grade while approved content and pose art are pending,W21-A06|W21-A10
+surface.records_visuals,content_gated,scripts/ui/records_archive_page.gd,Facts archive,Text archive and chapter treatment,W21-A10
+surface.garden_draw_art,conditional,scripts/ui/garden_board.gd,func _draw_art(,"Missing clearing, bed, tree, guide, nest box or visitor draws a local text fallback",W21-A15
+surface.garden_draw_fx,conditional,scripts/ui/garden_board.gd,func _draw_effect(),Missing effect file leaves the gameplay label and receipt visible,W21-A15
+surface.garden_seed_picker,active,scripts/ui/headquarters_garden.gd,func _render_seeds(),Text-only seed selection. Reuse imported Seed textures.,W21-A10
+surface.naming_sample,functional_pilot,scripts/ui/leader_naming.gd,input.placeholder_text,Standard empty input hint. Keep readable with the final text scale.,W21-A14
+surface.scout_preview,qa_only,scenes/qa/scout_rig_preview.tscn,res://scenes/units/scout_rig.tscn,W06 rig pose and anchor checking view,W21-A03|W21-A15
+surface.scout_preview_guides,qa_only,scripts/animation/scout_preview.gd,func _draw_stage(),Rig preview guides. Keep the QA context distinct from the field view.,W21-A03|W21-A15
+surface.launcher_sample,qa_entry,scenes/menus/main_menu.tscn,OpenSample,Developer sample route reachable from the shell,W21-A14|W21-A15
