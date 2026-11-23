@@ -222,8 +222,9 @@ func begin_chaos(configuration: ChaosConfiguration, plan: ModifierResolution, se
 
 func abandon_chaos(run: ChaosRun) -> bool:
 	if run != null and _chaos_attempt == run:
+		if not close_chaos_configuration():
+			return false
 		_chaos_attempt = null
-		return close_chaos_configuration()
 	return true
 
 func close_chaos_configuration() -> bool:
@@ -343,6 +344,8 @@ func quiz_attempt() -> Dictionary:
 	return _data.encyclopaedia.attempt.duplicate(true)
 
 func begin_quiz(chapter: StringName, questions: Array, bank_revision := 0) -> bool:
+	if not ProfileFile.whole_between(bank_revision, 0, ProfileFile.MAX_EXACT_INTEGER):
+		return false
 	if not _data.encyclopaedia.attempt.is_empty() or String(chapter) not in records_chapters() or not ProfileFile.unique_ids(questions) or questions.is_empty():
 		return false
 	var next := snapshot()

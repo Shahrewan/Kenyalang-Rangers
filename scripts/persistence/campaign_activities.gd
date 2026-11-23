@@ -119,7 +119,7 @@ static func valid_garden(state: Variant, capacity: int) -> bool:
 		if not id in plot_ids or not plot is Dictionary or not RestorationRules.SPECIES.has(plot.get("species")):
 			return false
 		var cycle: Variant = plot.get("cycle_id")
-		if not cycle is String or cycle.is_empty() or active_cycles.has(cycle):
+		if not cycle is String or cycle.is_empty() or active_cycles.has(cycle) or cycle in state.settled_awards:
 			return false
 		active_cycles[cycle] = true
 		if not ProfileFile.whole_between(plot.get("planted_at"), 1, LAST_TIMESTAMP) or not ProfileFile.whole_between(plot.get("watered_at"), 0, LAST_TIMESTAMP):

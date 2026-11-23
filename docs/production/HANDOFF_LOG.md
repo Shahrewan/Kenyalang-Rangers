@@ -187,3 +187,9 @@
 
 - Compared the merge, archived screenshots and 1,838-check baseline with the attached design PDFs. The fixes connect pause Settings and Controls, improve enlarged controls and local drop feedback, identify the conservation sources, restore the Leader's hood, and itemize the Chaos wallet cap preview.
 - The updated suite passed 1,861 checks across 25 runners. Linux captures and the signed APK payload support the corrected flows. User and physical-phone sign-off remain open. [C22 source audit](../qa/C22_SOURCE_AUDIT.md)
+
+## C23 regression and balance — 2026-11-23
+
+- Implementation `1780f08` passed 1,975 checks in 28 runners, including the repeatable dense-wave, save failure and catalog checks. The process-kill test and two identical 60-day ledgers passed separately.
+- The reference budget funds the 24.16M target on day 58 with staged spending. The installed-content schedule earns 6,363,600. Garden has a 4.71M upper bound and a three-enemy Chaos setup earns 41,200 per clear. Balance proposals await owner review.
+- The signed standalone benchmark runs from a separate Android package. Three Linux runs measured 42.47–50.78 FPS. ADB listed zero devices. The release gate awaits actual candidate phone results. [Audit, evidence and open gates](../qa/C23_SYSTEM_AUDIT.md)
