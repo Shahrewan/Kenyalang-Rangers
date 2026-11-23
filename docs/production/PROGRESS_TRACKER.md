@@ -43,5 +43,6 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 
 - [~] C26 Reviewed Campaign placeholder content, first-clear funding, faster enemies and repeat deployment verified. Remaining live reward amounts, late-mission player clears and Android validation are open. [Campaign matrix](../qa/C26_CAMPAIGN_MATRIX.md)
 - [~] W27 [First Contact production art](W27_FIRST_CONTACT_ART.md) defines eight review batches, exact C1-01 asset coverage and Godot cutout contracts. Owner approved the first batch and bare-headed enemies. The [study-matched cutout delivery](w27/IMPORT_ACCEPTANCE.md) verifies Patrolman and E01 independently of live Story binding. Phone review remains open.
+- [~] [First Contact visual handoff](FIRST_CONTACT_STAGE_ART.md) delivers T01 terrain and backdrop, field art, Scout effects and the 15-node Story board. Live integration and Android landscape verification remain open.
 
 For each row add: owner, Git commit, actual automated test log, manual Android verification, known issues, acceptance sign-off date. These are milestones, NOT estimates of equal development effort.

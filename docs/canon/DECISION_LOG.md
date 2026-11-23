@@ -262,3 +262,7 @@ The owner rejected the independently redrawn W27 actor artwork and directed the 
 ## D-012 W27 approved style and enemy palette — 2026-11-23
 
 The owner approved the study-matched style and requested a stronger red presence for enemy artwork. Use restrained rust and brick accents in enemy cloth or equipment. E01's rust jacket is the first reference, with its original silhouette and cutout registration preserved. [W27 palette and validation](../production/w27/IMPORT_ACCEPTANCE.md#enemy-palette)
+
+## First Contact staging art — 2026-11-23
+
+The First Contact art handoff uses the existing T01 geometry and a quiet waterfall clearing. The entry sign and tree-veiled tunnel have separate art registrations. Story uses a fixed 15-node board with Control Room fog and an independent prerequisite lock. Scout's tracer is a presentation sprite driven by an accepted shot in the future binding. [Stage art and source references](../production/FIRST_CONTACT_STAGE_ART.md)

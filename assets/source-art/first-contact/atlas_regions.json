@@ -1,0 +1,763 @@
+{
+  "terrain": {
+    "texture": "assets/imported/first_contact/t01_terrain_atlas.png",
+    "source_svg": "assets/source-art/first-contact/t01_terrain_atlas.svg",
+    "dimensions_px": [
+      816,
+      680
+    ],
+    "gutter_px": 4,
+    "regions": {
+      "KRT_01": {
+        "region_px": [
+          4,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Quiet noninteractive ground"
+      },
+      "KRT_08": {
+        "region_px": [
+          140,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Ground route connection mask 3"
+      },
+      "KRT_10": {
+        "region_px": [
+          276,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Ground route connection mask 5"
+      },
+      "KRT_15": {
+        "region_px": [
+          412,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Ground route connection mask 10"
+      },
+      "KRT_17": {
+        "region_px": [
+          548,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Ground route connection mask 12"
+      },
+      "KRT_21": {
+        "region_px": [
+          684,
+          4,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised platform base"
+      },
+      "KRT_25": {
+        "region_px": [
+          4,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_26": {
+        "region_px": [
+          140,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_27": {
+        "region_px": [
+          276,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_28": {
+        "region_px": [
+          412,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_29": {
+        "region_px": [
+          548,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_30": {
+        "region_px": [
+          684,
+          140,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_31": {
+        "region_px": [
+          4,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_32": {
+        "region_px": [
+          140,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Raised lip or corner detail"
+      },
+      "KRT_40": {
+        "region_px": [
+          276,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          112
+        ],
+        "role": "Noninteractive fern"
+      },
+      "KRT_42": {
+        "region_px": [
+          412,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          112
+        ],
+        "role": "Noninteractive root edge"
+      },
+      "KRT_46": {
+        "region_px": [
+          548,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "West entry sign; traversal mark overlays separately"
+      },
+      "KRT_48": {
+        "region_px": [
+          684,
+          276,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "East forest tunnel; opening faces the route"
+      },
+      "KRT_51": {
+        "region_px": [
+          4,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Valid placement"
+      },
+      "KRT_52": {
+        "region_px": [
+          140,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Invalid placement"
+      },
+      "KRT_53": {
+        "region_px": [
+          276,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Range"
+      },
+      "KRT_54": {
+        "region_px": [
+          412,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Facing east; rotate per input"
+      },
+      "KRT_55": {
+        "region_px": [
+          548,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Reserved cell"
+      },
+      "KRT_56": {
+        "region_px": [
+          684,
+          412,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Construction overlay"
+      },
+      "route_arrow": {
+        "region_px": [
+          4,
+          548,
+          128,
+          128
+        ],
+        "anchor_px": [
+          64,
+          64
+        ],
+        "role": "Travel arrow artwork points east"
+      }
+    }
+  },
+  "interface": {
+    "texture": "assets/imported/first_contact/first_contact_ui_atlas.png",
+    "source_svg": "assets/source-art/first-contact/first_contact_ui_atlas.svg",
+    "dimensions_px": [
+      840,
+      600
+    ],
+    "gutter_px": 4,
+    "regions": {
+      "node_fog": {
+        "region_px": [
+          4,
+          4,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission fog medallion"
+      },
+      "node_locked": {
+        "region_px": [
+          172,
+          4,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission locked medallion"
+      },
+      "node_available": {
+        "region_px": [
+          340,
+          4,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission available medallion"
+      },
+      "node_selected": {
+        "region_px": [
+          508,
+          4,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission selected medallion"
+      },
+      "node_cleared": {
+        "region_px": [
+          676,
+          4,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission cleared medallion"
+      },
+      "node_perfect": {
+        "region_px": [
+          4,
+          124,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Mission perfect medallion"
+      },
+      "fog_band": {
+        "region_px": [
+          172,
+          124,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Segmented opaque haze; slice or stretch inside the group"
+      },
+      "story_panel": {
+        "region_px": [
+          340,
+          124,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice Story and result panel, 16 px edges"
+      },
+      "battle_hud": {
+        "region_px": [
+          508,
+          124,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice combat HUD, 16 px edges"
+      },
+      "dialogue_panel": {
+        "region_px": [
+          676,
+          124,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice tutorial and dialogue, 16 px edges"
+      },
+      "tray_ready": {
+        "region_px": [
+          4,
+          244,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice deployment card, 15 px edges"
+      },
+      "tray_starter": {
+        "region_px": [
+          172,
+          244,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice deployment card, 15 px edges"
+      },
+      "tray_wait": {
+        "region_px": [
+          340,
+          244,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice deployment card, 15 px edges"
+      },
+      "button_primary": {
+        "region_px": [
+          508,
+          244,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice amber action, 16 px edges"
+      },
+      "button_secondary": {
+        "region_px": [
+          676,
+          244,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "9-slice secondary action, 16 px edges"
+      },
+      "token": {
+        "region_px": [
+          4,
+          364,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Logistic token"
+      },
+      "integrity": {
+        "region_px": [
+          172,
+          364,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Operational integrity"
+      },
+      "pause": {
+        "region_px": [
+          340,
+          364,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Pause"
+      },
+      "wave": {
+        "region_px": [
+          508,
+          364,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Wave"
+      },
+      "funds": {
+        "region_px": [
+          676,
+          364,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Funds"
+      },
+      "result_perfect": {
+        "region_px": [
+          4,
+          484,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Result emblem"
+      },
+      "result_clear": {
+        "region_px": [
+          172,
+          484,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Result emblem"
+      },
+      "result_defeat": {
+        "region_px": [
+          340,
+          484,
+          160,
+          112
+        ],
+        "anchor_px": [
+          80,
+          56
+        ],
+        "role": "Result emblem"
+      }
+    }
+  },
+  "effects": {
+    "texture": "assets/imported/first_contact/first_contact_fx_atlas.png",
+    "source_svg": "assets/source-art/first-contact/first_contact_fx_atlas.svg",
+    "dimensions_px": [
+      416,
+      176
+    ],
+    "gutter_px": 4,
+    "regions": {
+      "scout_bolt": {
+        "region_px": [
+          4,
+          4,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "East-facing in-flight Scout tracer, visual only"
+      },
+      "scout_muzzle": {
+        "region_px": [
+          108,
+          4,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Brief Scout muzzle cue"
+      },
+      "scout_impact": {
+        "region_px": [
+          212,
+          4,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Brief impact tick"
+      },
+      "patrol_block": {
+        "region_px": [
+          316,
+          4,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Shield block"
+      },
+      "patrol_strike": {
+        "region_px": [
+          4,
+          92,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Baton strike sweep"
+      },
+      "enemy_hit": {
+        "region_px": [
+          108,
+          92,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Ground enemy hit"
+      },
+      "post_ready": {
+        "region_px": [
+          212,
+          92,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Ready or token pulse"
+      },
+      "deploy_dust": {
+        "region_px": [
+          316,
+          92,
+          96,
+          80
+        ],
+        "anchor_px": [
+          48,
+          40
+        ],
+        "role": "Grounded deployment puff"
+      }
+    }
+  }
+}

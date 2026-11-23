@@ -231,3 +231,8 @@
 
 - The owner approved the study-matched style. Forest Trespasser now has a muted rust jacket and sleeves. The full E01 alpha mask and all 15 part pivots match the approved kit. Use this treatment as a reference for future enemy accents. [Comparison](w27/review/study_comparison.png)
 - Re-exported and verified the 32 Patrolman and E01 transparent parts and sampled all 13 clips through 916 poses. The isolation probe also checked the four editable Logistics Post layers. Editor import, startup and 2,011 existing checks across 28 runners passed on C26 merge `8a28739`. Live Story bindings and physical Android review remain open. [Rig acceptance](w27/IMPORT_ACCEPTANCE.md)
+
+## First Contact stage art — 2026-11-23
+
+- Delivered the T01 forest plate, numbered terrain regions, separate entrance and tunnel, placement overlays, interface atlas, three dialogue poses and Scout shot effects. The battle, tutorial, opening and result previews use the approved W27 characters and supplied Post art. [Assets and registrations](FIRST_CONTACT_STAGE_ART.md)
+- Prepared the 15-node Story board with Control fog, prerequisite locks and cleared/perfect stamps. Control Lv.1 and Lv.5 previews show the same locations. Godot passed 2,011 regression checks, verified the 56 atlas regions and loaded nine textures. Live scene binding and physical Android verification remain open.
