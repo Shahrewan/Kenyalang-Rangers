@@ -24,6 +24,8 @@ class Placement:
 	var records_enhanced: bool
 	var skill_charges := 0
 	var skill_recharge_tick := 0
+	var skill_recharge_started := 0
+	var skill_ready_since := -100
 	var jammed_until := 0
 	var attack_slow_until := 0
 	var attack_rate_scale := 1.0
@@ -71,11 +73,14 @@ class Placement:
 			return
 		var skill := ranger.active_skill
 		skill_charges += 1
+		skill_ready_since = tick
+		skill_recharge_started = tick
 		skill_recharge_tick = 0 if skill_charges == skill.max_charges else tick + CombatClock.ticks_for(skill.recharge_seconds)
 
 	func spend_skill_charge(tick: int) -> void:
 		skill_charges -= 1
 		if skill_recharge_tick == 0 and ranger.active_skill.recharge_seconds > 0.0:
+			skill_recharge_started = tick
 			skill_recharge_tick = tick + maxi(1, CombatClock.ticks_for(ranger.active_skill.recharge_seconds))
 
 	func update_basic_interval(interval: int, tick: int) -> void:
@@ -407,9 +412,7 @@ func confirm_target(resolve: Callable = Callable()) -> bool:
 		return false
 	return _activate_skill(unit, armed, pending_target, resolve)
 
-func _skill_error(unit: Placement) -> String:
-	if not clock.is_running():
-		return "Combat is paused."
+func skill_block_reason(unit: Placement) -> String:
 	if unit == null or unit.spec.skill == DeploymentSpec.Skill.NONE:
 		return "No active skill available."
 	if effects.amount(&"disable_skills") > 0:
@@ -417,7 +420,7 @@ func _skill_error(unit: Placement) -> String:
 	if unit.facility != null:
 		if clock.tick < unit.build_deadline:
 			return "The Facility is still building."
-		return "" if unit.stock > 0 else "The Facility has no stock ready."
+		return ""
 	if clock.tick < unit.knocked_down_until:
 		return "This Ranger is knocked down."
 	if clock.tick < unit.entangled_until:
@@ -431,7 +434,18 @@ func _skill_error(unit: Placement) -> String:
 		return "No active skill available."
 	if skill.requires_records and not unit.records_enhanced:
 		return "%s requires its Records enhancement." % skill.label
-	if unit.skill_charges == 0:
+	return ""
+
+func _skill_error(unit: Placement) -> String:
+	if not clock.is_running():
+		return "Combat is paused."
+	var blocked := skill_block_reason(unit)
+	if not blocked.is_empty():
+		return blocked
+	if unit.facility != null and unit.stock == 0:
+		return "The Facility has no stock ready."
+	if unit.ranger != null and unit.skill_charges == 0:
+		var skill := unit.ranger.active_skill
 		return "%s has been used for this deployment." % skill.label if skill.recharge_seconds <= 0.0 else "%s is recharging." % skill.label
 	return ""
 

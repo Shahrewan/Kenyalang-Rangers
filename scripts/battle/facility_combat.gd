@@ -41,6 +41,7 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 				var before := unit.stock
 				unit.stock = mini(spec.stock_capacity, unit.stock + 1)
 				if unit.stock > before:
+					unit.skill_ready_since = tick
 					action_presented.emit(unit, Vector2(unit.anchor), "heal" if spec.role == FacilitySpec.Role.MEDIC_CABIN else "wallet_credit")
 		FacilitySpec.Role.SKILL_RELAY:
 			for ally: DeploymentState.Placement in deployment.placed.values():

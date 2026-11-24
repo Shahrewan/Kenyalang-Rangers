@@ -8,6 +8,7 @@ const PORTRAIT := preload("res://scripts/ui/deployment_portrait.gd")
 
 var rangers := true
 var progress: CampaignProgress
+var _art := CampaignVisualAssets.new()
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
@@ -28,6 +29,7 @@ func _add_unit(grid: GridContainer, spec: DeploymentSpec) -> void:
 	var status := StoryUI.row(tile, 10)
 	var icon := PORTRAIT.new()
 	icon.spec = spec
+	icon.badge = _art.badge(spec.id)
 	icon.custom_minimum_size = Vector2(44, 44)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	status.add_child(icon)

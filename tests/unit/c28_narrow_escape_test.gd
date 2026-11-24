@@ -10,9 +10,9 @@ const TURRET := &"facility.sonic_turret"
 const MESSENGER := "dialogue.c1_03.messenger"
 const NORMAL := [[SCOUT, Vector2i(5, 2)], [PATROL, Vector2i(6, 3)], [MEDIC, Vector2i(6, 2)],
 	[TURRET, Vector2i(5, 0)], [SCOUT, Vector2i(1, 2)], [PATROL, Vector2i(9, 3)], [SCOUT, Vector2i(8, 2)]]
-const PERFECT := [[PATROL, Vector2i(9, 3)], [SCOUT, Vector2i(8, 2)], [SCOUT, Vector2i(9, 2)],
-	[PATROL, Vector2i(10, 3)], [SCOUT, Vector2i(6, 2)], [MEDIC, Vector2i(8, 0)], [TURRET, Vector2i(1, 2)],
-	[SCOUT, Vector2i(5, 2)], [PATROL, Vector2i(7, 3)]]
+const PERFECT := [[PATROL, Vector2i(10, 3)], [SCOUT, Vector2i(5, 2)], [SCOUT, Vector2i(9, 2)],
+	[SCOUT, Vector2i(1, 2)], [PATROL, Vector2i(9, 3)], [TURRET, Vector2i(5, 0)],
+	[SCOUT, Vector2i(8, 2)], [MEDIC, Vector2i(8, 0)]]
 
 var _checks := 0
 var _failures := 0

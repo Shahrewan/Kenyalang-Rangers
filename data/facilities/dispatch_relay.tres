@@ -12,6 +12,6 @@ recruitment_stage = &"C2-06"
 cost = 28
 max_hp = 200
 build_seconds = 6.0
-build_cooldown_seconds = 12.0
+build_cooldown_seconds = 43.0
 work_seconds = 10.0
 cooldown_reduction_seconds = 3.0

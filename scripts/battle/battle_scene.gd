@@ -172,6 +172,7 @@ func _restart() -> void:
 	_board.battle_map = stage.map
 	_board.routes = stage.routes
 	_board.battle = battle
+	_board.bind_damage_feedback(battle)
 	%DeploymentController.setup(battle, stage.map, operation_plan)
 	_reported = false
 	_tips = true

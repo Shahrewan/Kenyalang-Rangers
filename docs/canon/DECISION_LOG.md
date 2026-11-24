@@ -308,3 +308,9 @@ The W29 HQ manifest controls the visual registrations for the live building and 
 ## D-012 and D-014 C28-D Campaign presentation — 2026-11-24
 
 The approved W29 registrations bind all 15 Story operations to their existing stages and combat clock. The first three T01 operations retain their pilot bindings. Prepared Ranger art without a field kit stays attached to existing ownership presentation only. The authored dialogue and outcomes, Funds approvals, combat values, unlock gates and save schema retain their existing sources. Native outputs use Godot `4.7.2.stable.official.ed1daf0bf`, and the signed ARM64 build uses matching `4.7.2.stable` templates. ADB listed no physical phone. [Verification and pending device checks](../qa/C28_D_CAMPAIGN_VISUALS.md)
+
+## C30 trial pacing, shared cooldowns and skill readouts — 2026-11-24
+
+The owner directed Chapter 2 opening pressure to ease through stage-local spawn pacing, with the original opening-wave resources retained for comparison. C30 adds stage preparation and interval factors before existing modifiers. The C2-07 exception supports the supplied Firebreak and reached a zero-escape clear through automatic combat. Use individual combat-time cooldowns of 24–35 seconds for live Rangers and 40–60 seconds for most Facilities. The Logistics Post uses 24 seconds for subsequent copies, retaining its free instant first placement and construction duration. The pending Specialist field kits retain their existing status.
+
+Skill readouts and melee feedback follow actual gameplay. Basic damage, facing, Heat, fatal escape, boss phase and reward rules retain their existing sources. Late C2-08/09 clear feasibility, final tuning and live Android acceptance remain open. [C30 Campaign matrix and evidence](../qa/C30_CAMPAIGN_BALANCE.md)

@@ -2,6 +2,8 @@
 
 23 November 2026. W25 source `f473668`. Godot `4.7.2.stable.official.ed1daf0bf`. The runtime changes were verified at `65ec0a7`. A clean archive passed editor import, startup and 2,011 checks across 28 Godot runners. A rendered Linux run of the presentation suite passed all 61 checks at 960×540. The X11 driver reported its usual V-Sync setting warning. All 15 Story missions load through the existing C14 resource path and the same v2 save format. [W25 approval scope](../canon/DECISION_LOG.md#c26-campaign-placeholder-scope--2026-11-23) · [Source suite](evidence/c26/suite.txt) · [APK payload checks](evidence/c26/payload.txt)
 
+C30 evaluated real combat with the same profiles before and after revised pacing and cooldowns. The current mission results and late-stage gaps are tracked separately. [C30 Campaign balance](C30_CAMPAIGN_BALANCE.md)
+
 | Area | Observed |
 |---|---|
 | Authored content | A direct comparison with W25 matched all 15 mission IDs, prerequisites, Control tiers, grants, maps, 49 base waves and 1,111 scheduled arrivals. All 73 stable dialogue IDs and their trigger predicates match. The 73 sequences and 14 hints carry the placeholder approval. Changed spoken lines cover C1-03 retreat and five pending field kits. |

@@ -44,19 +44,16 @@ func _run() -> void:
 	var menu: Control = container.get_child(0)
 	_check(menu.scene_file_path == MENU.resource_path, "Launch opens Main Menu")
 
-	var open_sample: Button = menu.get_node_or_null("%OpenSample")
-	if open_sample != null:
-		open_sample.pressed.emit()
-		var sample: Control = container.get_child(0)
-		_check(sample.scene_file_path == SAMPLE.resource_path, "Menu opens the sample battle")
-		var back: Button = sample.get_node_or_null("%BackToMenu")
-		if back != null:
-			back.pressed.emit()
-			_check(container.get_child(0).scene_file_path == MENU.resource_path, "Back returns to Main Menu")
-		else:
-			_check(false, "Sample battle has a Back button")
+	_check(menu.get_node_or_null("%OpenSample") == null, "The player menu has no testing mode entry")
+	launcher.show_sample()
+	var sample: Control = container.get_child(0)
+	_check(sample.scene_file_path == SAMPLE.resource_path, "The sample scene still opens directly for testing")
+	var back: Button = sample.get_node_or_null("%BackToMenu")
+	if back != null:
+		back.pressed.emit()
+		_check(container.get_child(0).scene_file_path == MENU.resource_path, "Back returns to Main Menu")
 	else:
-		_check(false, "Main Menu has a sample-battle button")
+		_check(false, "Sample battle has a Back button")
 	DirAccess.remove_absolute(path)
 	_finish()
 

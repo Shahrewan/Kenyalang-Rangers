@@ -203,7 +203,7 @@ func _relay_cooldowns() -> void:
 	state.retreat(GUARD.id)
 	state.deploy(CABIN, Vector2i(5, 0), 1)
 	_frames(battle, 60)
-	_check(state.cooldown_ticks(GUARD.id) == CombatClock.ticks_for(GUARD.redeploy_seconds) - 240 and state.cooldown_ticks(CABIN.id) == 480, "Dispatch reduces existing Ranger and Facility deployment cooldowns")
+	_check(state.cooldown_ticks(GUARD.id) == CombatClock.ticks_for(GUARD.redeploy_seconds) - 240 and state.cooldown_ticks(CABIN.id) == 2400, "Dispatch reduces existing Ranger and Facility deployment cooldowns")
 	_check(state.build_ticks_left(CABIN.id) == 300 and scout.skill_recharge_tick == 1440, "Dispatch leaves construction and active-skill timers alone")
 
 func _sonic_turret() -> void:

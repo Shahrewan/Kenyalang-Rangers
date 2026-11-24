@@ -112,37 +112,20 @@ func show_menu() -> void:
 	var page: Control = MAIN_MENU.instantiate()
 	var profile := _profile()
 	page.get_node("%ProfileSummary").text = "Leader %s   ·   %s Funds" % [profile.leader_name, StoryUI.funds(profile.funds)]
-	page.get_node("%OpenSample").pressed.connect(show_sample)
 	page.get_node("%OpenCampaign").pressed.connect(show_story)
+	for button: Button in [page.get_node("%OpenHeadquarters"), page.get_node("%OpenChaos"),
+			page.get_node("%OpenSettings"), page.get_node("%Garden"), page.get_node("%OpenFAQ")]:
+		button.disabled = first_contact_trial
 	if not first_contact_trial:
-		page.get_node("Modes/Headquarters/Office/Status").text = "Placeholder HQ art"
-		var access: Button = page.get_node("%OpenHeadquarters")
-		access.show()
-		access.pressed.connect(func() -> void: _open_headquarters(show_menu))
-		var settings: Button = page.get_node("%OpenSettings")
-		settings.show()
-		settings.pressed.connect(func() -> void: _show_settings(show_menu))
-		var spacer := Control.new()
-		spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		page.get_node("Footer").add_child(spacer)
-		var faq := StoryUI.action("FAQ")
-		faq.name = "OpenFAQ"
-		page.get_node("Footer").add_child(faq)
-		faq.pressed.connect(_open_guide.bind(""))
-		var garden: Button = page.get_node("%Garden")
-		garden.disabled = false
-		garden.text = "Reforestation"
-		garden.pressed.connect(func() -> void: _show_garden(show_menu))
-		var chaos_card := page.get_node("Modes/Operations/Chaos/Description")
-		chaos_card.get_node("Status").hide()
-		var chaos := StoryUI.action("Choose route", true)
-		chaos.name = "OpenChaos"
-		chaos.pressed.connect(show_chaos)
-		chaos_card.add_child(chaos)
+		page.get_node("%OpenHeadquarters").pressed.connect(func() -> void: _open_headquarters(show_menu))
+		page.get_node("%OpenChaos").pressed.connect(show_chaos)
+		page.get_node("%OpenSettings").pressed.connect(func() -> void: _show_settings(show_menu))
+		page.get_node("%OpenFAQ").pressed.connect(_open_guide.bind(""))
+		page.get_node("%Garden").pressed.connect(func() -> void: _show_garden(show_menu))
 		if _campaign_progress.load_status == CampaignProgress.LoadStatus.MIGRATED:
-			page.add_child(StoryUI.label(_campaign_progress.load_notice, 17, StoryUI.BEIGE))
+			page.get_node("%Footer").get_parent().add_child(StoryUI.label(_campaign_progress.load_notice, 17, StoryUI.BEIGE))
 	_present(page, &"menu")
-	page.get_node("%OpenCampaign" if first_contact_trial else "%OpenHeadquarters").grab_focus()
+	page.get_node("%OpenCampaign").grab_focus()
 
 func show_story(return_to := Callable()) -> void:
 	if not first_contact_trial:

@@ -97,7 +97,7 @@ func _run() -> void:
 			var rate := preload("res://data/enemies/e14_ignition_operator.tres").heat_per_second
 			_check(timeline.heat_tick == expected_heat[0] and is_equal_approx(timeline.first_heat, rate * CombatClock.STEP_SECONDS * 1.3 * scale), "%s applies D14 and the actual Firebreak state at first Heat" % operation.stage.stage_id)
 			if operation.stage.stage_id == &"C2-07":
-				_check(timeline.heat_tick == 3001, "C2-07 gives the supplied Beacon a six-second build window before Heat")
+				_check(timeline.heat_tick == 5341, "C2-07 first Heat arrives at the eased opener tick after the Beacon build")
 		_check(timeline.spawns.slice(0, base_script.size()) == base_script and timeline.spawns.size() == base_script.size() + phase_spawns, "%s spawns the authored order, route and tick plus scheduled phase support" % operation.stage.stage_id)
 		_check(report.defeated == base_script.size() + phase_spawns and report.escaped == 0 and report.balance == progress.snapshot().funds and report.settlement.first_clear, "%s settles a perfect first clear through the runtime result" % operation.stage.stage_id)
 		if operation.stage.stage_id == &"C1-03":
@@ -458,7 +458,9 @@ func _expected_spawns(stage: BattleStage) -> Array:
 	var path := CampaignContent.SOURCE + "stages/%s.json" % String(stage.stage_id).to_lower()
 	var source: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
 	var modifiers: Array = source.operation.fixed_debuff_ids
-	var tick := 1 + CombatClock.ticks_for(source.balance_trial.opening_delay_seconds)
+	var pacing: Dictionary = source.balance_trial.get("c30_pacing", {})
+	var intervals: Array = pacing.get("wave_interval_multipliers", [])
+	var tick := 1 + CombatClock.ticks_for(source.balance_trial.opening_delay_seconds + pacing.get("preparation_seconds", 0.0))
 	var expected := []
 	for i in source.waves.size():
 		var wave: Dictionary = source.waves[i]
@@ -467,7 +469,7 @@ func _expected_spawns(stage: BattleStage) -> Array:
 			for n in int(group.count):
 				last = tick
 				expected.append([tick, i + 1, StringName(group.enemy_id), stage.routes[int(group.route_index)].cells.front()])
-				tick += maxi(1, CombatClock.ticks_for(group.base_interval_seconds * (0.8 if "D13" in modifiers else 1.0)))
+				tick += maxi(1, CombatClock.ticks_for(group.base_interval_seconds * (1.0 if intervals.is_empty() else intervals[i]) * (0.8 if "D13" in modifiers else 1.0)))
 		tick = last + maxi(1, CombatClock.ticks_for(wave.base_rest_after_seconds * (0.6 if "D07" in modifiers else 1.0)))
 	return expected
 
