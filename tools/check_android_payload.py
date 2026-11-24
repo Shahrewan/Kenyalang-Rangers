@@ -37,6 +37,7 @@ def main():
     parser.add_argument("--skill-orbs", action="store_true", help="Check C31 orb geometry and live skill states from the exported pack")
     parser.add_argument("--ranger-kits", action="store_true", help="Run C31-B Ranger gameplay and save checks from the exported pack")
     parser.add_argument("--education", action="store_true", help="Verify the installed Outreach and Records banks from the exported pack")
+    parser.add_argument("--facility-growth", action="store_true", help="Verify the packaged Facility levels and their live combat effects")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -82,6 +83,8 @@ def main():
             runners += ("c31_b_ranger_kits_test",)
         if args.education:
             runners += ("c31_c_education_test",)
+        if args.facility_growth:
+            runners += ("c32_b_facility_growth_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}
@@ -95,6 +98,8 @@ def main():
                 flags = ["--script", script, "--", phase]
                 if args.education and phase != "seed":
                     flags.append("--education")
+                if args.facility_growth:
+                    flags.append("--facility-growth")
                 run(f"{profile}-{phase}", profile, seed if phase == "seed" else pack, flags)
 
 

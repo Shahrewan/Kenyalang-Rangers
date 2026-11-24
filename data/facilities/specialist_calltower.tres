@@ -1,9 +1,16 @@
-[gd_resource type="Resource" script_class="FacilitySpec" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="FacilitySpec" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/facility_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/deployable_growth.gd" id="2"]
+
+[sub_resource type="Resource" id="Growth"]
+script = ExtResource("2")
+hp = 300
+discount_tokens = 10
 
 [resource]
 script = ExtResource("1")
+growth = SubResource("Growth")
 category = 2
 kind = 3
 role = 9
