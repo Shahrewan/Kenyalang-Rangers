@@ -327,3 +327,8 @@
 
 - Mechanical previews the same HP and primary outputs used in Story and Rainforest Chaos, with the exact price and remaining balance. The original level economy, C2-07 mission Firebreak and Chaos gates are retained. [Trial endpoints](../qa/C32_B_FACILITY_GROWTH.md#before-and-after)
 - Verified 78 Facility and level combinations in combat, C31-C normal and perfect clears, eight native Mechanical captures and the signed Android package on the host. Phone validation and final endpoint tuning remain open. [QA and phone procedure](../qa/C32_B_FACILITY_GROWTH.md)
+
+### C32-C · Permanent Ranger upgrade scaling · 2026-11-24
+
+- Human Resources previews the paid, linear HP and raw output curves for all 12 Rangers. Skill damage, treatment, repair and field attacks reach the actual combat consumers. Existing Records bonuses and gates, C1-01 supplies, Facility scaling and saved profiles retain their rules.
+- The full Lv.1 Ranger Campaign replay matched main. The three focused late operations reproduced zero-escape clears with original and paid Lv.40 loadouts. The QA handoff includes six-level live results, ten native captures, APK validation and the physical-phone procedure. Final trial endpoints remain open for owner review. [QA report](../qa/C32_C_RANGER_GROWTH.md)
