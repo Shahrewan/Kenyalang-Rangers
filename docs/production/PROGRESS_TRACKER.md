@@ -46,5 +46,6 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] [First Contact visual handoff](FIRST_CONTACT_STAGE_ART.md) delivers T01 terrain, the woodland exit, standalone field art, Scout effects and the 15-node Story board. Live integration and Android landscape verification remain open.
 - [~] C28-A [Illustrated First Contact](../qa/C28_A_FIRST_CONTACT.md) binds the W27 rigs and woodland art in the live C1-01 mission. Automated PC and APK payload checks cover all three outcomes. Physical Android review remains open.
 - [~] W29 [Production artwork](w29/W29_PRODUCTION_DELIVERY.md) covers the full roster, Facilities, regional boards, 11 animated HQ staff kits, Heat, menus and supporting art. The owner approved the pack for rigging, with `b3c0243` as the visual reference. Live binding, phone verification and final clearance remain open.
+- [~] C28-B [Hold the Line](../qa/C28_B_HOLD_THE_LINE.md) binds the reviewed W29 E02 rig and badge to C1-02. The normal clear matches the baseline at tick 8169. The regression suite, art and APK payload checks passed. Physical Android review remains open.
 
 For each row add: owner, Git commit, actual automated test log, manual Android verification, known issues, acceptance sign-off date. These are milestones, NOT estimates of equal development effort.

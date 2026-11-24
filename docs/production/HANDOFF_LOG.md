@@ -272,3 +272,9 @@
 
 - The owner approved the current production artwork and requested a repository handoff for animation. Commit `b3c0243` anchors the reviewed visuals. The [art catalog and pose contract](w29/W29_PRODUCTION_DELIVERY.md#rigging-handoff) identify the editable masters, assembled rigs and proof images.
 - Future boss designs may take more visual freedom to distinguish them from standard units. The registered cuts and reference poses in this handoff use the approved artwork.
+
+## C28-B Hold the Line — 2026-11-24
+
+- W29 PR #32 provided the E02 scene, its six-state clip and the Intel badge. C1-02 now uses those resources through the C28-A T01 adapter. The ordinary Post displays its construction countdown until Ready. The returning loadout uses labeled support and Facility fallbacks.
+- The C1-02 live fixture resolved at tick 8169 with 17 defeated, one escaped and 90 Integrity. Godot passed 2,069 regression checks. Both native sizes reproduced C1-02 and all three First Contact outcomes.
+- The signed ARM64 test APK passed its dependency audit and host replay, including C28-A profile continuity. Physical Android validation remains open. [Evidence and device procedure](../qa/C28_B_HOLD_THE_LINE.md)

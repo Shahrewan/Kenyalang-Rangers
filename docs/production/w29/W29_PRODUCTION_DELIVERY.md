@@ -25,7 +25,7 @@ The pack covers the named combat roster, all Facility layouts, the six boards, t
 - [Menu theme](../../../resources/presentation/w29_ui_theme.tres) is a scalable Godot resource. The preview fixtures use descriptive labels, art/text states, margins and scroll containers. Their example profile lives only in the fixture. Wire the theme and assets into the existing flow through stable keys.
 - [Heat scene](../../../assets/imported/effects/w29/heat_meter.tscn) exposes `%HeatGauge` and `%HeatLabel`. Feed the existing Heat value and stage capacity, and show the existing overflow event. The fill and stripes communicate amount visually. The numeric label and the status message stay dynamic.
 
-The current feature branch contains the production art and reusable Godot scenes. C28-A's live First Contact still uses its shipped assets. The [approved E02 integration ticket](W29_C01_HOLD_THE_LINE_HANDOFF.md) is the first campaign binding. Remaining new art and menu skin can be reviewed in desktop previews before live integration. Phone verification and D-014 release review remain open.
+W29 PR #32 supplies the production art and reusable Godot scenes. [C28-B](../../qa/C28_B_HOLD_THE_LINE.md) implements the [approved E02 integration ticket](W29_C01_HOLD_THE_LINE_HANDOFF.md) in C1-02. Desktop previews cover the remaining new art and menu skin. Phone verification and D-014 release review remain open.
 
 ## Rigging handoff
 

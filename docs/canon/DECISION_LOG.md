@@ -292,3 +292,7 @@ The owner approved Poacher v0.3 and directed the rest of the roster to follow th
 ## W29 artwork approval for rigging — 2026-11-24
 
 The owner approved the W29 visuals at `b3c0243` for the rigging and animation handoff. Use the approved shapes, colors, silhouettes and registered part placement as the reference pose. Future boss designs may use more distinctive silhouettes, costumes and visual motifs to stand apart from the standard roster. The handoff uses the current boss artwork. [Rigging handoff](../production/w29/W29_PRODUCTION_DELIVERY.md#rigging-handoff)
+
+## D-012 and D-014 C28-B runtime binding — 2026-11-24
+
+C1-02 uses the reviewed W29 E02 v0.3 rig and Intel badge on Godot `4.7.2.stable.official.ed1daf0bf` with matching `4.7.2.stable` templates. The shared combat clock and existing actor state drive six E02 clips. The normal fixture matches W29 main at tick 8169. D02, the ordinary Post footprint, repeat cooldown and cancellation refund use their existing rules. Captures passed at 1280 × 720 and 960 × 540. The ARM64 debug package passed its resource audit and host replay. ADB listed no attached phone, so device validation and D-014 release clearance remain open. [C28-B verification](../qa/C28_B_HOLD_THE_LINE.md)

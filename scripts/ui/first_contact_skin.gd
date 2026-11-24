@@ -2,6 +2,8 @@ class_name FirstContactSkin
 extends RefCounted
 
 const FIELD_DATA := "res://data/presentation/first_contact/field.json"
+const W29_CATALOG := "res://data/presentation/w29/art_catalog.json"
+const POACHER := &"E02"
 const ATLASES := {
 	"terrain": preload("res://assets/imported/first_contact/t01_terrain_atlas.png"),
 	"interface": preload("res://assets/imported/first_contact/first_contact_ui_atlas.png"),
@@ -16,6 +18,15 @@ static func read_json(path: String) -> Dictionary:
 		return {}
 	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 	return value if value is Dictionary else {}
+
+static func illustrates_operation(stage_id: StringName) -> bool:
+	return stage_id in [&"C1-01", &"C1-02"]
+
+static func poacher_art() -> Dictionary:
+	return read_json(W29_CATALOG).get("actors", {}).get(POACHER, {})
+
+static func optional_art(path: String, type: String) -> Resource:
+	return ResourceLoader.load(path, type) if not path.is_empty() and ResourceLoader.exists(path, type) else null
 
 func registration() -> Dictionary:
 	return _data.get("layout", {})

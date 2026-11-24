@@ -18,6 +18,10 @@ const RIGS := {
 	&"ranger.patrolman": preload("res://scenes/units/patrolman_rig.tscn"),
 	&"E01": preload("res://scenes/units/e01_rig.tscn"),
 }
+# W29 E02 attack_fx canvas registration minus the near fist's pivot.
+const POACHER_FIST_OFFSET := Vector2(-0.318, 2.679)
+const ACTOR_FOOT_OFFSET := 0.36
+const TOWER_LIFT := 0.44
 
 class Actor:
 	var rig: Node2D
@@ -49,13 +53,18 @@ var _layout: Dictionary
 var _patrolman_sockets := {}
 var _board: Control
 var _skin: FirstContactSkin
+var _poacher_rig: PackedScene
 
-func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin) -> void:
+func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stage_id: StringName) -> void:
 	_board = board
 	_battle = battle
 	_skin = skin
 	_layout = skin.registration()
 	_patrolman_sockets = skin.patrolman_sockets()
+	if stage_id == &"C1-02":
+		var poacher := FirstContactSkin.poacher_art()
+		if FileAccess.file_exists(poacher.get("animation", "")):
+			_poacher_rig = FirstContactSkin.optional_art(poacher.get("rig", ""), "PackedScene") as PackedScene
 	battle.clock.stepped.connect(_step)
 	battle.enemy_spawned.connect(_spawned)
 	battle.enemy_resolved.connect(_resolved)
@@ -67,9 +76,9 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin) -> v
 	battle.deployment.unit_hit.connect(_ranger_hit)
 	battle.deployment.post_paid.connect(_post_paid)
 
-func _make_actor(asset: StringName) -> Actor:
+func _make_actor(scene: PackedScene) -> Actor:
 	var actor := Actor.new()
-	actor.rig = RIGS[asset].instantiate()
+	actor.rig = scene.instantiate()
 	# Draw the articulated sprites on the board canvas so the woodland can layer
 	# above the complete actors, their effects and health.
 	actor.rig.hide()
@@ -86,9 +95,10 @@ func _play(actor: Actor, clip: StringName) -> void:
 	actor.rig.play_state(clip)
 
 func _spawned(id: int, kind: StringName) -> void:
-	if kind != &"E01":
+	var scene: PackedScene = _poacher_rig if kind == FirstContactSkin.POACHER else RIGS.get(kind)
+	if scene == null:
 		return
-	var actor := _make_actor(kind)
+	var actor := _make_actor(scene)
 	actor.enemy = _battle.active[id]
 	actor.last_x = actor.enemy.grid_position().x
 	enemies[id] = actor
@@ -96,9 +106,10 @@ func _spawned(id: int, kind: StringName) -> void:
 
 func _deployed(unit: DeploymentState.Placement) -> void:
 	if unit.spec.logistics_post:
-		_post_paid(unit)
+		if _battle.deployment.build_ticks_left(unit.id) == 0:
+			_post_paid(unit)
 	elif RIGS.has(unit.spec.id):
-		var actor := _make_actor(unit.spec.id)
+		var actor := _make_actor(RIGS[unit.spec.id])
 		actor.unit = unit
 		actor.rig.set_facing(unit.facing)
 		actor.rig.facing_locked = unit.spec.is_melee()
@@ -134,6 +145,11 @@ func _enemy_attack(enemy: BattleEnemy) -> void:
 	var actor: Actor = enemies.get(_battle.active.find_key(enemy))
 	if actor != null:
 		_play(actor, &"Attack")
+		if enemy.definition.enemy_id == FirstContactSkin.POACHER:
+			var effect := _effect("poacher_strike", enemy.grid_position(), 12)
+			effect.actor = actor
+			effect.socket = &"hand_near"
+			effect.socket_offset = POACHER_FIST_OFFSET
 
 func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: StringName) -> void:
 	var actor: Actor = rangers.get(unit.id)
@@ -152,7 +168,7 @@ func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: Strin
 		effect.socket_offset = FirstContactSkin.vector(shot.socket_local_units)
 		var bone := actor.bones[effect.socket]
 		var muzzle: Vector2 = actor.rig.get_global_transform().affine_inverse() * (bone.global_transform * effect.socket_offset)
-		effect.origin = Vector2(unit.anchor) + Vector2(0.5, 0.86) + muzzle / 80.0
+		effect.origin = Vector2(unit.anchor) + Vector2(0.5, 0.5 + _foot_offset(actor)) + muzzle / 80.0
 	else:
 		var effect := _effect("patrol_strike", Vector2(unit.anchor), 18)
 		var socket: Array = _patrolman_sockets.attack_fx
@@ -279,18 +295,13 @@ func draw_actors() -> void:
 	# Escape switches to Exit inside the dense canopy. Its final pose keeps
 	# sampling offscreen without bleeding through transparent gaps in the leaves.
 	drawn = drawn.filter(func(actor: Actor) -> bool: return actor.clip != &"Exit")
-	var stacked := {}
+	var stacked: Dictionary[StringName, int] = {}
 	for actor: Actor in drawn:
 		if not is_instance_valid(actor.rig) or actor.rig.is_queued_for_deletion():
 			continue
 		var anchor := Vector2(actor.unit.anchor) if actor.unit != null else actor.enemy.grid_position()
-		var offset := 0.0
-		if actor.enemy != null and not actor.enemy.blocked_by.is_empty() and not actor.terminal:
-			var key := actor.enemy.blocked_by
-			var slot: int = stacked.get(key, 0)
-			stacked[key] = slot + 1
-			offset = -0.19 if slot == 0 else 0.19
-		actor.rig.position = _center(anchor) + Vector2(0, (0.36 + offset) * scale_px)
+		var offset := _block_offset(actor.enemy, stacked) if actor.enemy != null and not actor.terminal else 0.0
+		actor.rig.position = _center(anchor) + Vector2(0, (_foot_offset(actor) + offset) * scale_px)
 		actor.rig.scale = Vector2.ONE * scale_px / 80.0
 	drawn.sort_custom(func(a: Actor, b: Actor) -> bool: return a.rig.position.y < b.rig.position.y)
 	var local: Transform2D = _board.get_global_transform().affine_inverse()
@@ -310,8 +321,23 @@ func draw_actors() -> void:
 			_board._draw_health(actor.rig.position + Vector2(0, scale_px * 0.055), scale_px * 0.48, hp, maximum)
 			if actor.enemy != null:
 				_board._draw_enemy_status(actor.enemy, actor.rig.position - Vector2(0, scale_px * 0.32), scale_px)
+	for id: int in _battle.active:
+		if not enemies.has(id):
+			var enemy := _battle.active[id]
+			var at := _center(enemy.grid_position()) + Vector2(0, _block_offset(enemy, stacked) * scale_px)
+			_board.draw_enemy_marker(enemy, at, scale_px, true)
 	_draw_effects()
 	_woodland(2)
+
+func _block_offset(enemy: BattleEnemy, stacked: Dictionary[StringName, int]) -> float:
+	if enemy.blocked_by.is_empty():
+		return 0.0
+	var slot: int = stacked.get(enemy.blocked_by, 0)
+	stacked[enemy.blocked_by] = slot + 1
+	return -0.19 if slot == 0 else 0.19
+
+func _foot_offset(actor: Actor) -> float:
+	return ACTOR_FOOT_OFFSET - TOWER_LIFT if actor.unit != null and not actor.unit.mount_tower.is_empty() else ACTOR_FOOT_OFFSET
 
 func socket_position(actor: Actor, bone: StringName, offset: Vector2) -> Vector2:
 	return _board.get_global_transform().affine_inverse() * (actor.bones[bone].global_transform * offset)
@@ -334,6 +360,9 @@ func _draw_effects() -> void:
 				_fx("scout_bolt", start.lerp(end, elapsed / 12.0), 0.56, turn)
 			else:
 				_fx("scout_impact", end, 0.38)
+		elif effect.name == "poacher_strike":
+			if elapsed >= 4:
+				_fx("enemy_hit", at, 0.28)
 		elif effect.name != "patrol_strike" or elapsed >= 8:
 			_fx(effect.name, at, 0.38)
 
