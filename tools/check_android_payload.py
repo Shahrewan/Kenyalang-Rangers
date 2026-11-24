@@ -30,6 +30,7 @@ def main():
     parser.add_argument("apk", type=Path)
     parser.add_argument("--previous", type=Path, help="Earlier player APK for update-data rehearsal")
     parser.add_argument("--first-contact", action="store_true", help="Also test the illustrated C28-A mission")
+    parser.add_argument("--hold-the-line", action="store_true", help="Also test the illustrated C28-B mission")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -61,6 +62,8 @@ def main():
 
         run("boot", "boot", pack, ["--quit-after", "6"])
         runners = RUNNERS + (("c28_first_contact_test",) if args.first_contact else ())
+        if args.hold_the_line:
+            runners += ("c28_hold_the_line_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}

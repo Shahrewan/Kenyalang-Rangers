@@ -14,7 +14,7 @@ func _ready() -> void:
 	var state: String = report.outcome
 	var successful := state != "Defeat"
 	var skin := FirstContactSkin.new()
-	if report.get("campaign", false) and report.stage_id == &"C1-01" and not skin.registration().is_empty():
+	if report.get("campaign", false) and FirstContactSkin.illustrates_operation(report.stage_id) and not skin.registration().is_empty():
 		var badge := TextureRect.new()
 		var artwork := "result_perfect" if report.perfect else ("result_clear" if successful else "result_defeat")
 		badge.texture = skin.region("interface", artwork)

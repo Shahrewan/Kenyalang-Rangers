@@ -12,12 +12,12 @@ var preview_facing := -1
 var first_contact_field: FirstContactField
 var show_starter_guide := false
 
-func illustrate_first_contact(skin: FirstContactSkin) -> void:
+func illustrate_first_contact(skin: FirstContactSkin, stage_id: StringName) -> void:
 	if is_instance_valid(first_contact_field):
 		first_contact_field.free()
 	first_contact_field = FirstContactField.new()
 	add_child(first_contact_field)
-	first_contact_field.bind(self, battle, skin)
+	first_contact_field.bind(self, battle, skin, stage_id)
 	queue_redraw()
 
 func tile_size() -> float:
@@ -105,12 +105,20 @@ func _draw() -> void:
 				var slot: int = stacked.get(enemy.blocked_by, 0)
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
-			var visible_alpha := 1.0 if enemy.is_targetable(battle.clock.tick) else 0.4
-			draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
-			draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
-			_draw_enemy_status(enemy, center, cell)
-			if show_combat_hp:
-				_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
+			draw_enemy_marker(enemy, center, cell)
+
+func draw_enemy_marker(enemy: BattleEnemy, center: Vector2, cell: float, labeled := false) -> void:
+	var visible_alpha := 1.0 if enemy.is_targetable(battle.clock.tick) else 0.4
+	draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
+	draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
+	_draw_enemy_status(enemy, center, cell)
+	if labeled:
+		var font := get_theme_default_font()
+		var size_px := maxi(11, roundi(cell * 0.17))
+		draw_string(font, center + Vector2(-cell * 0.5, -cell * 0.29), String(enemy.definition.enemy_id),
+			HORIZONTAL_ALIGNMENT_CENTER, cell, size_px, Color("#F3EBDD"))
+	if show_combat_hp:
+		_draw_health(center + Vector2(0, cell * 0.24), cell * 0.46, enemy.hp, enemy.definition.max_hp)
 
 func _draw_slow_fields() -> void:
 	var bounds := Rect2i(Vector2i.ZERO, battle_map.size)
@@ -215,13 +223,12 @@ func _draw_deployments() -> void:
 		var unit := deployments.placed[id]
 		var remaining := deployments.build_ticks_left(id)
 		if first_contact_field != null:
-			if unit.spec.logistics_post:
+			if unit.spec.logistics_post and remaining == 0:
 				var post_center := cell_center(unit.anchor) + Vector2(tile_size() / 2.0, 0)
 				first_contact_field.draw_post(post_center)
 				_draw_health(post_center + Vector2(0, tile_size() * 0.4), tile_size() * 0.8, unit.hp, unit.spec.max_hp)
-			elif first_contact_field.rangers.has(id):
 				continue
-			if unit.spec.logistics_post:
+			elif first_contact_field.rangers.has(id):
 				continue
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):
@@ -231,10 +238,9 @@ func _draw_deployments() -> void:
 				model.position.y -= tile_size() * 0.36
 				color = Color("#4D7F73")
 			draw_rect(model, color)
-		if remaining > 0:
-			var font := get_theme_default_font()
+		if remaining > 0 and not (first_contact_field != null and unit.spec.logistics_post):
 			var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
-			draw_string(font, cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
+			draw_string(get_theme_default_font(), cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
 		for cell in unit.spec.reserved(unit.anchor):
 			if unit.facility != null and remaining == 0:
 				draw_rect(_tile_rect(cell).grow(-13.0), color)
@@ -247,15 +253,17 @@ func _draw_deployments() -> void:
 				center.x += tile_size() / 2.0
 			if not unit.mount_tower.is_empty():
 				center.y -= tile_size() * 0.44
-			if unit.facility != null and remaining == 0:
-				_draw_facility_label(unit, center)
+			if first_contact_field != null and unit.spec.logistics_post:
+				var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
+				_draw_unit_label(unit, center, "Building · %ds" % seconds)
+			elif remaining == 0 and (unit.facility != null or first_contact_field != null):
+				_draw_unit_label(unit, center, unit.spec.label)
 			_draw_health(center + Vector2(0, tile_size() * 0.40), tile_size() * 0.5, unit.hp, unit.spec.max_hp)
 
-func _draw_facility_label(unit: DeploymentState.Placement, center: Vector2) -> void:
+func _draw_unit_label(unit: DeploymentState.Placement, center: Vector2, label: String) -> void:
 	var font := get_theme_default_font()
 	var area_width := tile_size() * unit.spec.footprint(unit.anchor).size() - 16.0
 	var size_px := maxi(10, roundi(tile_size() * 0.21))
-	var label := unit.spec.label
 	var measured := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 	if measured > area_width:
 		size_px = maxi(9, floori(size_px * area_width / measured))

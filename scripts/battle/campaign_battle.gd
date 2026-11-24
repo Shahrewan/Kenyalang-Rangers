@@ -18,7 +18,7 @@ var _pose: Label
 func _prepare_campaign() -> void:
 	%MissionTitle.text = "%s · %s" % [stage.stage_id, operation_plan.operation.title]
 	%Legend.text = "%s · Placeholder board art" % stage.map.map_id
-	if stage.stage_id == &"C1-01":
+	if stage.map.map_id == &"T01" and FirstContactSkin.illustrates_operation(stage.stage_id):
 		_skin = FirstContactSkin.new()
 		_illustrated = not _skin.registration().is_empty()
 	if _illustrated:
@@ -48,7 +48,7 @@ func _prepare_campaign() -> void:
 
 func _open_operation() -> void:
 	if _illustrated:
-		_board.illustrate_first_contact(_skin)
+		_board.illustrate_first_contact(_skin, stage.stage_id)
 	_queue.clear()
 	_report.clear()
 	_seen_enemies.clear()
@@ -149,7 +149,7 @@ func _update_campaign_tip() -> void:
 			_reported = true
 			_publish_result()
 		return
-	_board.show_starter_guide = _illustrated and operation_plan.show_hints
+	_board.show_starter_guide = stage.stage_id == &"C1-01" and _illustrated and operation_plan.show_hints
 	if not operation_plan.show_hints or operation_plan.operation.hints.is_empty() or battle.clock.dialogue_open:
 		_tip.text = ""
 		return
