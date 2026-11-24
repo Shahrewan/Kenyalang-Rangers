@@ -496,6 +496,7 @@ func _show_settings(back: Callable) -> void:
 func _settings_page() -> ProfileSettingsPage:
 	var page := ProfileSettingsPage.new()
 	page.preferences = presentation
+	page.developer_progress = _campaign_progress
 	page.text_changed.connect(_restyle)
 	page.help_requested.connect(_open_guide.bind(""))
 	return page

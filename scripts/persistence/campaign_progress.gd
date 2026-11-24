@@ -26,6 +26,11 @@ func can_play() -> bool:
 func funds() -> int:
 	return int(_data.funds)
 
+func adjust_developer_funds(change: int) -> bool:
+	var next := snapshot()
+	FundsWallet.apply(next, change)
+	return _commit(next)
+
 func set_leader_name(value: String) -> bool:
 	var cleaned := value.strip_edges().substr(0, 24)
 	if cleaned.is_empty():

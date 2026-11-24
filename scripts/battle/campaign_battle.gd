@@ -24,7 +24,7 @@ func _prepare_campaign() -> void:
 	if _illustrated:
 		%Legend.hide()
 		_hud.illustrate(_skin)
-		%DeploymentController.illustrate(_skin)
+		%DeploymentController.illustrate(_skin, stage.stage_id)
 		_skin.button(%Continue, "button_primary")
 		_skin.button(%Skip, "button_secondary")
 		%DialogueTitle.add_theme_color_override("font_color", StoryUI.INK)
@@ -124,7 +124,10 @@ func _render_line() -> void:
 	if line.speaker_id == "speaker.leader":
 		label += " " + progress.snapshot().leader_name
 	%DialogueTitle.text = label
-	_portrait.present(speaker.portrait_key, line.pose_key)
+	var messenger: bool = _illustrated and stage.stage_id == FirstContactSkin.NARROW_ESCAPE \
+		and _active_beat.trigger.get("presentation_event_id") == "cinematic.c1_03_messenger_withdrawal" \
+		and line.speaker_id == "speaker.poacher_messenger"
+	_portrait.present(speaker.portrait_key, line.pose_key, messenger)
 	var status := "" if _active_beat.get("status") == "approved_c26_placeholder" else "Draft dialogue · "
 	_pose.text = "Story paused" if _illustrated else "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
 	%DialogueText.get_parent().scroll_vertical = 0

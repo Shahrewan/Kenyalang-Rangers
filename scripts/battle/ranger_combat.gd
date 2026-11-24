@@ -3,6 +3,7 @@ extends RefCounted
 
 signal hit(enemy_id: int, damage: int)
 signal attack_presented(unit: DeploymentState.Placement, target_id: int, clip: StringName)
+signal healing_presented(medic: DeploymentState.Placement, target: Vector2i)
 
 class SlowField:
 	var area: Rect2i
@@ -87,7 +88,10 @@ func _heal_ally(medic: DeploymentState.Placement, deployment: DeploymentState) -
 			if tile in reach and (chosen == null or ally.hp < chosen.hp):
 				chosen = ally
 				break
-	return chosen != null and deployment.heal_ranger(chosen.id, medic.ranger.heal_hp) > 0
+	if chosen == null or deployment.heal_ranger(chosen.id, medic.ranger.heal_hp) == 0:
+		return false
+	healing_presented.emit(medic, chosen.anchor)
+	return true
 
 func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: DeploymentState, interval: int) -> String:
 	var skill := unit.ranger.active_skill

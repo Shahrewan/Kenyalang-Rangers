@@ -2,6 +2,7 @@ class_name FacilityCombat
 extends RefCounted
 
 signal hit(enemy_id: int, damage: int)
+signal sonic_attack_presented(unit: DeploymentState.Placement)
 
 var _enemies: Dictionary[int, BattleEnemy]
 
@@ -130,6 +131,7 @@ func _fire_turret(unit: DeploymentState.Placement, deployment: DeploymentState, 
 		return
 	unit.next_attack_tick = tick + maxi(1, CombatClock.ticks_for(spec.attack_seconds))
 	if spec.role == FacilitySpec.Role.SONIC_TURRET:
+		sonic_attack_presented.emit(unit)
 		for id in targets:
 			var enemy := _enemies[id]
 			enemy.sonic_slow_until = tick + CombatClock.ticks_for(spec.slow_seconds)

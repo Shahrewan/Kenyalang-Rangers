@@ -18,8 +18,12 @@ const RIGS := {
 	&"ranger.patrolman": preload("res://scenes/units/patrolman_rig.tscn"),
 	&"E01": preload("res://scenes/units/e01_rig.tscn"),
 }
-# W29 E02 attack_fx canvas registration minus the near fist's pivot.
-const POACHER_FIST_OFFSET := Vector2(-0.318, 2.679)
+# E02 and E03 share the W29 fist pivot and attack_fx registration.
+const ENEMY_FIST_OFFSET := Vector2(-0.318, 2.679)
+const MEDIC_CASE_OFFSET := Vector2(18, 1)
+const TURRET_ANCHOR := Vector2(80, 67)
+const TURRET_SOCKET := Vector2(108, 31)
+const HEAL := preload("res://assets/imported/effects/w29/heal.png")
 const ACTOR_FOOT_OFFSET := 0.36
 const TOWER_LIFT := 0.44
 
@@ -45,8 +49,17 @@ class Effect:
 	var socket: StringName
 	var socket_offset: Vector2
 
+class Turret:
+	var rig: Node2D
+	var player: AnimationPlayer
+	var parts: Array[Sprite2D] = []
+	var unit: DeploymentState.Placement
+	var clip: StringName
+	var phase := 0.0
+
 var rangers: Dictionary[StringName, Actor] = {}
 var enemies: Dictionary[int, Actor] = {}
+var turrets: Dictionary[StringName, Turret] = {}
 var _effects: Array[Effect] = []
 var _battle: BattleSimulation
 var _layout: Dictionary
@@ -54,6 +67,9 @@ var _patrolman_sockets := {}
 var _board: Control
 var _skin: FirstContactSkin
 var _poacher_rig: PackedScene
+var _runner_rig: PackedScene
+var _medic_rig: PackedScene
+var _turret_rig: PackedScene
 
 func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stage_id: StringName) -> void:
 	_board = board
@@ -61,10 +77,15 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 	_skin = skin
 	_layout = skin.registration()
 	_patrolman_sockets = skin.patrolman_sockets()
-	if stage_id == &"C1-02":
-		var poacher := FirstContactSkin.poacher_art()
-		if FileAccess.file_exists(poacher.get("animation", "")):
-			_poacher_rig = FirstContactSkin.optional_art(poacher.get("rig", ""), "PackedScene") as PackedScene
+	if stage_id != &"C1-01":
+		_poacher_rig = _w29_rig(FirstContactSkin.POACHER)
+	if stage_id == FirstContactSkin.NARROW_ESCAPE:
+		_runner_rig = _w29_rig(FirstContactSkin.RUNNER)
+		_medic_rig = _w29_rig(FirstContactSkin.MEDIC)
+		_turret_rig = _w29_rig(FirstContactSkin.SONIC)
+		battle.ranger_combat.healing_presented.connect(_heal_presented.bind(&"Attack"))
+		battle.facility_combat.sonic_attack_presented.connect(_turret_attack)
+		battle.deployment.skill_fired.connect(_active_treatment)
 	battle.clock.stepped.connect(_step)
 	battle.enemy_spawned.connect(_spawned)
 	battle.enemy_resolved.connect(_resolved)
@@ -75,6 +96,12 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 	battle.deployment.unit_removed.connect(_removed)
 	battle.deployment.unit_hit.connect(_ranger_hit)
 	battle.deployment.post_paid.connect(_post_paid)
+
+func _w29_rig(id: StringName) -> PackedScene:
+	var art := FirstContactSkin.w29_art(id)
+	if art.has("animation") and not FileAccess.file_exists(art.animation):
+		return null
+	return FirstContactSkin.optional_art(art.get("rig", ""), "PackedScene") as PackedScene
 
 func _make_actor(scene: PackedScene) -> Actor:
 	var actor := Actor.new()
@@ -95,7 +122,12 @@ func _play(actor: Actor, clip: StringName) -> void:
 	actor.rig.play_state(clip)
 
 func _spawned(id: int, kind: StringName) -> void:
-	var scene: PackedScene = _poacher_rig if kind == FirstContactSkin.POACHER else RIGS.get(kind)
+	var scene: PackedScene = RIGS.get(kind)
+	match kind:
+		FirstContactSkin.POACHER:
+			scene = _poacher_rig
+		FirstContactSkin.RUNNER:
+			scene = _runner_rig
 	if scene == null:
 		return
 	var actor := _make_actor(scene)
@@ -108,8 +140,13 @@ func _deployed(unit: DeploymentState.Placement) -> void:
 	if unit.spec.logistics_post:
 		if _battle.deployment.build_ticks_left(unit.id) == 0:
 			_post_paid(unit)
-	elif RIGS.has(unit.spec.id):
-		var actor := _make_actor(RIGS[unit.spec.id])
+	elif unit.spec.id == FirstContactSkin.SONIC and _turret_rig != null:
+		_deploy_turret(unit)
+	else:
+		var scene: PackedScene = _medic_rig if unit.spec.id == FirstContactSkin.MEDIC else RIGS.get(unit.spec.id)
+		if scene == null:
+			return
+		var actor := _make_actor(scene)
 		actor.unit = unit
 		actor.rig.set_facing(unit.facing)
 		actor.rig.facing_locked = unit.spec.is_melee()
@@ -123,6 +160,13 @@ func _removed(unit: DeploymentState.Placement) -> void:
 	if actor != null:
 		actor.terminal = true
 		_play(actor, &"Defeat" if unit.hp == 0 else &"Retreat")
+	var turret: Turret = turrets.get(unit.id)
+	if turret != null:
+		if unit.hp == 0:
+			_play_turret(turret, &"Destroyed")
+		else:
+			turret.rig.queue_free()
+			turrets.erase(unit.id)
 	_board.queue_redraw()
 
 func _resolved(id: int, escaped: bool) -> void:
@@ -135,6 +179,10 @@ func _resolved(id: int, escaped: bool) -> void:
 func _ranger_hit(unit: DeploymentState.Placement) -> void:
 	if rangers.has(unit.id):
 		_play(rangers[unit.id], &"Hit")
+	var turret: Turret = turrets.get(unit.id)
+	if turret != null:
+		var building := _battle.deployment.build_ticks_left(unit.id) > 0
+		_play_turret(turret, &"ConstructionUnderSiege" if building else &"UnderSiege")
 
 func _enemy_hit(id: int) -> void:
 	if enemies.has(id):
@@ -145,11 +193,11 @@ func _enemy_attack(enemy: BattleEnemy) -> void:
 	var actor: Actor = enemies.get(_battle.active.find_key(enemy))
 	if actor != null:
 		_play(actor, &"Attack")
-		if enemy.definition.enemy_id == FirstContactSkin.POACHER:
+		if enemy.definition.enemy_id in [FirstContactSkin.POACHER, FirstContactSkin.RUNNER]:
 			var effect := _effect("poacher_strike", enemy.grid_position(), 12)
 			effect.actor = actor
 			effect.socket = &"hand_near"
-			effect.socket_offset = POACHER_FIST_OFFSET
+			effect.socket_offset = ENEMY_FIST_OFFSET
 
 func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: StringName) -> void:
 	var actor: Actor = rangers.get(unit.id)
@@ -179,6 +227,47 @@ func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: Strin
 func _post_paid(unit: DeploymentState.Placement) -> void:
 	_effect("post_ready", Vector2(unit.anchor) + Vector2(0.5, 0), 24)
 
+func _heal_presented(unit: DeploymentState.Placement, target: Vector2i, clip: StringName) -> void:
+	var actor: Actor = rangers.get(unit.id)
+	if actor != null:
+		_play(actor, clip)
+		var effect := _effect("treatment", Vector2(unit.anchor), 27)
+		effect.actor = actor
+		effect.target = Vector2(target)
+		effect.socket = &"treatment_case"
+		effect.socket_offset = MEDIC_CASE_OFFSET
+
+func _active_treatment(id: StringName, target: Vector2i) -> void:
+	var unit: DeploymentState.Placement = _battle.deployment.placed.get(id)
+	if unit != null and unit.spec.id == FirstContactSkin.MEDIC:
+		_heal_presented(unit, target, &"Skill")
+
+func _deploy_turret(unit: DeploymentState.Placement) -> void:
+	var turret := Turret.new()
+	turret.unit = unit
+	turret.rig = _turret_rig.instantiate()
+	turret.rig.hide()
+	turret.player = turret.rig.get_node("AnimationPlayer")
+	turret.player.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+	add_child(turret.rig)
+	for part: Sprite2D in turret.rig.find_children("*", "Sprite2D", true, false):
+		turret.parts.append(part)
+	turret.parts.sort_custom(func(a: Sprite2D, b: Sprite2D) -> bool: return a.z_index < b.z_index)
+	turrets[unit.id] = turret
+	_play_turret(turret, &"Construction")
+
+func _play_turret(turret: Turret, clip: StringName) -> void:
+	turret.clip = clip
+	turret.phase = 0.0
+	turret.player.play(clip)
+	turret.player.advance(0.0)
+
+func _turret_attack(unit: DeploymentState.Placement) -> void:
+	var turret: Turret = turrets.get(unit.id)
+	if turret != null:
+		_play_turret(turret, &"Active")
+		_effect("sonic", Vector2(unit.anchor) + TURRET_SOCKET / 80.0 - Vector2.ONE * 0.5, 22)
+
 func _effect(name: String, cell: Vector2, ticks: int) -> Effect:
 	var effect := Effect.new()
 	effect.name = name
@@ -195,6 +284,21 @@ func _step(tick: int, seconds: float) -> void:
 	for id: StringName in rangers.keys():
 		if _animate(rangers[id], seconds):
 			rangers.erase(id)
+	for id: StringName in turrets.keys():
+		var turret := turrets[id]
+		turret.phase += seconds
+		turret.player.advance(seconds)
+		var finished := turret.phase >= turret.player.get_animation(turret.clip).length
+		if turret.clip == &"Destroyed":
+			if finished:
+				turret.rig.queue_free()
+				turrets.erase(id)
+			continue
+		var building := _battle.deployment.build_ticks_left(id) > 0
+		if finished or (not building and turret.clip == &"Construction"):
+			var current := &"Construction" if building else &"Ready"
+			if turret.clip != current:
+				_play_turret(turret, current)
 	for i in range(_effects.size() - 1, -1, -1):
 		var effect := _effects[i]
 		if tick >= effect.expires or (effect.actor != null and not is_instance_valid(effect.actor.rig)):
@@ -217,9 +321,12 @@ func _animate(actor: Actor, seconds: float) -> bool:
 		return false
 	var blocked := actor.unit.blocking_count > 0 if actor.unit != null else not actor.enemy.blocked_by.is_empty()
 	var idle := &"Idle" if actor.unit != null else &"Move"
+	if actor.enemy != null and actor.enemy.definition.enemy_id == FirstContactSkin.RUNNER \
+			and actor.enemy.sprint_scale(_battle.clock.tick) > 1.0:
+		idle = &"Sprint"
 	var hold := &"Block" if actor.unit != null else &"Blocked"
 	var next := hold if blocked else idle
-	if actor.clip != next and (actor.clip in [idle, hold] or actor.phase >= player.get_animation(actor.clip).length):
+	if actor.clip != next and (actor.clip in [&"Move", &"Sprint", &"Idle", hold] or actor.phase >= player.get_animation(actor.clip).length):
 		if actor.unit != null and next == &"Block":
 			var effect := _effect("patrol_block", Vector2(actor.unit.anchor), 14)
 			var socket: Array = _patrolman_sockets.block_contact_fx
@@ -286,6 +393,25 @@ func draw_post(center: Vector2, tint := Color.WHITE) -> void:
 	var rect := Rect2(center - Vector2(320, 190) * scale_px, Vector2(640, 288) * scale_px)
 	for layer: Texture2D in POST_LAYERS:
 		_board.draw_texture_rect(layer, rect, false, tint)
+
+func draw_turrets() -> void:
+	var scale_px: float = _board.tile_size()
+	var local: Transform2D = _board.get_global_transform().affine_inverse()
+	for turret: Turret in turrets.values():
+		var unit := turret.unit
+		turret.rig.position = _board.grid_origin() + (Vector2(unit.anchor) + TURRET_ANCHOR / 80.0) * scale_px
+		turret.rig.scale = Vector2.ONE * scale_px / 80.0
+		for part: Sprite2D in turret.parts:
+			if part.visible:
+				_board.draw_set_transform_matrix(local * part.global_transform)
+				_board.draw_texture(part.texture, Vector2.ZERO, part.self_modulate)
+		_board.draw_set_transform(Vector2.ZERO)
+		if turret.clip != &"Destroyed":
+			var cell_center := _center(Vector2(unit.anchor) + Vector2(0.5, 0))
+			var seconds := ceili(float(_battle.deployment.build_ticks_left(unit.id)) / CombatClock.TICKS_PER_SECOND)
+			if seconds > 0:
+				_board._draw_unit_label(unit, cell_center, "Building · %ds" % seconds)
+			_board._draw_health(cell_center + Vector2(0, scale_px * 0.4), scale_px * 0.8, unit.hp, unit.spec.max_hp)
 
 func draw_actors() -> void:
 	var scale_px: float = _board.tile_size()
@@ -363,8 +489,19 @@ func _draw_effects() -> void:
 		elif effect.name == "poacher_strike":
 			if elapsed >= 4:
 				_fx("enemy_hit", at, 0.28)
+		elif effect.name == "treatment":
+			_paint_healing(at, 0.30)
+			_paint_healing(_center(effect.target) - Vector2(0, _board.tile_size() * 0.22), 0.44)
+		elif effect.name == "sonic":
+			var progress := float(elapsed) / (effect.expires - effect.start)
+			_board.draw_arc(at, _board.tile_size() * lerpf(0.13, 0.85, progress), 0.0, TAU, 24,
+				Color(0.66, 0.9, 0.85, 1.0 - progress), 2.0, true)
 		elif effect.name != "patrol_strike" or elapsed >= 8:
 			_fx(effect.name, at, 0.38)
+
+func _paint_healing(center: Vector2, width: float) -> void:
+	var extent: Vector2 = HEAL.get_size() * (_board.tile_size() * width / HEAL.get_width())
+	_board.draw_texture_rect(HEAL, Rect2(center - extent * 0.5, extent), false)
 
 func _fx(id: String, center: Vector2, width: float, turn := 0.0) -> void:
 	var texture := _skin.region("effects", id)

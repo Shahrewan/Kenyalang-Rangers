@@ -53,8 +53,8 @@ func _run() -> void:
 	app._screen.find_child("StartOperation", true, false).pressed.emit()
 	var next := app._screen as CampaignBattle
 	next.set_physics_process(false)
-	_check(next._board.first_contact_field == null and not next._portrait.illustrated,
-		"C1-03 still uses its existing field and portrait presentation")
+	_check(next.stage.stage_id == &"C1-03" and next._board.first_contact_field != null,
+		"C1-02 clear opens the illustrated Narrow Escape operation")
 	app._campaign_progress.abandon_attempt()
 	await _construction_replay(app)
 	app.free()

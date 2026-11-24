@@ -14,20 +14,24 @@ const FIRST_CONTACT := {
 	},
 	"portrait.leader": {"steady": preload("res://assets/imported/first_contact/leader_radio.png")},
 }
+const MESSENGER_PORTRAIT := preload("res://assets/imported/portraits/poacher/alert.png")
+const MESSENGER_CUE := preload("res://assets/imported/portraits/story/messenger_cue.png")
 var illustrated := false
+var messenger_alert := false
 
 var identity := ""
 var pose := ""
 var _settle := 0.0
 var _motion: Tween
 
-func present(key: String, expression: String) -> void:
+func present(key: String, expression: String, messenger := false) -> void:
 	identity = key
 	pose = expression
+	messenger_alert = messenger
 	if _motion != null:
 		_motion.kill()
 	queue_redraw()
-	if illustrated and FIRST_CONTACT.has(identity):
+	if illustrated and (FIRST_CONTACT.has(identity) or messenger_alert):
 		return
 	_settle = -5.0
 	_motion = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -39,6 +43,12 @@ func _settle_pose(offset: float) -> void:
 
 # Labelled storyboard stand-in. Silhouette, head angle and brows follow the speaker and pose.
 func _draw() -> void:
+	if illustrated and messenger_alert:
+		var extent := minf(size.x * 0.66, size.y)
+		var origin := Vector2((size.x - extent) * 0.5, size.y - extent)
+		draw_texture_rect(MESSENGER_PORTRAIT, Rect2(origin, Vector2.ONE * extent), false)
+		draw_texture_rect(MESSENGER_CUE, Rect2(origin + Vector2(0.79, 0.29) * extent, Vector2.ONE * extent * 0.39), false)
+		return
 	if illustrated:
 		var poses: Dictionary = FIRST_CONTACT.get(identity, {})
 		var texture: Texture2D = poses.get(pose, poses.values().front() if not poses.is_empty() else null)

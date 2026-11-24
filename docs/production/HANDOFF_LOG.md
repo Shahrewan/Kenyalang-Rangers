@@ -278,3 +278,9 @@
 - W29 PR #32 provided the E02 scene, its six-state clip and the Intel badge. C1-02 now uses those resources through the C28-A T01 adapter. The ordinary Post displays its construction countdown until Ready. The returning loadout uses labeled support and Facility fallbacks.
 - The C1-02 live fixture resolved at tick 8169 with 17 defeated, one escaped and 90 Integrity. Godot passed 2,069 regression checks. Both native sizes reproduced C1-02 and all three First Contact outcomes.
 - The signed ARM64 test APK passed its dependency audit and host replay, including C28-A profile continuity. Physical Android validation remains open. [Evidence and device procedure](../qa/C28_B_HOLD_THE_LINE.md)
+
+## C28-C Narrow Escape — 2026-11-24
+
+- Bound the approved E03, Medic, Sonic Turret and post-wave-2 messenger visuals to the illustrated C1-03 Story mission. The live fixture covered the 9/11/13 waves, all seven E03 clips, both messenger routes and the three results.
+- Settings includes Developer Funds with existing wallet limits and profile saves. Verified add, remove, invalid input, limits and returning profile data.
+- Godot 4.7.2 passed 2,115 regressions. The W29 catalog and art checks, 20 native captures, signed APK dependency audit and returning C28-B profile replay passed. Physical Android review remains open. [Evidence and phone procedure](../qa/C28_C_NARROW_ESCAPE.md)
