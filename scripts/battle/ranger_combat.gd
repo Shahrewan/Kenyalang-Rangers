@@ -1,7 +1,7 @@
 class_name RangerCombat
 extends RefCounted
 
-signal hit(enemy_id: int, damage: int)
+signal hit(enemy_id: int, damage: int, attacker: DeploymentState.Placement)
 signal attack_presented(unit: DeploymentState.Placement, target_id: int, clip: StringName)
 signal healing_presented(medic: DeploymentState.Placement, target: Vector2i)
 
@@ -71,7 +71,7 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 				bonus += ranger.focused_damage_bonus_percent
 			if unit.records_enhanced and ranger.records_counter_damage > 0 and _attacks(enemy, unit, tick):
 				counter_damage = ranger.records_counter_damage
-		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0) + counter_damage)
+		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0) + counter_damage, unit)
 
 func _attacks(enemy: BattleEnemy, unit: DeploymentState.Placement, tick: int) -> bool:
 	if tick < enemy.stunned_until:
@@ -113,7 +113,7 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 			enemy.focus_marked_until = _clock.tick + CombatClock.ticks_for(skill.focus_seconds)
 			enemy.immobilized_until = maxi(enemy.immobilized_until, until)
 			attack_presented.emit(unit, id, &"Skill")
-			hit.emit(id, skill.damage)
+			hit.emit(id, skill.damage, unit)
 		RangerSkill.Effect.EMP_FIELD:
 			var primary := _leading(candidates)
 			var area := _square(_enemies[primary].grid_cell(), skill.splash_radius)
@@ -124,14 +124,14 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 			field.affects_aerial = unit.spec.targets_aerial
 			fields.append(field)
 			for id in _inside(candidates, area):
-				hit.emit(id, skill.damage)
+				hit.emit(id, skill.damage, unit)
 		RangerSkill.Effect.FRONTAL_STUN:
 			unit.update_basic_interval(interval, _clock.tick)
 			unit.next_attack_tick = _clock.tick + interval
 			for id in candidates:
 				var enemy := _enemies[id]
 				enemy.stunned_until = maxi(enemy.stunned_until, until)
-				hit.emit(id, skill.damage)
+				hit.emit(id, skill.damage, unit)
 	return ""
 
 func _treat(cell: Vector2i, deployment: DeploymentState, healing: int) -> String:

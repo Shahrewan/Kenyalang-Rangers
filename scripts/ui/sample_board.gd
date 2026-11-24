@@ -1,6 +1,15 @@
 class_name BattleBoard
 extends Control
 
+const SKILL_ICONS := {
+	BattleSkillStatus.Mode.READY: preload("res://assets/imported/ui/w29/icons/light/check.svg"),
+	BattleSkillStatus.Mode.RECOVERING: preload("res://assets/imported/ui/w29/icons/light/clock.svg"),
+	BattleSkillStatus.Mode.LOCKED: preload("res://assets/imported/ui/w29/icons/light/lock.svg"),
+	BattleSkillStatus.Mode.SPENT: preload("res://assets/imported/ui/w29/icons/light/minus.svg"),
+}
+const HIT_LIFETIME := 24
+var _melee_hits := {}
+
 var battle_map: BattleMap
 var routes: Array[BattleRoute]
 var battle: BattleSimulation
@@ -19,6 +28,55 @@ func illustrate_first_contact(skin: FirstContactSkin, stage_id: StringName) -> v
 	add_child(first_contact_field)
 	first_contact_field.bind(self, battle, skin, stage_id)
 	queue_redraw()
+
+func bind_damage_feedback(sim: BattleSimulation) -> void:
+	_melee_hits.clear()
+	sim.melee_hit_presented.connect(_present_melee_hit)
+	sim.clock.stepped.connect(_expire_hits)
+
+func _present_melee_hit(id: int, at: Vector2, amount: int) -> void:
+	var previous: Dictionary = _melee_hits.get(id, {})
+	_melee_hits[id] = {"cell": at, "amount": amount + int(previous.get("amount", 0)), "start": battle.clock.tick}
+	queue_redraw()
+
+func _expire_hits(tick: int, _seconds: float) -> void:
+	for id: int in _melee_hits.keys():
+		if tick - _melee_hits[id].start >= HIT_LIFETIME:
+			_melee_hits.erase(id)
+	queue_redraw()
+
+func draw_melee_hits() -> void:
+	for cue: Dictionary in _melee_hits.values():
+		var elapsed: float = float(battle.clock.tick - cue.start) / HIT_LIFETIME
+		var at := grid_origin() + (Vector2(cue.cell) + Vector2(0.5, 0.22)) * tile_size()
+		at.y -= elapsed * 12.0
+		var font := get_theme_default_font()
+		var caption := "−%d" % cue.amount
+		at.x -= font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x * 0.5
+		draw_string_outline(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color("#17241c"))
+		draw_string(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("#ffe3a2"))
+
+func draw_skill_status(unit: DeploymentState.Placement, hp_center: Vector2, hp_width: float) -> void:
+	var status := BattleSkillStatus.read(unit, deployments)
+	if status == null:
+		return
+	var wide := 44.0
+	var x := hp_center.x + hp_width * 0.5 + 4.0
+	if x + wide > size.x:
+		x = hp_center.x - hp_width * 0.5 - 4.0 - wide
+	var at := Vector2(x, hp_center.y + 4.0).clamp(Vector2.ZERO, (size - Vector2(wide, 20)).max(Vector2.ZERO))
+	var rect := Rect2(at, Vector2(wide, 18))
+	var color := Color("#93c9a2") if status.mode == BattleSkillStatus.Mode.READY else Color("#c6c3a9")
+	if status.just_ready:
+		color = Color("#fff0a1")
+	draw_rect(rect, Color("#1e2b23"))
+	draw_rect(rect, color, false, 2.0 if status.just_ready else 1.0)
+	draw_texture_rect(SKILL_ICONS[status.mode], Rect2(at + Vector2(2, 2), Vector2(13, 13)), false)
+	draw_string(get_theme_default_font(), at + Vector2(17, 13), "%d/%d" % [status.charges, status.maximum],
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f6edcf"))
+	if status.progress >= 0.0:
+		draw_rect(Rect2(at + Vector2(1, 15), Vector2(wide - 2.0, 2)), Color("#615c41"))
+		draw_rect(Rect2(at + Vector2(1, 15), Vector2((wide - 2.0) * status.progress, 2)), color)
 
 func tile_size() -> float:
 	if battle_map == null:
@@ -107,6 +165,7 @@ func _draw() -> void:
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
 			draw_enemy_marker(enemy, center, cell)
+		draw_melee_hits()
 
 func draw_enemy_marker(enemy: BattleEnemy, center: Vector2, cell: float, labeled := false) -> void:
 	var visible_alpha := 1.0 if enemy.is_targetable(battle.clock.tick) else 0.4
@@ -268,7 +327,9 @@ func _draw_deployments() -> void:
 				_draw_unit_label(unit, center, "Building · %ds" % seconds)
 			elif remaining == 0 and (unit.facility != null or first_contact_field != null):
 				_draw_unit_label(unit, center, unit.spec.label)
-			_draw_health(center + Vector2(0, tile_size() * 0.40), tile_size() * 0.5, unit.hp, unit.spec.max_hp)
+			var hp_center := center + Vector2(0, tile_size() * 0.40)
+			_draw_health(hp_center, tile_size() * 0.5, unit.hp, unit.spec.max_hp)
+			draw_skill_status(unit, hp_center, tile_size() * 0.5)
 
 func _draw_unit_label(unit: DeploymentState.Placement, center: Vector2, label: String) -> void:
 	var font := get_theme_default_font()

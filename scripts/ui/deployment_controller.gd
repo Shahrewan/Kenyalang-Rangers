@@ -40,11 +40,20 @@ var _drag_to_field := false
 var _local_notice: PanelContainer
 var _notice_text: Label
 var _notice_until := 0
+var _skill_detail: Label
+var _inspected_unit: StringName
 
 func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
 	_cancel.pressed.connect(_cancel_skill)
 	_retreat.pressed.connect(_retreat_ranger)
+	_skill_detail = StoryUI.label("", 18, StoryUI.CREAM)
+	_skill_detail.name = "SelectedSkillStatus"
+	_skill_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_skill_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hint.get_parent().add_child(_skill_detail)
+	_hint.get_parent().move_child(_skill_detail, _hint.get_index() + 1)
+	_skill_detail.hide()
 	_local_notice = PanelContainer.new()
 	_local_notice.theme_type_variation = &"LightPanel"
 	_local_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -103,6 +112,7 @@ func _resize_cards() -> void:
 
 func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = null) -> void:
 	_simulation = simulation
+	_inspected_unit = &""
 	var rules := opening_rules.duplicate() as LogisticsRules
 	_offered.clear()
 	if plan != null:
@@ -217,6 +227,8 @@ func _press(id: int, at: Vector2) -> bool:
 				break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
 	var in_tray := _tray_clip().has_point(at)
+	if not targeting:
+		_inspected_unit = actor if card == null else &""
 	if card == null and actor.is_empty() and not targeting and not in_tray:
 		return false
 	_local_notice.hide()
@@ -305,6 +317,7 @@ func _cancel_pointer() -> void:
 	_board.preview_spec = null
 
 func _show_retreat(id: StringName) -> void:
+	_inspected_unit = id
 	var unit: DeploymentState.Placement = state.placed.get(id)
 	var building := state.build_ticks_left(id) > 0
 	if unit == null or (not unit.spec.is_ranger() and not building):
@@ -321,6 +334,8 @@ func _show_retreat(id: StringName) -> void:
 	_retreat.position = at.clamp(Vector2.ZERO, (_board.size - _retreat.size).max(Vector2.ZERO))
 	_retreat.show()
 	_hint.text = "Cancel to refund the paid Tokens." if building else "Choose Retreat to remove this Ranger."
+	if unit.spec.is_melee():
+		_hint.text = "Blocking %d · Attacks %s" % [unit.blocking_count, "left" if unit.facing < 0 else "right"]
 
 func _hide_retreat() -> void:
 	_retreat.hide()
@@ -388,6 +403,11 @@ func _skill_fired(id: StringName, target: Vector2i) -> void:
 	_hint.text = "%s skill activated." % unit.spec.label
 
 func _refresh() -> void:
+	var selected: DeploymentState.Placement = state.placed.get(_inspected_unit)
+	var inspected := BattleSkillStatus.read(selected, state)
+	_skill_detail.visible = inspected != null
+	if inspected != null:
+		_skill_detail.text = inspected.detail()
 	if _retreat.visible and (not state.placed.has(_retreat_unit) or (_retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0)):
 		_hide_retreat()
 	var armed := not state.armed.is_empty()
@@ -434,8 +454,13 @@ func _refresh() -> void:
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
 	var tick := state.clock.tick
-	if unit.spec.skill != DeploymentSpec.Skill.NONE and state.effects.amount(&"disable_skills") > 0:
-		return "Active skill disabled"
+	var skill := BattleSkillStatus.read(unit, state)
+	if skill != null:
+		match skill.mode:
+			BattleSkillStatus.Mode.READY: return "Skill ready"
+			BattleSkillStatus.Mode.RECOVERING: return "Skill recovering"
+			BattleSkillStatus.Mode.LOCKED: return "Skill locked"
+			BattleSkillStatus.Mode.SPENT: return "Skill spent"
 	if tick < unit.knocked_down_until:
 		return "Knocked down"
 	if tick < unit.entangled_until:
@@ -457,13 +482,4 @@ func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
 				if state.specialist_discount > 0:
 					return "−%d Tokens next Specialist" % state.specialist_discount
 				return "Discount ready" if unit.stock > 0 else "Preparing discount"
-	if unit.ranger == null or unit.ranger.active_skill == null:
-		return "Deployed"
-	var skill := unit.ranger.active_skill
-	if skill.requires_records and not unit.records_enhanced:
-		return "%s · Records locked" % skill.label
-	var detail := "%s %d/%d" % [skill.label, unit.skill_charges, skill.max_charges]
-	if unit.skill_recharge_tick > state.clock.tick:
-		var remaining := unit.skill_recharge_tick - state.clock.tick
-		detail += " · %ds" % ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
-	return detail
+	return "Deployed"

@@ -11,8 +11,7 @@ literal.enemy_sandbox.97,literal,scripts/ui/enemy_sandbox.gd,97,Enemy and boss Q
 literal.garden_board.104,literal,scripts/ui/garden_board.gd,104,Conditional Garden texture fallback,W21-A15
 literal.garden_board.110,literal,scripts/ui/garden_board.gd,110,Conditional Garden texture fallback,W21-A15
 literal.garden_board.129,literal,scripts/ui/garden_board.gd,129,Conditional Garden texture fallback,W21-A15
-literal.launcher.108,literal,scripts/ui/launcher.gd,118,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
-literal.launcher.222,literal,scripts/ui/launcher.gd,239,Main menu office sketch or Modifier Trial board,W21-A01|W21-A07|W21-A15
+literal.launcher.222,literal,scripts/ui/launcher.gd,222,Modifier Trial board,W21-A01|W21-A07|W21-A15
 surface.entry_icon,active,project.godot,assets/placeholders/dev_icon.png,Developer icon on the default project,W21-A14
 surface.menu_office,active,scripts/ui/headquarters_sketch.gd,func _draw(),Home office sketch,W21-A07|W21-A14
 surface.office_rooms,active,scripts/ui/headquarters_office_art.gd,func _compose(),"W29 modular rooms, stationary Work loops and empty treatment",W21-A07
@@ -35,7 +34,7 @@ surface.garden_seed_picker,active,scripts/ui/headquarters_garden.gd,func _render
 surface.naming_sample,functional_pilot,scripts/ui/leader_naming.gd,input.placeholder_text,Standard empty input hint. Keep readable with the final text scale.,W21-A14
 surface.scout_preview,qa_only,scenes/qa/scout_rig_preview.tscn,res://scenes/units/scout_rig.tscn,W06 rig pose and anchor checking view,W21-A03|W21-A15
 surface.scout_preview_guides,qa_only,scripts/animation/scout_preview.gd,func _draw_stage(),Rig preview guides. Keep the QA context distinct from the field view.,W21-A03|W21-A15
-surface.launcher_sample,qa_entry,scenes/menus/main_menu.tscn,OpenSample,Developer sample route reachable from the shell,W21-A14|W21-A15
+surface.launcher_sample,qa_entry,scripts/ui/launcher.gd,func show_sample(),Direct sample battle fixture outside the player menu,W21-A14|W21-A15
 surface.story_portrait,active,scripts/ui/story_portrait.gd,func _draw(),Pose-dependent procedural portrait with matching speaker caption. Final illustrations await clearance.,W21-A06
 surface.first_contact_hud,active,scripts/ui/battle_hud.gd,func _draw(),Illustrated HUD frame behind shared live readouts and controls.,W21-A08
 surface.first_contact_story,active,scripts/ui/first_contact_story_map.gd,func _draw(),Approved Story backplate and decorative Control fog over fixed node locations.,W21-A08

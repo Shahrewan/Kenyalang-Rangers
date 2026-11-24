@@ -13,6 +13,6 @@ label = "Sentry Tower"
 cost = 65
 max_hp = 420
 build_seconds = 9.0
-build_cooldown_seconds = 15.0
+build_cooldown_seconds = 60.0
 detection_radius = 4
 mount_range_bonus = 1

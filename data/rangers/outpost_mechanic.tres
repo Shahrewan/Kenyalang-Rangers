@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = &"ranger.outpost_mechanic"
-redeploy_seconds = 16.0
+redeploy_seconds = 24.0
 label = "Outpost Mechanic"
 ranger_class = 2
 recruitment_stage = &"C2-02"

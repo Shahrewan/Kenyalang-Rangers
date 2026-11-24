@@ -77,7 +77,7 @@ func _debuffs(content: CampaignContent) -> void:
 	var drone := _enemy(content.operation(&"C2-03"), &"E08")
 	var base_drone := _enemy(content.operation(&"C2-04"), &"E08")
 	_check(drone != null and base_drone != null and is_equal_approx(drone.tiles_per_second, base_drone.tiles_per_second * 1.25), "D11 affects aerial movement")
-	_check(_effective_stage(content.operation(&"C2-03")).waves[0].rest_after_seconds == 12.0 and _effective_stage(content.operation(&"C2-04")).waves[0].groups[0].interval_seconds == 1.6, "D07 and D13 scale authored rests and group intervals")
+	_check(_effective_stage(content.operation(&"C2-03")).waves[0].rest_after_seconds == 12.0 and is_equal_approx(_effective_stage(content.operation(&"C2-04")).waves[0].groups[0].interval_seconds, 2.4), "D07 keeps the original rest reduction and D13 composes with the Chapter 2 pacing profile")
 	var siege := _enemy(content.operation(&"C2-02"), &"E11")
 	var normal_siege := CampaignContent.ENEMIES.entries.filter(func(entry: BattleEnemyDefinition) -> bool: return entry.enemy_id == &"E11")[0] as BattleEnemyDefinition
 	_check(siege.is_siege_capable() and siege.attack_damage == roundi(normal_siege.attack_damage * 1.25), "D09 modifies only the Siege-capable definition")

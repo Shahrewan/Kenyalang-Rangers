@@ -24,6 +24,10 @@
     "status": "proposed_playtest",
     "cadence_profile": "c2_mid",
     "opening_delay_seconds": 15,
+    "c30_pacing": {
+      "preparation_seconds": 5,
+      "wave_interval_multipliers": [1.5, 1.25, 1.1, 1.0]
+    },
     "position_speed_attack_escape_source": "c12_catalogue_provisional",
     "heat": {"capacity": 100, "integrity_loss_per_reset": 10, "status": "proposed_campaign_trial"}
   },

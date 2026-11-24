@@ -3,6 +3,8 @@ extends VBoxContainer
 
 signal back_requested
 
+const PORTRAIT := preload("res://scripts/ui/deployment_portrait.gd")
+
 var progress: CampaignProgress
 var definition: DeploymentSpec
 var _balance: Label
@@ -24,7 +26,14 @@ func _ready() -> void:
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var current := StoryUI.panel(StoryUI.scroll_column(body), true)
-	current.add_child(StoryUI.label("Current", 26, StoryUI.INK))
+	var heading := StoryUI.row(current, 10)
+	var icon := PORTRAIT.new()
+	icon.spec = definition
+	icon.badge = CampaignVisualAssets.new().badge(definition.id)
+	icon.custom_minimum_size = Vector2(72, 72)
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	heading.add_child(icon)
+	heading.add_child(StoryUI.label("Current", 26, StoryUI.INK))
 	_current = StoryUI.label("", 22, StoryUI.INK)
 	current.add_child(_current)
 	current.add_child(StoryUI.label(_footprint(), 19, StoryUI.INK))

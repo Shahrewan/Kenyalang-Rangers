@@ -5,6 +5,7 @@ signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
 signal enemy_attack_presented(enemy: BattleEnemy)
 signal enemy_hit_presented(id: int)
+signal melee_hit_presented(id: int, from_cell: Vector2, hp_lost: int)
 signal enemy_ability_presented(enemy: BattleEnemy, target: Vector2i)
 signal siege_hit
 signal heat_overflow
@@ -134,7 +135,7 @@ func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackPro
 	if kind == EnemyAttackProfile.Kind.SIEGE:
 		siege_hit.emit()
 
-func damage_enemy(id: int, damage: int) -> void:
+func damage_enemy(id: int, damage: int, attacker: DeploymentState.Placement = null) -> void:
 	var enemy: BattleEnemy = active.get(id)
 	if enemy == null or damage <= 0 or not clock.is_running():
 		return
@@ -143,7 +144,10 @@ func damage_enemy(id: int, damage: int) -> void:
 	if effects.amount(&"weakness_damage_percent") > 0 and _has_weakness(enemy):
 		weakness = effects.scale(&"weakness_damage_percent")
 	var effective := roundi(damage * weakness * (100 + bonus) / 100.0)
+	var previous_hp := enemy.hp
 	enemy.take_damage(effective, clock.tick)
+	if attacker != null and attacker.ranger != null and attacker.spec.is_melee() and enemy.hp < previous_hp:
+		melee_hit_presented.emit(id, enemy.grid_position(), previous_hp - enemy.hp)
 	if enemy.hp == 0:
 		defeat_enemy(id)
 	else:

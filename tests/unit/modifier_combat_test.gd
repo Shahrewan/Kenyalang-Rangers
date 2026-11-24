@@ -100,8 +100,8 @@ func _cooldown_and_silence() -> void:
 	building.stock = 1
 	_check(state.placed[guard.id].skill_charges == 0 and not silent.tap_ranger(guard.id) and "Silent Mobilization" in state.last_skill_error, "B15 blocks Ranger skills and grants no charges")
 	_check(not silent.tap_unit(cabin.id) and state.armed.is_empty() and building.stock == 1, "B15 blocks a Facility skill before arming or spending stock")
-	_check(state.retreat(guard.id) and state.cooldown_ticks(guard.id) == 702, "B15 applies the 35% shorter redeploy cooldown")
-	_check(state.cooldown_ticks(cabin.id) == 468 and state.build_ticks_left(cabin.id) == 360, "Facility cooldown shortens while construction time stays fixed")
+	_check(state.retreat(guard.id) and state.cooldown_ticks(guard.id) == 1248, "B15 applies the 35% shorter redeploy cooldown")
+	_check(state.cooldown_ticks(cabin.id) == 1716 and state.build_ticks_left(cabin.id) == 360, "Facility cooldown shortens while construction time stays fixed")
 
 func _logistics_and_siege() -> void:
 	var quiet := _stage(E01)

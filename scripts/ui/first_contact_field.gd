@@ -612,7 +612,9 @@ func draw_turrets() -> void:
 				for reserved: Vector2i in unit.spec.reserved(unit.anchor):
 					if not _battle.deployment.placed.has(unit.mounted_ranger):
 						terrain("KRT_55", _tile(reserved), Color(1, 1, 1, 0.52))
-			_board._draw_health(cell_center + Vector2(0, scale_px * 0.4), scale_px * 0.8, unit.hp, unit.spec.max_hp)
+			var hp_center := cell_center + Vector2(0, scale_px * 0.4)
+			_board._draw_health(hp_center, scale_px * 0.8, unit.hp, unit.spec.max_hp)
+			_board.draw_skill_status(unit, hp_center, scale_px * 0.8)
 
 func draw_actors() -> void:
 	var scale_px: float = _board.tile_size()
@@ -648,7 +650,8 @@ func draw_actors() -> void:
 		if not actor.terminal:
 			var hp := actor.unit.hp if actor.unit != null else actor.enemy.hp
 			var maximum := actor.unit.spec.max_hp if actor.unit != null else actor.enemy.definition.max_hp
-			_board._draw_health(actor.rig.position + Vector2(0, scale_px * 0.055), scale_px * 0.48, hp, maximum)
+			var hp_center := actor.rig.position + Vector2(0, scale_px * 0.055)
+			_board._draw_health(hp_center, scale_px * 0.48, hp, maximum)
 			if actor.enemy != null:
 				_board._draw_enemy_status(actor.enemy, actor.rig.position - Vector2(0, scale_px * 0.32), scale_px)
 			if full_pack:
@@ -659,6 +662,11 @@ func draw_actors() -> void:
 			var at := _center(enemy.grid_position()) + Vector2(0, _block_offset(enemy, stacked) * scale_px)
 			_board.draw_enemy_marker(enemy, at, scale_px, true)
 	_draw_effects()
+	for actor: Actor in rangers.values():
+		if not actor.terminal:
+			var hp_center := actor.rig.position + Vector2(0, scale_px * 0.055)
+			_board.draw_skill_status(actor.unit, hp_center, scale_px * 0.48)
+	_board.draw_melee_hits()
 	if _regional != null:
 		_regional.draw_foreground()
 	else:

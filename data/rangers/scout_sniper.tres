@@ -15,7 +15,7 @@ focus_seconds = 6.0
 [resource]
 script = ExtResource("1")
 id = &"ranger.scout_sniper"
-redeploy_seconds = 14.0
+redeploy_seconds = 24.0
 label = "Scout Sniper"
 recruitment_stage = &"C1-01"
 kind = 2
