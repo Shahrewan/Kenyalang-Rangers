@@ -3,7 +3,7 @@ literal.sample_battle.148,literal,scenes/battle/sample_battle.tscn,148,Shared bo
 literal.facility_sandbox.43,literal,scenes/qa/facility_sandbox.tscn,43,Facility QA board legend,W21-A01|W21-A04|W21-A05|W21-A15
 literal.battle_scene.11,literal,scripts/battle/battle_scene.gd,14,Ranger and Facility sandbox default legend,W21-A01|W21-A03|W21-A04|W21-A05|W21-A15
 literal.campaign_battle.17,literal,scripts/battle/campaign_battle.gd,22,Campaign art fallback for absent visual resources,W21-A01|W21-A06
-literal.campaign_battle.99,literal,scripts/battle/campaign_battle.gd,157,Campaign art fallback for absent visual resources,W21-A01|W21-A06
+literal.campaign_battle.99,literal,scripts/battle/campaign_battle.gd,159,Campaign art fallback for absent visual resources,W21-A01|W21-A06
 literal.chaos_battle.12,literal,scripts/battle/chaos_battle.gd,12,Chaos board legend,W21-A01|W21-A05
 literal.chaos_route_page.39,literal,scripts/ui/chaos_route_page.gd,39,Chaos route illustration label,W21-A02
 literal.chaos_trophy.23,literal,scripts/ui/chaos_trophy.gd,23,Chaos trophy label,W21-A09

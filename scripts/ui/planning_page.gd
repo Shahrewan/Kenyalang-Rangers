@@ -16,6 +16,10 @@ var _fixed_labels: Dictionary[StringName, Label] = {}
 func _ready() -> void:
 	add_theme_constant_override("separation", 14)
 	var operation := plan.operation
+	var w29_presentation := not plan.chaos and FirstContactSkin.illustrates_operation(operation.stage.stage_id) \
+		and not FirstContactSkin.is_pilot(operation.stage.stage_id)
+	if w29_presentation:
+		theme = CampaignVisualAssets.THEME
 	var title := operation.title if plan.chaos else "%s   %s" % [operation.stage.stage_id, operation.title]
 	StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(funds))
 	var content := StoryUI.row(self, 16)
@@ -37,7 +41,7 @@ func _ready() -> void:
 	var intel := WaveIntel.new()
 	incoming.add_child(intel)
 	intel.show_stage(plan.resolved().stage)
-	if operation.campaign_spec and not plan.chaos and not FirstContactSkin.is_pilot(operation.stage.stage_id):
+	if w29_presentation:
 		var assets := CampaignVisualAssets.new()
 		var art := assets.region(operation.stage.map.map_id)
 		if not art.is_empty():

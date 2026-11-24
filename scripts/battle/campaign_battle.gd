@@ -27,6 +27,8 @@ func _prepare_campaign() -> void:
 			or not _visual_assets.region(stage.map.map_id).is_empty())
 	if _illustrated:
 		%Legend.hide()
+		if not FirstContactSkin.is_pilot(stage.stage_id):
+			_dialogue.theme = CampaignVisualAssets.THEME
 		if stage.heat_capacity > 0.0:
 			var gauge := _visual_assets.load_art(_visual_assets.catalog.get("heat_meter", ""), "PackedScene") as PackedScene
 			CampaignHeatDisplay.apply(%HeatRow, %HeatGauge, gauge)

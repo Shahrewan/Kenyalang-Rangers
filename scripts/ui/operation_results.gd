@@ -7,6 +7,9 @@ var report: Dictionary
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 16)
+	if report.get("campaign", false) and FirstContactSkin.illustrates_operation(report.stage_id) \
+			and not FirstContactSkin.is_pilot(report.stage_id):
+		theme = CampaignVisualAssets.THEME
 	StoryUI.header(self, "%s   %s" % [report.stage_id, report.title], func() -> void: story_requested.emit(), "%d Funds" % report.balance)
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL

@@ -1,6 +1,7 @@
 class_name CampaignVisualAssets
 extends RefCounted
 
+const THEME := preload("res://resources/presentation/w29_ui_theme.tres")
 const DATA := "res://data/presentation/w29/campaign_visuals.json"
 
 var catalog := FirstContactSkin.read_json(FirstContactSkin.W29_CATALOG)
