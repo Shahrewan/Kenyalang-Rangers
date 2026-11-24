@@ -5,12 +5,18 @@ const LAUNCHER := preload("res://scenes/menus/launcher.tscn")
 var _path := "user://c15-ui-%d.json" % OS.get_process_id()
 var _checks := 0
 var _failed := 0
+var _output := ""
 
 func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
-	root.size = Vector2i(960, 540)
+	var args := OS.get_cmdline_user_args()
+	if args.is_empty():
+		root.size = Vector2i(960, 540)
+	else:
+		_output = args[0]
+		DirAccess.make_dir_recursive_absolute(_output)
 	var fixture := CampaignSave.fresh()
 	fixture.funds = 186500
 	fixture.leader_name = "Mira"
@@ -25,10 +31,7 @@ func _run() -> void:
 	var overview := app._screen as HeadquartersOverview
 	var rooms := overview.find_children("Room_*", "Button", true, false)
 	_check(rooms.size() == 11 and rooms.all(func(room: Button) -> bool: return not room.disabled), "The office cross-section has eleven selectable rooms")
-	for room: Button in rooms:
-		var status := room.find_child("RoomLevel", true, false) as Label
-		var interior := room.find_child("OfficeInterior", true, false) as Control
-		_check(overview.get_global_rect().encloses(room.get_global_rect()) and status.get_line_count() == 1 and interior.size.y >= 35.0, "%s fits its label and illustration at 960×540" % room.name)
+	_assert_layout(overview)
 	var hr := _open_room(app, "human_resources")
 	_check("3 Ranger loadout slots" in hr._benefits.text, "Human Resources shows live capacity")
 	hr._activity.pressed.emit()
@@ -129,9 +132,214 @@ func _run() -> void:
 	app.free()
 	await process_frame
 	await _overflow_and_garden()
+	await _illustrated_headquarters()
 	_cleanup()
 	print("Headquarters UI: %d checks, %d failures" % [_checks, _failed])
 	quit(0 if _failed == 0 else 1)
+
+func _illustrated_headquarters() -> void:
+	var fixture := CampaignSave.fresh()
+	fixture.leader_name = "C29 review"
+	ProfileFile.replace(_path, fixture, false)
+	var app := _launcher()
+	var progress: CampaignProgress = app._campaign_progress
+	var overview := await _open_headquarters(app)
+	for room in CampaignProgress.HEADQUARTERS.rooms:
+		var office := overview._rooms[room.id]
+		_check((office.staff != null) == room.starts_built() and office.stage.has_node("EmptyRoom") != room.starts_built(),
+			"%s follows its authored starting state" % room.label)
+	_check(overview._lobby.name == "TrophyTier0" and overview._lobby.has_node("Mount") and not overview._lobby.has_node("Emblem"),
+		"Opening day shows the registered unranked mount")
+	await _capture("fresh-headquarters")
+	var workshop := await _tap_room(app, &"room.mechanical")
+	_check(workshop._purchase.disabled and workshop._art.staff == null and workshop._art.stage.has_node("EmptyRoom"),
+		"Unbuilt Mechanical uses the empty art and shows the existing Funds gate")
+	await _capture("mechanical-unbuilt")
+	progress.adjust_developer_funds(30000)
+	workshop._refresh()
+	_confirm_room(workshop)
+	_check(workshop._art.staff != null and workshop._art.stage.has_node("RoomBack") and workshop._art.stage.has_node("RoomFront")
+		and workshop._status.text == "Level 1 of 5" and workshop._balance.text == "20,000 Funds",
+		"Building Mechanical refreshes its same room page, staff, level and wallet")
+	await _capture("mechanical-built")
+	workshop.back_requested.emit()
+	await _layout_frames()
+	overview = app._screen
+	_check(overview._rooms[&"room.mechanical"].player != null and overview._rooms[&"room.r_d_eco"].player == null,
+		"An established profile shows the purchased room while unopened modules stay empty")
+	await _capture("established-headquarters")
+	app.free()
+	await process_frame
+
+	fixture.funds = 1350000
+	fixture.chaos.personal_best = 3300
+	for index in CampaignProgress.HEADQUARTERS.rooms.size():
+		var room := CampaignProgress.HEADQUARTERS.rooms[index]
+		fixture.rooms[String(room.id)] = 4 if room.id in [HeadquartersCatalog.ECOLOGY, HeadquartersCatalog.OUTREACH] else index % 5 + 1
+	ProfileFile.replace(_path, fixture, false)
+	app = _launcher()
+	overview = await _open_headquarters(app)
+	_check(overview._rooms.size() == 11 and overview._rooms.values().all(func(office: HeadquartersOfficeArt) -> bool:
+		return office.player != null and office.player.current_animation == &"Work"), "Eleven constructed departments each play their own Work loop")
+	await _capture("developed-headquarters")
+	_check(overview._lobby.name == "TrophyTier3" and overview._lobby.get_node("Emblem").texture.resource_path.ends_with("tier_3000.png"),
+		"Saved score above 3000 uses the approved third trophy")
+	_check(overview._lobby.get_node("Mount").position.is_equal_approx(
+		HeadquartersArt.point(overview._catalog.data.trophy_anchor) - Vector2(24, 48 * 154.0 / 160.0)),
+		"The trophy is centered on the W29 lobby anchor")
+	for office: HeadquartersOfficeArt in overview._rooms.values():
+		_check_work_animation(office, overview._catalog.rooms[office.room_id].staff)
+	if not _output.is_empty():
+		await create_timer(0.55).timeout
+	await _capture("staff-at-work")
+	var current := overview._rooms[&"room.control_room"]
+	overview.hide()
+	_check(not current.player.active, "Hidden Headquarters pauses its Work animations")
+	overview.show()
+	_check(current.player.active, "Visible Headquarters resumes Work playback")
+	current.notification(Node.NOTIFICATION_APPLICATION_PAUSED)
+	_check(not current.player.active, "App pause suspends staff")
+	current.notification(Node.NOTIFICATION_APPLICATION_RESUMED)
+	_check(current.player.active, "App resume restores visible staff playback")
+	app.presentation.values.text = 130
+	app._restyle()
+	await _layout_frames()
+	_assert_layout(overview)
+	await _capture("developed-headquarters-130-percent")
+	var last_size := root.size
+	if _output.is_empty():
+		root.size = Vector2i(1280, 720)
+		await _layout_frames()
+		_assert_layout(overview)
+	for room in CampaignProgress.HEADQUARTERS.rooms:
+		var page := await _tap_room(app, room.id)
+		if page == null:
+			break
+		var actual: CampaignProgress = app._campaign_progress
+		_check(page._status.text == "Level %d of 5" % actual.room_level(room.id) and page._art.room_id == room.id,
+			"Room page keeps the saved level and the selected artwork for %s" % room.label)
+		if room.id in [HeadquartersCatalog.ECOLOGY, HeadquartersCatalog.OUTREACH]:
+			_check(page._purchase.disabled and "Requires" in page._requirement.text, "%s retains the participation gate" % room.label)
+		if room.id in [&"room.control_room", &"room.records", &"room.r_d_crisis"]:
+			await _capture(String(room.id).get_slice(".", 1) + "-detail")
+		if page._activity != null and page._activity.visible:
+			var target := _activity_route(room)
+			page._activity.pressed.emit()
+			_check(app._route == target, "%s opens its existing activity" % room.label)
+			app._go_back()
+			page = app._screen as HeadquartersRoomPage
+		page.back_requested.emit()
+		await _layout_frames()
+	root.size = last_size
+	await _layout_frames()
+	_button(app, "HeadquartersChaos").pressed.emit()
+	_check(app._route == &"chaos_routes", "The registered lobby control opens Rainforest Chaos")
+	app._go_back()
+	_check(app._screen is HeadquartersOverview and app._screen._lobby.name == "TrophyTier3",
+		"Returning from Chaos reconstructs the living lobby from the same saved score")
+	await _layout_frames()
+	await _capture("trophy-lobby", Rect2(app._screen._lobby.get_node("Mount").get_global_transform_with_canvas().origin - Vector2(80, 35), Vector2(275, 126)))
+	await _scrolled_touch(app)
+	app.free()
+	await process_frame
+	for score in [999, 1000, 2000, 3000]:
+		fixture.chaos.personal_best = score
+		ProfileFile.replace(_path, fixture, false)
+		app = _launcher()
+		overview = await _open_headquarters(app)
+		var tier := ChaosScore.tier(score)
+		_check(overview._lobby.name == "TrophyTier%d" % tier and (tier == 0 or
+			overview._lobby.get_node("Emblem").texture.resource_path.ends_with("tier_%d.png" % score)),
+			"Reload shows the existing trophy tier at %d" % score)
+		app.free()
+		await process_frame
+
+func _assert_layout(overview: HeadquartersOverview) -> void:
+	for id: StringName in overview._rooms:
+		var button: Button = overview.find_child("Room_" + String(id).get_slice(".", 1), true, false)
+		var office := overview._rooms[id]
+		var hitbox := button.get_global_rect()
+		var canonical := HeadquartersArt.rectangle(overview._catalog.rooms[id].rect)
+		var art_bounds := overview._shell.get_global_transform() * canonical
+		var status: Label = button.find_child("RoomLevel", true, false)
+		_check(hitbox.is_equal_approx(art_bounds) and hitbox.is_equal_approx(office.get_global_rect())
+			and overview.get_global_rect().encloses(hitbox) and status.get_line_count() == 1,
+			"%s keeps a registered, readable hit area" % id)
+
+func _check_work_animation(office: HeadquartersOfficeArt, meta: Dictionary) -> void:
+	var player := office.player
+	var staff := office.staff
+	var path := "Facing/Skeleton/"
+	var hand: Bone2D = staff.get_node(path + "torso/hand")
+	var feet: Bone2D = staff.get_node(path + "legs")
+	var duration := player.current_animation_length
+	player.seek(0.0, true)
+	var stable := feet.transform
+	player.advance(duration * 0.25)
+	var pose := hand.rotation
+	player.advance(duration * 0.80)
+	_check(absf(pose) > 0.01 and player.current_animation_position < duration * 0.1
+		and feet.transform.is_equal_approx(stable) and staff.position == HeadquartersArt.point(meta.anchor_in_room)
+		and staff.scale == Vector2.ONE * float(meta.scale) and office.stage.get_node("RoomFront").z_index > hand.z_index,
+		"%s works in a loop behind its foreground with feet planted" % office.room_id)
+
+func _scrolled_touch(app: Control) -> void:
+	var overview := app._screen as HeadquartersOverview
+	overview.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	overview.size = Vector2(780, 396)
+	await _layout_frames()
+	var destination := _button(app, "Room_r_d_crisis")
+	overview._scroll.ensure_control_visible(destination)
+	await _layout_frames()
+	_check(overview._scroll.scroll_vertical > 0 and overview._scroll.get_global_rect().has_point(destination.get_global_rect().get_center()),
+		"A constrained Headquarters scrolls the registered room into reach")
+	await _tap_room(app, &"room.r_d_crisis")
+
+func _open_headquarters(app: Control) -> HeadquartersOverview:
+	app._screen.get_node("%OpenHeadquarters").pressed.emit()
+	await _layout_frames()
+	return app._screen as HeadquartersOverview
+
+func _layout_frames() -> void:
+	await process_frame
+	await process_frame
+
+func _tap_room(app: Control, id: StringName) -> HeadquartersRoomPage:
+	var button := _button(app, "Room_" + String(id).get_slice(".", 1))
+	var point := button.get_global_transform_with_canvas() * (button.size * 0.5)
+	for pressed in [true, false]:
+		var touch := InputEventScreenTouch.new()
+		touch.position = point
+		touch.pressed = pressed
+		root.push_input(touch, true)
+	Input.flush_buffered_events()
+	await _layout_frames()
+	var page := app._screen as HeadquartersRoomPage
+	_check(page != null and page.definition.id == id, "Touch inside %s opens the right department" % id)
+	return page
+
+func _activity_route(room: HeadquartersRoom) -> StringName:
+	match room.role:
+		HeadquartersRoom.Role.CONTROL:
+			return &"story"
+		HeadquartersRoom.Role.HR, HeadquartersRoom.Role.MECHANICAL:
+			return &"hq_roster"
+		HeadquartersRoom.Role.ECOLOGY:
+			return &"hq_garden"
+		HeadquartersRoom.Role.OUTREACH:
+			return &"outreach"
+		_:
+			return &"records"
+
+func _capture(name: String, bounds := Rect2()) -> void:
+	if _output.is_empty():
+		return
+	await RenderingServer.frame_post_draw
+	var frame := root.get_texture().get_image()
+	if bounds.has_area():
+		var display := Vector2(frame.get_size()) / root.get_visible_rect().size
+		frame = frame.get_region(Rect2i(bounds.position * display, bounds.size * display))
+	_check(frame.save_png(_output.path_join(name + ".png")) == OK, "Captured " + name)
 
 func _overflow_and_garden() -> void:
 	var fixture := CampaignSave.fresh()

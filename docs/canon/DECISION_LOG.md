@@ -300,3 +300,7 @@ C1-02 uses the reviewed W29 E02 v0.3 rig and Intel badge on Godot `4.7.2.stable.
 ## D-012 and D-014 C28-C runtime binding and Developer Funds — 2026-11-24
 
 C1-03 binds the reviewed W29 Runner, Combat Medic, Sonic Turret and messenger visuals to the existing combat and dialogue events. The messenger remains a noncombat presentation event after wave two. The owner requested Developer Funds in Settings. Adjustments change the existing local wallet within 0–9,999,999 and save through the profile writer. The mission's unapproved award values remain pending. Godot `4.7.2.stable.official.ed1daf0bf` and `4.7.2.stable` templates were used for the capture and ARM64 export. ADB listed no phone. [Verification and device procedure](../qa/C28_C_NARROW_ESCAPE.md)
+
+## D-014 C29 Headquarters presentation — 2026-11-24
+
+The W29 HQ manifest controls the visual registrations for the live building and department inserts. Existing saved room levels and Chaos tier control their appearance. The shared artwork and hitbox scale can scroll to retain the touch minimum, and Work loops pause outside active viewing. Godot `4.7.2.stable.official.ed1daf0bf` and matching templates produced the PC evidence and debug APK. Physical Android checks remain open. [HQ evidence](../qa/C29_HEADQUARTERS_VISUALS.md)
