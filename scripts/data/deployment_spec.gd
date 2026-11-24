@@ -33,5 +33,8 @@ func reserved(anchor: Vector2i) -> Array[Vector2i]:
 func is_ranger() -> bool:
 	return kind != Kind.FACILITY_PAIR and kind != Kind.SENTRY
 
-func is_melee() -> bool:
+func uses_ground() -> bool:
 	return kind == Kind.GROUND or kind == Kind.GROUND_PAIR
+
+func is_melee() -> bool:
+	return uses_ground()

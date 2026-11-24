@@ -195,7 +195,7 @@ func _update_campaign_tip() -> void:
 		"starter_post_available": deployment.posts_deployed == 0,
 		"can_afford_selected_ranger": not _placed_ranger and %DeploymentController.can_afford_ranger(),
 		"first_ranger_placed": _placed_ranger,
-		"first_ground_ranger_selected": selected != null and selected.is_melee(),
+		"first_ground_ranger_selected": selected != null and selected.uses_ground(),
 		"first_elevated_ranger_selected": selected != null and selected.kind == DeploymentSpec.Kind.ELEVATED,
 		"first_combat_escape": battle.escaped > 0,
 		"first_ranger_skill_ready": skill_ready,

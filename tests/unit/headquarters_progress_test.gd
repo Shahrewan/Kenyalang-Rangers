@@ -164,7 +164,7 @@ func _leveling() -> void:
 	var content := CampaignContent.new()
 	var plan := OperationPlan.new(content.operation(&"C1-02"), [])
 	plan.configure_campaign(profile)
-	_check(plan.ranger_limit == 8 and plan.facility_limit == 6 and plan.selected_count(true) == 7 and plan.selected_count(false) == 6, "Planning consumes HQ limits while pending kits stay out of the field roster")
+	_check(plan.ranger_limit == 8 and plan.facility_limit == 6 and plan.selected_count(true) == 8 and plan.selected_count(false) == 6, "Planning applies HQ slot limits with all twelve field kits available")
 	var chosen := plan.deployment_entries().filter(func(spec: DeploymentSpec) -> bool: return spec.logistics_post)
 	var post := chosen[0] as FacilitySpec
 	var state := DeploymentState.new(plan.operation.stage.map, CombatClock.new(), 0, plan.operation.opening_rules)

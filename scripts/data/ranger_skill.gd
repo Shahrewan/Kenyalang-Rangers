@@ -1,7 +1,7 @@
 class_name RangerSkill
 extends Resource
 
-enum Effect { FOCUS, EMP_FIELD, FRONTAL_STUN, SCAN, TREATMENT }
+enum Effect { FOCUS, EMP_FIELD, FRONTAL_STUN, SCAN, TREATMENT, HOWL }
 
 @export var label: String
 @export var effect: Effect

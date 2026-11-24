@@ -18,10 +18,6 @@ func _run() -> void:
 			_facility(spec)
 		else:
 			_ranger(spec)
-	for id: StringName in _catalog.catalog.actors:
-		if String(id).begins_with("ranger.") and not _content.has_combat_kit(id):
-			_check(_catalog.badge(id) != null and _catalog.rig(_catalog.actor(id)) != null,
-				String(id) + " has approved art and remains outside the field roster")
 	print("Campaign visual bindings: %d checks, %d failures" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
 
@@ -36,7 +32,7 @@ func _check_registrations() -> void:
 	for effect: String in _catalog.registration.effects:
 		_check(_catalog.effect(effect) != null, "Loads W29 effect " + effect)
 	_check(_catalog.rig(_catalog.actor(&"companion.k9_ranger.dog")) != null,
-		"The K9 companion asset is packaged for the pending K9 field kit")
+		"The approved K9 companion resource is packaged")
 	_check(_catalog.load_art(_catalog.catalog.heat_meter, "PackedScene") != null, "Loads the Heat HUD scene")
 	for id: String in _catalog.registration.facilities:
 		var facility := _catalog.facility_layout(id)
@@ -56,7 +52,7 @@ func _make_board() -> BattleBoard:
 	return board
 
 func _placement(board: BattleBoard, spec: DeploymentSpec) -> Vector2i:
-	var options := board.battle_map.ground if spec.is_melee() else board.battle_map.elevated
+	var options := board.battle_map.ground if spec.uses_ground() else board.battle_map.elevated
 	for cell: Vector2i in options:
 		if board.deployments.placement_error(spec, cell).is_empty():
 			return cell
@@ -129,10 +125,20 @@ func _ranger(spec: DeploymentSpec) -> void:
 		board.battle.clock.advance_frame()
 		_check(actor.phase == phase, spec.label + " Deploy pose holds during dialogue")
 		board.battle.clock.dialogue_open = false
+		if actor.unit.arrival_tick > 0:
+			for tick in actor.unit.arrival_tick - board.battle.clock.tick:
+				board.battle.clock.advance_frame()
+			_check(actor.clip == &"Deploy" and actor.unit.arrival_tick == 0, spec.label + " plays the approved arrival pose after the combat delay")
+		if spec.id == &"ranger.k9_ranger":
+			_check(actor.companion != null and actor.companion.get_parent() == actor.facing
+				and actor.companion.position == Vector2(26, 0) and actor.howl_socket != null,
+				"K9 companion attaches to the mirrored parent at its registered offset")
 		board.deployments.receive_hit(spec.id, 1, EnemyAttackProfile.Kind.RANGED)
 		_check(actor.clip == &"Hit", spec.label + " animates accepted damage")
 		board.deployments.retreat(spec.id)
 		_check(actor.clip == &"Retreat" and actor.terminal, spec.label + " animates retreat after removal")
+		if actor.companion != null:
+			_check(actor.companion.player.assigned_animation == &"Move", "K9 companion plays its approved withdrawal clip")
 	board.free()
 
 func _check(ok: bool, message: String) -> void:

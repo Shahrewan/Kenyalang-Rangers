@@ -37,8 +37,6 @@ func _ready() -> void:
 	_current = StoryUI.label("", 22, StoryUI.INK)
 	current.add_child(_current)
 	current.add_child(StoryUI.label(_footprint(), 19, StoryUI.INK))
-	if DeployableLevels.pending_kit(definition.id):
-		current.add_child(StoryUI.label("Combat kit pending", 18, StoryUI.INK))
 	if definition.growth == null:
 		var pending := "Other stat growth values await review." if definition.logistics_post else "Stat growth values await review."
 		current.add_child(StoryUI.label(pending, 18, StoryUI.INK))

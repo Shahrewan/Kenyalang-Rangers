@@ -18,7 +18,15 @@ signal boss_captured(id: int)
 
 enum Outcome { RUNNING, WON, LOST }
 
-var deployment: DeploymentState
+var deployment: DeploymentState:
+	set(state):
+		if deployment != null:
+			deployment.ranger_committed.disconnect(_ranger_committed)
+			deployment.ranger_withdrew.disconnect(_ranger_withdrew)
+		deployment = state
+		if state != null:
+			state.ranger_committed.connect(_ranger_committed)
+			state.ranger_withdrew.connect(_ranger_withdrew)
 var clock := CombatClock.new()
 var effects: BattleModifiers
 var integrity := 100
@@ -214,6 +222,10 @@ func _step(tick: int, seconds: float) -> void:
 			_register_enemy(arrived.enemy, arrived.route, tick, true)
 	if not clock.is_running():
 		return
+	if deployment != null:
+		ranger_combat.advance_kits(deployment, tick)
+		if not clock.is_running():
+			return
 	for enemy: BattleEnemy in active.values():
 		_enemy_abilities.advance(enemy, deployment, facility_combat, tick)
 	if deployment != null:
@@ -234,6 +246,12 @@ func _step(tick: int, seconds: float) -> void:
 				if not clock.is_running():
 					return
 	_try_finish_wave(tick)
+
+func _ranger_committed(unit: DeploymentState.Placement) -> void:
+	ranger_combat.committed(unit)
+
+func _ranger_withdrew(unit: DeploymentState.Placement) -> void:
+	ranger_combat.withdrew(unit, deployment)
 
 func _advance_boss_phases(tick: int) -> void:
 	for id: int in _boss_combat.active.keys():
@@ -274,7 +292,7 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	var blocker: StringName
 	for id: StringName in deployment.placed:
 		var unit := deployment.placed[id]
-		if tick < unit.knocked_down_until or unit.spec.block_capacity <= int(block_counts.get(id, 0)):
+		if unit.arrival_tick > 0 or tick < unit.knocked_down_until or unit.spec.block_capacity <= int(block_counts.get(id, 0)):
 			continue
 		for tile in unit.spec.footprint(unit.anchor):
 			var route_index := enemy.route.cells.find(tile)
@@ -289,7 +307,7 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	if not blocker.is_empty():
 		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
 		deployment.placed[blocker].blocking_count = block_counts[blocker]
-		if enemy.definition.attack_profile == null and tick >= enemy.next_attack_tick and tick >= enemy.stunned_until:
+		if enemy.definition.attack_profile == null and tick >= enemy.next_attack_tick and tick >= maxi(enemy.stunned_until, enemy.tech_interference_until):
 			_receive_enemy_hit(enemy, blocker, EnemyAttackProfile.Kind.MELEE)
 			enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
 	return enemy.advance(seconds, stop_at)
