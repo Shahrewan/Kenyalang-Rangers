@@ -1,0 +1,707 @@
+{
+  "kind": "outreach",
+  "schema_version": 1,
+  "content_revision": 2,
+  "editorial_status": "approved",
+  "locale": "en-MY",
+  "refresh_hours": 20,
+  "max_questions_per_batch": 5,
+  "shuffle_choices": true,
+  "payout_status": "provisional",
+  "questions": [
+    {
+      "id": "outreach.nest_map",
+      "topic": "nest_privacy",
+      "prompt": "The HQ exhibit needs a map. The draft marks an active hornbill nest. What do you send to print?",
+      "source_ids": [
+        "source.nest_privacy",
+        "source.birding_ethics"
+      ],
+      "choices": [
+        {
+          "id": "outreach.nest_map.species_panel",
+          "text": "Print a species panel and leave the map out.",
+          "grade": "acceptable",
+          "justification": "The nest stays private. Visitors lose the chance to learn about the wider habitat."
+        },
+        {
+          "id": "outreach.nest_map.delay_panel",
+          "text": "Hold the whole exhibit while looking for a different photo.",
+          "grade": "poor",
+          "justification": "Waiting avoids disclosure, but a safe map or text panel could open now."
+        },
+        {
+          "id": "outreach.nest_map.publish_pin",
+          "text": "Print the active nest marker so visitors can find it.",
+          "grade": "harmful",
+          "justification": "A public marker makes disturbance at the nest more likely."
+        },
+        {
+          "id": "outreach.nest_map.habitat_map",
+          "text": "Print a habitat overview with the nest and access clues removed.",
+          "grade": "best",
+          "justification": "A broad habitat map teaches visitors while keeping the active nest private."
+        }
+      ]
+    },
+    {
+      "id": "outreach.nest_photo",
+      "topic": "nest_privacy",
+      "prompt": "A school sends a hornbill photo for the noticeboard. The caption and image reveal how to find its nest. What do you post?",
+      "source_ids": [
+        "source.nest_privacy",
+        "source.birding_ethics"
+      ],
+      "choices": [
+        {
+          "id": "outreach.nest_photo.use_safe_image",
+          "text": "Ask for a photo with no location clues and use a habitat caption.",
+          "grade": "best",
+          "justification": "Removing identifying clues from both the image and caption helps keep the nest private."
+        },
+        {
+          "id": "outreach.nest_photo.publish_original",
+          "text": "Post the original image and caption to credit the class.",
+          "grade": "harmful",
+          "justification": "Crediting the class does not make the nest clues safe to publish."
+        },
+        {
+          "id": "outreach.nest_photo.skip_feedback",
+          "text": "Leave the photo out and give the class no feedback.",
+          "grade": "poor",
+          "justification": "The location stays private, but the class misses a chance to learn how to share safely."
+        },
+        {
+          "id": "outreach.nest_photo.text_only",
+          "text": "Use a text-only note about hornbills.",
+          "grade": "acceptable",
+          "justification": "A general note avoids exposing the nest, with less context for the school's contribution."
+        }
+      ]
+    },
+    {
+      "id": "outreach.nest_interview",
+      "topic": "nest_privacy",
+      "prompt": "A radio presenter wants a live interview at an active nest. What can the Manager offer?",
+      "source_ids": [
+        "source.nest_privacy",
+        "source.birding_ethics"
+      ],
+      "choices": [
+        {
+          "id": "outreach.nest_interview.broadcast_nest",
+          "text": "Broadcast from the nest and describe how to reach it.",
+          "grade": "harmful",
+          "justification": "Public directions expose an active nest to disturbance well beyond the interview."
+        },
+        {
+          "id": "outreach.nest_interview.decline_press",
+          "text": "Decline the interview without an explanation.",
+          "grade": "poor",
+          "justification": "Declining keeps the location private and leaves a useful public question unanswered."
+        },
+        {
+          "id": "outreach.nest_interview.phone_interview",
+          "text": "Offer a phone interview about hornbill habitat.",
+          "grade": "acceptable",
+          "justification": "The interview can go ahead without revealing the site, though listeners may still ask why."
+        },
+        {
+          "id": "outreach.nest_interview.visitor_centre",
+          "text": "Record at the visitor centre and explain why nest sites stay private.",
+          "grade": "best",
+          "justification": "A public venue gives the station a story without bringing an audience to the nest."
+        }
+      ]
+    },
+    {
+      "id": "outreach.injured_bird",
+      "topic": "wildlife_rescue",
+      "prompt": "A visitor reports an injured wild bird beside a Sarawak park car park. What should the Manager tell them?",
+      "source_ids": [
+        "source.sfc_wildlife_faq",
+        "source.wildlife_distance"
+      ],
+      "choices": [
+        {
+          "id": "outreach.injured_bird.take_home",
+          "text": "Ask the visitor to take the bird home and see how it does.",
+          "grade": "harmful",
+          "justification": "Untrained handling can harm the animal and put the visitor at risk."
+        },
+        {
+          "id": "outreach.injured_bird.wait_shift",
+          "text": "Write it down for a routine update at the next shift.",
+          "grade": "poor",
+          "justification": "A delayed note gives responders less time to assess a potentially injured bird."
+        },
+        {
+          "id": "outreach.injured_bird.report_privately",
+          "text": "Keep people back and privately tell park staff what you saw and where.",
+          "grade": "best",
+          "justification": "Staff can assess the report and arrange help while people and the bird keep their distance."
+        },
+        {
+          "id": "outreach.injured_bird.alert_desk",
+          "text": "Give the visitor directions to the park desk so they can report it.",
+          "grade": "acceptable",
+          "justification": "The desk can help route the report. Guidance for the people already gathering is still needed."
+        }
+      ]
+    },
+    {
+      "id": "outreach.rescue_after_hours",
+      "topic": "wildlife_rescue",
+      "prompt": "A reported wildlife injury comes in after the visitor desk closes. No Ranger is there yet. What should the Manager do?",
+      "source_ids": [
+        "source.sfc_wildlife_faq",
+        "source.wildlife_distance"
+      ],
+      "choices": [
+        {
+          "id": "outreach.rescue_after_hours.open_tomorrow",
+          "text": "Send the caller the visitor desk's opening hours.",
+          "grade": "poor",
+          "justification": "Opening hours do not provide a way to get the wildlife report assessed now."
+        },
+        {
+          "id": "outreach.rescue_after_hours.official_channel",
+          "text": "Use the official wildlife reporting channel and ask callers to keep clear.",
+          "grade": "best",
+          "justification": "The appropriate team gets a timely report without asking visitors to approach the animal."
+        },
+        {
+          "id": "outreach.rescue_after_hours.refer_channel",
+          "text": "Refer the caller to the official wildlife reporting channel.",
+          "grade": "acceptable",
+          "justification": "That reaches the appropriate team, though it leaves the caller to pass on the report."
+        },
+        {
+          "id": "outreach.rescue_after_hours.crowd_rescue",
+          "text": "Ask the public to gather and move the animal before staff arrive.",
+          "grade": "harmful",
+          "justification": "A crowd and untrained handling add risks to the animal and bystanders."
+        }
+      ]
+    },
+    {
+      "id": "outreach.young_bird_video",
+      "topic": "wildlife_rescue",
+      "prompt": "A clip shows a feathered young bird on the ground with no adult in frame. The post calls it abandoned. What do you say?",
+      "source_ids": [
+        "source.fledgling_care",
+        "source.sfc_wildlife_faq"
+      ],
+      "choices": [
+        {
+          "id": "outreach.young_bird_video.seek_guidance",
+          "text": "Ask the park team for advice before repeating the claim.",
+          "grade": "acceptable",
+          "justification": "This avoids a premature diagnosis. A public reply could also stop others acting on the clip."
+        },
+        {
+          "id": "outreach.young_bird_video.ask_qualified_assessment",
+          "text": "Explain that the clip cannot establish abandonment. Refer injury concerns to staff.",
+          "grade": "best",
+          "justification": "A young bird out of its nest can still receive parental care. Qualified staff can assess concerns."
+        },
+        {
+          "id": "outreach.young_bird_video.leave_unanswered",
+          "text": "Share a general bird photo with no reply to the report.",
+          "grade": "poor",
+          "justification": "A general photo does not resolve the concern or help visitors report an injury."
+        },
+        {
+          "id": "outreach.young_bird_video.encourage_pickup",
+          "text": "Tell viewers to collect any young bird they find alone.",
+          "grade": "harmful",
+          "justification": "Being alone in a short clip does not establish abandonment. Collection can disrupt care."
+        }
+      ]
+    },
+    {
+      "id": "outreach.old_flood_photo",
+      "topic": "misinformation",
+      "prompt": "An old flood photo is being shared as proof that today's park entrance is closed. What should Outreach publish?",
+      "source_ids": [
+        "source.media_verification"
+      ],
+      "choices": [
+        {
+          "id": "outreach.old_flood_photo.verify_status",
+          "text": "Check the photo date and park notice, then post the confirmed access status.",
+          "grade": "best",
+          "justification": "Date and source checks distinguish an old image from a current closure."
+        },
+        {
+          "id": "outreach.old_flood_photo.repeat_claim",
+          "text": "Share the photo as a current closure notice.",
+          "grade": "harmful",
+          "justification": "Passing on an unverified old photo can misdirect visitors."
+        },
+        {
+          "id": "outreach.old_flood_photo.vague_update",
+          "text": "Post that weather can affect access, with no update on the entrance.",
+          "grade": "poor",
+          "justification": "The statement is true but leaves the claim and the access question unresolved."
+        },
+        {
+          "id": "outreach.old_flood_photo.link_notice",
+          "text": "Link the park's current access notice and omit the photo.",
+          "grade": "acceptable",
+          "justification": "Visitors get a current source. A short correction would also explain the misleading image."
+        }
+      ]
+    },
+    {
+      "id": "outreach.unconfirmed_rumour",
+      "topic": "misinformation",
+      "prompt": "A forwarded message names a village as responsible for wildlife theft. No report verifies it. What goes in the public update?",
+      "source_ids": [
+        "source.media_verification",
+        "source.sfc_wildlife_faq"
+      ],
+      "choices": [
+        {
+          "id": "outreach.unconfirmed_rumour.post_generic",
+          "text": "Post a general conservation slogan and leave the claim unanswered.",
+          "grade": "poor",
+          "justification": "The post avoids amplifying the claim, but does not tell readers what can be verified."
+        },
+        {
+          "id": "outreach.unconfirmed_rumour.name_village",
+          "text": "Name the village in a warning as if the accusation were confirmed.",
+          "grade": "harmful",
+          "justification": "An unsupported accusation can harm residents and mislead the public."
+        },
+        {
+          "id": "outreach.unconfirmed_rumour.official_updates",
+          "text": "Say the claim is unverified and direct readers to official updates.",
+          "grade": "acceptable",
+          "justification": "This limits repetition. Passing the underlying tip to the right staff would help check it."
+        },
+        {
+          "id": "outreach.unconfirmed_rumour.separate_evidence",
+          "text": "State what staff have verified and send the tip privately for assessment.",
+          "grade": "best",
+          "justification": "A private report keeps an unverified accusation out of the public statement and permits follow-up."
+        }
+      ]
+    },
+    {
+      "id": "outreach.correct_poster",
+      "topic": "misinformation",
+      "prompt": "HQ publicly shared last month's trail notice by mistake. What should the Manager do after confirming the current notice?",
+      "source_ids": [
+        "source.media_verification"
+      ],
+      "choices": [
+        {
+          "id": "outreach.correct_poster.delete_only",
+          "text": "Delete the old post and leave the page without an update.",
+          "grade": "poor",
+          "justification": "Deletion stops fresh views of the error but gives visitors no current access information."
+        },
+        {
+          "id": "outreach.correct_poster.replace_and_link",
+          "text": "Replace the poster with a link to the confirmed notice.",
+          "grade": "acceptable",
+          "justification": "The HQ page is now accurate. People who saw the original may miss the change."
+        },
+        {
+          "id": "outreach.correct_poster.visible_correction",
+          "text": "Publish a dated correction and share the confirmed notice where the error spread.",
+          "grade": "best",
+          "justification": "People who saw the first update can see both the correction and its verified source."
+        },
+        {
+          "id": "outreach.correct_poster.hide_date",
+          "text": "Keep sharing the old notice with the date cropped out.",
+          "grade": "harmful",
+          "justification": "Removing context makes the stale information easier to mistake for a current notice."
+        }
+      ]
+    },
+    {
+      "id": "outreach.funding_progress",
+      "topic": "donor_transparency",
+      "prompt": "A supporter asks how many saplings the weekend appeal funded. Some are ordered and others are planted. What do you report?",
+      "source_ids": [
+        "source.fundraising_records",
+        "source.media_verification"
+      ],
+      "choices": [
+        {
+          "id": "outreach.funding_progress.report_confirmed",
+          "text": "Share the confirmed planting count and promise an update on orders.",
+          "grade": "acceptable",
+          "justification": "The published planting figure is reliable. The order status remains to be explained."
+        },
+        {
+          "id": "outreach.funding_progress.report_by_status",
+          "text": "Share verified figures and label ordered and planted saplings separately.",
+          "grade": "best",
+          "justification": "Separate counts let supporters see what has happened and what is still pending."
+        },
+        {
+          "id": "outreach.funding_progress.only_thanks",
+          "text": "Send a thank-you with no progress figures.",
+          "grade": "poor",
+          "justification": "The reply acknowledges support but leaves a straightforward accountability question open."
+        },
+        {
+          "id": "outreach.funding_progress.combine_counts",
+          "text": "Report ordered and planted saplings together as already planted.",
+          "grade": "harmful",
+          "justification": "That gives supporters a false count of completed work."
+        }
+      ]
+    },
+    {
+      "id": "outreach.specific_appeal",
+      "topic": "donor_transparency",
+      "prompt": "Donations were requested for seedling supplies. HQ now wants to use part for event banners. What should Outreach say?",
+      "source_ids": [
+        "source.fundraising_records"
+      ],
+      "choices": [
+        {
+          "id": "outreach.specific_appeal.respect_appeal",
+          "text": "Explain that the gift stays with seedlings and seek separate banner funds.",
+          "grade": "best",
+          "justification": "The reply tells supporters where the gift goes and gives HQ a separate way to fund the banners."
+        },
+        {
+          "id": "outreach.specific_appeal.fund_separately",
+          "text": "Keep the seedling funds separate and seek other funding for banners.",
+          "grade": "acceptable",
+          "justification": "This respects the appeal. A clear update would help supporters follow what happened."
+        },
+        {
+          "id": "outreach.specific_appeal.silent_transfer",
+          "text": "Buy the banners with the gift and keep reporting seedling spending.",
+          "grade": "harmful",
+          "justification": "Spending and reporting against different purposes misleads the people who gave."
+        },
+        {
+          "id": "outreach.specific_appeal.defer_update",
+          "text": "Postpone the discussion and leave supporters without an update.",
+          "grade": "poor",
+          "justification": "The funds are left untouched, but the purpose and next steps stay unclear."
+        }
+      ]
+    },
+    {
+      "id": "outreach.gift_announcement",
+      "topic": "donor_transparency",
+      "prompt": "A sponsor pledges funds for restoration. The transfer is still pending. How should a public progress report describe it?",
+      "source_ids": [
+        "source.fundraising_records",
+        "source.media_verification"
+      ],
+      "choices": [
+        {
+          "id": "outreach.gift_announcement.only_receipts",
+          "text": "Report only confirmed receipts and update after the transfer.",
+          "grade": "acceptable",
+          "justification": "The report stays accurate with less context about the pending pledge."
+        },
+        {
+          "id": "outreach.gift_announcement.distinguish_pledge",
+          "text": "Label the amount as pledged and show confirmed receipts separately.",
+          "grade": "best",
+          "justification": "Pledges and funds already received are different stages and visitors can see both."
+        },
+        {
+          "id": "outreach.gift_announcement.remove_totals",
+          "text": "Leave out all figures until next month.",
+          "grade": "poor",
+          "justification": "This avoids overstating receipts but withholds confirmed progress the team could share."
+        },
+        {
+          "id": "outreach.gift_announcement.count_pledge_paid",
+          "text": "Include the pledge in the money already received.",
+          "grade": "harmful",
+          "justification": "The report would overstate the amount of funds available."
+        }
+      ]
+    },
+    {
+      "id": "outreach.market_morning",
+      "topic": "community_needs",
+      "prompt": "A proposed clean-up clashes with a nearby community's market morning. How should the Manager arrange the volunteer day?",
+      "source_ids": [
+        "source.community_ecosystem"
+      ],
+      "choices": [
+        {
+          "id": "outreach.market_morning.small_event",
+          "text": "Reduce the volunteer group but keep the conflicting time.",
+          "grade": "poor",
+          "justification": "A smaller turnout may help, but the schedule conflict and access needs remain."
+        },
+        {
+          "id": "outreach.market_morning.move_date",
+          "text": "Postpone and ask residents for times that would work.",
+          "grade": "acceptable",
+          "justification": "Residents can give input, though park staffing and access still need to be coordinated."
+        },
+        {
+          "id": "outreach.market_morning.block_access",
+          "text": "Keep the booking and tell volunteers to take over market access.",
+          "grade": "harmful",
+          "justification": "The event would disrupt the people who rely on that access."
+        },
+        {
+          "id": "outreach.market_morning.agree_time",
+          "text": "Ask market organisers and park staff to agree on a suitable time and access plan.",
+          "grade": "best",
+          "justification": "Both groups can describe their needs before Outreach commits volunteers to a schedule."
+        }
+      ]
+    },
+    {
+      "id": "outreach.local_knowledge",
+      "topic": "community_needs",
+      "prompt": "Residents explain a local conservation practice at a meeting. The team wants to feature their account. What happens before publication?",
+      "source_ids": [
+        "source.community_knowledge"
+      ],
+      "choices": [
+        {
+          "id": "outreach.local_knowledge.generic_summary",
+          "text": "Share general conservation advice without using the residents' account.",
+          "grade": "acceptable",
+          "justification": "This respects the unreleased account. A future agreed version could give the community a voice."
+        },
+        {
+          "id": "outreach.local_knowledge.ask_and_confirm",
+          "text": "Ask what can be shared and let contributors check how their account is presented.",
+          "grade": "best",
+          "justification": "The people who shared the knowledge can decide what to make public and correct misunderstandings."
+        },
+        {
+          "id": "outreach.local_knowledge.ignore_offer",
+          "text": "Leave the idea out without following up with contributors.",
+          "grade": "poor",
+          "justification": "Their account stays private, but contributors get no say in a potential joint feature."
+        },
+        {
+          "id": "outreach.local_knowledge.claim_permission",
+          "text": "Print the private discussion and claim the meeting granted permission.",
+          "grade": "harmful",
+          "justification": "Attending a discussion does not establish consent to publish what participants shared."
+        }
+      ]
+    },
+    {
+      "id": "outreach.quiet_visit",
+      "topic": "community_needs",
+      "prompt": "A field trip wants to pass through a village during a local event. The guide has no agreement from residents. What should Outreach arrange?",
+      "source_ids": [
+        "source.community_ecosystem",
+        "source.birding_ethics"
+      ],
+      "choices": [
+        {
+          "id": "outreach.quiet_visit.promise_entry",
+          "text": "Promise the group access through the village without checking permission.",
+          "grade": "harmful",
+          "justification": "The promise puts pressure on residents who have made no agreement."
+        },
+        {
+          "id": "outreach.quiet_visit.use_public_route",
+          "text": "Choose an approved public route clear of the event.",
+          "grade": "acceptable",
+          "justification": "This protects the event and offers visitors a workable outing with less shared planning."
+        },
+        {
+          "id": "outreach.quiet_visit.coordinate_visit",
+          "text": "Ask local organisers about access and agree on an alternative if needed.",
+          "grade": "best",
+          "justification": "People hosting the event can explain what access works before visitors arrive."
+        },
+        {
+          "id": "outreach.quiet_visit.hold_trip",
+          "text": "Cancel the visit without seeking another date or route.",
+          "grade": "poor",
+          "justification": "Cancellation avoids a conflict but misses a chance to arrange a suitable visit."
+        }
+      ]
+    },
+    {
+      "id": "outreach.feeding_request",
+      "topic": "responsible_tourism",
+      "prompt": "Visitors want to leave snacks so wildlife comes closer for a family photo. What should the Manager offer?",
+      "source_ids": [
+        "source.malaysia_wildlife_feeding",
+        "source.food_conditioning"
+      ],
+      "choices": [
+        {
+          "id": "outreach.feeding_request.watch_naturally",
+          "text": "Explain why feeding is harmful and suggest watching quietly from a distance.",
+          "grade": "best",
+          "justification": "Visitors can see natural behaviour and avoid drawing animals toward people or human food."
+        },
+        {
+          "id": "outreach.feeding_request.remind_no_feeding",
+          "text": "Remind the group to keep food packed away.",
+          "grade": "acceptable",
+          "justification": "That prevents feeding. A safe observation option would also answer the photo request."
+        },
+        {
+          "id": "outreach.feeding_request.allow_feeding",
+          "text": "Let the group feed wildlife to get the photograph.",
+          "grade": "harmful",
+          "justification": "Feeding encourages wild animals to approach people and can harm the animals."
+        },
+        {
+          "id": "outreach.feeding_request.change_subject",
+          "text": "Move on to the next activity without answering their request.",
+          "grade": "poor",
+          "justification": "Changing the subject leaves the group with no guidance about trying it later."
+        }
+      ]
+    },
+    {
+      "id": "outreach.closeup_booking",
+      "topic": "responsible_tourism",
+      "prompt": "A tour operator asks HQ to promise a close-up encounter with nesting hornbills. What should the booking description say?",
+      "source_ids": [
+        "source.birding_ethics",
+        "source.nest_privacy"
+      ],
+      "choices": [
+        {
+          "id": "outreach.closeup_booking.cancel_closeup",
+          "text": "Decline the close-up request and share the park's birdwatching guidance.",
+          "grade": "acceptable",
+          "justification": "The guidance protects the birds, though the operator has no replacement activity yet."
+        },
+        {
+          "id": "outreach.closeup_booking.vague_listing",
+          "text": "List a birdwatching trip without addressing the close-up request.",
+          "grade": "poor",
+          "justification": "The listing avoids a promise, but the operator may still expect close access."
+        },
+        {
+          "id": "outreach.closeup_booking.promise_nest_tour",
+          "text": "Advertise a guaranteed close approach to nesting birds.",
+          "grade": "harmful",
+          "justification": "A guaranteed close encounter pressures the guide to disturb the birds."
+        },
+        {
+          "id": "outreach.closeup_booking.habitat_walk",
+          "text": "Offer a quiet habitat walk and explain that close encounters are never promised.",
+          "grade": "best",
+          "justification": "The tour sets realistic expectations and protects birds from pressure around active nests."
+        }
+      ]
+    },
+    {
+      "id": "outreach.litter_picnic",
+      "topic": "responsible_tourism",
+      "prompt": "A picnic group leaves food scraps at a lookout so animals can eat them. What should Outreach tell the group?",
+      "source_ids": [
+        "source.malaysia_wildlife_feeding",
+        "source.food_conditioning"
+      ],
+      "choices": [
+        {
+          "id": "outreach.litter_picnic.pack_scraps",
+          "text": "Ask them to pack out leftovers and explain that scraps attract wildlife to visitors.",
+          "grade": "best",
+          "justification": "Taking scraps away keeps food out of reach and reduces wildlife attraction to busy areas."
+        },
+        {
+          "id": "outreach.litter_picnic.only_wrappers",
+          "text": "Remind them only to collect their plastic wrappers.",
+          "grade": "poor",
+          "justification": "Removing wrappers helps, but edible leftovers can still draw wildlife toward people."
+        },
+        {
+          "id": "outreach.litter_picnic.pack_group_litter",
+          "text": "Ask the group to take all their rubbish and leftovers away.",
+          "grade": "acceptable",
+          "justification": "It addresses the scraps. Explaining the wildlife risk may help the group remember next time."
+        },
+        {
+          "id": "outreach.litter_picnic.leave_food",
+          "text": "Tell the group that leaving edible leftovers helps wild animals.",
+          "grade": "harmful",
+          "justification": "Leftover food encourages wildlife to seek food around people."
+        }
+      ]
+    },
+    {
+      "id": "outreach.storm_detour",
+      "topic": "trail_access",
+      "prompt": "Park staff close a trail after a storm. A visitor asks HQ to suggest a shortcut around the closure. What should you offer?",
+      "source_ids": [
+        "source.birding_ethics"
+      ],
+      "choices": [
+        {
+          "id": "outreach.storm_detour.unmarked_shortcut",
+          "text": "Recommend leaving the trail to get around the closed section.",
+          "grade": "harmful",
+          "justification": "That bypasses the park's safety decision and can damage habitat off the path."
+        },
+        {
+          "id": "outreach.storm_detour.repeat_old_map",
+          "text": "Share only a general park map with no current access notes.",
+          "grade": "poor",
+          "justification": "The map does not answer which route is open today."
+        },
+        {
+          "id": "outreach.storm_detour.approved_detour",
+          "text": "Confirm an open route with staff and post the closure alongside it.",
+          "grade": "best",
+          "justification": "Visitors get a usable option that respects the closure and keeps them on authorised paths."
+        },
+        {
+          "id": "outreach.storm_detour.respect_closure",
+          "text": "Ask visitors to keep the closure and check with the park desk.",
+          "grade": "acceptable",
+          "justification": "The closure is respected. A confirmed alternative would be easier for visitors to use."
+        }
+      ]
+    },
+    {
+      "id": "outreach.trail_group",
+      "topic": "trail_access",
+      "prompt": "A student group arrives at a route reserved for park work. The approved visitor path is open. How should the Manager redirect them?",
+      "source_ids": [
+        "source.birding_ethics",
+        "source.community_ecosystem"
+      ],
+      "choices": [
+        {
+          "id": "outreach.trail_group.leave_unsettled",
+          "text": "Post the activity time again without giving an entry point.",
+          "grade": "poor",
+          "justification": "The update gives the group no way to choose the correct route."
+        },
+        {
+          "id": "outreach.trail_group.ignore_barrier",
+          "text": "Let the group enter the work route while staff are busy.",
+          "grade": "harmful",
+          "justification": "Unauthorised access can interrupt park work and expose visitors to hazards."
+        },
+        {
+          "id": "outreach.trail_group.guide_open_path",
+          "text": "Explain the restriction and start the activity from the approved visitor path.",
+          "grade": "best",
+          "justification": "The group can still participate while respecting the park team's work and the route restriction."
+        },
+        {
+          "id": "outreach.trail_group.meet_at_desk",
+          "text": "Ask the group to return to the park desk for route guidance.",
+          "grade": "acceptable",
+          "justification": "Staff can redirect them safely, with a delay to the activity."
+        }
+      ]
+    }
+  ]
+}

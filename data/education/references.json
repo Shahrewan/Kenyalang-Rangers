@@ -1,0 +1,429 @@
+{
+  "kind": "references",
+  "schema_version": 1,
+  "content_revision": 2,
+  "editorial_status": "approved",
+  "locale": "en-MY",
+  "checked_on": "2026-11-22",
+  "reuse": "W18 original copy and paraphrases of the supplied Rhinoceros Hornbill quiz. Public sources are linked for verification and offline credit.",
+  "sources": [
+    {
+      "id": "source.fds_rhinoceros_hornbill",
+      "publisher": "Forest Department Sarawak",
+      "title": "Rhinoceros Hornbill (Buceros rhinoceros)",
+      "url": "https://forestry.sarawak.gov.my/web/subpage/webpage_view/854",
+      "locator": "Hornbill family account on tree holes, partial seals and food delivery, followed by Description, Distribution and Habits."
+    },
+    {
+      "id": "source.hsg_rhinoceros_hornbill",
+      "publisher": "IUCN Hornbill Specialist Group",
+      "title": "Rhinoceros Hornbill",
+      "url": "https://iucnhornbills.org/rhinoceros-hornbill/",
+      "locator": "Species heading, Identification, Habits and Breeding. The Habits section covers fruit and occasional animal food."
+    },
+    {
+      "id": "source.hsg_seed_dispersal",
+      "publisher": "IUCN Hornbill Specialist Group",
+      "title": "Hornbill Natural History and Conservation, 2(1)",
+      "url": "https://iucnhornbills.org/wp-content/uploads/2021/07/HSG-HNHC-2-1.pdf",
+      "locator": "Find 'important seed dispersers for a variety of rainforest trees' in the section on hornbill fruit consumption and seed transport."
+    },
+    {
+      "id": "source.hsg_natural_cavities",
+      "publisher": "IUCN Hornbill Specialist Group",
+      "title": "Hornbill Natural History and Conservation, Issue 5",
+      "url": "https://iucnhornbills.org/wp-content/uploads/2024/09/Hornbill-Natural-History-and-Conservation_Issue-5_September-2024.pdf",
+      "locator": "West Kalimantan nest-characteristics abstract and the Black Hornbill breeding introduction on naturally formed cavities and large, old trees."
+    },
+    {
+      "id": "source.nest_privacy",
+      "publisher": "Cornell Lab of Ornithology",
+      "title": "Sensitive Species in eBird",
+      "url": "https://support.ebird.org/en/support/solutions/articles/48000803210-sensitive-species-in-ebird",
+      "locator": "Sharing guidance on withholding explicit coordinates or directions and using broad public areas. Used as a privacy principle."
+    },
+    {
+      "id": "source.birding_ethics",
+      "publisher": "American Birding Association",
+      "title": "ABA Code of Birding Ethics",
+      "url": "https://www.aba.org/aba-code-of-birding-ethics/",
+      "locator": "Sections 1(b)–(c), 2(a) and 3 on caution near active nests, recordings, habitat disturbance, accurate reports and access."
+    },
+    {
+      "id": "source.sfc_wildlife_faq",
+      "publisher": "Sarawak Forestry Corporation",
+      "title": "FAQs for Wildlife Enforcement",
+      "url": "https://sarawakforestry.com/layout2/wp-content/uploads/2020/05/FAQs-Wildlife-Enforcement-1.pdf",
+      "locator": "What should I do when I encounter wildlife? Use SFC's contact and avoid provoking the animal."
+    },
+    {
+      "id": "source.wildlife_distance",
+      "publisher": "NSW Health",
+      "title": "Be careful around wildlife: protect yourself",
+      "url": "https://www.health.nsw.gov.au/Infectious/factsheets/Pages/be-careful-around-wildlife.aspx",
+      "locator": "Injured or orphaned wildlife. Used for general guidance to give animals space and contact trained responders."
+    },
+    {
+      "id": "source.fledgling_care",
+      "publisher": "RSPCA",
+      "title": "Found a baby bird out of a nest?",
+      "url": "https://www.rspca.org.uk/adviceandwelfare/wildlife/birds/baby",
+      "locator": "Fledglings subsection on parental care continuing out of the nest. Used for the biological observation only."
+    },
+    {
+      "id": "source.media_verification",
+      "publisher": "UNESCO",
+      "title": "Journalism, 'Fake News' & Disinformation",
+      "url": "https://www.unesco.org/sites/default/files/journalism_fake_news_disinformation_print_friendly_0.pdf",
+      "locator": "Modules 5 and 6 on fact-checking, sources, provenance and verifying visual and social media content."
+    },
+    {
+      "id": "source.fundraising_records",
+      "publisher": "Fundraising Regulator",
+      "title": "Documenting your fundraising decisions",
+      "url": "https://www.fundraisingregulator.org.uk/about-fundraising/resources/documenting-your-fundraising-decisions",
+      "locator": "Fundraising claims and accepting, refusing and returning donations sections. Used for clear reporting and respect for appeal purposes."
+    },
+    {
+      "id": "source.community_ecosystem",
+      "publisher": "Convention on Biological Diversity",
+      "title": "Ecosystem Approach, SBSTTA Recommendation V/10",
+      "url": "https://www.cbd.int/recommendation/sbstta/default.shtml?id=7027",
+      "locator": "Annex B principles 1, 2 and 12 on societal choices, local decisions and including stakeholders."
+    },
+    {
+      "id": "source.community_knowledge",
+      "publisher": "Convention on Biological Diversity",
+      "title": "Decision XIII/18, Article 8(j) and related provisions",
+      "url": "https://www.cbd.int/doc/decisions/cop-13/cop-13-dec-18-en.pdf",
+      "locator": "Mo'otz Kuxtal voluntary guidelines, section I: consent or approval and involvement of traditional knowledge holders."
+    },
+    {
+      "id": "source.malaysia_wildlife_feeding",
+      "publisher": "Forest Research Institute Malaysia",
+      "title": "Do not feed wild animals",
+      "url": "https://www.frim.gov.my/do-not-feed-wild-animals/",
+      "locator": "Visitor guidance on keeping human food away from wildlife."
+    },
+    {
+      "id": "source.food_conditioning",
+      "publisher": "NOAA Office of National Marine Sanctuaries",
+      "title": "Keep your snacks to yourself",
+      "url": "https://sanctuaries.noaa.gov/wildlife-viewing/snacks.html",
+      "locator": "Opening explanation of feeding and animals associating people with food. Used for the general principle."
+    },
+    {
+      "id": "source.sfc_mulu",
+      "publisher": "Sarawak Forestry Corporation",
+      "title": "Gunong Mulu National Park",
+      "url": "https://sfc.sarawak.gov.my/web/subpage/webpage_view/66",
+      "locator": "Park overview, limestone mountain range, caverns and Pinnacles description."
+    },
+    {
+      "id": "source.sfc_batang_ai",
+      "publisher": "Sarawak Forestry Corporation",
+      "title": "Batang Ai National Park",
+      "url": "https://sfc.sarawak.gov.my/web/subpage/webpage_view/55",
+      "locator": "Park overview on the hydroelectric lake and rivers flowing into it."
+    },
+    {
+      "id": "source.sfc_tanjung_datu",
+      "publisher": "Sarawak Forestry Corporation",
+      "title": "Tanjung Datu National Park",
+      "url": "https://sfc.sarawak.gov.my/web/subpage/webpage_view/53",
+      "locator": "Opening park overview on coastal slopes and streams flowing to sea."
+    },
+    {
+      "id": "source.yayasan_imbak",
+      "publisher": "Yayasan Sabah Group",
+      "title": "Conservation Management",
+      "url": "https://www.yayasansabahgroup.org.my/conservation_management.cfm",
+      "locator": "Imbak Canyon Conservation Area subsection on the sandstone ridges and the northern lowland forest."
+    },
+    {
+      "id": "source.sabah_biodiversity_outlook",
+      "publisher": "Sabah Biodiversity Centre",
+      "title": "Sabah Biodiversity Outlook",
+      "url": "https://sabc.sabah.gov.my/sites/default/files/uploads/attachments/2020-05/Sabah-Biodiversity-Outlook.pdf",
+      "locator": "Find 'lowland dipterocarp forest in Kabili-Sepilok FR' in the forest-plot monitoring summary."
+    },
+    {
+      "id": "source.riparian_vegetation",
+      "publisher": "USDA Forest Service",
+      "title": "The role of riparian vegetation in protecting and improving chemical water quality in streams",
+      "url": "https://www.fs.usda.gov/nac/assets/documents/research/publications/2010dosskeyriparianveg.pdf",
+      "locator": "Streambank stability discussion on riparian vegetation protecting banks against erosion."
+    },
+    {
+      "id": "source.iucn_connectivity",
+      "publisher": "IUCN World Commission on Protected Areas",
+      "title": "Guidelines for conserving connectivity through ecological networks and corridors",
+      "url": "https://portals.iucn.org/library/efiles/documents/PAG-030-En.pdf",
+      "locator": "Chapter 1 on fragmentation and Chapter 5 on corridor functions, including movement between habitat patches."
+    },
+    {
+      "id": "source.fds_mangrove",
+      "publisher": "Forest Department Sarawak",
+      "title": "Mangrove Forest",
+      "url": "https://forestry.sarawak.gov.my/web/subpage/webpage_view/664",
+      "locator": "Mangrove Forest section on tidal mudflats, vegetation, coastline roots and the proboscis monkey."
+    },
+    {
+      "id": "source.nparks_strangler_fig",
+      "publisher": "Singapore National Parks Board",
+      "title": "Singapore Botanic Gardens Rain Forest worksheet",
+      "url": "https://www.nparks.gov.sg/-/media/nparks-real-content/learning/learning-journeys/guided-walks/diy-guided-walks/botanic-gardens-rainforest/worksheets-for-students.pdf",
+      "locator": "Strangling Fig entry for Ficus kerkhovenii, seed germination on branches and roots reaching towards the soil."
+    },
+    {
+      "id": "source.fds_belian",
+      "publisher": "Forest Department Sarawak",
+      "title": "Belian tree, Forest Department Sarawak publication",
+      "url": "https://forestry.sarawak.gov.my/web/attachment/show/?docid=YkFTUWlRTG9ZdXpzcmZlYVlmaHo3QT09OjryUalZ4uBLxkg-HqrvNLQr",
+      "locator": "Find 'Bornean ironwood' in the Belian account naming Eusideroxylon zwageri."
+    },
+    {
+      "id": "source.mybis_red_meranti",
+      "publisher": "Malaysia Biodiversity Information System",
+      "title": "Shorea leprosula Miq.",
+      "url": "https://www.mybis.gov.my/art/374",
+      "locator": "Keywords identify meranti tembaga and light red meranti. Species account gives Borneo in its natural range."
+    },
+    {
+      "id": "source.mybis_mengaris",
+      "publisher": "Malaysia Biodiversity Information System",
+      "title": "Koompassia excelsa (Becc.) Taub.",
+      "url": "https://www.mybis.gov.my/sp/10185",
+      "locator": "Species page and common-name row for Mengaris in Sabah."
+    },
+    {
+      "id": "source.fao_natural_regeneration",
+      "publisher": "Food and Agriculture Organization",
+      "title": "Assisted natural regeneration of forests",
+      "url": "https://www.fao.org/forestry-fao/anr/59222/en/",
+      "locator": "Introductory definition and Steps of assisted natural regeneration, including caring for natural regrowth."
+    },
+    {
+      "id": "source.fao_monitoring",
+      "publisher": "Food and Agriculture Organization",
+      "title": "Forest restoration, SFM Toolbox",
+      "url": "https://www.fao.org/sustainable-forest-management-toolbox/modules/forest-restoration/2/",
+      "locator": "Table 3, indicative monitoring and maintenance guidance, on measuring tree growth and survival after planting."
+    },
+    {
+      "id": "source.fao_restoration",
+      "publisher": "Food and Agriculture Organization",
+      "title": "Restoring forest landscapes through assisted natural regeneration, a practical manual",
+      "url": "https://www.fao.org/sustainable-forest-management/toolbox/tools/tool-detail/ar/c/1207888/",
+      "locator": "Resource description on native species adapted to prevailing site conditions re-establishing with assistance."
+    },
+    {
+      "id": "source.fao_baseline",
+      "publisher": "Food and Agriculture Organization",
+      "title": "Integrating forest and landscape restoration monitoring into national forest monitoring systems",
+      "url": "https://openknowledge.fao.org/3/cb6021en/cb6021en.pdf",
+      "locator": "Section 2.11, Step 11 Define the baseline."
+    },
+    {
+      "id": "source.sarawak_museum_nest_boxes",
+      "publisher": "Sarawak Museum Journal",
+      "title": "Artificial Nest Boxes for Hornbill Conservation: A Case Study in Kinabatangan, Malaysia",
+      "url": "https://museum.sarawak.gov.my/web/subpage/webpage_view/310",
+      "locator": "Ravinder Kaur et al. (2018), abstract on visits, observed occupancy and potential alternative nest sites. No field locations reused."
+    },
+    {
+      "id": "source.sarawak_portal_hornbill",
+      "publisher": "Sarawak Government",
+      "title": "Sarawak Government Official Portal",
+      "url": "https://sarawak.gov.my/",
+      "locator": "Sarawak state symbols and Bumi Kenyalang context. Supplied Rhinoceros Hornbill Trivia Challenge Q2."
+    },
+    {
+      "id": "source.adw_hornbill_clutch",
+      "publisher": "University of Michigan Museum of Zoology",
+      "title": "Buceros rhinoceros · Animal Diversity Web",
+      "url": "https://animaldiversity.org/accounts/Buceros_rhinoceros/",
+      "locator": "Reproduction section. Typical clutch size. Supplied Rhinoceros Hornbill Trivia Challenge Q19."
+    }
+  ],
+  "facts": [
+    {
+      "id": "fact.hornbill_casque",
+      "title": "Above the bill",
+      "text": "The Rhinoceros Hornbill has a raised, upturned casque above its bill.",
+      "source_ids": [
+        "source.fds_rhinoceros_hornbill",
+        "source.hsg_rhinoceros_hornbill"
+      ]
+    },
+    {
+      "id": "fact.hornbill_fruit",
+      "title": "Fruit in the canopy",
+      "text": "Rhinoceros Hornbills eat mostly fruit and often visit fruiting fig trees.",
+      "source_ids": [
+        "source.fds_rhinoceros_hornbill",
+        "source.hsg_rhinoceros_hornbill"
+      ]
+    },
+    {
+      "id": "fact.hornbill_tree_cavity",
+      "title": "A hollow for a nest",
+      "text": "Rhinoceros Hornbills use tree cavities to nest.",
+      "source_ids": [
+        "source.fds_rhinoceros_hornbill",
+        "source.hsg_rhinoceros_hornbill"
+      ]
+    },
+    {
+      "id": "fact.hornbill_nest_opening",
+      "title": "Food through a small opening",
+      "text": "A nesting female Rhinoceros Hornbill closes most of the cavity entrance. The male passes food through the opening.",
+      "source_ids": [
+        "source.fds_rhinoceros_hornbill",
+        "source.hsg_rhinoceros_hornbill"
+      ]
+    },
+    {
+      "id": "fact.hornbill_seed_dispersal",
+      "title": "Seeds on the move",
+      "text": "Fruit-eating hornbills can move seeds away from their parent trees, helping some seeds reach new places to grow.",
+      "source_ids": [
+        "source.hsg_seed_dispersal"
+      ]
+    },
+    {
+      "id": "fact.mulu_limestone",
+      "title": "Gunung Mulu limestone",
+      "text": "The limestone at Gunung Mulu forms caves and the sharp pinnacles above the forest.",
+      "source_ids": [
+        "source.sfc_mulu"
+      ]
+    },
+    {
+      "id": "fact.streambank_roots",
+      "title": "Roots at the riverbank",
+      "text": "Streamside roots hold soil together and can reduce bank erosion.",
+      "source_ids": [
+        "source.riparian_vegetation"
+      ]
+    },
+    {
+      "id": "fact.habitat_connections",
+      "title": "Connected habitat",
+      "text": "When forest is split into patches, some animals find it harder to move between them. Habitat corridors can help.",
+      "source_ids": [
+        "source.iucn_connectivity"
+      ]
+    },
+    {
+      "id": "fact.mangrove_proboscis",
+      "title": "Mangrove wildlife",
+      "text": "Proboscis monkeys use Sarawak's mangrove forests, where they can feed on mangrove leaves.",
+      "source_ids": [
+        "source.fds_mangrove"
+      ]
+    },
+    {
+      "id": "fact.active_nest_privacy",
+      "title": "Share the habitat story",
+      "text": "Keep directions, recognisable landmarks and precise locations of active nests out of public updates.",
+      "source_ids": [
+        "source.nest_privacy",
+        "source.birding_ethics"
+      ]
+    },
+    {
+      "id": "fact.wildlife_report",
+      "title": "Report wildlife concerns safely",
+      "text": "In Sarawak, give the animal space and contact park staff or Sarawak Forestry Corporation for guidance.",
+      "source_ids": [
+        "source.sfc_wildlife_faq",
+        "source.wildlife_distance"
+      ]
+    },
+    {
+      "id": "fact.wildlife_feeding",
+      "title": "Food changes behaviour",
+      "text": "Feeding wildlife can teach animals to approach people for food. Observe them from a distance and take scraps away.",
+      "source_ids": [
+        "source.malaysia_wildlife_feeding",
+        "source.food_conditioning"
+      ]
+    },
+    {
+      "id": "fact.strangler_fig_start",
+      "title": "A seed above the ground",
+      "text": "Some strangler figs start on another tree's branches. Their roots grow down towards the ground.",
+      "source_ids": [
+        "source.nparks_strangler_fig"
+      ]
+    },
+    {
+      "id": "fact.belian_identity",
+      "title": "Belian",
+      "text": "Belian is also called Bornean ironwood. Its scientific name is Eusideroxylon zwageri.",
+      "source_ids": [
+        "source.fds_belian"
+      ]
+    },
+    {
+      "id": "fact.red_meranti_example",
+      "title": "A red meranti in Borneo",
+      "text": "Meranti tembaga is one example of a light red meranti that occurs naturally in Borneo.",
+      "source_ids": [
+        "source.mybis_red_meranti"
+      ]
+    },
+    {
+      "id": "fact.mengaris_identity",
+      "title": "Mengaris",
+      "text": "Mengaris is one Sabah name for the tall forest tree Koompassia excelsa.",
+      "source_ids": [
+        "source.mybis_mengaris"
+      ]
+    },
+    {
+      "id": "fact.assisted_regeneration",
+      "title": "Help existing seedlings",
+      "text": "Forest recovery can include protecting native regrowth already suited to local conditions.",
+      "source_ids": [
+        "source.fao_natural_regeneration",
+        "source.fao_restoration"
+      ]
+    },
+    {
+      "id": "fact.seedling_survival",
+      "title": "Return to count",
+      "text": "A follow-up survey tells a restoration team how many seedlings survived after planting.",
+      "source_ids": [
+        "source.fao_monitoring"
+      ]
+    },
+    {
+      "id": "fact.mature_tree_cavities",
+      "title": "Keep mature nesting trees",
+      "text": "Large mature trees can contain natural hollows that hornbills use. Keeping those trees retains possible nest sites.",
+      "source_ids": [
+        "source.fds_rhinoceros_hornbill",
+        "source.hsg_natural_cavities"
+      ]
+    },
+    {
+      "id": "fact.nest_box_habitat",
+      "title": "What a nest box adds",
+      "text": "A nest box may add a possible nest site. Hornbills still need suitable habitat and reliable food sources.",
+      "source_ids": [
+        "source.sarawak_museum_nest_boxes",
+        "source.hsg_rhinoceros_hornbill",
+        "source.hsg_natural_cavities"
+      ]
+    }
+  ],
+  "garden_fact_candidates": {
+    "species.strangler_fig": "fact.strangler_fig_start",
+    "species.belian": "fact.belian_identity",
+    "species.red_meranti": "fact.red_meranti_example",
+    "species.mengaris": "fact.mengaris_identity",
+    "restoration_event.nest_box": "fact.nest_box_habitat"
+  }
+}

@@ -41,10 +41,10 @@ func _ready() -> void:
 	_open_batch()
 
 func _open_batch() -> void:
-	_notice.text = ""
+	_show_notice("")
 	var before: int = int(_session.batch().refreshed_at)
 	if not catalog.outreach.is_empty() and not _session.refresh(_now()):
-		_notice.text = "Could not open the batch. Check local storage and retry."
+		_show_notice("Could not open the batch. Check local storage and retry.")
 	if int(_session.batch().refreshed_at) != before:
 		_selected = ""
 	_render()
@@ -74,7 +74,9 @@ func _render() -> void:
 				break
 	for index in batch.batch.size():
 		var id: String = batch.batch[index]
-		var choice := StoryUI.action("%d%s" % [index + 1, " ✓" if batch.responses.has(id) else ""], id == _selected)
+		var answered: bool = batch.responses.has(id)
+		var choice := StoryUI.action("%d%s" % [index + 1, " ✓" if answered else ""], id == _selected)
+		choice.tooltip_text = "Scenario %d · %s" % [index + 1, "Answered" if answered else "Pending"]
 		choice.name = "OutreachPrompt%d" % (index + 1)
 		choice.pressed.connect(_select.bind(id))
 		_tabs.add_child(choice)
@@ -95,7 +97,7 @@ func _render() -> void:
 
 func _select(id: String) -> void:
 	_selected = id
-	_notice.text = ""
+	_show_notice("")
 	_render()
 
 func _submit(question: String, option: int) -> void:
@@ -104,13 +106,18 @@ func _submit(question: String, option: int) -> void:
 	var now := _now()
 	if _session.seconds_until_refresh(now) == 0:
 		_open_batch()
+		_show_notice("That batch ended. Choose a response in the new batch.")
 		return
 	if _session.submit(question, option, now).is_empty():
-		_notice.text = "Could not save this response. Check local storage and retry."
+		_show_notice("Could not save this response. Check local storage and retry.")
 	else:
 		sound_requested.emit("education")
-		_notice.text = ""
+		_show_notice("")
 		_render()
+
+func _show_notice(message: String) -> void:
+	_notice.text = message
+	_notice.visible = not message.is_empty()
 
 func _review(card: VBoxContainer, question: Dictionary, response: Dictionary) -> void:
 	var answer: Dictionary = question.choices[int(response.choice)]

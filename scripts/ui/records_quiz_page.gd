@@ -8,6 +8,7 @@ var progress: CampaignProgress
 var catalog: EducationCatalog
 var quiz: RecordsQuiz
 var _clock: Label
+var _time_bar: ProgressBar
 var _pause: Button
 var _wallet: Label
 var _body: VBoxContainer
@@ -26,6 +27,13 @@ func _ready() -> void:
 	_pause.name = "PauseQuiz"
 	_pause.pressed.connect(_toggle_pause)
 	status.add_child(_pause)
+	_time_bar = ProgressBar.new()
+	_time_bar.name = "QuizTimeRemaining"
+	_time_bar.show_percentage = false
+	_time_bar.custom_minimum_size.y = 7.0
+	_time_bar.max_value = CampaignActivities.QUIZ_TICKS
+	_time_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_time_bar)
 	_body = StoryUI.scroll_column(self)
 	_notice = StoryUI.label("", 18, StoryUI.AMBER)
 	_notice.name = "QuizNotice"
@@ -59,6 +67,8 @@ func _notification(what: int) -> void:
 		quiz.pause()
 
 func _update_clock() -> void:
+	_time_bar.visible = quiz.result.is_empty() and quiz.can_resume() and not quiz.reviewing()
+	_time_bar.value = quiz.time_left_ticks
 	if quiz.result.is_empty() and quiz.can_resume():
 		_clock.text = "Question %d of %d · %d s" % [quiz.question_number(), quiz.question_count(), quiz.seconds_left()]
 		if quiz.reviewing():
@@ -70,6 +80,7 @@ func _render() -> void:
 	EducationUI.clear(_body)
 	_wallet.text = "%s Funds" % StoryUI.funds(progress.funds())
 	_notice.text = quiz.notice
+	_notice.visible = not quiz.notice.is_empty()
 	_pause.visible = quiz.result.is_empty() and quiz.can_resume() and not quiz.reviewing()
 	_pause.text = "Resume quiz" if quiz.paused else "Pause quiz"
 	_update_clock()
@@ -125,7 +136,8 @@ func _result() -> void:
 	heading.name = "QuizResult"
 	card.add_child(heading)
 	card.add_child(StoryUI.label("%d of %d correct" % [outcome.correct, outcome.total], 22, StoryUI.INK))
-	var funds := StoryUI.label(EducationUI.receipt(int(outcome.credited), int(outcome.discarded)), 21, StoryUI.INK)
+	var amount := "Perfect chapter bonus pending" if outcome.get("pending_bonus", false) else EducationUI.receipt(int(outcome.credited), int(outcome.discarded))
+	var funds := StoryUI.label(amount, 21, StoryUI.INK)
 	funds.name = "QuizChapterFunds"
 	card.add_child(funds)
 	if outcome.first_perfect:

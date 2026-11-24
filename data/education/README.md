@@ -1,9 +1,7 @@
 # Player education banks
 
-This is the runtime location for team-approved `outreach.json`, `records.json` and `references.json`. The W18 drafts and their review validator are under `docs/production/w18/`. The Android preset includes runtime JSON from this directory.
+Runtime revision 2 serves 20 Outreach scenarios, four ten-question Records chapters and the cited offline facts archive. This milestone uses the [W18 source-checked banks](../../docs/production/W18_EDUCATION_BANKS.md) and two adapted questions from the supplied *Latest_rhinoceros_hornbill_quiz.pdf*. The references identify the original publications. Android includes these JSON files.
 
-- Use the W18 layout with schema version 1, the matching `kind` and `editorial_status` set to `approved` after recording the team decision for that revision. The reference register can supply approved facts independently of the quizzes. All question and fact source IDs must resolve in the approved register.
-- Keep IDs stable across revisions for the same question, fact and chapter. Increment the relevant bank's `content_revision` when changing prompts, question order, or answer order. Outreach adopts it at the next eligible refresh. Records offers an explicit replacement if a saved attempt belongs to an earlier revision.
-- Outreach uses the grade-by-room payout table in the Headquarters catalog. Set Records `final_first_correct_funds` and each chapter's `final_perfect_chapter_funds` to the reviewed whole-Funds amounts.
-
-The current player build displays the approval state. Test fixtures under `tests/fixtures/` exercise both modes independently of content review. [W18 handoff](../../docs/production/W18_EDUCATION_BANKS.md) · [Approval record](../../docs/canon/DECISION_LOG.md#open-decisions)
+- Keep question, fact and chapter IDs stable for the same content. Bump `content_revision` if prompts, question order or choice order change. A saved Outreach rotation moves to a new revision at the next eligible batch. Records offers a replacement when a saved attempt belongs to an earlier revision.
+- Outreach uses the existing grade-by-room payouts. Records uses the GDD trial amount of 30,000 Funds for each first correct answer. The exact four perfect-chapter Funds amounts remain pending. The first perfect chapter earns the Ranger enhancement and retains its existing save flag.
+- The runtime `approved` field enables the owner-requested C31-C playtest content. Distribution sign-off and any later settlement of pending bonuses use the review process. [Decision log](../../docs/canon/DECISION_LOG.md#c31-c-late-campaign-and-education--2026-11-24)
