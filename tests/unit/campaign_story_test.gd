@@ -95,7 +95,8 @@ func _run() -> void:
 			var expected_heat: Array = base_script.filter(func(entry: Array) -> bool: return entry[2] == &"E14")[0]
 			var scale := 0.6 if operation.stage.stage_id == &"C2-07" else 1.0
 			var rate := preload("res://data/enemies/e14_ignition_operator.tres").heat_per_second
-			_check(timeline.heat_tick == expected_heat[0] and is_equal_approx(timeline.first_heat, rate * CombatClock.STEP_SECONDS * 1.3 * scale), "%s applies D14 and the actual Firebreak state at first Heat" % operation.stage.stage_id)
+			var stage_heat_scale := 0.32 if operation.stage.stage_id == &"C2-08" else 1.0
+			_check(timeline.heat_tick == expected_heat[0] and is_equal_approx(timeline.first_heat, rate * CombatClock.STEP_SECONDS * stage_heat_scale * 1.3 * scale), "%s applies local Heat tuning, D14 and the actual Firebreak state at first Heat" % operation.stage.stage_id)
 			if operation.stage.stage_id == &"C2-07":
 				_check(timeline.heat_tick == 5341, "C2-07 first Heat arrives at the eased opener tick after the Beacon build")
 		_check(timeline.spawns.slice(0, base_script.size()) == base_script and timeline.spawns.size() == base_script.size() + phase_spawns, "%s spawns the authored order, route and tick plus scheduled phase support" % operation.stage.stage_id)
@@ -458,8 +459,9 @@ func _expected_spawns(stage: BattleStage) -> Array:
 	var path := CampaignContent.SOURCE + "stages/%s.json" % String(stage.stage_id).to_lower()
 	var source: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
 	var modifiers: Array = source.operation.fixed_debuff_ids
-	var pacing: Dictionary = source.balance_trial.get("c30_pacing", {})
-	var intervals: Array = pacing.get("wave_interval_multipliers", [])
+	var pacing: Dictionary = source.balance_trial.get("c31_c_pacing", source.balance_trial.get("c30_pacing", {}))
+	var multipliers: Array = pacing.get("wave_interval_multipliers", [])
+	var intervals: Array = pacing.get("wave_interval_seconds", [])
 	var tick := 1 + CombatClock.ticks_for(source.balance_trial.opening_delay_seconds + pacing.get("preparation_seconds", 0.0))
 	var expected := []
 	for i in source.waves.size():
@@ -469,7 +471,8 @@ func _expected_spawns(stage: BattleStage) -> Array:
 			for n in int(group.count):
 				last = tick
 				expected.append([tick, i + 1, StringName(group.enemy_id), stage.routes[int(group.route_index)].cells.front()])
-				tick += maxi(1, CombatClock.ticks_for(group.base_interval_seconds * (1.0 if intervals.is_empty() else intervals[i]) * (0.8 if "D13" in modifiers else 1.0)))
+				var interval: float = intervals[i] if not intervals.is_empty() else group.base_interval_seconds * (1.0 if multipliers.is_empty() else multipliers[i])
+				tick += maxi(1, CombatClock.ticks_for(interval * (0.8 if "D13" in modifiers else 1.0)))
 		tick = last + maxi(1, CombatClock.ticks_for(wave.base_rest_after_seconds * (0.6 if "D07" in modifiers else 1.0)))
 	return expected
 

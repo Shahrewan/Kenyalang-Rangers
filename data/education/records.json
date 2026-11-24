@@ -1,0 +1,1240 @@
+{
+  "kind": "records",
+  "schema_version": 1,
+  "content_revision": 2,
+  "editorial_status": "approved",
+  "locale": "en-MY",
+  "question_timer_seconds": 15,
+  "payout_status": "prototype_gdd_question_rewards",
+  "final_first_correct_funds": 30000,
+  "gdd_budget_model": {
+    "approx_questions": 40,
+    "first_correct_funds_each": 30000,
+    "perfect_chapter_bonus_count": 4,
+    "perfect_chapter_bonuses_funds_total": 350000
+  },
+  "chapters": [
+    {
+      "id": "records_chapter.scout_sniper",
+      "records_room_level": 2,
+      "topic": "Hornbill observations",
+      "ranger_id": "ranger.scout_sniper",
+      "perfect_clear_enhancement": "Steady Aim and Focus enhancements",
+      "final_perfect_chapter_funds": null,
+      "questions": [
+        {
+          "id": "records.rhinoceros_name",
+          "prompt": "What is the scientific name of the Rhinoceros Hornbill?",
+          "correct_choice_id": "records.rhinoceros_name.rhinoceros",
+          "choices": [
+            {
+              "id": "records.rhinoceros_name.albirostris",
+              "text": "Anthracoceros albirostris"
+            },
+            {
+              "id": "records.rhinoceros_name.vigil",
+              "text": "Rhinoplax vigil"
+            },
+            {
+              "id": "records.rhinoceros_name.rhinoceros",
+              "text": "Buceros rhinoceros"
+            },
+            {
+              "id": "records.rhinoceros_name.bicornis",
+              "text": "Buceros bicornis"
+            }
+          ],
+          "explanation": "Rhinoceros Hornbill is the common name of Buceros rhinoceros.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.casque",
+          "prompt": "Where is a Rhinoceros Hornbill's casque?",
+          "correct_choice_id": "records.casque.above_bill",
+          "choices": [
+            {
+              "id": "records.casque.under_tail",
+              "text": "Under the tail"
+            },
+            {
+              "id": "records.casque.above_bill",
+              "text": "Above the bill"
+            },
+            {
+              "id": "records.casque.at_wrist",
+              "text": "At the bend of the wing"
+            },
+            {
+              "id": "records.casque.on_throat",
+              "text": "On the throat"
+            }
+          ],
+          "explanation": "The casque is the raised, upturned structure above the bill.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": [
+            "fact.hornbill_casque"
+          ]
+        },
+        {
+          "id": "records.tail_marking",
+          "prompt": "What marking helps identify a Rhinoceros Hornbill's tail?",
+          "correct_choice_id": "records.tail_marking.black_band",
+          "choices": [
+            {
+              "id": "records.tail_marking.orange_tips",
+              "text": "Orange tips on grey feathers"
+            },
+            {
+              "id": "records.tail_marking.black_band",
+              "text": "A broad black band across white feathers"
+            },
+            {
+              "id": "records.tail_marking.brown_edges",
+              "text": "Brown edges on red feathers"
+            },
+            {
+              "id": "records.tail_marking.white_spots",
+              "text": "Rows of small white spots on black feathers"
+            }
+          ],
+          "explanation": "Its white tail has a broad black band. Look for the pattern from a distance.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.main_food",
+          "prompt": "What makes up most of a Rhinoceros Hornbill's diet?",
+          "correct_choice_id": "records.main_food.fruit",
+          "choices": [
+            {
+              "id": "records.main_food.insects",
+              "text": "Insects and other small animals"
+            },
+            {
+              "id": "records.main_food.nectar",
+              "text": "Flower nectar"
+            },
+            {
+              "id": "records.main_food.leaves",
+              "text": "Fresh leaves and shoots"
+            },
+            {
+              "id": "records.main_food.fruit",
+              "text": "Fruit, including many kinds of figs"
+            }
+          ],
+          "explanation": "It feeds mostly on fruit and commonly visits fig trees when they fruit.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": [
+            "fact.hornbill_fruit"
+          ]
+        },
+        {
+          "id": "records.animal_food",
+          "prompt": "Besides fruit, what can a Rhinoceros Hornbill sometimes eat?",
+          "correct_choice_id": "records.animal_food.lizards",
+          "choices": [
+            {
+              "id": "records.animal_food.lizards",
+              "text": "Small lizards"
+            },
+            {
+              "id": "records.animal_food.tough_grass",
+              "text": "Fibrous grass stems"
+            },
+            {
+              "id": "records.animal_food.dry_bark",
+              "text": "Dry tree bark"
+            },
+            {
+              "id": "records.animal_food.pitcher_fluid",
+              "text": "Pitcher-plant fluid"
+            }
+          ],
+          "explanation": "Rhinoceros Hornbills sometimes eat small animals, including lizards.",
+          "source_ids": [
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.sarawak_emblem",
+          "prompt": "Which Malaysian state is called Bumi Kenyalang, the Land of the Hornbills?",
+          "source_ids": [
+            "source.sarawak_portal_hornbill",
+            "source.fds_rhinoceros_hornbill"
+          ],
+          "fact_ids": [],
+          "choices": [
+            {
+              "id": "records.sarawak_emblem.sabah",
+              "text": "Sabah"
+            },
+            {
+              "id": "records.sarawak_emblem.pahang",
+              "text": "Pahang"
+            },
+            {
+              "id": "records.sarawak_emblem.sarawak",
+              "text": "Sarawak"
+            },
+            {
+              "id": "records.sarawak_emblem.penang",
+              "text": "Penang"
+            }
+          ],
+          "correct_choice_id": "records.sarawak_emblem.sarawak",
+          "explanation": "Sarawak is known as Bumi Kenyalang. The Rhinoceros Hornbill is its state bird."
+        },
+        {
+          "id": "records.nest_structure",
+          "prompt": "What kind of nest site does the Rhinoceros Hornbill use?",
+          "correct_choice_id": "records.nest_structure.tree_cavity",
+          "choices": [
+            {
+              "id": "records.nest_structure.tree_cavity",
+              "text": "A cavity in a tree"
+            },
+            {
+              "id": "records.nest_structure.leaf_pouch",
+              "text": "An open pouch of leaves"
+            },
+            {
+              "id": "records.nest_structure.twig_platform",
+              "text": "An open twig platform"
+            },
+            {
+              "id": "records.nest_structure.ground_burrow",
+              "text": "A burrow dug into the ground"
+            }
+          ],
+          "explanation": "Rhinoceros Hornbills use tree cavities to nest.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": [
+            "fact.hornbill_tree_cavity"
+          ]
+        },
+        {
+          "id": "records.rhinoceros_clutch",
+          "prompt": "How many eggs are in a typical Rhinoceros Hornbill clutch?",
+          "source_ids": [
+            "source.adw_hornbill_clutch"
+          ],
+          "fact_ids": [],
+          "choices": [
+            {
+              "id": "records.rhinoceros_clutch.six",
+              "text": "Five to six eggs"
+            },
+            {
+              "id": "records.rhinoceros_clutch.two",
+              "text": "One to two eggs"
+            },
+            {
+              "id": "records.rhinoceros_clutch.four",
+              "text": "Three to four eggs"
+            },
+            {
+              "id": "records.rhinoceros_clutch.ten",
+              "text": "Nine to ten eggs"
+            }
+          ],
+          "correct_choice_id": "records.rhinoceros_clutch.two",
+          "explanation": "A Rhinoceros Hornbill usually lays one or two eggs in a clutch."
+        },
+        {
+          "id": "records.nest_food_delivery",
+          "prompt": "Who brings food while a female Rhinoceros Hornbill is sealed inside the nest?",
+          "correct_choice_id": "records.nest_food_delivery.male",
+          "choices": [
+            {
+              "id": "records.nest_food_delivery.nearby_birds",
+              "text": "Other bird species nearby"
+            },
+            {
+              "id": "records.nest_food_delivery.male",
+              "text": "The male hornbill"
+            },
+            {
+              "id": "records.nest_food_delivery.older_chicks",
+              "text": "The previous year's chicks"
+            },
+            {
+              "id": "records.nest_food_delivery.no_delivery",
+              "text": "No bird brings food"
+            }
+          ],
+          "explanation": "The male carries food to the nest and passes it through the opening.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_rhinoceros_hornbill"
+          ],
+          "fact_ids": [
+            "fact.hornbill_nest_opening"
+          ]
+        },
+        {
+          "id": "records.seed_dispersal",
+          "prompt": "How can fruit-eating hornbills help forest trees reproduce?",
+          "correct_choice_id": "records.seed_dispersal.move_seeds",
+          "choices": [
+            {
+              "id": "records.seed_dispersal.stop_flowers",
+              "text": "They keep fruit trees from flowering."
+            },
+            {
+              "id": "records.seed_dispersal.break_seeds",
+              "text": "They grind every seed into powder."
+            },
+            {
+              "id": "records.seed_dispersal.make_hollows",
+              "text": "They dig holes for all new seedlings."
+            },
+            {
+              "id": "records.seed_dispersal.move_seeds",
+              "text": "They carry seeds away from the parent tree."
+            }
+          ],
+          "explanation": "Hornbills move some seeds away from the trees where they ate, giving seeds places to grow.",
+          "source_ids": [
+            "source.hsg_seed_dispersal"
+          ],
+          "fact_ids": [
+            "fact.hornbill_seed_dispersal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "records_chapter.patrolman",
+      "records_room_level": 3,
+      "topic": "Forests and waterways",
+      "ranger_id": "ranger.patrolman",
+      "perfect_clear_enhancement": "Reinforced Patrol",
+      "final_perfect_chapter_funds": null,
+      "questions": [
+        {
+          "id": "records.mulu_limestone",
+          "prompt": "Which rock forms Gunung Mulu's famous pinnacles and cave systems?",
+          "correct_choice_id": "records.mulu_limestone.limestone",
+          "choices": [
+            {
+              "id": "records.mulu_limestone.limestone",
+              "text": "Limestone"
+            },
+            {
+              "id": "records.mulu_limestone.slate",
+              "text": "Slate"
+            },
+            {
+              "id": "records.mulu_limestone.granite",
+              "text": "Granite"
+            },
+            {
+              "id": "records.mulu_limestone.basalt",
+              "text": "Basalt"
+            }
+          ],
+          "explanation": "Gunung Mulu's limestone landscape includes caves, underground rivers and sharp pinnacles.",
+          "source_ids": [
+            "source.sfc_mulu"
+          ],
+          "fact_ids": [
+            "fact.mulu_limestone"
+          ]
+        },
+        {
+          "id": "records.batang_ai_rivers",
+          "prompt": "Which feature is part of the forest landscape of Batang Ai National Park?",
+          "correct_choice_id": "records.batang_ai_rivers.rivers",
+          "choices": [
+            {
+              "id": "records.batang_ai_rivers.dunes",
+              "text": "Coastal dunes beside the open sea"
+            },
+            {
+              "id": "records.batang_ai_rivers.rivers",
+              "text": "Rivers flowing towards a reservoir"
+            },
+            {
+              "id": "records.batang_ai_rivers.tidal_flats",
+              "text": "Tidal flats beside a salt lagoon"
+            },
+            {
+              "id": "records.batang_ai_rivers.volcano",
+              "text": "A lake filling a volcanic crater"
+            }
+          ],
+          "explanation": "Forested rivers in the park's catchment flow towards the Batang Ai reservoir.",
+          "source_ids": [
+            "source.sfc_batang_ai"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.tanjung_datu_coast",
+          "prompt": "What lies next to the forested mountain slopes at Tanjung Datu?",
+          "correct_choice_id": "records.tanjung_datu_coast.sea",
+          "choices": [
+            {
+              "id": "records.tanjung_datu_coast.reservoir",
+              "text": "An inland reservoir"
+            },
+            {
+              "id": "records.tanjung_datu_coast.dunes",
+              "text": "A desert dune field"
+            },
+            {
+              "id": "records.tanjung_datu_coast.sea",
+              "text": "The sea"
+            },
+            {
+              "id": "records.tanjung_datu_coast.crater",
+              "text": "A volcanic crater"
+            }
+          ],
+          "explanation": "Tanjung Datu's slopes descend close to the sea. Mountain streams flow to the coast.",
+          "source_ids": [
+            "source.sfc_tanjung_datu"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.imbak_ridges",
+          "prompt": "What rock forms the ridges around the northern lowland forest of Imbak Canyon?",
+          "correct_choice_id": "records.imbak_ridges.sandstone",
+          "choices": [
+            {
+              "id": "records.imbak_ridges.marble",
+              "text": "Marble"
+            },
+            {
+              "id": "records.imbak_ridges.limestone",
+              "text": "Limestone"
+            },
+            {
+              "id": "records.imbak_ridges.basalt",
+              "text": "Basalt"
+            },
+            {
+              "id": "records.imbak_ridges.sandstone",
+              "text": "Sandstone"
+            }
+          ],
+          "explanation": "Sandstone ridges rise beside the northern lowland forest of Imbak Canyon in Sabah.",
+          "source_ids": [
+            "source.yayasan_imbak"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.sepilok_forest",
+          "prompt": "Which forest type is documented in the Kabili-Sepilok Forest Reserve?",
+          "correct_choice_id": "records.sepilok_forest.dipterocarp",
+          "choices": [
+            {
+              "id": "records.sepilok_forest.alpine",
+              "text": "Alpine forest"
+            },
+            {
+              "id": "records.sepilok_forest.temperate",
+              "text": "Temperate beech forest"
+            },
+            {
+              "id": "records.sepilok_forest.dipterocarp",
+              "text": "Lowland dipterocarp forest"
+            },
+            {
+              "id": "records.sepilok_forest.boreal",
+              "text": "Boreal spruce forest"
+            }
+          ],
+          "explanation": "The Sabah Biodiversity Outlook records lowland dipterocarp forest at Kabili-Sepilok.",
+          "source_ids": [
+            "source.sabah_biodiversity_outlook"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.river_roots",
+          "prompt": "How can roots of streamside trees help a riverbank?",
+          "correct_choice_id": "records.river_roots.hold_soil",
+          "choices": [
+            {
+              "id": "records.river_roots.harden_rock",
+              "text": "They turn loose soil into limestone."
+            },
+            {
+              "id": "records.river_roots.hold_soil",
+              "text": "They hold soil and help limit erosion."
+            },
+            {
+              "id": "records.river_roots.raise_tide",
+              "text": "They raise the tide upstream."
+            },
+            {
+              "id": "records.river_roots.stop_rain",
+              "text": "They stop rain from reaching the river."
+            }
+          ],
+          "explanation": "Roots help bind bank soils, reducing the amount washed away by flowing water.",
+          "source_ids": [
+            "source.riparian_vegetation"
+          ],
+          "fact_ids": [
+            "fact.streambank_roots"
+          ]
+        },
+        {
+          "id": "records.forest_corridor",
+          "prompt": "What can a strip of habitat between forest patches help wildlife do?",
+          "correct_choice_id": "records.forest_corridor.move_between",
+          "choices": [
+            {
+              "id": "records.forest_corridor.lose_seasons",
+              "text": "Avoid all seasonal changes"
+            },
+            {
+              "id": "records.forest_corridor.move_between",
+              "text": "Move between the patches"
+            },
+            {
+              "id": "records.forest_corridor.avoid_food",
+              "text": "Survive without food sources"
+            },
+            {
+              "id": "records.forest_corridor.skip_breeding",
+              "text": "Breed without finding mates"
+            }
+          ],
+          "explanation": "A habitat corridor can help species move between separated areas of habitat.",
+          "source_ids": [
+            "source.iucn_connectivity"
+          ],
+          "fact_ids": [
+            "fact.habitat_connections"
+          ]
+        },
+        {
+          "id": "records.fragmented_forest",
+          "prompt": "What has happened when a once-continuous forest is fragmented?",
+          "correct_choice_id": "records.fragmented_forest.separated_patches",
+          "choices": [
+            {
+              "id": "records.fragmented_forest.separated_patches",
+              "text": "It has been split into separate patches."
+            },
+            {
+              "id": "records.fragmented_forest.flooded_season",
+              "text": "It floods briefly each rainy season."
+            },
+            {
+              "id": "records.fragmented_forest.joined_patches",
+              "text": "Its isolated patches have been reconnected."
+            },
+            {
+              "id": "records.fragmented_forest.new_flowers",
+              "text": "Its canopy trees have begun to flower."
+            }
+          ],
+          "explanation": "Fragmentation divides continuous habitat into patches. Gaps can make movement harder for some wildlife.",
+          "source_ids": [
+            "source.iucn_connectivity"
+          ],
+          "fact_ids": [
+            "fact.habitat_connections"
+          ]
+        },
+        {
+          "id": "records.mangrove_monkey",
+          "prompt": "Which Bornean primate uses mangrove forests in Sarawak?",
+          "correct_choice_id": "records.mangrove_monkey.proboscis",
+          "choices": [
+            {
+              "id": "records.mangrove_monkey.proboscis",
+              "text": "Proboscis monkey"
+            },
+            {
+              "id": "records.mangrove_monkey.lemur",
+              "text": "Ring-tailed lemur"
+            },
+            {
+              "id": "records.mangrove_monkey.patas",
+              "text": "Patas monkey"
+            },
+            {
+              "id": "records.mangrove_monkey.baboon",
+              "text": "Olive baboon"
+            }
+          ],
+          "explanation": "Sarawak's mangrove forests are among the habitats used by the proboscis monkey.",
+          "source_ids": [
+            "source.fds_mangrove"
+          ],
+          "fact_ids": [
+            "fact.mangrove_proboscis"
+          ]
+        },
+        {
+          "id": "records.mangrove_zone",
+          "prompt": "Where do mangroves commonly grow along the coast of Sarawak?",
+          "correct_choice_id": "records.mangrove_zone.tidal_edges",
+          "choices": [
+            {
+              "id": "records.mangrove_zone.open_sea",
+              "text": "Deep water far from the coast"
+            },
+            {
+              "id": "records.mangrove_zone.ridge_tops",
+              "text": "Dry mountain ridges"
+            },
+            {
+              "id": "records.mangrove_zone.spring_cave",
+              "text": "Cave walls above freshwater springs"
+            },
+            {
+              "id": "records.mangrove_zone.tidal_edges",
+              "text": "Sheltered tidal shores and river mouths"
+            }
+          ],
+          "explanation": "Mangrove forests grow along sheltered tidal shores and estuaries.",
+          "source_ids": [
+            "source.fds_mangrove"
+          ],
+          "fact_ids": []
+        }
+      ]
+    },
+    {
+      "id": "records_chapter.combat_medic",
+      "records_room_level": 4,
+      "topic": "Safe field observations",
+      "ranger_id": "ranger.combat_medic",
+      "perfect_clear_enhancement": "Emergency Treatment",
+      "final_perfect_chapter_funds": null,
+      "questions": [
+        {
+          "id": "records.nest_coordinates",
+          "prompt": "An active nest is mentioned in a public post. Which detail would reveal its precise location?",
+          "correct_choice_id": "records.nest_coordinates.coordinates",
+          "choices": [
+            {
+              "id": "records.nest_coordinates.coordinates",
+              "text": "GPS coordinates of the nest tree"
+            },
+            {
+              "id": "records.nest_coordinates.species",
+              "text": "The bird species name"
+            },
+            {
+              "id": "records.nest_coordinates.habitat",
+              "text": "The general forest type"
+            },
+            {
+              "id": "records.nest_coordinates.island",
+              "text": "The name Borneo"
+            }
+          ],
+          "explanation": "Precise coordinates are location clues. Keep them out of public posts about active nests.",
+          "source_ids": [
+            "source.nest_privacy",
+            "source.birding_ethics"
+          ],
+          "fact_ids": [
+            "fact.active_nest_privacy"
+          ]
+        },
+        {
+          "id": "records.nest_image_clues",
+          "prompt": "Location tags are gone from a nest photo. What could still give its location away?",
+          "correct_choice_id": "records.nest_image_clues.landmark",
+          "choices": [
+            {
+              "id": "records.nest_image_clues.landmark",
+              "text": "A recognisable landmark next to the nest"
+            },
+            {
+              "id": "records.nest_image_clues.silhouette",
+              "text": "A plain bird silhouette"
+            },
+            {
+              "id": "records.nest_image_clues.ring",
+              "text": "The bird's usual eye colour"
+            },
+            {
+              "id": "records.nest_image_clues.cloud",
+              "text": "An area of plain cloud"
+            }
+          ],
+          "explanation": "A visible landmark can act like directions to a sensitive site. Review the image and its caption.",
+          "source_ids": [
+            "source.nest_privacy",
+            "source.birding_ethics"
+          ],
+          "fact_ids": [
+            "fact.active_nest_privacy"
+          ]
+        },
+        {
+          "id": "records.young_bird_evidence",
+          "prompt": "A feathered young bird is alone in one photo. What remains unknown?",
+          "correct_choice_id": "records.young_bird_evidence.parental_care",
+          "choices": [
+            {
+              "id": "records.young_bird_evidence.parental_care",
+              "text": "Whether an adult is still caring for it"
+            },
+            {
+              "id": "records.young_bird_evidence.one_in_frame",
+              "text": "Whether only one bird is in frame"
+            },
+            {
+              "id": "records.young_bird_evidence.has_feathers",
+              "text": "Whether it has feathers"
+            },
+            {
+              "id": "records.young_bird_evidence.is_bird",
+              "text": "Whether it is a bird"
+            }
+          ],
+          "explanation": "Adults may still feed young birds that have left the nest. One image does not establish abandonment.",
+          "source_ids": [
+            "source.fledgling_care"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.observation_note",
+          "prompt": "Which note describes an observation a visitor could report from a distance?",
+          "correct_choice_id": "records.observation_note.wing_hanging",
+          "choices": [
+            {
+              "id": "records.observation_note.broken_wing",
+              "text": "The wing was definitely broken."
+            },
+            {
+              "id": "records.observation_note.wing_hanging",
+              "text": "One wing hung lower than the other."
+            },
+            {
+              "id": "records.observation_note.hit_by_car",
+              "text": "A car must have hit the bird."
+            },
+            {
+              "id": "records.observation_note.never_fly",
+              "text": "The bird will never fly again."
+            }
+          ],
+          "explanation": "Visible position is an observation. A cause, diagnosis or forecast needs further evidence.",
+          "source_ids": [
+            "source.wildlife_distance",
+            "source.media_verification"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.video_date",
+          "prompt": "Which detail helps establish whether a wildlife clip was filmed today?",
+          "correct_choice_id": "records.video_date.original_date",
+          "choices": [
+            {
+              "id": "records.video_date.view_total",
+              "text": "The repost's number of views"
+            },
+            {
+              "id": "records.video_date.original_date",
+              "text": "The verified recording date"
+            },
+            {
+              "id": "records.video_date.clip_length",
+              "text": "The length of the repost"
+            },
+            {
+              "id": "records.video_date.font_size",
+              "text": "The caption's font size"
+            }
+          ],
+          "explanation": "A repost can make old footage look current. Check the original recording date and source.",
+          "source_ids": [
+            "source.media_verification"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.local_rescue_report",
+          "prompt": "Which organisation does Sarawak's wildlife enforcement FAQ advise the public to contact?",
+          "correct_choice_id": "records.local_rescue_report.sfc",
+          "choices": [
+            {
+              "id": "records.local_rescue_report.photo_club",
+              "text": "A wildlife photography club"
+            },
+            {
+              "id": "records.local_rescue_report.tour_desk",
+              "text": "A tour-booking office"
+            },
+            {
+              "id": "records.local_rescue_report.hotel_group",
+              "text": "A hotel reception group"
+            },
+            {
+              "id": "records.local_rescue_report.sfc",
+              "text": "Sarawak Forestry Corporation"
+            }
+          ],
+          "explanation": "Sarawak Forestry Corporation advises people to contact its team and avoid provoking wildlife.",
+          "source_ids": [
+            "source.sfc_wildlife_faq"
+          ],
+          "fact_ids": [
+            "fact.wildlife_report"
+          ]
+        },
+        {
+          "id": "records.injured_animal_distance",
+          "prompt": "Why give an injured wild animal space while waiting for trained help?",
+          "correct_choice_id": "records.injured_animal_distance.reduce_distress",
+          "choices": [
+            {
+              "id": "records.injured_animal_distance.predict_recovery",
+              "text": "To predict exactly when it will recover"
+            },
+            {
+              "id": "records.injured_animal_distance.guess_cause",
+              "text": "To identify the cause without examination"
+            },
+            {
+              "id": "records.injured_animal_distance.stop_feeding",
+              "text": "To prevent it ever eating again"
+            },
+            {
+              "id": "records.injured_animal_distance.reduce_distress",
+              "text": "To reduce distress and the risk from handling"
+            }
+          ],
+          "explanation": "An injured animal can be stressed or defensive. A trained responder can assess it safely.",
+          "source_ids": [
+            "source.sfc_wildlife_faq",
+            "source.wildlife_distance"
+          ],
+          "fact_ids": [
+            "fact.wildlife_report"
+          ]
+        },
+        {
+          "id": "records.food_association",
+          "prompt": "What can happen when visitors regularly feed wild animals?",
+          "correct_choice_id": "records.food_association.people_mean_food",
+          "choices": [
+            {
+              "id": "records.food_association.fear_food",
+              "text": "Animals learn to avoid food near people."
+            },
+            {
+              "id": "records.food_association.people_mean_food",
+              "text": "Animals may learn to approach people for food."
+            },
+            {
+              "id": "records.food_association.stop_eating",
+              "text": "Animals stop needing their normal diet."
+            },
+            {
+              "id": "records.food_association.prefer_hidden",
+              "text": "Animals learn to avoid picnic areas."
+            }
+          ],
+          "explanation": "Repeated feeding can teach animals to associate people with food, making encounters riskier.",
+          "source_ids": [
+            "source.malaysia_wildlife_feeding",
+            "source.food_conditioning"
+          ],
+          "fact_ids": [
+            "fact.wildlife_feeding"
+          ]
+        },
+        {
+          "id": "records.marked_trail",
+          "prompt": "What does staying on a marked trail help reduce when watching birds?",
+          "correct_choice_id": "records.marked_trail.habitat_disturbance",
+          "choices": [
+            {
+              "id": "records.marked_trail.wind_noise",
+              "text": "Wind noise in the treetops"
+            },
+            {
+              "id": "records.marked_trail.river_height",
+              "text": "The height of the river after rain"
+            },
+            {
+              "id": "records.marked_trail.habitat_disturbance",
+              "text": "Disturbance to habitat off the trail"
+            },
+            {
+              "id": "records.marked_trail.other_species",
+              "text": "The variety of other birds present"
+            }
+          ],
+          "explanation": "Staying on open marked paths limits trampling and disturbance in surrounding habitat.",
+          "source_ids": [
+            "source.birding_ethics"
+          ],
+          "fact_ids": []
+        },
+        {
+          "id": "records.nest_playback",
+          "prompt": "Why limit recorded calls when watching birds near an active nest?",
+          "correct_choice_id": "records.nest_playback.draw_attention",
+          "choices": [
+            {
+              "id": "records.nest_playback.signal_safety",
+              "text": "Playback reliably tells all birds that people are safe."
+            },
+            {
+              "id": "records.nest_playback.filter_species",
+              "text": "Birds respond only to the calls of predators."
+            },
+            {
+              "id": "records.nest_playback.draw_attention",
+              "text": "Calls can draw a bird's attention and disturb it."
+            },
+            {
+              "id": "records.nest_playback.silence_nest",
+              "text": "Recorded calls keep all nesting birds quiet."
+            }
+          ],
+          "explanation": "Playback can attract or distract birds. Avoid adding disturbance around active nests.",
+          "source_ids": [
+            "source.birding_ethics"
+          ],
+          "fact_ids": []
+        }
+      ]
+    },
+    {
+      "id": "records_chapter.woods_tracker",
+      "records_room_level": 5,
+      "topic": "Native trees and restoration",
+      "ranger_id": "ranger.woods_tracker",
+      "perfect_clear_enhancement": "Improved HP and reduced redeployment cooldown",
+      "final_perfect_chapter_funds": null,
+      "questions": [
+        {
+          "id": "records.fig_start",
+          "prompt": "Where can a strangler fig such as Ficus kerkhovenii start growing?",
+          "correct_choice_id": "records.fig_start.branch",
+          "choices": [
+            {
+              "id": "records.fig_start.branch",
+              "text": "On a branch in another tree's canopy"
+            },
+            {
+              "id": "records.fig_start.root_only",
+              "text": "Only at the base of a dead trunk"
+            },
+            {
+              "id": "records.fig_start.inside_fruit",
+              "text": "Inside a ripe fruit still on its parent"
+            },
+            {
+              "id": "records.fig_start.underwater",
+              "text": "Underwater in a deep pool"
+            }
+          ],
+          "explanation": "Some strangler fig seeds sprout in another tree's canopy and send roots down towards the soil.",
+          "source_ids": [
+            "source.nparks_strangler_fig"
+          ],
+          "fact_ids": [
+            "fact.strangler_fig_start"
+          ]
+        },
+        {
+          "id": "records.belian_name",
+          "prompt": "What is another name for Belian (Eusideroxylon zwageri)?",
+          "correct_choice_id": "records.belian_name.ironwood",
+          "choices": [
+            {
+              "id": "records.belian_name.strangler_fig",
+              "text": "Strangler fig"
+            },
+            {
+              "id": "records.belian_name.ironwood",
+              "text": "Bornean ironwood"
+            },
+            {
+              "id": "records.belian_name.red_meranti",
+              "text": "Light red meranti"
+            },
+            {
+              "id": "records.belian_name.mengaris",
+              "text": "Mengaris"
+            }
+          ],
+          "explanation": "Belian is also called Bornean ironwood.",
+          "source_ids": [
+            "source.fds_belian"
+          ],
+          "fact_ids": [
+            "fact.belian_identity"
+          ]
+        },
+        {
+          "id": "records.red_meranti_example",
+          "prompt": "Which is an example of a light red meranti native to Borneo?",
+          "correct_choice_id": "records.red_meranti_example.shorea_leprosula",
+          "choices": [
+            {
+              "id": "records.red_meranti_example.shorea_leprosula",
+              "text": "Meranti tembaga"
+            },
+            {
+              "id": "records.red_meranti_example.ironwood",
+              "text": "Bornean ironwood"
+            },
+            {
+              "id": "records.red_meranti_example.fig",
+              "text": "Strangler fig"
+            },
+            {
+              "id": "records.red_meranti_example.mengaris",
+              "text": "Mengaris"
+            }
+          ],
+          "explanation": "MyBIS lists meranti tembaga, also called light red meranti, as occurring naturally in Borneo.",
+          "source_ids": [
+            "source.mybis_red_meranti"
+          ],
+          "fact_ids": [
+            "fact.red_meranti_example"
+          ]
+        },
+        {
+          "id": "records.mengaris_identity",
+          "prompt": "Which scientific name goes with Mengaris?",
+          "correct_choice_id": "records.mengaris_identity.koompassia_excelsa",
+          "choices": [
+            {
+              "id": "records.mengaris_identity.ficus_kerkhovenii",
+              "text": "Ficus kerkhovenii"
+            },
+            {
+              "id": "records.mengaris_identity.koompassia_excelsa",
+              "text": "Koompassia excelsa"
+            },
+            {
+              "id": "records.mengaris_identity.shorea_leprosula",
+              "text": "Shorea leprosula"
+            },
+            {
+              "id": "records.mengaris_identity.eusideroxylon_zwageri",
+              "text": "Eusideroxylon zwageri"
+            }
+          ],
+          "explanation": "MyBIS records Mengaris as a Sabah name for Koompassia excelsa.",
+          "source_ids": [
+            "source.mybis_mengaris"
+          ],
+          "fact_ids": [
+            "fact.mengaris_identity"
+          ]
+        },
+        {
+          "id": "records.assisted_regeneration",
+          "prompt": "What can assisted natural regeneration include?",
+          "correct_choice_id": "records.assisted_regeneration.protect_regrowth",
+          "choices": [
+            {
+              "id": "records.assisted_regeneration.protect_regrowth",
+              "text": "Protecting native seedlings already growing on site"
+            },
+            {
+              "id": "records.assisted_regeneration.pave_site",
+              "text": "Covering the bare ground with pavement"
+            },
+            {
+              "id": "records.assisted_regeneration.record_only",
+              "text": "Counting seedlings once without looking after the site"
+            },
+            {
+              "id": "records.assisted_regeneration.remove_regrowth",
+              "text": "Clearing all existing native regrowth"
+            }
+          ],
+          "explanation": "Assisted natural regeneration helps native trees that have already begun to return.",
+          "source_ids": [
+            "source.fao_natural_regeneration"
+          ],
+          "fact_ids": [
+            "fact.assisted_regeneration"
+          ]
+        },
+        {
+          "id": "records.seedling_survival",
+          "prompt": "What should a restoration team check to measure seedling survival?",
+          "correct_choice_id": "records.seedling_survival.alive_follow_up",
+          "choices": [
+            {
+              "id": "records.seedling_survival.staff_total",
+              "text": "How many people joined planting day"
+            },
+            {
+              "id": "records.seedling_survival.tools_used",
+              "text": "How many planting tools were used"
+            },
+            {
+              "id": "records.seedling_survival.alive_follow_up",
+              "text": "How many planted seedlings are still alive at a later visit"
+            },
+            {
+              "id": "records.seedling_survival.order_size",
+              "text": "How many seedlings were on the order form"
+            }
+          ],
+          "explanation": "Survival requires a follow-up count. A planting-day total does not show how many lived.",
+          "source_ids": [
+            "source.fao_monitoring"
+          ],
+          "fact_ids": [
+            "fact.seedling_survival"
+          ]
+        },
+        {
+          "id": "records.suitable_species",
+          "prompt": "Which information helps a team choose trees for a restoration site?",
+          "correct_choice_id": "records.suitable_species.native_site_conditions",
+          "choices": [
+            {
+              "id": "records.suitable_species.label_colour",
+              "text": "Which seedlings have the brightest labels"
+            },
+            {
+              "id": "records.suitable_species.fastest_anywhere",
+              "text": "Which import grows fastest in a nursery"
+            },
+            {
+              "id": "records.suitable_species.random_batch",
+              "text": "Which box arrived first"
+            },
+            {
+              "id": "records.suitable_species.native_site_conditions",
+              "text": "The native trees suited to the site's conditions"
+            }
+          ],
+          "explanation": "Restoration plans consider site conditions and plants that fit the local ecosystem.",
+          "source_ids": [
+            "source.fao_restoration"
+          ],
+          "fact_ids": [
+            "fact.assisted_regeneration"
+          ]
+        },
+        {
+          "id": "records.retain_cavities",
+          "prompt": "What can retaining mature trees protect while a restoration site regrows?",
+          "correct_choice_id": "records.retain_cavities.existing_cavities",
+          "choices": [
+            {
+              "id": "records.retain_cavities.zero_storms",
+              "text": "A guarantee that no storm affects the site"
+            },
+            {
+              "id": "records.retain_cavities.new_soil_type",
+              "text": "A new type of rock for the soil"
+            },
+            {
+              "id": "records.retain_cavities.same_height",
+              "text": "Identical heights for every seedling"
+            },
+            {
+              "id": "records.retain_cavities.existing_cavities",
+              "text": "Existing hollows that cavity-nesting birds may use"
+            }
+          ],
+          "explanation": "Large mature trees can already contain the natural hollows hornbills need for nesting.",
+          "source_ids": [
+            "source.fds_rhinoceros_hornbill",
+            "source.hsg_natural_cavities"
+          ],
+          "fact_ids": [
+            "fact.hornbill_tree_cavity",
+            "fact.mature_tree_cavities"
+          ]
+        },
+        {
+          "id": "records.nest_box_role",
+          "prompt": "What can an artificial nest box add where suitable hornbill cavities are scarce?",
+          "correct_choice_id": "records.nest_box_role.extra_cavity",
+          "choices": [
+            {
+              "id": "records.nest_box_role.full_canopy",
+              "text": "The same habitat as a mature forest"
+            },
+            {
+              "id": "records.nest_box_role.extra_cavity",
+              "text": "A potential additional nest cavity"
+            },
+            {
+              "id": "records.nest_box_role.guaranteed_chicks",
+              "text": "A guarantee that chicks will hatch"
+            },
+            {
+              "id": "records.nest_box_role.enough_fruit",
+              "text": "All the food a hornbill pair needs"
+            }
+          ],
+          "explanation": "A box can add a possible site. A box does not guarantee nesting or provide a forest's resources.",
+          "source_ids": [
+            "source.sarawak_museum_nest_boxes",
+            "source.hsg_natural_cavities"
+          ],
+          "fact_ids": [
+            "fact.nest_box_habitat"
+          ]
+        },
+        {
+          "id": "records.restoration_baseline",
+          "prompt": "Why record the condition of a restoration site before planting?",
+          "correct_choice_id": "records.restoration_baseline.compare_change",
+          "choices": [
+            {
+              "id": "records.restoration_baseline.skip_monitoring",
+              "text": "To make future visits unnecessary"
+            },
+            {
+              "id": "records.restoration_baseline.set_survival",
+              "text": "To fix how many seedlings will survive"
+            },
+            {
+              "id": "records.restoration_baseline.compare_change",
+              "text": "To compare later results with the starting condition"
+            },
+            {
+              "id": "records.restoration_baseline.measure_receipts",
+              "text": "To record how much funding will arrive"
+            }
+          ],
+          "explanation": "A baseline gives later surveys a starting point for measuring real changes at the site.",
+          "source_ids": [
+            "source.fao_baseline"
+          ],
+          "fact_ids": []
+        }
+      ]
+    }
+  ]
+}

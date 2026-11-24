@@ -109,11 +109,13 @@ func continue_after_feedback() -> bool:
 	if not reviewing() or not can_resume():
 		return false
 	if question_number() == question_count():
-		result = _profile.finish_quiz(int(chapter().final_perfect_chapter_funds))
+		var bonus: Variant = chapter().final_perfect_chapter_funds
+		result = _profile.finish_quiz(0 if bonus == null else int(bonus))
 		if result.is_empty():
 			notice = "Could not save the chapter result. Check local storage and retry."
 			view_changed.emit()
 			return false
+		result.pending_bonus = bonus == null and result.correct == result.total
 	elif not _profile.continue_quiz():
 		notice = "Could not save your place. Check local storage and retry."
 		view_changed.emit()

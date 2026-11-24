@@ -312,3 +312,8 @@
 
 - All 12 Rangers are fieldable after their existing recruitment gates. The five new field bindings use the existing W29 production art, shared combat clock, placement rules and C31-A skill orbs. [Field-kit tuning and source decisions](../canon/DECISION_LOG.md#c31-b-ranger-field-kit-playtest-tuning--2026-11-24)
 - The QA handoff records real Story and Chaos captures, host regressions, APK verification and late-Campaign autonomous runs with legal loadouts. [QA report](../qa/C31_B_RANGER_FIELD_KITS.md)
+
+### C31-C · Late Campaign and education · 2026-11-24
+
+- C2-08 uses slower Heat gain with the existing owned equipment. C2-09 uses a longer setup window and gradually faster arrivals. Legal low, progressed and advanced trials produced the outcomes in the QA report. The alternative Firebreak ownership trial remains a decision for the owner.
+- Outreach and Records use revision 2 of the player banks. The QA handoff includes provenance, real Story and education captures, regression results and the Android payload procedure. [C31-C QA](../qa/C31_C_LATE_CAMPAIGN.md)

@@ -90,7 +90,10 @@ func _debuffs(content: CampaignContent) -> void:
 	var key := &"C2-07"
 	for operation in content.operations:
 		var is_heat := operation.stage.stage_id in [key, &"C2-08"]
-		_check(operation.has_heat == is_heat and is_equal_approx(_effective_stage(operation).heat_gain_scale, 1.3 if is_heat else 1.0), "%s has correct D14 and Heat visibility" % operation.stage.stage_id)
+		var heat_scale := 1.3 if is_heat else 1.0
+		if operation.stage.stage_id == &"C2-08":
+			heat_scale = 1.3 * 0.32
+		_check(operation.has_heat == is_heat and is_equal_approx(_effective_stage(operation).heat_gain_scale, heat_scale), "%s has correct D14 and Heat visibility" % operation.stage.stage_id)
 
 func _openings(content: CampaignContent) -> void:
 	var profile := CampaignProgress.new(_path)

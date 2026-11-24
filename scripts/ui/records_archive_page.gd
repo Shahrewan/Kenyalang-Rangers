@@ -30,13 +30,14 @@ func _ready() -> void:
 		card.add_child(StoryUI.label(fact.text, 20, StoryUI.INK))
 		EducationUI.credit_sources(card, catalog, fact.source_ids, StoryUI.INK)
 		var read := StoryUI.action("Read article")
+		read.name = "Article_" + id.get_slice(".", 1)
 		read.pressed.connect(func() -> void: article_requested.emit(id))
 		card.add_child(read)
 	var chapters := StoryUI.scroll_column(body)
 	var heading := StoryUI.label("Quiz chapters", 25)
 	chapters.add_child(heading)
 	if catalog.chapters.is_empty():
-		chapters.add_child(StoryUI.label("Quiz questions await an approved bank and award values.", 20, StoryUI.BEIGE))
+		chapters.add_child(StoryUI.label("Quiz questions await an approved bank.", 20, StoryUI.BEIGE))
 	var available := progress.records_chapters()
 	var enhanced := progress.records_enhancements()
 	var existing := RecordsQuiz.new(progress, catalog)
@@ -49,6 +50,8 @@ func _ready() -> void:
 			title += " · " + chapter.topic
 		card.add_child(StoryUI.label(title, 22, StoryUI.AMBER))
 		card.add_child(StoryUI.label(mapping[1], 18))
+		if not chapter.is_empty():
+			card.add_child(StoryUI.label("%d questions · 15 s each" % chapter.questions.size(), 17, StoryUI.BEIGE))
 		var unlocked := id in available
 		var open := StoryUI.action("Resume chapter" if existing.can_resume() and existing.chapter_id() == id else "Start chapter")
 		open.name = "Chapter_" + id.get_slice(".", 1)
@@ -61,6 +64,7 @@ func _ready() -> void:
 		elif StringName(id) in enhanced:
 			card.add_child(StoryUI.label("Enhancement earned", 17, StoryUI.BEIGE))
 	_notice = StoryUI.label("", 18, StoryUI.AMBER)
+	_notice.hide()
 	add_child(_notice)
 	_replace = StoryUI.confirmation(self, "Replace saved quiz?", "Start chapter")
 	_replace.dialog_text = "The current quiz will close. Earned Funds and enhancements stay in your profile."
@@ -83,9 +87,11 @@ func _start_replacement() -> void:
 		_start(RecordsQuiz.new(progress, catalog), _requested_chapter)
 	else:
 		_notice.text = "Could not replace the saved quiz. Check local storage."
+		_notice.show()
 
 func _start(quiz: RecordsQuiz, id: String) -> void:
 	if quiz.begin(id):
 		quiz_requested.emit(quiz)
 	else:
 		_notice.text = "Could not start the chapter. Check local storage."
+		_notice.show()

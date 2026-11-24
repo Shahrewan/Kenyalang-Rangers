@@ -28,8 +28,12 @@
       "preparation_seconds": 5,
       "wave_interval_multipliers": [1.5, 1.25, 1.1, 1.0]
     },
+    "c31_c_pacing": {
+      "preparation_seconds": 21,
+      "wave_interval_seconds": [2.8, 2.15, 1.7, 1.5]
+    },
     "position_speed_attack_escape_source": "c12_catalogue_provisional",
-    "heat": {"capacity": 100, "integrity_loss_per_reset": 10, "status": "proposed_campaign_trial"}
+    "heat": {"capacity": 100, "integrity_loss_per_reset": 10, "gain_scale": 0.32, "status": "proposed_campaign_trial"}
   },
   "warnings_and_teaching": "Prioritize Heat sources and recognize the Foreman’s temporary HP. The C2-07 supply has expired.",
   "waves": [

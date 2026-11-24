@@ -87,6 +87,7 @@ func _read_records(bank: Dictionary) -> void:
 	var rows := _indexed(bank.get("chapters"))
 	if rows.size() != CHAPTERS.size():
 		return
+	var pending_bonus: bool = bank.get("payout_status") == "prototype_gdd_question_rewards"
 	var seen := {}
 	var index := 0
 	for id: String in CHAPTERS:
@@ -94,7 +95,10 @@ func _read_records(bank: Dictionary) -> void:
 		if chapter.get("records_room_level") != index + 2 or chapter.get("ranger_id") != "ranger." + id.get_slice(".", 1):
 			return
 		index += 1
-		if not _has_text(chapter, ["topic", "perfect_clear_enhancement"]) or not _funds_value(chapter.get("final_perfect_chapter_funds")):
+		var bonus: Variant = chapter.get("final_perfect_chapter_funds")
+		if not _has_text(chapter, ["topic", "perfect_clear_enhancement"]):
+			return
+		if not _funds_value(bonus) and not (pending_bonus and chapter.has("final_perfect_chapter_funds") and bonus == null):
 			return
 		var questions := _indexed(chapter.get("questions"))
 		if questions.is_empty():

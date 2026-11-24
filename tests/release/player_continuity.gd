@@ -9,7 +9,9 @@ func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
-	var mode := OS.get_cmdline_user_args()
+	var args := OS.get_cmdline_user_args()
+	var mode := args[0] if not args.is_empty() else ""
+	var education := "--education" in args
 	var app := LAUNCHER.instantiate()
 	# The host runner also isolates the entire user directory for each install path.
 	app.save_path = "user://c24-legacy.json"
@@ -19,7 +21,7 @@ func _run() -> void:
 	app.set_process(false)
 	await process_frame
 	var profile: CampaignProgress = app._campaign_progress
-	if mode == PackedStringArray(["seed"]):
+	if mode == "seed":
 		_check(app._route == &"name", "Fresh launch opens Leader naming")
 		var input: LineEdit = app._screen.find_child("LeaderName", true, false)
 		input.text = "Lina"
@@ -42,7 +44,7 @@ func _run() -> void:
 		for action in ["Plot1", "ChooseSeed", "Plant_strangler_fig"]:
 			_press(app, action)
 		_check(profile.garden_state().plots.has("garden_plot.01"), "Growing fig saved from the Garden")
-	elif mode == PackedStringArray(["resume"]):
+	elif mode == "resume":
 		_check(app._route == &"menu" and profile.snapshot().leader_name == "Lina" and profile.funds() == 12000, "Returning process restores Leader and wallet")
 		_check(profile.room_level(HeadquartersCatalog.ECOLOGY) == 1 and profile.room_level(HeadquartersCatalog.RECORDS) == 2, "Room purchase and upgrade persist")
 		now += 9 * 3600
@@ -59,13 +61,21 @@ func _run() -> void:
 			_open_room(app, id)
 			_press(app, "RoomActivity")
 			if id == "outreach":
-				_check(app._screen is OutreachPage and _has_text(app._screen, "Outreach questions await an approved bank."), "Installed Outreach reports its approval gate")
+				if education:
+					var choice := app._screen.find_child("OutreachAnswer0", true, false) as Button
+					_check(app._screen is OutreachPage and choice != null and not choice.disabled
+						and profile.outreach_state().batch.size() == 5, "Returning save opens an installed Outreach batch")
+				else:
+					_check(app._screen is OutreachPage and _has_text(app._screen, "Outreach questions await an approved bank."), "Installed Outreach reports its approval gate")
 			else:
 				var chapter: Button = app._screen.find_child("Chapter_scout_sniper", true, false)
-				_check(app._screen is RecordsArchivePage and chapter != null and chapter.disabled, "Installed Records Lv.2 chapter remains gated")
-	elif mode == PackedStringArray(["verify"]):
+				_check(app._screen is RecordsArchivePage and chapter != null and chapter.disabled == (not education),
+					"Installed Records follows the player bank and existing Lv.2 room gate")
+	elif mode == "verify":
 		_check(profile.funds() == 65000 and profile.restoration_percent() == 20 and profile.garden_state().plots.is_empty(), "Second relaunch retains the settled harvest")
 		_check(profile.load_status == CampaignProgress.LoadStatus.READY, "Primary profile opens without recovery")
+		if education:
+			_check(profile.outreach_state().batch.size() == 5, "Second relaunch keeps the installed Outreach rotation")
 	else:
 		_check(false, "Use seed, resume or verify from the package checker")
 	app.free()
