@@ -8,9 +8,13 @@ signal help_requested
 
 var preferences: PresentationAudio
 var progress: CampaignProgress
+var developer_progress: CampaignProgress
 var _feedback: Label
 var _dialog: ConfirmationDialog
 var _text_buttons: Dictionary[int, Button] = {}
+var _funds_amount: LineEdit
+var _funds_balance: Label
+var _funds_feedback: Label
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
@@ -26,6 +30,8 @@ func _ready() -> void:
 		_add_progress_controls(card)
 	_feedback = StoryUI.label("", 19, StoryUI.AMBER)
 	card.add_child(_feedback)
+	if developer_progress != null and developer_progress.can_play():
+		_add_developer_controls(card)
 
 func _add_text_sizes(card: Container) -> void:
 	card.add_child(StoryUI.label("Text size", 20))
@@ -63,6 +69,50 @@ func _add_progress_controls(card: Container) -> void:
 	card.add_child(reset)
 	_dialog = StoryUI.confirmation(self, "Reset local progress", "Delete progress")
 	_dialog.confirmed.connect(func() -> void: reset_requested.emit())
+
+func _add_developer_controls(card: Container) -> void:
+	card.add_child(StoryUI.label("Developer", 26, StoryUI.AMBER))
+	_funds_balance = StoryUI.label("", 20)
+	card.add_child(_funds_balance)
+	_update_funds_balance()
+	var controls := StoryUI.row(card, 8)
+	_funds_amount = LineEdit.new()
+	_funds_amount.name = "DeveloperFundsAmount"
+	_funds_amount.placeholder_text = "Amount"
+	_funds_amount.accessibility_name = "Funds adjustment amount"
+	_funds_amount.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
+	_funds_amount.custom_minimum_size = StoryUI.android_touch_minimum(self)
+	_funds_amount.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	controls.add_child(_funds_amount)
+	var add := StoryUI.action("Add Funds")
+	add.name = "DeveloperAddFunds"
+	add.pressed.connect(_adjust_funds.bind(1))
+	controls.add_child(add)
+	var remove := StoryUI.action("Remove Funds")
+	remove.name = "DeveloperRemoveFunds"
+	remove.pressed.connect(_adjust_funds.bind(-1))
+	controls.add_child(remove)
+	_funds_feedback = StoryUI.label("", 18, StoryUI.AMBER)
+	card.add_child(_funds_feedback)
+
+func _adjust_funds(direction: int) -> void:
+	var text := _funds_amount.text.strip_edges()
+	if not text.is_valid_int() or int(text) <= 0 or int(text) > FundsWallet.CAP:
+		_funds_feedback.text = "Enter a whole amount from 1 to %s." % StoryUI.funds(FundsWallet.CAP)
+		return
+	var before := developer_progress.funds()
+	if not developer_progress.adjust_developer_funds(direction * int(text)):
+		_funds_feedback.text = "Could not save the Funds adjustment. Check local storage."
+		return
+	_update_funds_balance()
+	var applied := absi(developer_progress.funds() - before)
+	if applied == 0:
+		_funds_feedback.text = "Funds are already at the wallet limit."
+	else:
+		_funds_feedback.text = "%s %s Funds." % ["Added" if direction > 0 else "Removed", StoryUI.funds(applied)]
+
+func _update_funds_balance() -> void:
+	_funds_balance.text = "Campaign balance   %s Funds" % StoryUI.funds(developer_progress.funds())
 
 func _add_slider(card: Container, key: String) -> void:
 	var title := "Sound effects" if key == "sfx" else key.capitalize()

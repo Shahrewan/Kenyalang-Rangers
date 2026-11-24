@@ -296,3 +296,7 @@ The owner approved the W29 visuals at `b3c0243` for the rigging and animation ha
 ## D-012 and D-014 C28-B runtime binding — 2026-11-24
 
 C1-02 uses the reviewed W29 E02 v0.3 rig and Intel badge on Godot `4.7.2.stable.official.ed1daf0bf` with matching `4.7.2.stable` templates. The shared combat clock and existing actor state drive six E02 clips. The normal fixture matches W29 main at tick 8169. D02, the ordinary Post footprint, repeat cooldown and cancellation refund use their existing rules. Captures passed at 1280 × 720 and 960 × 540. The ARM64 debug package passed its resource audit and host replay. ADB listed no attached phone, so device validation and D-014 release clearance remain open. [C28-B verification](../qa/C28_B_HOLD_THE_LINE.md)
+
+## D-012 and D-014 C28-C runtime binding and Developer Funds — 2026-11-24
+
+C1-03 binds the reviewed W29 Runner, Combat Medic, Sonic Turret and messenger visuals to the existing combat and dialogue events. The messenger remains a noncombat presentation event after wave two. The owner requested Developer Funds in Settings. Adjustments change the existing local wallet within 0–9,999,999 and save through the profile writer. The mission's unapproved award values remain pending. Godot `4.7.2.stable.official.ed1daf0bf` and `4.7.2.stable` templates were used for the capture and ARM64 export. ADB listed no phone. [Verification and device procedure](../qa/C28_C_NARROW_ESCAPE.md)

@@ -57,6 +57,7 @@ func _draw() -> void:
 		first_contact_field.draw_ground()
 		_draw_slow_fields()
 		_draw_deployments()
+		first_contact_field.draw_turrets()
 		_draw_siege_warnings()
 		first_contact_field.draw_actors()
 		return
@@ -228,7 +229,7 @@ func _draw_deployments() -> void:
 				first_contact_field.draw_post(post_center)
 				_draw_health(post_center + Vector2(0, tile_size() * 0.4), tile_size() * 0.8, unit.hp, unit.spec.max_hp)
 				continue
-			elif first_contact_field.rangers.has(id):
+			elif first_contact_field.rangers.has(id) or first_contact_field.turrets.has(id):
 				continue
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):

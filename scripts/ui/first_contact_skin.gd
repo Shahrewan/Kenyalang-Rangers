@@ -4,6 +4,10 @@ extends RefCounted
 const FIELD_DATA := "res://data/presentation/first_contact/field.json"
 const W29_CATALOG := "res://data/presentation/w29/art_catalog.json"
 const POACHER := &"E02"
+const RUNNER := &"E03"
+const MEDIC := &"ranger.combat_medic"
+const SONIC := &"facility.sonic_turret"
+const NARROW_ESCAPE := &"C1-03"
 const ATLASES := {
 	"terrain": preload("res://assets/imported/first_contact/t01_terrain_atlas.png"),
 	"interface": preload("res://assets/imported/first_contact/first_contact_ui_atlas.png"),
@@ -20,10 +24,18 @@ static func read_json(path: String) -> Dictionary:
 	return value if value is Dictionary else {}
 
 static func illustrates_operation(stage_id: StringName) -> bool:
-	return stage_id in [&"C1-01", &"C1-02"]
+	return stage_id in [&"C1-01", &"C1-02", NARROW_ESCAPE]
 
 static func poacher_art() -> Dictionary:
-	return read_json(W29_CATALOG).get("actors", {}).get(POACHER, {})
+	return w29_art(POACHER)
+
+static func w29_art(id: StringName) -> Dictionary:
+	var catalog := read_json(W29_CATALOG)
+	var family := "facilities" if String(id).begins_with("facility.") else "actors"
+	return catalog.get(family, {}).get(id, {})
+
+static func w29_badge(id: StringName) -> Texture2D:
+	return optional_art(w29_art(id).get("badge", ""), "Texture2D") as Texture2D
 
 static func optional_art(path: String, type: String) -> Resource:
 	return ResourceLoader.load(path, type) if not path.is_empty() and ResourceLoader.exists(path, type) else null
