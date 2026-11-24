@@ -129,7 +129,11 @@ func _draw_slow_fields() -> void:
 			for x in range(area.position.x, area.end.x):
 				var cell := Vector2i(x, y)
 				if battle_map.tile_at(cell) != BattleMap.Tile.NONDEPLOYABLE:
-					draw_rect(_tile_rect(cell), Color(0.18, 0.73, 0.66, 0.38))
+					var tile := _tile_rect(cell)
+					if first_contact_field != null and first_contact_field.full_pack:
+						first_contact_field.draw_slow_field(tile)
+					else:
+						draw_rect(tile, Color(0.18, 0.73, 0.66, 0.38))
 
 func _draw_enemy_status(enemy: BattleEnemy, center: Vector2, cell: float) -> void:
 	var tick := battle.clock.tick
@@ -166,6 +170,8 @@ func _draw_siege_warnings() -> void:
 		for cell in target.spec.footprint(target.anchor):
 			draw_rect(_tile_rect(cell), Color("#F28D72"), false, 3.0)
 		var center := cell_center(target.anchor)
+		if first_contact_field != null and first_contact_field.full_pack:
+			first_contact_field.draw_siege_warning(center)
 		var font := get_theme_default_font()
 		var size_px := maxi(11, roundi(tile_size() * 0.23))
 		var width := font.get_string_size("Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
@@ -203,15 +209,18 @@ func _draw_deployments() -> void:
 			if Rect2i(Vector2i.ZERO, battle_map.size).has_point(cell):
 				var bounds := _tile_rect(cell)
 				if first_contact_field != null:
-					first_contact_field.terrain("KRT_51" if valid else "KRT_52", bounds)
+					var art := "KRT_51" if valid else "KRT_52"
+					if valid and first_contact_field.full_pack and cell in preview_spec.reserved(preview_cell):
+						art = "KRT_55"
+					first_contact_field.terrain(art, bounds)
 				else:
 					draw_rect(bounds, border, false, 3.0)
 				if not valid and first_contact_field == null:
 					var mark := bounds.grow(-tile_size() * 0.27)
 					draw_line(mark.position, mark.end, border, 3.0)
 					draw_line(Vector2(mark.end.x, mark.position.y), Vector2(mark.position.x, mark.end.y), border, 3.0)
-		if first_contact_field != null and preview_spec.logistics_post and valid:
-			first_contact_field.draw_post(cell_center(preview_cell) + Vector2(tile_size() / 2.0, 0), Color(1, 1, 1, 0.52))
+		if first_contact_field != null and not preview_spec.is_ranger() and valid:
+			first_contact_field.draw_facility_preview(preview_spec, preview_cell)
 		if preview_spec.is_melee():
 			_draw_direction(preview_cell, preview_facing, border)
 	var armed: DeploymentState.Placement = deployments.placed.get(deployments.armed)
@@ -224,12 +233,12 @@ func _draw_deployments() -> void:
 		var unit := deployments.placed[id]
 		var remaining := deployments.build_ticks_left(id)
 		if first_contact_field != null:
-			if unit.spec.logistics_post and remaining == 0:
+			if first_contact_field.rangers.has(id) or first_contact_field.turrets.has(id):
+				continue
+			elif unit.spec.logistics_post and remaining == 0 and not first_contact_field.full_pack:
 				var post_center := cell_center(unit.anchor) + Vector2(tile_size() / 2.0, 0)
 				first_contact_field.draw_post(post_center)
 				_draw_health(post_center + Vector2(0, tile_size() * 0.4), tile_size() * 0.8, unit.hp, unit.spec.max_hp)
-				continue
-			elif first_contact_field.rangers.has(id) or first_contact_field.turrets.has(id):
 				continue
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
 		for cell in unit.spec.footprint(unit.anchor):

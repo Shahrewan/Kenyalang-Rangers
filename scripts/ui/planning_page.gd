@@ -37,6 +37,18 @@ func _ready() -> void:
 	var intel := WaveIntel.new()
 	incoming.add_child(intel)
 	intel.show_stage(plan.resolved().stage)
+	if operation.campaign_spec and not plan.chaos and not FirstContactSkin.is_pilot(operation.stage.stage_id):
+		var assets := CampaignVisualAssets.new()
+		var art := assets.region(operation.stage.map.map_id)
+		if not art.is_empty():
+			var field := TextureRect.new()
+			field.texture = assets.texture(art.planning_thumbnail.texture)
+			field.custom_minimum_size.y = 82
+			field.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			field.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			field.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			incoming.add_child(field)
+			incoming.move_child(field, intel.get_index())
 
 	var footer := StoryUI.row(self, 16)
 	_feedback = StoryUI.label("", 18, StoryUI.BEIGE)

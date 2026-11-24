@@ -80,5 +80,21 @@ func _campaign_rewards(panel: VBoxContainer) -> void:
 		panel.add_child(StoryUI.label("%d Funds discarded above the wallet cap." % settlement.discarded, 18, StoryUI.AMBER))
 	if not report.unlocked.is_empty():
 		panel.add_child(StoryUI.label("Unlocked", 23))
-		for item: String in report.unlocked:
-			panel.add_child(StoryUI.label(item, 19))
+		var assets := CampaignVisualAssets.new()
+		var ids: Array = report.get("unlocked_art_ids", [])
+		for i in report.unlocked.size():
+			var label := StoryUI.label(report.unlocked[i], 19)
+			var texture := assets.badge(ids[i]) if i < ids.size() else null
+			if texture == null:
+				panel.add_child(label)
+				continue
+			var row := StoryUI.row(panel, 8)
+			var badge := TextureRect.new()
+			badge.texture = texture
+			badge.custom_minimum_size = Vector2(35, 35)
+			badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			badge.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(badge)
+			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(label)

@@ -1,6 +1,8 @@
 class_name EnemyAbilities
 extends RefCounted
 
+signal applied(enemy: BattleEnemy, target: Vector2i)
+
 func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: FacilityCombat, tick: int) -> void:
 	var ability := enemy.definition.ability
 	if ability == null or tick < enemy.stunned_until:
@@ -86,6 +88,8 @@ func _apply(enemy: BattleEnemy, ability: EnemyAbility, deployment: DeploymentSta
 				else:
 					unit.knocked_down_until = maxi(unit.knocked_down_until, until)
 					_interrupt(deployment, id)
+
+	applied.emit(enemy, enemy.grid_cell() if unit == null else unit.anchor)
 
 func _interrupt(deployment: DeploymentState, id: StringName) -> void:
 	if deployment.armed == id:
