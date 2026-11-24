@@ -23,8 +23,15 @@ static func read_json(path: String) -> Dictionary:
 	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 	return value if value is Dictionary else {}
 
-static func illustrates_operation(stage_id: StringName) -> bool:
+static func is_pilot(stage_id: StringName) -> bool:
 	return stage_id in [&"C1-01", &"C1-02", NARROW_ESCAPE]
+
+static func illustrates_operation(stage_id: StringName) -> bool:
+	var id := String(stage_id)
+	if id.length() != 5 or not id.right(2).is_valid_int():
+		return false
+	var number := id.right(2).to_int()
+	return (id.begins_with("C1-") and number in range(1, 6)) or (id.begins_with("C2-") and number in range(1, 11))
 
 static func poacher_art() -> Dictionary:
 	return w29_art(POACHER)
@@ -48,6 +55,11 @@ func patrolman_sockets() -> Dictionary:
 
 static func vector(pair: Array) -> Vector2:
 	return Vector2(pair[0], pair[1])
+
+func try_region(family: String, key: String) -> AtlasTexture:
+	if not _data.get("atlas", {}).get(family, {}).get("regions", {}).has(key):
+		return null
+	return region(family, key)
 
 func region(family: String, key: String) -> AtlasTexture:
 	var path := family + "/" + key

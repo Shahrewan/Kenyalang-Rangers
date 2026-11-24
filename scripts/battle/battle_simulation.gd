@@ -5,6 +5,7 @@ signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
 signal enemy_attack_presented(enemy: BattleEnemy)
 signal enemy_hit_presented(id: int)
+signal enemy_ability_presented(enemy: BattleEnemy, target: Vector2i)
 signal siege_hit
 signal heat_overflow
 signal cinematic_withdrawal
@@ -61,6 +62,7 @@ func _init(stage: BattleStage) -> void:
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
+	_enemy_abilities.applied.connect(enemy_ability_presented.emit)
 	clock.stepping.connect(_announce_first_spawn)
 	clock.stepped.connect(_step)
 	_begin_next_wave(1 + CombatClock.ticks_for(stage.opening_delay_seconds))

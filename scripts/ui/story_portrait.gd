@@ -18,6 +18,8 @@ const MESSENGER_PORTRAIT := preload("res://assets/imported/portraits/poacher/ale
 const MESSENGER_CUE := preload("res://assets/imported/portraits/story/messenger_cue.png")
 var illustrated := false
 var messenger_alert := false
+var assets: CampaignVisualAssets
+var _texture: Texture2D
 
 var identity := ""
 var pose := ""
@@ -28,10 +30,18 @@ func present(key: String, expression: String, messenger := false) -> void:
 	identity = key
 	pose = expression
 	messenger_alert = messenger
+	_texture = null
+	if illustrated:
+		var variants: Dictionary = FIRST_CONTACT.get(identity, {})
+		if not variants.is_empty():
+			var alias := {"concerned": "briefing", "reassuring": "steady"}
+			_texture = variants.get(pose, variants.get(alias.get(pose, "")))
+		elif assets != null:
+			_texture = assets.portrait(identity, pose)
 	if _motion != null:
 		_motion.kill()
 	queue_redraw()
-	if illustrated and (FIRST_CONTACT.has(identity) or messenger_alert):
+	if _texture != null or (illustrated and messenger_alert):
 		return
 	_settle = -5.0
 	_motion = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -49,13 +59,11 @@ func _draw() -> void:
 		draw_texture_rect(MESSENGER_PORTRAIT, Rect2(origin, Vector2.ONE * extent), false)
 		draw_texture_rect(MESSENGER_CUE, Rect2(origin + Vector2(0.79, 0.29) * extent, Vector2.ONE * extent * 0.39), false)
 		return
-	if illustrated:
-		var poses: Dictionary = FIRST_CONTACT.get(identity, {})
-		var texture: Texture2D = poses.get(pose, poses.values().front() if not poses.is_empty() else null)
-		if texture != null:
-			var extent := minf(size.x, size.y)
-			draw_texture_rect(texture, Rect2(Vector2((size.x - extent) * 0.5, size.y - extent), Vector2.ONE * extent), false)
-			return
+	if _texture != null:
+		var fit := minf(size.x / _texture.get_width(), size.y / _texture.get_height())
+		var extent := _texture.get_size() * fit
+		draw_texture_rect(_texture, Rect2(Vector2((size.x - extent.x) * 0.5, size.y - extent.y), extent), false)
+		return
 	var center := size * 0.5 + Vector2(0, _settle)
 	var lean := -0.12 if pose in ["concerned", "captured"] else (0.10 if pose in ["alert", "confronting"] else 0.0)
 	draw_set_transform(center, lean, Vector2.ONE * minf(1.55, size.y / 124.0))

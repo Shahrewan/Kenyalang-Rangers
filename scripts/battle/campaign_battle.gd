@@ -14,15 +14,24 @@ var _illustrated := false
 var _skin: FirstContactSkin
 var _portrait := StoryPortrait.new()
 var _pose: Label
+var _visual_assets: CampaignVisualAssets
+var _epilogue_art: TextureRect
 
 func _prepare_campaign() -> void:
 	%MissionTitle.text = "%s · %s" % [stage.stage_id, operation_plan.operation.title]
 	%Legend.text = "%s · Placeholder board art" % stage.map.map_id
-	if stage.map.map_id == &"T01" and FirstContactSkin.illustrates_operation(stage.stage_id):
+	if FirstContactSkin.illustrates_operation(stage.stage_id):
 		_skin = FirstContactSkin.new()
-		_illustrated = not _skin.registration().is_empty()
+		_visual_assets = CampaignVisualAssets.new()
+		_illustrated = not _skin.registration().is_empty() and (stage.map.map_id == &"T01"
+			or not _visual_assets.region(stage.map.map_id).is_empty())
 	if _illustrated:
 		%Legend.hide()
+		if not FirstContactSkin.is_pilot(stage.stage_id):
+			_dialogue.theme = CampaignVisualAssets.THEME
+		if stage.heat_capacity > 0.0:
+			var gauge := _visual_assets.load_art(_visual_assets.catalog.get("heat_meter", ""), "PackedScene") as PackedScene
+			CampaignHeatDisplay.apply(%HeatRow, %HeatGauge, gauge)
 		_hud.illustrate(_skin)
 		%DeploymentController.illustrate(_skin, stage.stage_id)
 		_skin.button(%Continue, "button_primary")
@@ -36,13 +45,29 @@ func _prepare_campaign() -> void:
 		_dialogue.add_child(frame)
 		_dialogue.move_child(frame, 0)
 	_portrait.illustrated = _illustrated
+	_portrait.assets = _visual_assets
 	_pose = StoryUI.label("", 17, StoryUI.INK if _illustrated else StoryUI.BEIGE)
 	_pose.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var body: VBoxContainer = %DialogueTitle.get_parent()
 	_portrait.custom_minimum_size.y = 230 if _illustrated else 190
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	body.add_child(_portrait)
-	body.move_child(_portrait, %DialogueText.get_parent().get_index())
+	var visuals := HBoxContainer.new()
+	visuals.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	visuals.add_child(_portrait)
+	_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _illustrated and _visual_assets.registration.has("finale"):
+		_epilogue_art = TextureRect.new()
+		_epilogue_art.texture = _visual_assets.texture(_visual_assets.registration.finale)
+		_epilogue_art.custom_minimum_size.y = 230
+		_epilogue_art.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_epilogue_art.size_flags_stretch_ratio = 2.0
+		_epilogue_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_epilogue_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_epilogue_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_epilogue_art.hide()
+		visuals.add_child(_epilogue_art)
+	body.add_child(visuals)
+	body.move_child(visuals, %DialogueText.get_parent().get_index())
 	body.add_child(_pose)
 	body.move_child(_pose, %DialogueText.get_parent().get_index())
 
@@ -128,6 +153,8 @@ func _render_line() -> void:
 		and _active_beat.trigger.get("presentation_event_id") == "cinematic.c1_03_messenger_withdrawal" \
 		and line.speaker_id == "speaker.poacher_messenger"
 	_portrait.present(speaker.portrait_key, line.pose_key, messenger)
+	if _epilogue_art != null:
+		_epilogue_art.visible = _epilogue_art.texture != null and _active_beat.trigger.event == "after_victory_dialogue"
 	var status := "" if _active_beat.get("status") == "approved_c26_placeholder" else "Draft dialogue · "
 	_pose.text = "Story paused" if _illustrated else "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
 	%DialogueText.get_parent().scroll_vertical = 0
@@ -203,6 +230,7 @@ func _publish_result() -> void:
 		"fatal_escape_name": content.enemy_name(battle.fatal_escape_id),
 		"escaped_boss_id": battle.escaped_boss_id, "balance": progress.snapshot().funds,
 		"save_failed": not saved, "settlement": settlement, "unlocked": unlocked,
+		"unlocked_art_ids": settlement.get("unlocked", []),
 	}
 	var context := {"event": "victory" if won else "defeat"}
 	if not battle.fatal_escape_id.is_empty():

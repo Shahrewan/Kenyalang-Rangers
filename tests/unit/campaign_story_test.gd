@@ -2,6 +2,9 @@ extends SceneTree
 
 const LAUNCHER := preload("res://scenes/menus/launcher.tscn")
 
+var _capture_dir := ""
+var _text_scale := 100
+var _portrait_keys := {}
 var _checks := 0
 var _failed := 0
 var _path := "user://c14-story-%d.json" % OS.get_process_id()
@@ -10,11 +13,22 @@ func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
-	root.size = Vector2i(960, 540)
+	var args := OS.get_cmdline_user_args()
+	if args.size() >= 2:
+		_capture_dir = args[0]
+		var dimensions := args[1].split("x")
+		root.size = Vector2i(dimensions[0].to_int(), dimensions[1].to_int())
+		DirAccess.make_dir_recursive_absolute(_capture_dir)
+		if args.size() >= 3:
+			_text_scale = args[2].to_int()
+	else:
+		root.size = Vector2i(960, 540)
 	var legacy := FirstContactProgress.new(_path + ".legacy")
 	legacy.set_leader_name("Talia")
 	legacy.record_clear(true, 100, 50)
 	var app := _launcher()
+	app.presentation.values.text = _text_scale
+	app._restyle()
 	var progress: CampaignProgress = app._campaign_progress
 	var campaign: CampaignContent = app._campaign
 	_check(app._route == &"menu" and progress.snapshot().leader_name == "Talia" and progress.snapshot().funds == 10000 and progress.snapshot().records.is_empty(), "Launcher carries over the name and starts a separate Campaign wallet and records")
@@ -28,6 +42,8 @@ func _run() -> void:
 	var finale := campaign.operation(&"C2-10")
 	app._screen.get_node("%OpenCampaign").pressed.emit()
 	_check(_node(app._screen, c2).disabled and _node(app._screen, c4).disabled and _node(app._screen, c4).text == "C1-04", "Story conceals fogged titles and locks a revealed successor")
+	if not _capture_dir.is_empty():
+		await _capture("story-selection")
 	var troops := await _play_first_contact(app, c1)
 	_check(troops.defeated == 14 and troops.escaped == 0 and troops.outcome == "Perfect clear", "C1-01 wins both W13 waves with touch deployment and automatic Ranger combat")
 	_check(troops.settlement.credited == 10000 and troops.settlement.pending_awards == ["first_perfect_funds"], "C1-01 pays the approved first clear and identifies the pending perfect award")
@@ -62,13 +78,15 @@ func _run() -> void:
 		var field := _open(app, operation)
 		var normal_post := _entry(field.operation_plan, &"facility.logistics_post")
 		if i == 1:
-			_consume_dialogue(field, true, [])
+			await _consume_dialogue(field, true, [])
 			_check(normal_post != null and field.battle.deployment.deploy(normal_post, Vector2i(1, 0), 1).is_empty() and field.battle.deployment.tokens == 0, "C1-02 battle accepts the funded free ordinary Post")
 		if operation.opening_rules.fixed_stockpile:
 			_check(normal_post == null and field.battle.deployment.tokens == 120, "C1-05 field loads 120 Tokens and omits the Post")
 		if operation.has_heat:
 			_check(field.get_node("%HeatRow").visible, "%s displays the Heat HUD" % operation.stage.stage_id)
-		var timeline := _drive(field, i % 2 == 1)
+		var timeline := await _drive(field, true)
+		_check(timeline.missing_art.is_empty(), "%s resolves exact live field rig paths: %s" % [
+			operation.stage.stage_id, timeline.missing_art])
 		await process_frame
 		var report: Dictionary = app._screen.report
 		var phase_spawns := 3 if operation == finale else 0
@@ -94,8 +112,11 @@ func _run() -> void:
 		for id in operation.clear_unlock_ids:
 			_check(String(id) in progress.snapshot().owned, "Clear persists " + String(id))
 	_check(progress.snapshot().records.size() == 15 and spawned == 1114 and tested_waves == 49, "All 15 operations clear sequentially across 49 waves and 1,114 actual arrivals")
+	_check(_portrait_keys.size() == 10, "All ten authored speaker and pose combinations resolve approved portrait art")
 	_check("facility.firebreak_beacon" not in progress.snapshot().owned, "Trial supplies expire after C2-07 settlement")
 	await _replay_and_losses(app, c1, finale)
+	if _capture_dir.is_empty():
+		await _all_result_paths(app, campaign)
 	app.free()
 	_finish()
 
@@ -116,12 +137,16 @@ func _play_first_contact(app: Control, first: StoryOperation) -> Dictionary:
 	await process_frame
 	var battle := field.battle
 	var state := battle.deployment
+	_verify_portrait(field)
+	if not _capture_dir.is_empty():
+		await _capture("t01-briefing")
 	var opening := _pause_snapshot(battle)
 	field.get_node("%Continue").pressed.emit()
 	battle.clock.advance_frame()
 	_check(field.dialogue_id == "dialogue.c1_01.opening" and opening == _pause_snapshot(battle), "Continue holds the opening until its last line")
 	app._process(5.0)
 	_check(app._campaign_progress.snapshot().finance == 0.0, "Finance does not accrue behind full-screen dialogue")
+	_verify_portrait(field)
 	field.get_node("%Skip").pressed.emit()
 	var board: BattleBoard = field.get_node("%Board")
 	var tray: Control = field.get_node("%DeploymentTray")
@@ -137,12 +162,16 @@ func _play_first_contact(app: Control, first: StoryOperation) -> Dictionary:
 		battle.clock.advance_frame()
 	_drag(_card(tray, "Patrolman"), board, Vector2i(6, 3), -8.0)
 	_check(state.placed.has(&"ranger.scout_sniper") and state.placed.has(&"ranger.patrolman"), "Campaign tray deploys canonical Scout and Patrolman by touch")
+	if not _capture_dir.is_empty():
+		field._refresh()
+		await _capture("t01-first-contact")
+
 	while not battle.clock.stopped and battle.clock.tick < 15000:
 		battle.clock.advance_frame()
 		if battle.clock.dialogue_open:
-			_consume_dialogue(field, true, [])
+			await _consume_dialogue(field, true, [])
 	field._refresh()
-	_consume_dialogue(field, true, [])
+	await _consume_dialogue(field, true, [])
 	await process_frame
 	return app._screen.report
 
@@ -194,12 +223,17 @@ func _open(app: Control, operation: StoryOperation) -> CampaignBattle:
 	var field := app._screen as CampaignBattle
 	field.set_physics_process(false)
 	_check(field.battle.clock.tick == 0 and field.battle.integrity == 100 and field.battle.clock.dialogue_open, "%s starts held at 100 Integrity" % field.stage.stage_id)
+	var art := (field.get_node("%Board") as BattleBoard).first_contact_field
+	_check(field._illustrated and art != null, "%s opens the illustrated operation through Story" % field.stage.stage_id)
+	if art != null and field.stage.map.map_id != &"T01":
+		_check(_region_matches(field.stage, art), "%s keeps every registered route, entry and exit on live geometry" % field.stage.stage_id)
 	return field
 
 func _drive(field: CampaignBattle, read: bool, escape_id := &"") -> Dictionary:
 	var battle := field.battle
 	var reference: WeakRef = weakref(battle)
 	var spawns := []
+	var missing_art := {}
 	var beats := []
 	var holds := []
 	var messenger := {"count": 0}
@@ -211,14 +245,28 @@ func _drive(field: CampaignBattle, read: bool, escape_id := &"") -> Dictionary:
 		var sim: BattleSimulation = reference.get_ref()
 		var enemy := sim.active[id]
 		spawns.append([sim.clock.tick, sim.wave_number, definition_id, enemy.route.cells.front()])
+		var art := (field.get_node("%Board") as BattleBoard).first_contact_field
+		var actor: FirstContactField.Actor = art.enemies.get(id) if art != null else null
+		var expected := String(FirstContactSkin.w29_art(definition_id).get("rig", ""))
+		if actor == null or actor.enemy != enemy or actor.rig.scene_file_path != expected:
+			missing_art[definition_id] = true
 	)
 	battle.cinematic_withdrawal.connect(func() -> void: messenger.count += 1)
-	_consume_dialogue(field, read, holds, beats)
+	var map_id := String(field.stage.map.map_id).to_lower()
+	var field_shot := false
+	var boss_shot := false
+	await _consume_dialogue(field, read, holds, beats)
+	if not _capture_dir.is_empty() and not supplies_beacon and map_id != "t01":
+		var post := _entry(field.operation_plan, &"facility.logistics_post")
+		if post != null:
+			for tile: Vector2i in field.stage.map.elevated:
+				if battle.deployment.deploy(post, tile, 1).is_empty():
+					break
 	if supplies_beacon:
 		var post := _entry(field.operation_plan, &"facility.logistics_post")
 		_check(battle.deployment.deploy(post, Vector2i(1, 0), 1).is_empty(), "C2-07 places its ordinary Post to fund the supplied Beacon")
 	for i in 40000:
-		_consume_dialogue(field, read, holds, beats)
+		await _consume_dialogue(field, read, holds, beats)
 		if battle.clock.stopped:
 			break
 		battle.clock.advance_frame()
@@ -231,6 +279,10 @@ func _drive(field: CampaignBattle, read: bool, escape_id := &"") -> Dictionary:
 		if heat_tick == 0 and battle.heat > 0.0:
 			heat_tick = battle.clock.tick
 			first_heat = battle.heat
+		if not _capture_dir.is_empty() and not field_shot and not battle.active.is_empty() and map_id != "t01":
+			field_shot = true
+			field._refresh()
+			await _capture("%s-%s" % [map_id, String(field.stage.stage_id).to_lower()])
 		for id: int in battle.active.keys():
 			var enemy := battle.active[id]
 			if forced_escape == 0 and enemy.definition.enemy_id == escape_id:
@@ -238,6 +290,10 @@ func _drive(field: CampaignBattle, read: bool, escape_id := &"") -> Dictionary:
 				enemy.distance = enemy.route.cells.size() - 1.0 - 0.00001
 			if id == forced_escape:
 				continue
+			if not _capture_dir.is_empty() and not boss_shot and enemy.boss != null:
+				boss_shot = true
+				field._refresh()
+				await _capture("%s-%s" % [String(field.stage.stage_id).to_lower(), "boss-defeat" if not escape_id.is_empty() else "boss"])
 			if enemy.boss != null and enemy.phase_index < enemy.boss.phases.size():
 				var threshold := floori(enemy.boss.max_hp * enemy.boss.phases[enemy.phase_index].hp_percent / 100.0)
 				battle.damage_enemy(id, enemy.hp - threshold + enemy.active_shield(battle.clock.tick))
@@ -246,24 +302,26 @@ func _drive(field: CampaignBattle, read: bool, escape_id := &"") -> Dictionary:
 			if not battle.clock.is_running():
 				break
 	field._refresh()
-	_consume_dialogue(field, read, holds, beats)
-	return {"spawns": spawns, "beats": beats, "holds": holds, "messenger": messenger, "heat_tick": heat_tick, "first_heat": first_heat}
+	await _consume_dialogue(field, read, holds, beats)
+	if not _capture_dir.is_empty() and (field.stage.stage_id == &"C2-10" or field.stage.stage_id == &"C2-08"):
+		await _capture("%s-%s" % [String(field.stage.stage_id).to_lower(), "alternate-result" if not escape_id.is_empty() else "result"])
+	return {"missing_art": missing_art, "spawns": spawns, "beats": beats, "holds": holds, "messenger": messenger, "heat_tick": heat_tick, "first_heat": first_heat}
 
 func _replay_and_losses(app: Control, first: StoryOperation, finale: StoryOperation) -> void:
 	var c3: StoryOperation = app._campaign.operation(&"C1-03")
 	var field := _open(app, c3)
-	var read := _drive(field, true)
+	var read := await _drive(field, true)
 	await process_frame
 	field = _open(app, c3)
-	var skipped := _drive(field, false)
+	var skipped := await _drive(field, false)
 	await process_frame
 	_check(read.spawns == skipped.spawns and read.holds == skipped.holds and read.messenger.count == skipped.messenger.count, "Continue and Skip agree at opening, messenger and outcome, including every spawn tick")
 	field = _open(app, finale)
-	var read_boss := _drive(field, true)
+	var read_boss := await _drive(field, true)
 	await process_frame
 	_check(not "dialogue.c2_10.epilogue" in read_boss.beats and app._screen.report.settlement.pending_awards == ["replay_funds"], "Finale replay excludes its first completion reward and epilogue")
 	field = _open(app, finale)
-	var skipped_boss := _drive(field, false)
+	var skipped_boss := await _drive(field, false)
 	await process_frame
 	_check(read_boss.spawns == skipped_boss.spawns and read_boss.holds == skipped_boss.holds, "Continue and Skip preserve prewave, boss arrival, both phases and outcome state")
 	var defeat_cases := [
@@ -274,21 +332,54 @@ func _replay_and_losses(app: Control, first: StoryOperation, finale: StoryOperat
 	for test in defeat_cases:
 		var operation: StoryOperation = app._campaign.operation(test[0])
 		field = _open(app, operation)
-		var ending := _drive(field, false, test[1])
+		var ending := await _drive(field, false, test[1])
 		await process_frame
 		var report: Dictionary = app._screen.report
 		_check(report.fatal_escape_id == test[1] and report.integrity == 0 and report.escaped == 1 and report.settlement.is_empty() and ending.beats.back() == test[2], "%s resolves a forced fatal escape with its own defeat copy and no reward" % test[0])
 	var foreman: StoryOperation = app._campaign.operation(&"C2-08")
 	field = _open(app, foreman)
-	var ending := _drive(field, false, &"boss.illegal_logging_foreman")
+	var ending := await _drive(field, false, &"boss.illegal_logging_foreman")
 	await process_frame
 	_check(app._screen.report.outcome == "Clear" and app._screen.report.integrity == 50 and app._screen.report.escaped == 1 and ending.beats.back() == "dialogue.c2_08.victory_foreman_escaped", "Foreman trial escape applies ordinary loss and alternate clear dialogue")
 	field = _open(app, first)
 	_check(field.operation_plan.deployment_entries().size() == 3 and field.battle.deployment.tokens == 0, "Developed profile replays C1-01 with its original supply")
-	var replay := _drive(field, false, &"E01")
+	var replay := await _drive(field, false, &"E01")
 	await process_frame
 	var report: Dictionary = app._screen.report
 	_check(not replay.beats.is_empty() and report.outcome == "Clear" and report.integrity == 90 and report.escaped == 1 and app._campaign_progress.record_for(&"C1-01").perfect, "Ordinary early replay records the escape and preserves permanent perfect status")
+
+func _all_result_paths(app: Control, campaign: CampaignContent) -> void:
+	for operation: StoryOperation in campaign.operations:
+		var field := _open(app, operation)
+		var ordinary: StringName
+		for group: BattleSpawnGroup in operation.stage.waves.front().groups:
+			if group.count > 0 and not group.enemy.escape_causes_defeat:
+				ordinary = group.enemy.enemy_id
+				break
+		var completed := await _drive(field, false, ordinary)
+		await process_frame
+		var report: Dictionary = app._screen.report
+		_check(not ordinary.is_empty() and report.escaped == 1 and report.integrity > 0
+			and not report.perfect and report.outcome != "Defeat" and not report.settlement.first_clear,
+			"%s settles an ordinary escape on replay through its authored events: %s" % [operation.stage.stage_id, completed.beats])
+		var balance: int = report.balance
+		field = _open(app, operation)
+		await _consume_dialogue(field, false, [])
+		for frame in 40000:
+			field.battle.clock.advance_frame()
+			await _consume_dialogue(field, false, [])
+			if field.battle.clock.stopped:
+				break
+		field._refresh()
+		await _consume_dialogue(field, false, [])
+		await process_frame
+		report = app._screen.report
+		_check(report.outcome == "Defeat" and report.integrity == 0 and report.settlement.is_empty()
+			and report.balance == balance and app._campaign_progress.record_for(operation.stage.stage_id).perfect,
+			"%s undefended result keeps the previous perfect record and Funds" % operation.stage.stage_id)
+		app._screen.find_child("ReviewPlan", true, false).pressed.emit()
+		_check(app._screen.plan.operation.stage.stage_id == operation.stage.stage_id,
+			"%s defeat returns to the correct plan" % operation.stage.stage_id)
 
 func _consume_dialogue(field: CampaignBattle, read: bool, holds: Array, beats := []) -> void:
 	var battle := field.battle
@@ -299,11 +390,60 @@ func _consume_dialogue(field: CampaignBattle, read: bool, holds: Array, beats :=
 		battle.clock.advance_frame()
 		var stayed := snapshot == _pause_snapshot(battle)
 		while field.dialogue_id == id and battle.clock.dialogue_open:
+			_verify_portrait(field)
+			if not _capture_dir.is_empty():
+				var line: Dictionary = field._active_beat.lines[field._line_index]
+				var key := ""
+				if line.speaker_id in ["speaker.diversion_captain", "speaker.illegal_logging_foreman", "speaker.poacher_leader", "speaker.poacher", "speaker.poacher_messenger"]:
+					key = "portrait-" + line.speaker_id.trim_prefix("speaker.") + "-" + line.pose_key
+				if field._active_beat.trigger.event == "after_victory_dialogue":
+					key = "first-clear-epilogue"
+				if not key.is_empty() and not FileAccess.file_exists(_capture_dir.path_join(key + ".png")):
+					await _capture(key)
 			var button := "%Continue" if read else "%Skip"
 			field.get_node(button).pressed.emit()
 		_check(stayed and snapshot == _pause_snapshot(battle), "%s holds all observed combat state through dismissal" % id)
 		holds.append([id, snapshot])
 		beats.append(id)
+
+func _verify_portrait(field: CampaignBattle) -> void:
+	var line: Dictionary = field._active_beat.lines[field._line_index]
+	var portrait := field._portrait
+	var identity: String = field.content.speakers[line.speaker_id].portrait_key
+	var key: String = identity + "/" + line.pose_key
+	if not _portrait_keys.has(key):
+		_portrait_keys[key] = true
+		_check(portrait.identity == identity and portrait.pose == line.pose_key and portrait._texture != null,
+			"Approved portrait registration resolves " + key)
+	_check(field.get_node("%DialogueText").text == line.text, "Runtime preserves the authored text for " + field.dialogue_id)
+	if field._epilogue_art != null:
+		_check(field._epilogue_art.visible == (field._active_beat.trigger.event == "after_victory_dialogue"),
+			"Epilogue art follows the existing first-clear event only")
+
+func _region_matches(stage: BattleStage, art: FirstContactField) -> bool:
+	if art._regional == null:
+		return false
+	var layout := art._regional.layout
+	if layout.route_cells.size() != stage.routes.size() or layout.entries.size() != stage.map.spawns.size():
+		return false
+	for i in stage.routes.size():
+		var cells: Array = layout.route_cells[i]
+		if cells.size() != stage.routes[i].cells.size():
+			return false
+		for j in cells.size():
+			if Vector2i(FirstContactSkin.vector(cells[j])) != stage.routes[i].cells[j]:
+				return false
+		if Vector2i(FirstContactSkin.vector(layout.entries[i].cell)) != stage.map.spawns[i]:
+			return false
+	return Vector2i(FirstContactSkin.vector(layout.exit.cell)) == stage.map.tunnel
+
+func _capture(key: String) -> void:
+	await process_frame
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var image := root.get_texture().get_image()
+	_check(image.get_size() == root.size and image.save_png(_capture_dir.path_join(key + ".png")) == OK,
+		"Native framebuffer capture " + key)
 
 func _pause_snapshot(battle: BattleSimulation) -> Array:
 	var live := []

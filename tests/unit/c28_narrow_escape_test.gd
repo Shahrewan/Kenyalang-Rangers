@@ -87,8 +87,8 @@ func _run() -> void:
 	_check(restored.record_for(STAGE) == {"cleared": true, "perfect": true} and restored.funds() == saved_funds
 		and restored.snapshot().pending_attempt.is_empty() and restored.owns(&"ranger.guard_veteran")
 		and restored.owns(&"facility.medic_cabin"), "Relaunch restores the perfect flag, unlocks and Funds")
-	_check(not FirstContactSkin.illustrates_operation(&"C1-04") and not FirstContactSkin.illustrates_operation(&"C2-01"),
-		"The illustrated scope ends at Narrow Escape")
+	_check(FirstContactSkin.is_pilot(&"C1-03") and not FirstContactSkin.is_pilot(&"C1-04") and not FirstContactSkin.illustrates_operation(&"chaos"),
+		"The original pilot bindings stay scoped to C1-01–03 and exclude Chaos")
 	await _terminal_support(app)
 	app.free()
 	for suffix in ["", ".bak", ".tmp", ".bak.tmp"]:

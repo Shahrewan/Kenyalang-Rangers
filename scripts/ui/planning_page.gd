@@ -16,6 +16,10 @@ var _fixed_labels: Dictionary[StringName, Label] = {}
 func _ready() -> void:
 	add_theme_constant_override("separation", 14)
 	var operation := plan.operation
+	var w29_presentation := not plan.chaos and FirstContactSkin.illustrates_operation(operation.stage.stage_id) \
+		and not FirstContactSkin.is_pilot(operation.stage.stage_id)
+	if w29_presentation:
+		theme = CampaignVisualAssets.THEME
 	var title := operation.title if plan.chaos else "%s   %s" % [operation.stage.stage_id, operation.title]
 	StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(funds))
 	var content := StoryUI.row(self, 16)
@@ -37,6 +41,18 @@ func _ready() -> void:
 	var intel := WaveIntel.new()
 	incoming.add_child(intel)
 	intel.show_stage(plan.resolved().stage)
+	if w29_presentation:
+		var assets := CampaignVisualAssets.new()
+		var art := assets.region(operation.stage.map.map_id)
+		if not art.is_empty():
+			var field := TextureRect.new()
+			field.texture = assets.texture(art.planning_thumbnail.texture)
+			field.custom_minimum_size.y = 82
+			field.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			field.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			field.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			incoming.add_child(field)
+			incoming.move_child(field, intel.get_index())
 
 	var footer := StoryUI.row(self, 16)
 	_feedback = StoryUI.label("", 18, StoryUI.BEIGE)

@@ -88,7 +88,8 @@ func illustrate(skin: FirstContactSkin, stage_id: StringName) -> void:
 		var badge: Texture2D
 		if skin.registration().thumbnails.regions.has(String(_entries[i].id)):
 			badge = skin.region("badge", String(id))
-		elif stage_id == FirstContactSkin.NARROW_ESCAPE and id in [FirstContactSkin.MEDIC, FirstContactSkin.SONIC]:
+		elif not FirstContactSkin.is_pilot(stage_id) or (stage_id == FirstContactSkin.NARROW_ESCAPE
+				and id in [FirstContactSkin.MEDIC, FirstContactSkin.SONIC]):
 			badge = FirstContactSkin.w29_badge(id)
 		if badge != null:
 			var portrait = _cards[i].get_child(0).get_child(0)

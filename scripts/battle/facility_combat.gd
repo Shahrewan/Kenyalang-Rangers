@@ -3,6 +3,8 @@ extends RefCounted
 
 signal hit(enemy_id: int, damage: int)
 signal sonic_attack_presented(unit: DeploymentState.Placement)
+signal action_presented(unit: DeploymentState.Placement, at: Vector2, cue: String)
+signal repair_presented(unit: DeploymentState.Placement, target: Vector2i)
 
 var _enemies: Dictionary[int, BattleEnemy]
 
@@ -36,14 +38,19 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 	match spec.role:
 		FacilitySpec.Role.MEDIC_CABIN, FacilitySpec.Role.SPECIALIST_CALLTOWER:
 			if deployment.effects.amount(&"disable_skills") == 0:
+				var before := unit.stock
 				unit.stock = mini(spec.stock_capacity, unit.stock + 1)
+				if unit.stock > before:
+					action_presented.emit(unit, Vector2(unit.anchor), "heal" if spec.role == FacilitySpec.Role.MEDIC_CABIN else "wallet_credit")
 		FacilitySpec.Role.SKILL_RELAY:
 			for ally: DeploymentState.Placement in deployment.placed.values():
 				if ally.skill_recharge_tick > tick and _in_reach(unit.anchor, spec.attack_range, ally):
 					ally.skill_recharge_tick = maxi(tick, ally.skill_recharge_tick - reduction)
 					ally.recharge_skill(tick)
+					action_presented.emit(unit, Vector2(ally.anchor), "wallet_credit")
 		FacilitySpec.Role.DISPATCH_RELAY:
 			deployment.reduce_deployment_cooldowns(reduction)
+			action_presented.emit(unit, Vector2(unit.anchor), "wallet_credit")
 
 func update_detection(deployment: DeploymentState, tick: int) -> void:
 	for enemy: BattleEnemy in _enemies.values():
@@ -116,7 +123,9 @@ func _repair(unit: DeploymentState.Placement, deployment: DeploymentState, tick:
 			most_missing = missing
 			target = id
 	if not target.is_empty():
-		deployment.repair(target, unit.ranger.repair_hp)
+		var target_cell := deployment.placed[target].anchor
+		if deployment.repair(target, unit.ranger.repair_hp) > 0:
+			repair_presented.emit(unit, target_cell)
 		unit.next_utility_tick = tick + maxi(1, CombatClock.ticks_for(unit.ranger.repair_seconds))
 
 func _fire_turret(unit: DeploymentState.Placement, deployment: DeploymentState, tick: int) -> void:
@@ -139,6 +148,7 @@ func _fire_turret(unit: DeploymentState.Placement, deployment: DeploymentState, 
 			hit.emit(id, spec.attack_damage)
 	elif spec.role == FacilitySpec.Role.CANOPY_LAUNCHER:
 		var center := _enemies[_leading_target(targets, true)].grid_cell()
+		action_presented.emit(unit, Vector2(center), "enemy_shot")
 		for id in targets:
 			var enemy := _enemies[id]
 			var delta := (enemy.grid_cell() - center).abs()
@@ -157,6 +167,7 @@ func _electric_shot(unit: DeploymentState.Placement, targets: Array[int], tick: 
 	if unit.burst_target >= 0:
 		var enemy := _enemies[unit.burst_target]
 		var bonus := spec.technological_bonus_percent if enemy.definition.technological else 0
+		action_presented.emit(unit, enemy.grid_position(), "enemy_shot")
 		hit.emit(unit.burst_target, roundi(spec.attack_damage * (100 + bonus) / 100.0))
 	unit.burst_remaining -= 1
 	var interval := spec.burst_step_seconds

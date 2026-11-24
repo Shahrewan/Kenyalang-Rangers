@@ -290,3 +290,9 @@
 - Composed the approved W29 building directly in Headquarters. Eleven registered bays use the saved room levels, furnishings, stationary Work loops and the existing department routes. The lobby uses the approved mount and the saved Chaos tier.
 - Verified fresh, purchased and fully constructed profiles, 130% text, and room taps through the constrained scroll layout. Godot 4.7.2 passed 2,209 regressions and 22 native captures.
 - The signed ARM64 APK passed the HQ dependency audit and headless replay using the shipped resources and a returning C28-C profile. Physical Android checks remain open. [Evidence and device checklist](../qa/C29_HEADQUARTERS_VISUALS.md)
+
+## C28-D Complete Campaign visual and story integration — 2026-11-24
+
+- The runtime uses the approved W29 field rigs, scenery, portraits and effects with the existing Campaign stage and clock. T01 through T06 are illustrated, including dual T02 entrances and T05 Heat. The original C28-A/B/C outcomes passed. The C1-03 messenger, Captain capture, Foreman escaped clear and finale first-clear/replay paths use the existing story decisions.
+- Godot 4.7.2 ran 3,249 regression checks and produced native 1280×720 and 960×540 images. The ARM64 debug APK passed host resource and returning-profile checks. No phone was attached. [Exact tests, gallery and phone procedure](../qa/C28_D_CAMPAIGN_VISUALS.md)
+- Five Ranger field kits and the K9 dog remain gated by gameplay support. Unapproved dialogue and payout fields retain their existing status. Late clear gameplay balance, physical Android and D-014 release clearance remain open. [PR #36](https://github.com/Shahrewan/Kenyalang-Rangers/pull/36)
