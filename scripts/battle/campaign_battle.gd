@@ -10,16 +10,36 @@ var _line_index := 0
 var _report: Dictionary
 var _seen_enemies: Dictionary
 var _placed_ranger := false
+var _illustrated := false
+var _skin: FirstContactSkin
 var _portrait := StoryPortrait.new()
 var _pose: Label
 
 func _prepare_campaign() -> void:
 	%MissionTitle.text = "%s · %s" % [stage.stage_id, operation_plan.operation.title]
 	%Legend.text = "%s · Placeholder board art" % stage.map.map_id
-	_pose = StoryUI.label("", 17, StoryUI.BEIGE)
+	if stage.stage_id == &"C1-01":
+		_skin = FirstContactSkin.new()
+		_illustrated = not _skin.registration().is_empty()
+	if _illustrated:
+		%Legend.hide()
+		_hud.illustrate(_skin)
+		%DeploymentController.illustrate(_skin)
+		_skin.button(%Continue, "button_primary")
+		_skin.button(%Skip, "button_secondary")
+		%DialogueTitle.add_theme_color_override("font_color", StoryUI.INK)
+		%DialogueText.add_theme_color_override("font_color", StoryUI.INK)
+		var frame := Panel.new()
+		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		frame.add_theme_stylebox_override("panel", _skin.panel("dialogue_panel"))
+		_dialogue.add_child(frame)
+		_dialogue.move_child(frame, 0)
+	_portrait.illustrated = _illustrated
+	_pose = StoryUI.label("", 17, StoryUI.INK if _illustrated else StoryUI.BEIGE)
 	_pose.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var body: VBoxContainer = %DialogueTitle.get_parent()
-	_portrait.custom_minimum_size.y = 190
+	_portrait.custom_minimum_size.y = 230 if _illustrated else 190
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	body.add_child(_portrait)
 	body.move_child(_portrait, %DialogueText.get_parent().get_index())
@@ -27,6 +47,8 @@ func _prepare_campaign() -> void:
 	body.move_child(_pose, %DialogueText.get_parent().get_index())
 
 func _open_operation() -> void:
+	if _illustrated:
+		_board.illustrate_first_contact(_skin)
 	_queue.clear()
 	_report.clear()
 	_seen_enemies.clear()
@@ -104,7 +126,7 @@ func _render_line() -> void:
 	%DialogueTitle.text = label
 	_portrait.present(speaker.portrait_key, line.pose_key)
 	var status := "" if _active_beat.get("status") == "approved_c26_placeholder" else "Draft dialogue · "
-	_pose.text = "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
+	_pose.text = "Story paused" if _illustrated else "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
 	%DialogueText.get_parent().scroll_vertical = 0
 	%DialogueText.text = line.text
 
@@ -127,6 +149,7 @@ func _update_campaign_tip() -> void:
 			_reported = true
 			_publish_result()
 		return
+	_board.show_starter_guide = _illustrated and operation_plan.show_hints
 	if not operation_plan.show_hints or operation_plan.operation.hints.is_empty() or battle.clock.dialogue_open:
 		_tip.text = ""
 		return

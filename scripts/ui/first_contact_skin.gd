@@ -1,0 +1,63 @@
+class_name FirstContactSkin
+extends RefCounted
+
+const FIELD_DATA := "res://data/presentation/first_contact/field.json"
+const ATLASES := {
+	"terrain": preload("res://assets/imported/first_contact/t01_terrain_atlas.png"),
+	"interface": preload("res://assets/imported/first_contact/first_contact_ui_atlas.png"),
+	"effects": preload("res://assets/imported/first_contact/first_contact_fx_atlas.png"),
+}
+const BADGES := preload("res://assets/imported/first_contact/first_contact_actor_badges.png")
+var _data := read_json(FIELD_DATA)
+var _regions: Dictionary[String, AtlasTexture] = {}
+
+static func read_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	return value if value is Dictionary else {}
+
+func registration() -> Dictionary:
+	return _data.get("layout", {})
+
+func patrolman_sockets() -> Dictionary:
+	return _data.patrolman_sockets
+
+static func vector(pair: Array) -> Vector2:
+	return Vector2(pair[0], pair[1])
+
+func region(family: String, key: String) -> AtlasTexture:
+	var path := family + "/" + key
+	if _regions.has(path):
+		return _regions[path]
+	var atlas: Texture2D = ATLASES.get(family)
+	var rect: Array
+	if family == "badge":
+		atlas = BADGES
+		rect = registration().thumbnails.regions[key]
+	else:
+		rect = _data.atlas[family].regions[key].region_px
+	var part := AtlasTexture.new()
+	part.atlas = atlas
+	part.region = Rect2(rect[0], rect[1], rect[2], rect[3])
+	part.filter_clip = true
+	_regions[path] = part
+	return part
+
+func panel(id: String, margin := 16.0) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = region("interface", id)
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		style.set_texture_margin(side, margin)
+		style.set_content_margin(side, 8.0)
+	return style
+
+func button(button_node: Button, id: String) -> void:
+	var style := panel(id)
+	button_node.add_theme_stylebox_override("normal", style)
+	var hot := style.duplicate() as StyleBoxTexture
+	hot.modulate_color = Color(1.14, 1.14, 1.08)
+	button_node.add_theme_stylebox_override("hover", hot)
+	var down := style.duplicate() as StyleBoxTexture
+	down.modulate_color = Color(0.82, 0.84, 0.75)
+	button_node.add_theme_stylebox_override("pressed", down)

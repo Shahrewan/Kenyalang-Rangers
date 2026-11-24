@@ -23,6 +23,16 @@ func _ready() -> void:
 	if not content.error.is_empty():
 		add_child(StoryUI.label(content.error, 22, StoryUI.AMBER))
 		return
+	var skin := FirstContactSkin.new()
+	if not skin.registration().is_empty():
+		var map := FirstContactStoryMap.new()
+		map.content = content
+		map.progress = progress
+		map.skin = skin
+		map.size_flags_vertical = SIZE_EXPAND_FILL
+		map.operation_requested.connect(func(operation: StoryOperation) -> void: operation_requested.emit(operation))
+		add_child(map)
+		return
 	var list := StoryUI.scroll_column(self)
 	var section: VBoxContainer
 	var last_group := ""

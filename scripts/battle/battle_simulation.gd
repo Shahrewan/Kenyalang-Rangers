@@ -3,6 +3,8 @@ extends RefCounted
 
 signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
+signal enemy_attack_presented(enemy: BattleEnemy)
+signal enemy_hit_presented(id: int)
 signal siege_hit
 signal heat_overflow
 signal cinematic_withdrawal
@@ -125,7 +127,8 @@ func _receive_enemy_hit(enemy: BattleEnemy, id: StringName, kind: EnemyAttackPro
 	if target == null:
 		return
 	var amount := facility_combat.enemy_damage(deployment, enemy, target, clock.tick)
-	deployment.receive_hit(id, amount, kind)
+	if deployment.receive_hit(id, amount, kind):
+		enemy_attack_presented.emit(enemy)
 	if kind == EnemyAttackProfile.Kind.SIEGE:
 		siege_hit.emit()
 
@@ -141,6 +144,8 @@ func damage_enemy(id: int, damage: int) -> void:
 	enemy.take_damage(effective, clock.tick)
 	if enemy.hp == 0:
 		defeat_enemy(id)
+	else:
+		enemy_hit_presented.emit(id)
 
 func _has_weakness(enemy: BattleEnemy) -> bool:
 	if enemy.is_marked(clock.tick) or clock.tick < enemy.sonic_slow_until or ranger_combat.movement_scale(enemy, clock.tick) < 1.0:

@@ -6,7 +6,7 @@ For implementation, use the [W08 component bindings](UI_COMPONENT_SPEC.md) and [
 
 ## Visual language and screen sizing
 
-- **FIXED**. Landscape phone composition, safe-area anchors, forest/cream UI, clear ground and elevated contrast. Keep the field visible, with edge-aligned HUD and narrow deployment tray. Use numeric Integrity and punched-ticket Logistic Tokens, a tree-veiled tunnel for the objective, and icon/shape plus color for important states. Scale menu and dialogue text. [GDD pp. 14–17 §§ I.1–4, K; pp. 28–29 §§ O.1, O.4, P; UI pp. 2–5, 23 S11]
+- **FIXED**. Landscape phone composition, safe-area anchors, forest/cream UI, clear ground and elevated contrast. Keep the field visible, with edge-aligned HUD and narrow deployment tray. Use numeric Integrity and punched-ticket Logistic Tokens, a clear escape boundary for the objective, and icon/shape plus color for important states. Scale menu and dialogue text. [GDD pp. 14–17 §§ I.1–4, K; pp. 28–29 §§ O.1, O.4, P; UI pp. 2–5, 23 S11]
 - **PROVISIONAL**. Retain the storyboard value set for an Android prototype. Confirm all true hit regions and typography with a physical landscape phone, including narrow and notched screens. [UI p. 3, Visual Language; GDD p. 29 §§ O.4, P]
 
 | Reference element | Storyboard proposal (UI p. 3) |
@@ -23,7 +23,7 @@ For implementation, use the [W08 component bindings](UI_COMPONENT_SPEC.md) and [
 
 ## Original maps and tile grammar
 
-**FIXED**. Each template uses separate path and elevated deployment classes. Scenery is noninteractive. The diagram layers are backdrop → ground → elevation → placement preview → entities → effects → HUD. Preserve a readable route, entrance glyphs and arrows, muted paths, visibly raised cells and the tree-veiled tunnel. The Sentry Tower reserves the cell above its 1×1 elevated footprint. Default Facilities use two adjacent horizontal elevated tiles. The two-cell ground Rangers validate both cells. [GDD pp. 7–8 § G.2; pp. 15–17 §§ I.3, J.2, K; p. 32 § T.2; UI pp. 2, 4–6, 25 S12, 66 S32]
+**FIXED**. Each template uses separate path and elevated deployment classes. Scenery is noninteractive. The diagram layers are backdrop → ground → elevation → placement preview → entities → effects → HUD. Preserve a readable route, entrance glyphs and arrows, muted paths, visibly raised cells and the escape boundary. On T01 the sand trail runs directly into dense woods at the east map edge. Draw its foreground trees above the actors. The Sentry Tower reserves the cell above its 1×1 elevated footprint. Default Facilities use two adjacent horizontal elevated tiles. The two-cell ground Rangers validate both cells. [GDD pp. 7–8 § G.2; pp. 15–17 §§ I.3, J.2, K; p. 32 § T.2; UI pp. 2, 4–6, 25 S12, 66 S32] · [Woodland art contract](../production/FIRST_CONTACT_STAGE_ART.md#woodland-edge-and-separate-exports)
 
 | Template | Missions and visual intent | Source |
 |---|---|---|

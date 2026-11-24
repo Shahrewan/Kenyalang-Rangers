@@ -26,8 +26,9 @@
       "sha256": "ad3acda24a3aacd8d2ae3962a2748be12b76b1419424eb9ca9d6578694c3c431"
     }
   },
-  "backdrop_method": "Reference-guided edit of the storyboard candidate. Retain the waterfall and painted perimeter, replace the right-side baked tunnel with solid tree art, and clear the central field. Output cropped to 1280×720 and encoded as an opaque JPEG. Runtime tunnel is KRT_48.",
+  "backdrop_method": "Reference-guided edit of the storyboard candidate. Retain the waterfall and painted perimeter, replace the right-side baked tunnel with solid tree art, and clear the central field. Output cropped to 1280×720 and encoded as an opaque JPEG. The woodland exit uses KRT_48 as a sand strip with authored tree layers in front of the backdrop.",
   "portrait_method": "Independent RGBA crops of the supplied storyboard portrait sheets. Manager concerned reuses briefing, Leader reassuring reuses steady. The asset contract leaves the existing dialogue keys in place.",
   "original_vectors": "Terrain and UI atlases, projectile and effect shapes, and mission-node backplate were authored for this project and reference only the storyboard grammar.",
-  "actor_badges": "C07 Scout, W27 Patrolman, E01 rust and Logistics Post Ready composites."
+  "actor_badges": "C07 Scout, W27 Patrolman, E01 rust and Logistics Post Ready composites.",
+  "woodland_exit": "Original vector art for the approved T01 endpoint revision. SVGs are layered for the trail runout, far trees and foreground trees. Forest and earth tones follow the approved stage backdrop."
 }

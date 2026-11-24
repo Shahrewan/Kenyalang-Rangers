@@ -4,8 +4,13 @@ const SCOUT_HEAD := preload("res://assets/imported/rangers/scout_sniper/head.png
 const SCOUT_HAT := preload("res://assets/imported/rangers/scout_sniper/hat.png")
 
 var spec: DeploymentSpec
+var badge: Texture2D
 
 func _draw() -> void:
+	if badge != null:
+		var extent := minf(size.x, size.y)
+		draw_texture_rect(badge, Rect2((size - Vector2.ONE * extent) * 0.5, Vector2.ONE * extent), false)
+		return
 	var at := size * 0.5
 	draw_circle(at, 21.0, Color("#566449"), true, -1, true)
 	if spec.id in [&"scout", &"ranger.scout_sniper"]:

@@ -266,3 +266,11 @@ The owner approved the study-matched style and requested a stronger red presence
 ## First Contact staging art — 2026-11-23
 
 The First Contact art handoff uses the existing T01 geometry and a quiet waterfall clearing. The entry sign and tree-veiled tunnel have separate art registrations. Story uses a fixed 15-node board with Control Room fog and an independent prerequisite lock. Scout's tracer is a presentation sprite driven by an accepted shot in the future binding. [Stage art and source references](../production/FIRST_CONTACT_STAGE_ART.md)
+
+## T01 woodland edge and separate art — 2026-11-23
+
+The owner approved the stage kit and directed T01’s exit artwork to follow the sand trail into dense woods at the map edge. The terminal cell at `(11,3)` draws a continuous sand trail with separate woods behind and in front of the enemy. The terrain, interface, effect and Post layers have individually addressable exports. [Woodland art contract](../production/FIRST_CONTACT_STAGE_ART.md#woodland-edge-and-separate-exports)
+
+## D-012 and D-014 C28-A runtime binding — 2026-11-24
+
+C1-01 uses the approved First Contact art on Godot `4.7.2.stable.official.ed1daf0bf` with matching `4.7.2.stable` export templates. Actors use the existing clock and combat events. The visible E01 disappears when the existing escape event fires, with its terminal clip sampled under the canopy. The T01 map, roster, timings, 10% C26 movement boost, type cooldowns, progression and save schema retain their existing sources. PC captures cover 1280 × 720 and 960 × 540. The ARM64 development package is ready for a named Android phone. ADB listed none in this workspace. [Test evidence and phone procedure](../qa/C28_A_FIRST_CONTACT.md)

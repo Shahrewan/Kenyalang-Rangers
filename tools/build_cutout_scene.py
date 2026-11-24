@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 
-def generate(manifest, script):
+def generate(manifest, script, name="ScoutRig", contract=None):
     parts = manifest["parts"]
     scale = manifest["godot_units_per_png_pixel"]
     anchor = manifest["ground_anchor_units"]
@@ -36,11 +36,13 @@ def generate(manifest, script):
     for part in parts:
         lines.append(f'[ext_resource type="Texture2D" path="res://{part["png"]}" id="{part["id"]}"]')
     lines.extend([
-        "", '[node name="ScoutRig" type="Node2D"]',
+        "", f'[node name="{name}" type="Node2D"]',
         'texture_filter = 2', 'script = ExtResource("rig")',
         "", '[node name="Facing" type="Node2D" parent="."]',
         "", '[node name="Skeleton" type="Skeleton2D" parent="Facing"]',
     ])
+    if contract:
+        lines.insert(lines.index('script = ExtResource("rig")') + 1, f'contract_path = "{contract}"')
     for key, (path, x, y) in bones.items():
         parent_path = path.rsplit("/", 1)[0]
         lines.extend([
@@ -70,8 +72,10 @@ def main():
     parser.add_argument("manifest", type=Path)
     parser.add_argument("scene", type=Path)
     parser.add_argument("--script", default="res://scripts/animation/scout_rig.gd")
+    parser.add_argument("--name", default="ScoutRig")
+    parser.add_argument("--contract")
     args = parser.parse_args()
-    args.scene.write_text(generate(json.loads(args.manifest.read_text()), args.script))
+    args.scene.write_text(generate(json.loads(args.manifest.read_text()), args.script, args.name, args.contract))
 
 
 if __name__ == "__main__":

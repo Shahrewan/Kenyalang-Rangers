@@ -236,3 +236,15 @@
 
 - Delivered the T01 forest plate, numbered terrain regions, separate entrance and tunnel, placement overlays, interface atlas, three dialogue poses and Scout shot effects. The battle, tutorial, opening and result previews use the approved W27 characters and supplied Post art. [Assets and registrations](FIRST_CONTACT_STAGE_ART.md)
 - Prepared the 15-node Story board with Control fog, prerequisite locks and cleared/perfect stamps. Control Lv.1 and Lv.5 previews show the same locations. Godot passed 2,011 regression checks, verified the 56 atlas regions and loaded nine textures. Live scene binding and physical Android verification remain open.
+
+## First Contact woodland edge — 2026-11-23
+
+- The terminal sand trail now crosses the east edge into overlapping woodland. The trail runout, back trees and foreground trees have editable SVG sources and independent transparent exports. Foreground placement conceals the E01 art at the existing escape cell. [Woodland preview](first-contact-stage/woodland_exit_preview.jpg)
+- The stage kit includes 56 individual atlas regions, four roster badges and four Post layers in draw order. The presentation manifest links the 19 Scout, 17 Patrolman and 15 Trespasser parts to their existing source manifests. [Integration handoff](FIRST_CONTACT_STAGE_ART.md#woodland-edge-and-separate-exports)
+- Godot 4.7.2 loaded 76 registered stage textures. The regression suite passed 2,011 checks and the W27 rig probe passed 916 pose samples. Foreground occlusion was checked at 80 and 60 units per cell. [Verification](FIRST_CONTACT_STAGE_ART.md#verification-and-simulation-handoff)
+
+## C28-A Illustrated First Contact — 2026-11-24
+
+- Integrated the approved woodland branch at `63edd68`. Added the 17-part Patrolman and 15-part E01 scenes and field bindings for the 19-part Scout. T01 art follows the live board positions, and rigs and effects follow the shared combat clock.
+- Registered the four Post layers, illustrated HUD, Story nodes, radio portraits and result badges. First Contact outcomes were reproduced through the Story launcher with real combat. The existing C26 movement and repeated placement rules remain in force. [Cases, screenshots and phone checklist](../qa/C28_A_FIRST_CONTACT.md)
+- Pinned editor import and startup, 2,037 regression checks, 916 cutout samples and both native captures passed. The signed ARM64 APK passed package checks and host replay. A physical Android review remains open.

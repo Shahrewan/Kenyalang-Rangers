@@ -6,6 +6,12 @@ signal tokens_produced
 signal skill_recharged
 signal skill_fired(unit_id: StringName, target: Vector2i)
 
+# Presentation observers receive completed state transitions.
+signal unit_deployed(unit: Placement)
+signal unit_removed(unit: Placement)
+signal unit_hit(unit: Placement)
+signal post_paid(unit: Placement)
+
 const NO_CELL := Vector2i(-1, -1)
 
 class Placement:
@@ -161,6 +167,7 @@ func _advance(tick: int, _seconds: float) -> void:
 		tokens += produced
 		if produced > 0:
 			tokens_produced.emit()
+			post_paid.emit(unit)
 		unit.yield_remainder = amount % LogisticsRules.YIELD_DENOMINATOR
 		unit.next_payout_tick += LogisticsRules.PAYOUT_TICKS
 
@@ -245,6 +252,7 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 		var seconds := spec.redeploy_seconds if spec.is_ranger() else spec.build_cooldown_seconds
 		_ready_tick[spec.id] = clock.tick + _redeploy_ticks(seconds)
 	cancel_skill()
+	unit_deployed.emit(unit)
 	return ""
 
 func interaction_id(cell: Vector2i) -> StringName:
@@ -289,6 +297,7 @@ func _release_cells(id: StringName, unit: Placement) -> void:
 	placed.erase(id)
 	if armed == id:
 		cancel_skill()
+	unit_removed.emit(unit)
 
 func retreat(id: StringName) -> bool:
 	var unit: Placement = placed.get(id)
@@ -318,6 +327,8 @@ func receive_hit(id: StringName, damage: int, kind: EnemyAttackProfile.Kind) -> 
 			retreat(id)
 		else:
 			_release_cells(id, unit)
+	else:
+		unit_hit.emit(unit)
 	return true
 
 static func accepts_repair(spec: DeploymentSpec) -> bool:

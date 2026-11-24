@@ -2,6 +2,7 @@ class_name RangerCombat
 extends RefCounted
 
 signal hit(enemy_id: int, damage: int)
+signal attack_presented(unit: DeploymentState.Placement, target_id: int, clip: StringName)
 
 class SlowField:
 	var area: Rect2i
@@ -55,6 +56,7 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 				var area := _square(_enemies[primary].grid_cell(), ranger.splash_radius)
 				victims = _inside(candidates, area)
 	unit.next_attack_tick = tick + interval
+	attack_presented.emit(unit, primary, &"Attack")
 	for id in victims:
 		if not _clock.is_running():
 			return
@@ -106,6 +108,7 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 			var enemy := _enemies[id]
 			enemy.focus_marked_until = _clock.tick + CombatClock.ticks_for(skill.focus_seconds)
 			enemy.immobilized_until = maxi(enemy.immobilized_until, until)
+			attack_presented.emit(unit, id, &"Skill")
 			hit.emit(id, skill.damage)
 		RangerSkill.Effect.EMP_FIELD:
 			var primary := _leading(candidates)
