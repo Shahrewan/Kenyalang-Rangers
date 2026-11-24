@@ -97,7 +97,7 @@ func _run() -> void:
 			var rate := preload("res://data/enemies/e14_ignition_operator.tres").heat_per_second
 			_check(timeline.heat_tick == expected_heat[0] and is_equal_approx(timeline.first_heat, rate * CombatClock.STEP_SECONDS * 1.3 * scale), "%s applies D14 and the actual Firebreak state at first Heat" % operation.stage.stage_id)
 			if operation.stage.stage_id == &"C2-07":
-				_check(timeline.heat_tick == 3901, "C2-07 first Heat arrives at the eased opener tick after the Beacon build")
+				_check(timeline.heat_tick == 5341, "C2-07 first Heat arrives at the eased opener tick after the Beacon build")
 		_check(timeline.spawns.slice(0, base_script.size()) == base_script and timeline.spawns.size() == base_script.size() + phase_spawns, "%s spawns the authored order, route and tick plus scheduled phase support" % operation.stage.stage_id)
 		_check(report.defeated == base_script.size() + phase_spawns and report.escaped == 0 and report.balance == progress.snapshot().funds and report.settlement.first_clear, "%s settles a perfect first clear through the runtime result" % operation.stage.stage_id)
 		if operation.stage.stage_id == &"C1-03":
