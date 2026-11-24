@@ -1,0 +1,737 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-24",
+  "model": "Godot 448×448 transparent portraits with bottom anchor and per-pose overlays.",
+  "provenance": "Project-original layers derived from C28-A Manager and actual W29 field heads; D-014 pending.",
+  "speaker_aliases": {
+    "speaker.poacher_messenger": "portrait.poacher"
+  },
+  "portraits": {
+    "manager": {
+      "outreach_best": {
+        "texture": {
+          "path": "res://assets/imported/portraits/manager/outreach_best.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            61,
+            4,
+            387,
+            445
+          ],
+          "sha256": "161f88544ff1649f5e2a7de4f9617f7ad09071165e7e02ac27dfb9e2fc135873",
+          "source": "assets/source-art/portraits/manager/outreach_best.svg",
+          "source_sha256": "348fc46399bb68feb01940f36fad0d028fd038ea997da420693b897bb76bed71",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "C28-A pose reference with authored expression overlay",
+        "references": [
+          "C28-A Manager poses",
+          "W18 Outreach grades",
+          "UI pp. 77–84, 103–105"
+        ]
+      },
+      "outreach_acceptable": {
+        "texture": {
+          "path": "res://assets/imported/portraits/manager/outreach_acceptable.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            61,
+            4,
+            387,
+            445
+          ],
+          "sha256": "3c1c2e9f2662500aba8ec26fd25972aa69a82023cf4ea7cfea9f17c42a2182de",
+          "source": "assets/source-art/portraits/manager/outreach_acceptable.svg",
+          "source_sha256": "7e215f308a11410749f5b341f78bfef8e94a41214830c35e86169b5ae1d7b979",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "C28-A pose reference with authored expression overlay",
+        "references": [
+          "C28-A Manager poses",
+          "W18 Outreach grades",
+          "UI pp. 77–84, 103–105"
+        ],
+        "reuse_source": "res://assets/imported/first_contact/manager_relieved.png"
+      },
+      "outreach_poor": {
+        "texture": {
+          "path": "res://assets/imported/portraits/manager/outreach_poor.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            47,
+            4,
+            400,
+            446
+          ],
+          "sha256": "db8ce194652c6c4b5e2ef7ac741e008dd754f7a39c040487e0302ae5f90adff1",
+          "source": "assets/source-art/portraits/manager/outreach_poor.svg",
+          "source_sha256": "5d195a936d084764adb55ae640869739457f905e8bec473886f919595b122d64",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "C28-A pose reference with authored expression overlay",
+        "references": [
+          "C28-A Manager poses",
+          "W18 Outreach grades",
+          "UI pp. 77–84, 103–105"
+        ]
+      },
+      "outreach_harmful": {
+        "texture": {
+          "path": "res://assets/imported/portraits/manager/outreach_harmful.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            47,
+            4,
+            400,
+            446
+          ],
+          "sha256": "e918723e80b1009d59d055f77f0ca4453b2ba3434653cdd767a842b80f0efff4",
+          "source": "assets/source-art/portraits/manager/outreach_harmful.svg",
+          "source_sha256": "399ed983334d75257a46bcf522a082e6c34f2777362dcac786afb8f027ecc799",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "C28-A pose reference with authored expression overlay",
+        "references": [
+          "C28-A Manager poses",
+          "W18 Outreach grades",
+          "UI pp. 77–84, 103–105"
+        ]
+      }
+    },
+    "poacher": {
+      "alert": {
+        "texture": {
+          "path": "res://assets/imported/portraits/poacher/alert.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            73,
+            52,
+            371,
+            444
+          ],
+          "sha256": "544609f92c7db75b247f6bc7ca722490bb26038d1e14c24e02702d19561e92cf",
+          "source": "assets/source-art/portraits/poacher/alert.svg",
+          "source_sha256": "794ce92dbea3c04172578762e91872fc03af72df9e3c1c0e14d46fee7b3b36d1",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [
+          {
+            "path": "res://assets/imported/portraits/poacher/alert_clothing.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              78,
+              220,
+              371,
+              444
+            ],
+            "sha256": "e13e2214a29cb97b00e57c37932d7d1db7e23ff2f7a4c8dbe6660b36f664e9fd",
+            "source": "assets/source-art/portraits/poacher/alert.svg",
+            "source_sha256": "794ce92dbea3c04172578762e91872fc03af72df9e3c1c0e14d46fee7b3b36d1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "clothing"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher/alert_equipment.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              73,
+              258,
+              292,
+              435
+            ],
+            "sha256": "ff2739ddbc653d3831dcf24795668690cd55e6368c8d9b0cacca33c96dd3b119",
+            "source": "assets/source-art/portraits/poacher/alert.svg",
+            "source_sha256": "794ce92dbea3c04172578762e91872fc03af72df9e3c1c0e14d46fee7b3b36d1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "equipment"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher/alert_head.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              91,
+              52,
+              354,
+              265
+            ],
+            "sha256": "d29c4d529840c2d30c35e8e2380d897e39f4ffb764872be11f422d16b0c8441b",
+            "source": "assets/source-art/portraits/poacher/alert.svg",
+            "source_sha256": "794ce92dbea3c04172578762e91872fc03af72df9e3c1c0e14d46fee7b3b36d1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "head"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher/alert_gesture.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              100,
+              341,
+              363,
+              435
+            ],
+            "sha256": "101c0219c92776470e8b3a7cf0ea3d197770a7018b6b1c65c321d28eeb673001",
+            "source": "assets/source-art/portraits/poacher/alert.svg",
+            "source_sha256": "794ce92dbea3c04172578762e91872fc03af72df9e3c1c0e14d46fee7b3b36d1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "gesture"
+          }
+        ],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "Project original layered portrait",
+        "references": [
+          "Actual W29 field head cutout and W13 speaker/pose key",
+          "GDD pp. 6–7 and 29–30"
+        ]
+      }
+    },
+    "diversion_captain": {
+      "confronting": {
+        "texture": {
+          "path": "res://assets/imported/portraits/diversion_captain/confronting.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            46,
+            58,
+            371,
+            444
+          ],
+          "sha256": "64a24ca8d66e98e02ebb399292503a211d450e1b751e7768dcb54509e11d2032",
+          "source": "assets/source-art/portraits/diversion_captain/confronting.svg",
+          "source_sha256": "b5bbfa3a428dbbcd54c6c1a3ce2215e8bbe0bb98a4babe3da640366199f6148b",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [
+          {
+            "path": "res://assets/imported/portraits/diversion_captain/confronting_clothing.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              78,
+              220,
+              371,
+              444
+            ],
+            "sha256": "a15b9fe3e0362faedc09e8df73fc061c681016deb3c44b74c322ff2210e67214",
+            "source": "assets/source-art/portraits/diversion_captain/confronting.svg",
+            "source_sha256": "b5bbfa3a428dbbcd54c6c1a3ce2215e8bbe0bb98a4babe3da640366199f6148b",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "clothing"
+          },
+          {
+            "path": "res://assets/imported/portraits/diversion_captain/confronting_equipment.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              46,
+              243,
+              334,
+              437
+            ],
+            "sha256": "9e9f86de62cc0c1b2a636986bf5e9715f5195204fb38f94bf4ba9a1e6cfd45af",
+            "source": "assets/source-art/portraits/diversion_captain/confronting.svg",
+            "source_sha256": "b5bbfa3a428dbbcd54c6c1a3ce2215e8bbe0bb98a4babe3da640366199f6148b",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "equipment"
+          },
+          {
+            "path": "res://assets/imported/portraits/diversion_captain/confronting_head.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              90,
+              58,
+              355,
+              266
+            ],
+            "sha256": "3051d8dda39ea581b675c6b500c94588ffc97c7c7345922c85f368266c63273b",
+            "source": "assets/source-art/portraits/diversion_captain/confronting.svg",
+            "source_sha256": "b5bbfa3a428dbbcd54c6c1a3ce2215e8bbe0bb98a4babe3da640366199f6148b",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "head"
+          },
+          {
+            "path": "res://assets/imported/portraits/diversion_captain/confronting_gesture.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              100,
+              341,
+              363,
+              435
+            ],
+            "sha256": "101c0219c92776470e8b3a7cf0ea3d197770a7018b6b1c65c321d28eeb673001",
+            "source": "assets/source-art/portraits/diversion_captain/confronting.svg",
+            "source_sha256": "b5bbfa3a428dbbcd54c6c1a3ce2215e8bbe0bb98a4babe3da640366199f6148b",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "gesture"
+          }
+        ],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "Project original layered portrait",
+        "references": [
+          "Actual W29 field head cutout and W13 speaker/pose key",
+          "GDD pp. 6–7 and 29–30"
+        ]
+      }
+    },
+    "illegal_logging_foreman": {
+      "confronting": {
+        "texture": {
+          "path": "res://assets/imported/portraits/illegal_logging_foreman/confronting.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            78,
+            59,
+            371,
+            444
+          ],
+          "sha256": "3e63651d6301ef867c07ca1fdccf726ee16e50b1087935682711c3a5f66c2eb3",
+          "source": "assets/source-art/portraits/illegal_logging_foreman/confronting.svg",
+          "source_sha256": "844b052a8a9536f2e71a18a00ca32dea599dc321eaded9e031c8097726a01401",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [
+          {
+            "path": "res://assets/imported/portraits/illegal_logging_foreman/confronting_clothing.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              78,
+              220,
+              371,
+              444
+            ],
+            "sha256": "248a8bfa9c999669c695fdd105755920b739bf4c48dfb3d8da1b874230209713",
+            "source": "assets/source-art/portraits/illegal_logging_foreman/confronting.svg",
+            "source_sha256": "844b052a8a9536f2e71a18a00ca32dea599dc321eaded9e031c8097726a01401",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "clothing"
+          },
+          {
+            "path": "res://assets/imported/portraits/illegal_logging_foreman/confronting_equipment.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              164,
+              267,
+              345,
+              427
+            ],
+            "sha256": "98c100fb7fc5e2f3109c2c864ca25468c22b438a74f96ca7ddf432c39e1c6b98",
+            "source": "assets/source-art/portraits/illegal_logging_foreman/confronting.svg",
+            "source_sha256": "844b052a8a9536f2e71a18a00ca32dea599dc321eaded9e031c8097726a01401",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "equipment"
+          },
+          {
+            "path": "res://assets/imported/portraits/illegal_logging_foreman/confronting_head.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              90,
+              59,
+              355,
+              266
+            ],
+            "sha256": "4d61b11e59e4058343b51e51d865a22bc8c13d76d19f40de8784d938d601651c",
+            "source": "assets/source-art/portraits/illegal_logging_foreman/confronting.svg",
+            "source_sha256": "844b052a8a9536f2e71a18a00ca32dea599dc321eaded9e031c8097726a01401",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "head"
+          },
+          {
+            "path": "res://assets/imported/portraits/illegal_logging_foreman/confronting_gesture.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              100,
+              341,
+              363,
+              435
+            ],
+            "sha256": "101c0219c92776470e8b3a7cf0ea3d197770a7018b6b1c65c321d28eeb673001",
+            "source": "assets/source-art/portraits/illegal_logging_foreman/confronting.svg",
+            "source_sha256": "844b052a8a9536f2e71a18a00ca32dea599dc321eaded9e031c8097726a01401",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "gesture"
+          }
+        ],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "Project original layered portrait",
+        "references": [
+          "Actual W29 field head cutout and W13 speaker/pose key",
+          "GDD pp. 6–7 and 29–30"
+        ]
+      }
+    },
+    "poacher_leader": {
+      "confronting": {
+        "texture": {
+          "path": "res://assets/imported/portraits/poacher_leader/confronting.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            78,
+            36,
+            371,
+            444
+          ],
+          "sha256": "58434c444117797c2da7b4611b1573be3c07003653a1ca413193f5ccbab1b9d1",
+          "source": "assets/source-art/portraits/poacher_leader/confronting.svg",
+          "source_sha256": "a41fca3891c2dde4a679ab8dc74e140f921f21f2279d73368737a0e122f166c1",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/confronting_clothing.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              78,
+              220,
+              371,
+              444
+            ],
+            "sha256": "2c5c0cba41982ac3d9b27049bb1727e157a70257e2545b16ce6fa5a369088f19",
+            "source": "assets/source-art/portraits/poacher_leader/confronting.svg",
+            "source_sha256": "a41fca3891c2dde4a679ab8dc74e140f921f21f2279d73368737a0e122f166c1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "clothing"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/confronting_equipment.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              122,
+              244,
+              332,
+              432
+            ],
+            "sha256": "1d567302b6d76186ad5ac799103a85404036de5a5d37807aa0918c91fe5fb1b1",
+            "source": "assets/source-art/portraits/poacher_leader/confronting.svg",
+            "source_sha256": "a41fca3891c2dde4a679ab8dc74e140f921f21f2279d73368737a0e122f166c1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "equipment"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/confronting_head.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              96,
+              36,
+              349,
+              266
+            ],
+            "sha256": "556724819fb618cb101c43f7d340bb737005a4cf27f4d9fcb45ddfbb92625db2",
+            "source": "assets/source-art/portraits/poacher_leader/confronting.svg",
+            "source_sha256": "a41fca3891c2dde4a679ab8dc74e140f921f21f2279d73368737a0e122f166c1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "head"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/confronting_gesture.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              100,
+              341,
+              363,
+              435
+            ],
+            "sha256": "101c0219c92776470e8b3a7cf0ea3d197770a7018b6b1c65c321d28eeb673001",
+            "source": "assets/source-art/portraits/poacher_leader/confronting.svg",
+            "source_sha256": "a41fca3891c2dde4a679ab8dc74e140f921f21f2279d73368737a0e122f166c1",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "gesture"
+          }
+        ],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "Project original layered portrait",
+        "references": [
+          "Actual W29 field head cutout and W13 speaker/pose key",
+          "GDD pp. 6–7 and 29–30"
+        ]
+      },
+      "captured": {
+        "texture": {
+          "path": "res://assets/imported/portraits/poacher_leader/captured.png",
+          "width": 448,
+          "height": 448,
+          "alpha_bounds": [
+            78,
+            36,
+            371,
+            444
+          ],
+          "sha256": "b818af9a523b3259fcd876dd8b643485e4ad336d514924ff0b62784a4cd020ff",
+          "source": "assets/source-art/portraits/poacher_leader/captured.svg",
+          "source_sha256": "49879ed0f1bf61029cbd1a7089c4db8574f48afb9b2fd32b11d0456c9fb44f49",
+          "origin_units": [
+            224,
+            440
+          ],
+          "pixels_per_unit": 1,
+          "layer": null
+        },
+        "layers": [
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/captured_clothing.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              78,
+              220,
+              371,
+              444
+            ],
+            "sha256": "2c5c0cba41982ac3d9b27049bb1727e157a70257e2545b16ce6fa5a369088f19",
+            "source": "assets/source-art/portraits/poacher_leader/captured.svg",
+            "source_sha256": "49879ed0f1bf61029cbd1a7089c4db8574f48afb9b2fd32b11d0456c9fb44f49",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "clothing"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/captured_equipment.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              122,
+              244,
+              332,
+              432
+            ],
+            "sha256": "1d567302b6d76186ad5ac799103a85404036de5a5d37807aa0918c91fe5fb1b1",
+            "source": "assets/source-art/portraits/poacher_leader/captured.svg",
+            "source_sha256": "49879ed0f1bf61029cbd1a7089c4db8574f48afb9b2fd32b11d0456c9fb44f49",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "equipment"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/captured_head.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              96,
+              36,
+              349,
+              266
+            ],
+            "sha256": "556724819fb618cb101c43f7d340bb737005a4cf27f4d9fcb45ddfbb92625db2",
+            "source": "assets/source-art/portraits/poacher_leader/captured.svg",
+            "source_sha256": "49879ed0f1bf61029cbd1a7089c4db8574f48afb9b2fd32b11d0456c9fb44f49",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "head"
+          },
+          {
+            "path": "res://assets/imported/portraits/poacher_leader/captured_gesture.png",
+            "width": 448,
+            "height": 448,
+            "alpha_bounds": [
+              106,
+              352,
+              339,
+              436
+            ],
+            "sha256": "c54ab10c3afdaab1e365ba7f6bc8276d7073d30330b71e5c56bed767ebe07849",
+            "source": "assets/source-art/portraits/poacher_leader/captured.svg",
+            "source_sha256": "49879ed0f1bf61029cbd1a7089c4db8574f48afb9b2fd32b11d0456c9fb44f49",
+            "origin_units": [
+              224,
+              440
+            ],
+            "pixels_per_unit": 1,
+            "layer": "gesture"
+          }
+        ],
+        "safe_rect_px": [
+          24,
+          4,
+          400,
+          440
+        ],
+        "design_origin": "Project original layered portrait",
+        "references": [
+          "Actual W29 field head cutout and W13 speaker/pose key",
+          "GDD pp. 6–7 and 29–30"
+        ]
+      }
+    }
+  }
+}

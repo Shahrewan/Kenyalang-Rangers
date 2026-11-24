@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "asset_version": "1.0.0",
+  "asset_id": "companion.k9_ranger.dog",
+  "display_name": "K9 Ranger companion",
+  "status": "W29 subordinate skeletal cutout",
+  "source_svg": "assets/source-art/rangers/k9_ranger/companion/dog.svg",
+  "ground_anchor_units": [
+    48,
+    84
+  ],
+  "tile_units": 80,
+  "canvas_units": [
+    96,
+    96
+  ],
+  "normalized_raster_canvas_px": [
+    384,
+    384
+  ],
+  "godot_units_per_png_pixel": 0.25,
+  "neutral_facing": "right",
+  "animation_contract": "assets/source-art/rangers/k9_ranger/companion/animation_contract.json",
+  "provenance": {
+    "creator": "Kenyalang Rangers production art",
+    "revision": "2026-11-24",
+    "reference": "Approved Ranger lineup, W06 and GDD H.1",
+    "release_review": "D-014"
+  },
+  "sockets": {
+    "howl_fx": {
+      "part": "head",
+      "canvas_units": [
+        71,
+        63
+      ]
+    }
+  },
+  "parts": [
+    {
+      "id": "leg_far_rear",
+      "label": "Far hind leg",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        33.375,
+        72.375
+      ],
+      "svg_layer_id": "part_leg_far_rear",
+      "draw_order": 1,
+      "png": "assets/imported/rangers/k9_ranger/companion/leg_far_rear.png",
+      "canvas_rect_px": [
+        112,
+        271,
+        50,
+        69
+      ],
+      "pivot_canvas_normalized": [
+        0.34765625,
+        0.75390625
+      ],
+      "pivot_local_px": [
+        21.5,
+        18.5
+      ],
+      "sha256": "e8ed841a36c5cdf876e976fda5b62f6252eb55e564ec6d8c5345c325a3d8069a"
+    },
+    {
+      "id": "leg_far_front",
+      "label": "Far foreleg",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        54,
+        72
+      ],
+      "svg_layer_id": "part_leg_far_front",
+      "draw_order": 2,
+      "png": "assets/imported/rangers/k9_ranger/companion/leg_far_front.png",
+      "canvas_rect_px": [
+        196,
+        264,
+        53,
+        76
+      ],
+      "pivot_canvas_normalized": [
+        0.5625,
+        0.75
+      ],
+      "pivot_local_px": [
+        20,
+        24
+      ],
+      "sha256": "1668fbe46457513e0f0ca9cfaafa5450551f65ca1f45b57d9cbdc7722187468d"
+    },
+    {
+      "id": "tail",
+      "label": "Tipped shepherd tail",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        33,
+        69
+      ],
+      "svg_layer_id": "part_tail",
+      "draw_order": 3,
+      "png": "assets/imported/rangers/k9_ranger/companion/tail.png",
+      "canvas_rect_px": [
+        72,
+        228,
+        76,
+        72
+      ],
+      "pivot_canvas_normalized": [
+        0.34375,
+        0.71875
+      ],
+      "pivot_local_px": [
+        60,
+        48
+      ],
+      "sha256": "7c4a7ad024f26abcf7c82b484c90944caa96d0f00c192af02f9eca0c1995ec4e"
+    },
+    {
+      "id": "torso",
+      "label": "Shepherd body with olive field harness",
+      "parent": null,
+      "pivot_canvas_units": [
+        44,
+        71
+      ],
+      "svg_layer_id": "part_torso",
+      "draw_order": 4,
+      "png": "assets/imported/rangers/k9_ranger/companion/torso.png",
+      "canvas_rect_px": [
+        114,
+        232,
+        138,
+        84
+      ],
+      "pivot_canvas_normalized": [
+        0.45833333,
+        0.73958333
+      ],
+      "pivot_local_px": [
+        62,
+        52
+      ],
+      "sha256": "bce38dee665d50b8b26ef4a1ab702549672f919868cf57f96540dd33708df872"
+    },
+    {
+      "id": "leg_near_rear",
+      "label": "Near hind leg",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        38,
+        73
+      ],
+      "svg_layer_id": "part_leg_near_rear",
+      "draw_order": 5,
+      "png": "assets/imported/rangers/k9_ranger/companion/leg_near_rear.png",
+      "canvas_rect_px": [
+        124,
+        272,
+        53,
+        68
+      ],
+      "pivot_canvas_normalized": [
+        0.39583333,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        28,
+        20
+      ],
+      "sha256": "ec4cd7f5a065be5cc3a7934c6846f0e0abbeaad817049b1bbccc021c9c3cb063"
+    },
+    {
+      "id": "leg_near_front",
+      "label": "Near foreleg",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        54,
+        73
+      ],
+      "svg_layer_id": "part_leg_near_front",
+      "draw_order": 6,
+      "png": "assets/imported/rangers/k9_ranger/companion/leg_near_front.png",
+      "canvas_rect_px": [
+        196,
+        268,
+        52,
+        72
+      ],
+      "pivot_canvas_normalized": [
+        0.5625,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        20,
+        24
+      ],
+      "sha256": "f05dbf99353ce176b027a0df88d6768430afedb72ae0735c8f1c472f3fd64d54"
+    },
+    {
+      "id": "head",
+      "label": "Pointed ears and dark muzzle",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        55,
+        65
+      ],
+      "svg_layer_id": "part_head",
+      "draw_order": 7,
+      "png": "assets/imported/rangers/k9_ranger/companion/head.png",
+      "canvas_rect_px": [
+        183,
+        178,
+        117,
+        112
+      ],
+      "pivot_canvas_normalized": [
+        0.57291667,
+        0.67708333
+      ],
+      "pivot_local_px": [
+        37,
+        82
+      ],
+      "sha256": "e855c59d94202cf0cff43b284d24cf010d6c678843f8e682f603dcbc37855bca"
+    }
+  ],
+  "source_sha256": "374425e9ff0a9276519e710a6c375e0e1d261ce4ed155fbef1f4c0f4e5fe8e00",
+  "art_bounds_units": [
+    19.0,
+    45.5,
+    55.0,
+    38.5
+  ],
+  "measured_visible_height_units": 38.5,
+  "neutral_rgba_reassembly_max_delta": 1
+}

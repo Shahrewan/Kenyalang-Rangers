@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.1.0",
+  "asset_id": "facility.sentry_tower",
+  "display_name": "Sentry Tower",
+  "status": "unbound_presentation_asset",
+  "source": "res://assets/source-art/facilities/sentry_tower/master.svg",
+  "source_sha256": "4a60d3719479891b5c521a00ebec3060fef444fdc14c942be10108c77db81ddd",
+  "provenance": "Original vector redraw for Kenyalang Rangers, W29, based on W08 facilities.png and the C28-A crate/radio, sage terrain and ink palette.",
+  "permission_review": "D-014 pending final shipping sign-off.",
+  "canon_refs": [
+    "SimSimi pp. 15–17 § J",
+    "Storyboard pp. 17, 28–29, 66, 69, 127"
+  ],
+  "readability_cue": "tall lookout and reserved upper cell",
+  "canvas_units": [
+    80,
+    160
+  ],
+  "pixels_per_unit": 4,
+  "tile_units": 80,
+  "footprint_cells": [
+    [
+      0,
+      0
+    ]
+  ],
+  "reserved_cells": [
+    [
+      0,
+      -1
+    ]
+  ],
+  "canvas_origin_from_occupied_cell_top_left_units": [
+    0,
+    -80
+  ],
+  "base_anchor_canvas_units": [
+    40,
+    147
+  ],
+  "anchor_from_occupied_cell_top_left_units": [
+    40,
+    67
+  ],
+  "ready_alpha_bounds_canvas_px_xyxy": [
+    28,
+    54,
+    287,
+    609
+  ],
+  "world_scale": "One scalar tile_size()/80 for both axes. Place root at tile origin plus anchor_from_occupied_cell_top_left_units times scalar.",
+  "portrait_scale": "Fit uniformly inside card art area. The badge already has transparent square padding.",
+  "mount_socket_canvas_units": [
+    40,
+    59
+  ],
+  "parts": [
+    {
+      "id": "base",
+      "parent": null,
+      "draw_order": 0,
+      "texture": "res://assets/imported/facilities/sentry_tower/base.png",
+      "sha256": "40388619a1b51496752392fd066f8ceb289194d84548cbfc49de2aa3da4d627b",
+      "origin_png_px": [
+        24,
+        529
+      ],
+      "size_px": [
+        267,
+        84
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        28,
+        533,
+        287,
+        609
+      ],
+      "pivot_units": [
+        40,
+        147
+      ],
+      "pivot_local_png_px": [
+        136,
+        59
+      ]
+    },
+    {
+      "id": "body",
+      "parent": "base",
+      "draw_order": 1,
+      "texture": "res://assets/imported/facilities/sentry_tower/body.png",
+      "sha256": "cf7e0a61365f399dd2a13239a9df5155775c7a9b9a0ba40def1c38b53d306bec",
+      "origin_png_px": [
+        53,
+        142
+      ],
+      "size_px": [
+        218,
+        425
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        57,
+        146,
+        267,
+        563
+      ],
+      "pivot_units": [
+        40,
+        147
+      ],
+      "pivot_local_png_px": [
+        107,
+        446
+      ]
+    },
+    {
+      "id": "active",
+      "parent": "body",
+      "draw_order": 2,
+      "texture": "res://assets/imported/facilities/sentry_tower/active.png",
+      "sha256": "ec0d7b4312112f9ac69e771d7d3db8a786bcb0f01dae75ed80c86c8999ff8661",
+      "origin_png_px": [
+        36,
+        50
+      ],
+      "size_px": [
+        252,
+        140
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        40,
+        54,
+        284,
+        186
+      ],
+      "pivot_units": [
+        40,
+        38
+      ],
+      "pivot_local_png_px": [
+        124,
+        102
+      ]
+    },
+    {
+      "id": "indicator",
+      "parent": "active",
+      "draw_order": 3,
+      "texture": "res://assets/imported/facilities/sentry_tower/indicator.png",
+      "sha256": "e03cb8d29403c2c32e8e091589a8aef043fec81a93a02f448ad2d7048a16ab37",
+      "origin_png_px": [
+        123,
+        207
+      ],
+      "size_px": [
+        82,
+        50
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        127,
+        211,
+        201,
+        253
+      ],
+      "pivot_units": [
+        40,
+        38
+      ],
+      "pivot_local_png_px": [
+        37,
+        -55
+      ]
+    },
+    {
+      "id": "construction",
+      "parent": "base",
+      "draw_order": 5,
+      "texture": "res://assets/imported/facilities/shared/sentry/construction.png",
+      "sha256": "4b476537fb7f6d95925fc4b41e3796e6fa6fc71ddfbaff7adbc6b507ef91e818",
+      "origin_png_px": [
+        49,
+        441
+      ],
+      "size_px": [
+        222,
+        150
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        53,
+        445,
+        267,
+        587
+      ],
+      "pivot_units": [
+        40,
+        147
+      ],
+      "pivot_local_png_px": [
+        111,
+        147
+      ]
+    },
+    {
+      "id": "siege",
+      "parent": "base",
+      "draw_order": 7,
+      "texture": "res://assets/imported/facilities/shared/sentry/siege.png",
+      "sha256": "bb40c55f79ff869ea949c5a61de588b0c87ac89b39a50eb1088357bbb08adb36",
+      "origin_png_px": [
+        64,
+        484
+      ],
+      "size_px": [
+        197,
+        92
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        68,
+        488,
+        257,
+        572
+      ],
+      "pivot_units": [
+        40,
+        147
+      ],
+      "pivot_local_png_px": [
+        96,
+        104
+      ]
+    },
+    {
+      "id": "ruin",
+      "parent": "base",
+      "draw_order": 6,
+      "texture": "res://assets/imported/facilities/shared/sentry/ruin.png",
+      "sha256": "1af5a40ef8aff55781e151ef39943024122e55aa5825f9019a878150f4c1f672",
+      "origin_png_px": [
+        57,
+        481
+      ],
+      "size_px": [
+        214,
+        110
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        61,
+        485,
+        267,
+        587
+      ],
+      "pivot_units": [
+        40,
+        147
+      ],
+      "pivot_local_png_px": [
+        103,
+        107
+      ]
+    }
+  ],
+  "states": {
+    "Ready": {
+      "length": 2.0,
+      "loop": true,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.83
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.83
+        ]
+      ]
+    },
+    "Active": {
+      "length": 0.45,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.68
+        ],
+        [
+          0.11,
+          1.0
+        ],
+        [
+          0.45,
+          0.84
+        ]
+      ],
+      "part_rotation_degrees": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.11,
+          0.0
+        ],
+        [
+          0.45,
+          0.0
+        ]
+      ],
+      "socket": null,
+      "cue": "Active for an existing detection cue if exposed"
+    },
+    "Ghost": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "opacity": 0.52
+    },
+    "Construction": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction"
+      ]
+    },
+    "UnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "ConstructionUnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "Destroyed": {
+      "length": 0.3,
+      "loop": false,
+      "visible": [
+        "base",
+        "ruin"
+      ]
+    }
+  },
+  "badge": {
+    "texture": "res://assets/imported/facilities/sentry_tower/badge.png",
+    "size_px": [
+      112,
+      112
+    ],
+    "sha256": "4931d1c8922a2556275cd3cf06bdb7b898fda2ea417ed8decbc0281bdfd78752"
+  },
+  "rig": "res://assets/imported/facilities/sentry_tower/rig.tscn",
+  "master_reassembly_max_premultiplied_channel_delta": 1
+}

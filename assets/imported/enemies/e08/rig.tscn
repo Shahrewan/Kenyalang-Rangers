@@ -1,0 +1,103 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/animation/first_contact_cutout.gd" id="rig"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/arm_far.png" id="arm_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/rotor_far.png" id="rotor_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/arm_near.png" id="arm_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/rotor_near.png" id="rotor_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/torso.png" id="torso"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e08/gimbal.png" id="gimbal"]
+
+[node name="EnemiesE08Rig" type="Node2D"]
+texture_filter = 2
+script = ExtResource("rig")
+contract_path = "res://data/presentation/w29/animation/enemies__e08.json"
+
+[node name="Facing" type="Node2D" parent="."]
+
+[node name="Skeleton" type="Skeleton2D" parent="Facing"]
+
+[node name="torso" type="Bone2D" parent="Facing/Skeleton"]
+position = Vector2(0, -39)
+rest = Transform2D(1, 0, 0, 1, 0, -39)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="arm_far" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(7, -5)
+rest = Transform2D(1, 0, 0, 1, 7, -5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="rotor_far" type="Bone2D" parent="Facing/Skeleton/torso/arm_far"]
+position = Vector2(20, -6)
+rest = Transform2D(1, 0, 0, 1, 20, -6)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="arm_near" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-6, -5)
+rest = Transform2D(1, 0, 0, 1, -6, -5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="rotor_near" type="Bone2D" parent="Facing/Skeleton/torso/arm_near"]
+position = Vector2(-18, -4)
+rest = Transform2D(1, 0, 0, 1, -18, -4)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="gimbal" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(5, 2)
+rest = Transform2D(1, 0, 0, 1, 5, 2)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/arm_far"]
+z_index = 1
+z_as_relative = false
+position = Vector2(-6.25, -13.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("arm_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/arm_far/rotor_far"]
+z_index = 2
+z_as_relative = false
+position = Vector2(-16.75, -9.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("rotor_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/arm_near"]
+z_index = 3
+z_as_relative = false
+position = Vector2(-23.25, -11.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("arm_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/arm_near/rotor_near"]
+z_index = 4
+z_as_relative = false
+position = Vector2(-18.75, -7.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("rotor_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso"]
+z_index = 5
+z_as_relative = false
+position = Vector2(-16.5, -16.75)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("torso")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/gimbal"]
+z_index = 6
+z_as_relative = false
+position = Vector2(-6.25, -9.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("gimbal")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

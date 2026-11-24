@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="640" height="360" viewBox="0 0 640 360" stroke-linejoin="round" stroke-linecap="round">
+  <title>Final Interception · visual review plate</title>
+  <g id="landscape" inkscape:groupmode="layer" inkscape:label="Landscape">
+<image xlink:href="../../../imported/environments/t06/backdrop.jpg" x="0" y="0" width="640" height="360" />
+  </g>  <g id="vignette" inkscape:groupmode="layer" inkscape:label="Vignette">
+<path d="M0 0H640V360H0Z" fill="#203025" stroke="none" stroke-width="1" opacity=".36"/>
+  </g>  <g id="dialogue_plate" inkscape:groupmode="layer" inkscape:label="Dialogue Plate">
+<rect x="29" y="206" width="311" height="117" rx="12" fill="#253227" stroke="#c6b58e" stroke-width="2.4" /><path d="M44 222H324M44 305H324" fill="none" stroke="#687f5e" stroke-width="1.6" />
+  </g>  <g id="captured_pose" inkscape:groupmode="layer" inkscape:label="Captured Pose">
+<image xlink:href="../../../imported/portraits/poacher_leader/captured.png" x="275" y="32" width="334" height="328" preserveAspectRatio="xMidYMax meet"/>
+  </g>
+</svg>

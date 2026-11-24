@@ -1,0 +1,782 @@
+{
+  "schema_version": 1,
+  "engine": "4.7.2",
+  "scope": "Art packages and preview metadata. Integration uses the existing campaign and save state.",
+  "actors": {
+    "ranger.scout_sniper": {
+      "manifest": "res://assets/source-art/rangers/scout_sniper/manifest.json",
+      "label": "Scout Sniper",
+      "part_count": 19,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://scenes/units/scout_rig.tscn",
+      "badge": "res://assets/imported/first_contact/parts/badges/ranger_scout_sniper.png",
+      "live_in_first_contact": true
+    },
+    "ranger.patrolman": {
+      "manifest": "res://assets/source-art/rangers/patrolman/manifest.json",
+      "label": "Patrolman",
+      "part_count": 17,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://scenes/units/patrolman_rig.tscn",
+      "badge": "res://assets/imported/first_contact/parts/badges/ranger_patrolman.png",
+      "live_in_first_contact": true
+    },
+    "ranger.combat_medic": {
+      "manifest": "res://assets/source-art/rangers/combat_medic/manifest.json",
+      "label": "Combat Medic",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/combat_medic/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__combat_medic.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/combat_medic/field_badge.png"
+    },
+    "ranger.guard_veteran": {
+      "manifest": "res://assets/source-art/rangers/guard_veteran/manifest.json",
+      "label": "Guard Veteran",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/guard_veteran/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__guard_veteran.json",
+      "state_count": 8,
+      "badge": "res://assets/imported/rangers/guard_veteran/field_badge.png"
+    },
+    "ranger.woods_tracker": {
+      "manifest": "res://assets/source-art/rangers/woods_tracker/manifest.json",
+      "label": "Woods Tracker",
+      "part_count": 17,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/woods_tracker/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__woods_tracker.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/woods_tracker/field_badge.png"
+    },
+    "ranger.barricade_ops": {
+      "manifest": "res://assets/source-art/rangers/barricade_ops/manifest.json",
+      "label": "Barricade Ops",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/barricade_ops/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__barricade_ops.json",
+      "state_count": 8,
+      "badge": "res://assets/imported/rangers/barricade_ops/field_badge.png"
+    },
+    "ranger.k9_ranger": {
+      "manifest": "res://assets/source-art/rangers/k9_ranger/manifest.json",
+      "label": "K9 Ranger",
+      "part_count": 17,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/k9_ranger/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__k9_ranger.json",
+      "state_count": 8,
+      "badge": "res://assets/imported/rangers/k9_ranger/field_badge.png",
+      "companion": "companion.k9_ranger.dog",
+      "companion_attachment": {
+        "asset_id": "companion.k9_ranger.dog",
+        "manifest": "assets/source-art/rangers/k9_ranger/companion/manifest.json",
+        "attach_offset_units_right": [
+          26,
+          0
+        ],
+        "parent": "Facing",
+        "placement": "Presentation attached to existing K9 Ranger. The dog does not occupy a separate tile.",
+        "states": {
+          "Idle": "Idle",
+          "Deploy": "Move",
+          "Attack": "Idle",
+          "Skill": "Howl",
+          "Hit": "Idle",
+          "Retreat": "Move",
+          "Defeat": "Down",
+          "Block": "Idle"
+        }
+      }
+    },
+    "ranger.outpost_mechanic": {
+      "manifest": "res://assets/source-art/rangers/outpost_mechanic/manifest.json",
+      "label": "Outpost Mechanic",
+      "part_count": 17,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/outpost_mechanic/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__outpost_mechanic.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/outpost_mechanic/field_badge.png"
+    },
+    "ranger.kenyalang_seer": {
+      "manifest": "res://assets/source-art/rangers/kenyalang_seer/manifest.json",
+      "label": "Kenyalang Seer",
+      "part_count": 18,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/kenyalang_seer/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__kenyalang_seer.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/kenyalang_seer/field_badge.png"
+    },
+    "ranger.crowd_controller": {
+      "manifest": "res://assets/source-art/rangers/crowd_controller/manifest.json",
+      "label": "Crowd Controller",
+      "part_count": 17,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/crowd_controller/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__crowd_controller.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/crowd_controller/field_badge.png"
+    },
+    "ranger.saboteurist": {
+      "manifest": "res://assets/source-art/rangers/saboteurist/manifest.json",
+      "label": "Saboteurist",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/saboteurist/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__saboteurist.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/saboteurist/field_badge.png"
+    },
+    "ranger.strike_team": {
+      "manifest": "res://assets/source-art/rangers/strike_team/manifest.json",
+      "label": "Strike Team",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/strike_team/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__strike_team.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/rangers/strike_team/field_badge.png"
+    },
+    "E01": {
+      "manifest": "res://assets/source-art/enemies/e01/manifest.json",
+      "label": "Forest Trespasser",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://scenes/units/e01_rig.tscn",
+      "badge": "res://assets/imported/first_contact/parts/badges/E01.png",
+      "live_in_first_contact": true
+    },
+    "E02": {
+      "manifest": "res://assets/source-art/enemies/e02/manifest.json",
+      "label": "Poacher",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e02/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e02.json",
+      "state_count": 6,
+      "badge": "res://assets/imported/enemies/e02/field_badge.png"
+    },
+    "E03": {
+      "manifest": "res://assets/source-art/enemies/e03/manifest.json",
+      "label": "Contraband Runner",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e03/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e03.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e03/field_badge.png"
+    },
+    "E04": {
+      "manifest": "res://assets/source-art/enemies/e04/manifest.json",
+      "label": "Shield Carrier",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e04/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e04.json",
+      "state_count": 6,
+      "badge": "res://assets/imported/enemies/e04/field_badge.png"
+    },
+    "E05": {
+      "manifest": "res://assets/source-art/enemies/e05/manifest.json",
+      "label": "Rifle Spotter",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e05/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e05.json",
+      "state_count": 6,
+      "badge": "res://assets/imported/enemies/e05/field_badge.png"
+    },
+    "E06": {
+      "manifest": "res://assets/source-art/enemies/e06/manifest.json",
+      "label": "Smoke Infiltrator",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e06/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e06.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e06/field_badge.png"
+    },
+    "E07": {
+      "manifest": "res://assets/source-art/enemies/e07/manifest.json",
+      "label": "Signal Jammer",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e07/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e07.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e07/field_badge.png"
+    },
+    "E08": {
+      "manifest": "res://assets/source-art/enemies/e08/manifest.json",
+      "label": "Recon Drone",
+      "part_count": 6,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e08/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e08.json",
+      "state_count": 6,
+      "badge": "res://assets/imported/enemies/e08/field_badge.png"
+    },
+    "E09": {
+      "manifest": "res://assets/source-art/enemies/e09/manifest.json",
+      "label": "Tracking Bot",
+      "part_count": 5,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e09/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e09.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e09/field_badge.png"
+    },
+    "E10": {
+      "manifest": "res://assets/source-art/enemies/e10/manifest.json",
+      "label": "Net Trapper",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e10/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e10.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e10/field_badge.png"
+    },
+    "E11": {
+      "manifest": "res://assets/source-art/enemies/e11/manifest.json",
+      "label": "Demolitionist",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e11/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e11.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e11/field_badge.png"
+    },
+    "E12": {
+      "manifest": "res://assets/source-art/enemies/e12/manifest.json",
+      "label": "Portable Mortar Crew",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e12/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e12.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e12/field_badge.png"
+    },
+    "E13": {
+      "manifest": "res://assets/source-art/enemies/e13/manifest.json",
+      "label": "Heavy Breacher",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e13/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e13.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e13/field_badge.png"
+    },
+    "E14": {
+      "manifest": "res://assets/source-art/enemies/e14/manifest.json",
+      "label": "Ignition Operator",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e14/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e14.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/enemies/e14/field_badge.png"
+    },
+    "E15": {
+      "manifest": "res://assets/source-art/enemies/e15/manifest.json",
+      "label": "Wildlife Trafficker",
+      "part_count": 15,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/enemies/e15/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/enemies__e15.json",
+      "state_count": 6,
+      "badge": "res://assets/imported/enemies/e15/field_badge.png"
+    },
+    "boss.diversion_captain": {
+      "manifest": "res://assets/source-art/bosses/diversion_captain/manifest.json",
+      "label": "Diversion Captain",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/bosses/diversion_captain/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/bosses__diversion_captain.json",
+      "state_count": 8,
+      "badge": "res://assets/imported/bosses/diversion_captain/field_badge.png"
+    },
+    "boss.illegal_logging_foreman": {
+      "manifest": "res://assets/source-art/bosses/illegal_logging_foreman/manifest.json",
+      "label": "Illegal Logging Foreman",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/bosses/illegal_logging_foreman/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/bosses__illegal_logging_foreman.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/bosses/illegal_logging_foreman/field_badge.png"
+    },
+    "boss.poacher_leader": {
+      "manifest": "res://assets/source-art/bosses/poacher_leader/manifest.json",
+      "label": "Poacher Leader",
+      "part_count": 16,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/bosses/poacher_leader/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/bosses__poacher_leader.json",
+      "state_count": 7,
+      "badge": "res://assets/imported/bosses/poacher_leader/field_badge.png"
+    },
+    "companion.k9_ranger.dog": {
+      "manifest": "res://assets/source-art/rangers/k9_ranger/companion/manifest.json",
+      "label": "K9 Ranger companion",
+      "part_count": 7,
+      "foot_anchor": [
+        48,
+        84
+      ],
+      "rig": "res://assets/imported/rangers/k9_ranger/companion/rig.tscn",
+      "animation": "res://data/presentation/w29/animation/rangers__k9_ranger__companion.json",
+      "state_count": 4
+    }
+  },
+  "facilities": {
+    "facility.logistics_post": {
+      "manifest": "res://assets/source-art/facilities/logistics_post/manifest.json",
+      "label": "Logistics Post",
+      "badge": "res://assets/imported/facilities/logistics_post/badge.png",
+      "rig": "res://assets/imported/facilities/logistics_post/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.sonic_turret": {
+      "manifest": "res://assets/source-art/facilities/sonic_turret/manifest.json",
+      "label": "Sonic Turret",
+      "badge": "res://assets/imported/facilities/sonic_turret/badge.png",
+      "rig": "res://assets/imported/facilities/sonic_turret/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.medic_cabin": {
+      "manifest": "res://assets/source-art/facilities/medic_cabin/manifest.json",
+      "label": "Medic Cabin",
+      "badge": "res://assets/imported/facilities/medic_cabin/badge.png",
+      "rig": "res://assets/imported/facilities/medic_cabin/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.reinforced_cover_station": {
+      "manifest": "res://assets/source-art/facilities/reinforced_cover_station/manifest.json",
+      "label": "Reinforced Cover Station",
+      "badge": "res://assets/imported/facilities/reinforced_cover_station/badge.png",
+      "rig": "res://assets/imported/facilities/reinforced_cover_station/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.ranger_coordination_hub": {
+      "manifest": "res://assets/source-art/facilities/ranger_coordination_hub/manifest.json",
+      "label": "Ranger Coordination Hub",
+      "badge": "res://assets/imported/facilities/ranger_coordination_hub/badge.png",
+      "rig": "res://assets/imported/facilities/ranger_coordination_hub/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.canopy_defense_launcher": {
+      "manifest": "res://assets/source-art/facilities/canopy_defense_launcher/manifest.json",
+      "label": "Canopy Defense Launcher",
+      "badge": "res://assets/imported/facilities/canopy_defense_launcher/badge.png",
+      "rig": "res://assets/imported/facilities/canopy_defense_launcher/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.electric_pulse_turret": {
+      "manifest": "res://assets/source-art/facilities/electric_pulse_turret/manifest.json",
+      "label": "Electric Pulse Turret",
+      "badge": "res://assets/imported/facilities/electric_pulse_turret/badge.png",
+      "rig": "res://assets/imported/facilities/electric_pulse_turret/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.disruption_beacon": {
+      "manifest": "res://assets/source-art/facilities/disruption_beacon/manifest.json",
+      "label": "Disruption Beacon",
+      "badge": "res://assets/imported/facilities/disruption_beacon/badge.png",
+      "rig": "res://assets/imported/facilities/disruption_beacon/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.dispatch_relay": {
+      "manifest": "res://assets/source-art/facilities/dispatch_relay/manifest.json",
+      "label": "Dispatch Relay",
+      "badge": "res://assets/imported/facilities/dispatch_relay/badge.png",
+      "rig": "res://assets/imported/facilities/dispatch_relay/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.firebreak_beacon": {
+      "manifest": "res://assets/source-art/facilities/firebreak_beacon/manifest.json",
+      "label": "Firebreak Beacon",
+      "badge": "res://assets/imported/facilities/firebreak_beacon/badge.png",
+      "rig": "res://assets/imported/facilities/firebreak_beacon/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.skill_relay_station": {
+      "manifest": "res://assets/source-art/facilities/skill_relay_station/manifest.json",
+      "label": "Skill Relay Station",
+      "badge": "res://assets/imported/facilities/skill_relay_station/badge.png",
+      "rig": "res://assets/imported/facilities/skill_relay_station/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.specialist_calltower": {
+      "manifest": "res://assets/source-art/facilities/specialist_calltower/manifest.json",
+      "label": "Specialist Calltower",
+      "badge": "res://assets/imported/facilities/specialist_calltower/badge.png",
+      "rig": "res://assets/imported/facilities/specialist_calltower/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reserved": [],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    },
+    "facility.sentry_tower": {
+      "manifest": "res://assets/source-art/facilities/sentry_tower/manifest.json",
+      "label": "Sentry Tower",
+      "badge": "res://assets/imported/facilities/sentry_tower/badge.png",
+      "rig": "res://assets/imported/facilities/sentry_tower/rig.tscn",
+      "footprint": [
+        [
+          0,
+          0
+        ]
+      ],
+      "reserved": [
+        [
+          0,
+          -1
+        ]
+      ],
+      "states": [
+        "Ready",
+        "Active",
+        "Ghost",
+        "Construction",
+        "UnderSiege",
+        "ConstructionUnderSiege",
+        "Destroyed"
+      ]
+    }
+  },
+  "environments": {
+    "T01": "res://assets/source-art/first-contact/presentation.json",
+    "T02": "res://assets/source-art/environments/t02/manifest.json",
+    "T03": "res://assets/source-art/environments/t03/manifest.json",
+    "T04": "res://assets/source-art/environments/t04/manifest.json",
+    "T05": "res://assets/source-art/environments/t05/manifest.json",
+    "T06": "res://assets/source-art/environments/t06/manifest.json"
+  },
+  "headquarters": "res://assets/source-art/hq/manifest.json",
+  "portrait_receipts": "res://assets/source-art/portraits/manifest.json",
+  "support_receipts": "res://assets/source-art/support-w29/manifest.json",
+  "menu_receipts": "res://assets/source-art/ui/w29/manifest.json",
+  "heat_meter": "res://assets/imported/effects/w29/heat_meter.tscn",
+  "menu_theme": "res://resources/presentation/w29_ui_theme.tres"
+}

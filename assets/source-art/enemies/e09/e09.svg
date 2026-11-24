@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 96 96" width="384" height="384">
+  <title>Tracking Bot</title>
+  <g id="part_tread_far" inkscape:groupmode="layer" inkscape:label="Far tread">
+    <path d="M55 65 L71 65 L76 72 L74 81 L68 83 L55 82 L51 79 L51 71Z" fill="#574a40" stroke="#32251f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M57 70 L69 70 L72 73 L71 78 L57 78" fill="none" stroke="#957e62" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g id="part_torso" inkscape:groupmode="layer" inkscape:label="Low brick-red crawler chassis">
+    <path d="M24 65 L31 57 Q43 53 56 55 L67 61 L70 70 L63 76 L28 75Z" fill="#9d5241" stroke="#32251f" stroke-width="2.65" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M34 59 Q44 56 54 58 L58 61 L31 65Z" fill="#c78561" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M57 62 L64 63 L65 68 L59 71 L55 68Z" fill="#bda275" stroke="#32251f" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g id="part_tread_near" inkscape:groupmode="layer" inkscape:label="Near tread">
+    <path d="M26 68 L47 68 Q52 69 55 74 L54 80 L50 83 L26 83 L21 79 L21 74Z" fill="#4d4038" stroke="#32251f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M27 72 L47 72 L51 75 L49 79 L27 79 L24 76Z" fill="#776450" stroke="#32251f" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="29" cy="76" r="2.1" fill="#ae906d" stroke="#32251f" stroke-width="1.0" />
+    <circle cx="37" cy="76" r="2.1" fill="#ae906d" stroke="#32251f" stroke-width="1.0" />
+    <circle cx="45" cy="76" r="2.1" fill="#ae906d" stroke="#32251f" stroke-width="1.0" />
+  </g>
+  <g id="part_sensor_arm" inkscape:groupmode="layer" inkscape:label="Rotating sensor arm">
+    <path d="M44 62 L44 50 L45 45 L52 45 L53 60 L50 64Z" fill="#ab8b64" stroke="#32251f" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="46" y="53" width="4.5" height="4.5" rx="0.8" fill="#9e4e3b" stroke="#32251f" stroke-width="0.9" />
+  </g>
+  <g id="part_sensor" inkscape:groupmode="layer" inkscape:label="Tracking sensor housing">
+    <path d="M40 40 Q41 34 46 34 L59 35 Q66 37 66 43 L63 50 L56 53 L42 52 L39 47Z" fill="#815344" stroke="#32251f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="48" y="39" width="15" height="8" rx="2.0" fill="#512f29" stroke="#32251f" stroke-width="1.6" />
+    <circle cx="57" cy="43" r="2.0" fill="#e0ac60" stroke="#32251f" stroke-width="0.5" />
+    <path d="M43 39 L45 38" fill="none" stroke="#dbc19a" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

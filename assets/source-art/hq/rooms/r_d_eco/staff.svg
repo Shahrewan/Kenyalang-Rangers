@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="96" height="96" viewBox="0 0 96 96" stroke-linejoin="round" stroke-linecap="round">
+<g id="shadow" inkscape:groupmode="layer" inkscape:label="Shadow">
+<ellipse cx="47" cy="84" rx="25" ry="3.1" fill="#625347"/>
+</g>
+<g id="legs" inkscape:groupmode="layer" inkscape:label="Legs">
+<path d="M31 69Q36 68 46 70L53 69L61 73L63 80Q62 83 53 83L45 80L43 75L42 83L32 84L28 82Z" fill="#54483a" stroke="#30261f" stroke-width="3"/>
+<path d="M33 74H43L42 79L33 80ZM49 74H58L60 79L51 79Z" fill="#6b5848"/>
+</g>
+<g id="torso" inkscape:groupmode="layer" inkscape:label="Torso">
+<path d="M35 48Q43 45 55 48Q66 51 64 65L64 75Q61 78 50 77L31 75Q26 73 29 63Z" fill="#92a28c" stroke="#30261f" stroke-width="3.05"/>
+<path d="M33 60L40 52L51 54L61 52L61 68Q53 72 31 70Z" fill="#c0cead"/>
+<path d="M41 50L49 54L55 51L51 60Z" fill="#f0bd94" stroke="#30261f" stroke-width="1.5"/>
+<path d="M30 70H62L62 75H33Z" fill="#5d5544" stroke="#30261f" stroke-width="1.55"/>
+<rect x="49" y="71" width="6" height="4" rx="1" fill="#cfb786" stroke="#30261f" stroke-width="1"/>
+<path d="M43 60L45 68M54 60L55 68" fill="none" stroke="#92a28c" stroke-width="1.5"/>
+</g>
+<g id="passive_arm" inkscape:groupmode="layer" inkscape:label="Passive Arm">
+<path d="M34 55Q27 55 25 64Q24 69 29 72Q34 73 36 67L38 59Z" fill="#92a28c" stroke="#30261f" stroke-width="2.6"/>
+<path d="M25 65L33 67L32 72Q28 75 24 71Z" fill="#f0bd94" stroke="#30261f" stroke-width="2.25"/>
+<path d="M27 64L33 66" fill="none" stroke="#c0cead" stroke-width="1.5"/>
+</g>
+<g id="hand" inkscape:groupmode="layer" inkscape:label="Hand">
+<path d="M52 57Q53 52 59 53Q63 56 64 62L68 64L68 70L61 73L56 67Z" fill="#92a28c" stroke="#30261f" stroke-width="2.75"/>
+<path d="M55 60L61 61L65 66L61 70L56 66Z" fill="#c0cead" stroke="#30261f" stroke-width="1.4"/>
+<path d="M64 64Q70 63 71 69Q71 73 66 73Q61 72 62 67Z" fill="#f0bd94" stroke="#30261f" stroke-width="2.05"/>
+</g>
+<g id="work_prop" inkscape:groupmode="layer" inkscape:label="Work Prop">
+<rect x="69" y="58" width="5" height="15" rx="1.1" fill="#cad4b5" stroke="#30261f" stroke-width="1.2"/>
+<rect x="69.9" y="65" width="3.2" height="7" rx="0.5" fill="#82a080"/>
+<rect x="68" y="57" width="7" height="3" rx="1" fill="#b39770" stroke="#30261f" stroke-width="1.25"/>
+</g>
+<g id="head" inkscape:groupmode="layer" inkscape:label="Head">
+<path d="M27 34Q18 49 26 57Q34 57 46 53L61 55Q68 55 71 47L65 30Z" fill="#554035" stroke="#30261f" stroke-width="3.0"/>
+<path d="M24 43Q21 20 44 18Q62 16 69 32Q74 46 65 51L56 52H39L26 48Z" fill="#554035" stroke="#30261f" stroke-width="3.1"/>
+<path d="M43 33Q56 32 63 35L66 41V51Q64 55 58 56L43 55Q37 54 36 50Q28 53 28 47Q27 43 33 42Z" fill="#f0bd94" stroke="#30261f" stroke-width="2.7"/>
+<path d="M39 51Q49 55 61 53Q58 56 50 56Q43 55 39 51Z" fill="#c89571"/>
+<image x="47" y="41.0" width="3.25" height="8.1" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAgCAYAAADJ2fKUAAAAwklEQVR42r3TMQrCQBBA0b+JFoIIFtYhCMEy2NkL3sPCE9h5A4/iDQRrL2BhI3oHi0gQo83ayCSbHWS32ubNzM7MmjxLFsAejxP5gi+qOxOg1xZdgTdwBgp7nzWhC5AKgY7ASEIpMG4odyehteP9Uwn1HWggoZem5aUGPYJlev5jjVqhrgZ1NCjWoCgYioO1XLWwVbDdU6FCm6nyRQfHCG4SOjVkKoFV3XCHNWhrKxG/wx0wwAaY25KWvxFMniXea/QBeNsgYv+zDF4AAAAASUVORK5CYII="/>
+<image x="58.4" y="41.2" width="3" height="8.1" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAgCAYAAAAmG5mqAAAAsklEQVR42mM0UJNnIAUw4RBXZmBg4CFGw1kGBob/DAwMtxgYGD5D2VHICliQ2N8YGBg4sRi0FGrAGWQJYSTF2MBmdCcFEPCrBLoGdlJDiYtUDSTbwERpxBHU8JtUDX9o7iQWmttAew3Mg89Jf0nV8I9UDT/JSXz/SE18TKRoOENA3TN0DecIaIjHFg+4CoJ+BgaGPdhKvu8MDAyMDAwMoQwMDC4MDAw3oIpRACO1Sm+cAAAahRoAZhYb+QAAAABJRU5ErkJggg=="/>
+<path d="M25 43Q21 24 40 20Q54 16 66 29Q70 34 68 41Q61 39 55 30Q52 38 46 39Q43 38 42 33Q38 41 34 43L31 50Z" fill="#554035" stroke="#30261f" stroke-width="2.7"/>
+<path d="M29 31Q35 23 46 23Q39 26 34 32Z" fill="#6d5140"/>
+</g>
+<g id="gear" inkscape:groupmode="layer" inkscape:label="Gear">
+<rect x="43" y="40" width="9" height="9" rx="2" fill="none" stroke="#626f61" stroke-width="1.75"/>
+<rect x="56" y="40" width="8.6" height="8.8" rx="2" fill="none" stroke="#626f61" stroke-width="1.75"/>
+<path d="M52 43L56 43" fill="none" stroke="#626f61" stroke-width="1.45"/>
+<path d="M43 43L39 42" fill="none" stroke="#626f61" stroke-width="1.4"/>
+<path d="M45 41L47 41" fill="none" stroke="#f5dcb7" stroke-width="0.68"/>
+<path d="M58 41L60 41" fill="none" stroke="#f5dcb7" stroke-width="0.68"/>
+</g>
+</svg>

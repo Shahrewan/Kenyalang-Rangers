@@ -1,0 +1,3817 @@
+{
+  "schema_version": 1,
+  "canvas_units": [
+    1280,
+    720
+  ],
+  "created": "2026-11-24",
+  "origin": "Original W29 Kenyalang Rangers art. Eyes reference the approved E02 sheet. D-014 release review pending.",
+  "references": [
+    "UI pp. 12, 38–68, 109–110",
+    "GDD §§ M.1–3",
+    "data/headquarters/rooms.tres"
+  ],
+  "shell": {
+    "jungle": {
+      "texture": "assets/imported/hq/shell/jungle.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "3e2339be377c6b30cd4b64a46429ca4e1a93d06e87ff37dcaeff9258612c3c7e",
+      "alpha_bounds_px": [
+        0,
+        0,
+        1280,
+        720
+      ]
+    },
+    "roof": {
+      "texture": "assets/imported/hq/shell/roof.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "78446bab977b5ae381857269a76fb8714173a0764d7a8561f0c3ae60c4579a16",
+      "alpha_bounds_px": [
+        123,
+        26,
+        1159,
+        145
+      ]
+    },
+    "frame_back": {
+      "texture": "assets/imported/hq/shell/frame_back.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "91f57540131ec1b9d7681db35cd53e1f34c5cc2925d2a066e763d79463853d6b",
+      "alpha_bounds_px": [
+        109,
+        135,
+        1171,
+        621
+      ]
+    },
+    "lobby": {
+      "texture": "assets/imported/hq/shell/lobby.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "84a552f0428eb47f23787a0b94d1e542b74778bf411f47468a796089d18a6e69",
+      "alpha_bounds_px": [
+        122,
+        608,
+        1158,
+        695
+      ]
+    },
+    "frame_front": {
+      "texture": "assets/imported/hq/shell/frame_front.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "0dd4f7900af667d53addb54daddc2221017fc06ea654572ebf46bfb0fb7961ad",
+      "alpha_bounds_px": [
+        99,
+        131,
+        1181,
+        617
+      ]
+    },
+    "foreground": {
+      "texture": "assets/imported/hq/shell/foreground.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "c5d6282e1356cfc6c1042edf97d435818cfe69c82ddd54602098cb324e95b072",
+      "alpha_bounds_px": [
+        0,
+        591,
+        1280,
+        720
+      ]
+    }
+  },
+  "unbuilt": {
+    "texture": "assets/imported/hq/unbuilt.png",
+    "dimensions": [
+      628,
+      210
+    ],
+    "sha256": "8ead42697462ad5e8f2b16211d086949fb38eae6a98a541b7172281c4556bdc0",
+    "alpha_bounds_px": [
+      0,
+      0,
+      628,
+      210
+    ]
+  },
+  "overview": {
+    "texture": "assets/imported/hq/overview.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "82600c627f43b5bc6ecd29717b0f05ff627a5e88039a5538ed037a3488bd1bdd",
+    "alpha_bounds_px": [
+      0,
+      0,
+      1280,
+      720
+    ]
+  },
+  "opening": {
+    "texture": "assets/imported/hq/opening.png",
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "d7eb21570f5de70be0839f6b2013c182a9be167a360f818bee6881c526d131b3",
+    "alpha_bounds_px": [
+      0,
+      0,
+      1280,
+      720
+    ]
+  },
+  "trophy_anchor": [
+    918,
+    636
+  ],
+  "trophy_max_size": [
+    57,
+    48
+  ],
+  "draw_order": [
+    "jungle",
+    "roof",
+    "frame_back",
+    "lobby",
+    "room_back",
+    "staff",
+    "room_front",
+    "frame_front",
+    "foreground",
+    "controls"
+  ],
+  "staff_rule": "Stationary, shape-matched work loops. Keep root at its authored post; separate playback from purchases, Funds and stock state.",
+  "rooms": [
+    {
+      "id": "room.control_room",
+      "name": "Control Room",
+      "storyboard": "H01",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/control_room/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "cb078bb77432e2fdbad5de4b0e827c0f953d169d3426f37ba22917630aa9aad4",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/control_room/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "7ca5b582632a60a6ddb959684a9b198121c9a4d0a63b9f10e5241f27b99e05c5",
+          "alpha_bounds_px": [
+            184,
+            127,
+            490,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Operations officer",
+        "uniform": "radio headset",
+        "action": "Checks the console",
+        "anchor_in_room": [
+          220,
+          98
+        ],
+        "scale": 0.96,
+        "duration": 3.4,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/control_room/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/control_room/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/control_room/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "d5f72a1e4d45ca691e4e8cc5731334340d6140ce9b649eadc3869831fb28360e",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/control_room/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "466efe8c8ba3988f8fe405e4ff4f0d8bc0358aa8e5aafe4090bd5215212ea168",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/control_room/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "2026d8ed5935c40de0365655f71b8bcf176b813ca7ceaf0904e9c7b30a404d68",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/control_room/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/work_prop.png",
+            "dimensions": [
+              88,
+              85
+            ],
+            "sha256": "df4a8f71397a91aec14fea762a8754881d13db329fec9f2843b2d0495c4e2ff7",
+            "alpha_bounds_px": [
+              4,
+              4,
+              84,
+              81
+            ],
+            "canvas_rect_px": [
+              242,
+              239,
+              88,
+              85
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/control_room/staff/work_prop.png",
+            "pivot_local_px": [
+              26,
+              37
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/head.png",
+            "dimensions": [
+              215,
+              178
+            ],
+            "sha256": "d5392d5b1be1e2f232f87ecf51d3c2a8a2743dd60284ae55a7f9fae2ee859ecd",
+            "alpha_bounds_px": [
+              4,
+              4,
+              211,
+              174
+            ],
+            "canvas_rect_px": [
+              79,
+              60,
+              215,
+              178
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/control_room/staff/head.png",
+            "pivot_local_px": [
+              113,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/control_room/staff/gear.png",
+            "dimensions": [
+              204,
+              157
+            ],
+            "sha256": "52afe6fe26c35690357a1f30ff2d7548a2e59504257f5792010931320675ad69",
+            "alpha_bounds_px": [
+              4,
+              4,
+              200,
+              153
+            ],
+            "canvas_rect_px": [
+              76,
+              66,
+              204,
+              157
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/control_room/staff/gear.png",
+            "pivot_local_px": [
+              116,
+              142
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/control_room/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/control_room/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "6886beb3fee31dbfa37b2382894b3c709c70c52bf40189e5aacd6d41f937ea73",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/control_room/interior.svg",
+      "overview_hit_rect": [
+        150,
+        151,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.human_resources",
+      "name": "Human Resources",
+      "storyboard": "H02",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/human_resources/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "52c3cac09512a1ca2ada289cfd1bcf2b5b42ae2eb1de43ee0368e6c0fa1839a4",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/human_resources/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "2cd7759a0a8231363cb9ff8f68cfc026b923dabbee7736775c18bb37d3ad6eb5",
+          "alpha_bounds_px": [
+            184,
+            132,
+            506,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Personnel clerk",
+        "uniform": "glasses",
+        "action": "Reviews a form",
+        "anchor_in_room": [
+          212,
+          98
+        ],
+        "scale": 0.96,
+        "duration": 3.9,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/human_resources/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/human_resources/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/human_resources/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "9f0fee58285e104243b2ea58949ddf549d27528a2a35246882594bf9c8946e58",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/human_resources/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "253c5ac0f5fc07d4d73bd0fa1f776eef055b1cb086866fa41cb79ceab2456336",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/human_resources/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "338ce99f8812f355034f15c34e5a42078780b8c811ef990afde2fe1f44cb1cd1",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/human_resources/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/work_prop.png",
+            "dimensions": [
+              96,
+              80
+            ],
+            "sha256": "963f87784d3f5196a7f28c4c6aaf0a7c5aa13ec76c5a3ee7a69db172be5720a7",
+            "alpha_bounds_px": [
+              4,
+              4,
+              92,
+              76
+            ],
+            "canvas_rect_px": [
+              244,
+              232,
+              96,
+              80
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/human_resources/staff/work_prop.png",
+            "pivot_local_px": [
+              24,
+              44
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/head.png",
+            "dimensions": [
+              233,
+              174
+            ],
+            "sha256": "79207a192d62d1d056fbacd33aa957bc88d4ea87da4bee2531056607745a683a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              229,
+              170
+            ],
+            "canvas_rect_px": [
+              61,
+              60,
+              233,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/human_resources/staff/head.png",
+            "pivot_local_px": [
+              131,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/human_resources/staff/gear.png",
+            "dimensions": [
+              117,
+              52
+            ],
+            "sha256": "708b7896c5e5ed57d370a8896511e5423dfe3e66723e2a50e75fe738cd83aa3f",
+            "alpha_bounds_px": [
+              4,
+              4,
+              113,
+              48
+            ],
+            "canvas_rect_px": [
+              149,
+              152,
+              117,
+              52
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/human_resources/staff/gear.png",
+            "pivot_local_px": [
+              43,
+              56
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/human_resources/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/human_resources/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "dce1a21a8ab1234e43d99532119c8672b7b681d5cead6900c707a0c86fb3154d",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/human_resources/interior.svg",
+      "overview_hit_rect": [
+        476,
+        151,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.finance_room",
+      "name": "Finance Room",
+      "storyboard": "H03",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/finance_room/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "b20768ba59dccba02089eaed3f9fdf96c2a4298463a6f3087e6a67bf2e7a1f29",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/finance_room/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "b2b35470c195a09412aedd522e4481da798761deb8ab856cc0b77f38c33bb42c",
+          "alpha_bounds_px": [
+            170,
+            136,
+            514,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Finance officer",
+        "uniform": "glasses",
+        "action": "Taps the calculator",
+        "anchor_in_room": [
+          200,
+          98
+        ],
+        "scale": 0.96,
+        "duration": 2.8,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/finance_room/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/finance_room/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/finance_room/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "f2e75e71a77910e20c6c32172f84852d36d823fb68be7d13db363750300bf380",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/finance_room/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "39cf7d6e232fc7239b9d5f881a794fbd04f2f31540d8605aaa27bc4e4c2eba2b",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/finance_room/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "f7f5fe3865c04d85a6b5dc5339615ae645e51fe418a7b31e11f3db878ebc42b1",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/finance_room/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/work_prop.png",
+            "dimensions": [
+              96,
+              60
+            ],
+            "sha256": "f69b15974ef9a14d6808ade6c42f99036f84f192b5a067b31dbd4d9371f9a9ab",
+            "alpha_bounds_px": [
+              4,
+              4,
+              92,
+              56
+            ],
+            "canvas_rect_px": [
+              240,
+              252,
+              96,
+              60
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/finance_room/staff/work_prop.png",
+            "pivot_local_px": [
+              28,
+              24
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/head.png",
+            "dimensions": [
+              210,
+              174
+            ],
+            "sha256": "ec77dfefae40825302bacb4460e4f69497b078d147a69653683b34eaf48efe90",
+            "alpha_bounds_px": [
+              4,
+              4,
+              206,
+              170
+            ],
+            "canvas_rect_px": [
+              84,
+              60,
+              210,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/finance_room/staff/head.png",
+            "pivot_local_px": [
+              108,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/finance_room/staff/gear.png",
+            "dimensions": [
+              117,
+              52
+            ],
+            "sha256": "708b7896c5e5ed57d370a8896511e5423dfe3e66723e2a50e75fe738cd83aa3f",
+            "alpha_bounds_px": [
+              4,
+              4,
+              113,
+              48
+            ],
+            "canvas_rect_px": [
+              149,
+              152,
+              117,
+              52
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/finance_room/staff/gear.png",
+            "pivot_local_px": [
+              43,
+              56
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/finance_room/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/finance_room/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "1f0de9062a04ab761901453899e73dc12c41e182ee1338544ebb4ab9ce45b6ef",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/finance_room/interior.svg",
+      "overview_hit_rect": [
+        802,
+        151,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.mechanical",
+      "name": "Mechanical",
+      "storyboard": "H04",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/mechanical/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "f0703bf13381abb9007f86c6c7828b7743bb2011182c1794a72437c4c91f100d",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/mechanical/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "5b92f4a48e5f73aea744bf6be3a67eeb2ca42ae34201ab53fc949d4fc5786263",
+          "alpha_bounds_px": [
+            86,
+            148,
+            458,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Workshop mechanic",
+        "uniform": "work goggles",
+        "action": "Turns a wrench",
+        "anchor_in_room": [
+          91,
+          101
+        ],
+        "scale": 0.96,
+        "duration": 2.9,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/mechanical/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/mechanical/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/mechanical/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "af7dd811a34026817872dff553843c270e7ca662d95a47b9930a6984b1825afd",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/mechanical/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "4569846ea4f350acbf94f3180b8878e248ce49453d989a2ac8b3cd3c2d5d5ca1",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/mechanical/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "9c06d1951ac2d35bf095aa99556584fc86631a1c738c285cdf9da1142b1709e7",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/mechanical/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/work_prop.png",
+            "dimensions": [
+              108,
+              112
+            ],
+            "sha256": "fd6540033f37a493587eaacde6c855f3bde701c6f8d87414083500c00862e669",
+            "alpha_bounds_px": [
+              4,
+              4,
+              104,
+              108
+            ],
+            "canvas_rect_px": [
+              232,
+              208,
+              108,
+              112
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/mechanical/staff/work_prop.png",
+            "pivot_local_px": [
+              36,
+              68
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/head.png",
+            "dimensions": [
+              210,
+              174
+            ],
+            "sha256": "388474be498f7b06e8a6ac77c2963df1d82797c0924f74072ef304f2e4de0c99",
+            "alpha_bounds_px": [
+              4,
+              4,
+              206,
+              170
+            ],
+            "canvas_rect_px": [
+              84,
+              60,
+              210,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/mechanical/staff/head.png",
+            "pivot_local_px": [
+              108,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/mechanical/staff/gear.png",
+            "dimensions": [
+              192,
+              97
+            ],
+            "sha256": "bd720ed4d9f5e569fe57c4796fa0055b7ead88163092107b5bbfcf08ad92c319",
+            "alpha_bounds_px": [
+              4,
+              4,
+              188,
+              93
+            ],
+            "canvas_rect_px": [
+              90,
+              61,
+              192,
+              97
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/mechanical/staff/gear.png",
+            "pivot_local_px": [
+              102,
+              147
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/mechanical/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/mechanical/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "63ef31fd369e9559333332e06f1ae97fd770a496e3dd9a5f3fcd02a810f0f4bd",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/mechanical/interior.svg",
+      "overview_hit_rect": [
+        150,
+        267,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.ecology",
+      "name": "Ecology",
+      "storyboard": "H05",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/ecology/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "b1a003f574a8b64a6f314015599d26a235e6b31d54f14b5f1c21166f08da82f7",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/ecology/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "701f50c6e0afe39dee32d8c77964c5c0c385d8c5c1abcd6c92e0e4b0f977d051",
+          "alpha_bounds_px": [
+            98,
+            136,
+            492,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Nursery technician",
+        "uniform": "field hat",
+        "action": "Tends a seedling",
+        "anchor_in_room": [
+          84,
+          97
+        ],
+        "scale": 0.96,
+        "duration": 4.4,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/ecology/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/ecology/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/ecology/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "bd0261624d12d01dd10de4eb4d867df369dcc118dbf178c7c8c25d16b94c5d9e",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/ecology/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "a279b02e394eaca21ec1f277fa9081b851487d2e86d173261d23f8b23edd77ac",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/ecology/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "a9ce591c595e2b9020f5fbf1a983d0c13aa8d425f475dd9ed027901a6430b20a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/ecology/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/work_prop.png",
+            "dimensions": [
+              104,
+              70
+            ],
+            "sha256": "7941120c88afe19b27dfba319f8da8c97155ad81946762214da6d1dcc6953279",
+            "alpha_bounds_px": [
+              4,
+              4,
+              100,
+              66
+            ],
+            "canvas_rect_px": [
+              231,
+              245,
+              104,
+              70
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/ecology/staff/work_prop.png",
+            "pivot_local_px": [
+              37,
+              31
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/head.png",
+            "dimensions": [
+              210,
+              174
+            ],
+            "sha256": "99f3800e5c78ec8d1c2642b3ab095079f84d6b496b641b94e01ae5f51d061207",
+            "alpha_bounds_px": [
+              4,
+              4,
+              206,
+              170
+            ],
+            "canvas_rect_px": [
+              84,
+              60,
+              210,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/ecology/staff/head.png",
+            "pivot_local_px": [
+              108,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/ecology/staff/gear.png",
+            "dimensions": [
+              216,
+              114
+            ],
+            "sha256": "f5e370fe6ab45e1a323f9c15efb6397016f6fe96c613c196b8f4b5f74c17b0b8",
+            "alpha_bounds_px": [
+              4,
+              4,
+              212,
+              110
+            ],
+            "canvas_rect_px": [
+              86,
+              52,
+              216,
+              114
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/ecology/staff/gear.png",
+            "pivot_local_px": [
+              106,
+              156
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/ecology/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/ecology/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "4dea17f7abeb4f2ae515ea1b3e683f4658193315884bb69e0f78d265083318e5",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/ecology/interior.svg",
+      "overview_hit_rect": [
+        476,
+        267,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.outreach",
+      "name": "Outreach",
+      "storyboard": "H06",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/outreach/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "0e8b75df7ae17dea74a8ad5bd30eeccadac47a9ca9d404379d8a9a69769a6777",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/outreach/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "9b16eb09e0f2d7dcabfa50a5c6e1aeca1a38902856606c88a1382a61582fe6e9",
+          "alpha_bounds_px": [
+            248,
+            130,
+            472,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Outreach producer",
+        "uniform": "radio headset",
+        "action": "Adjusts the microphone",
+        "anchor_in_room": [
+          169,
+          100
+        ],
+        "scale": 0.96,
+        "duration": 3.8,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/outreach/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/outreach/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/outreach/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "49df1f3afff8b850165cce7ce13b54cadb2838620f029db92dc0a06d554bd6b2",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/outreach/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "968eeee0bfa486e03503e4bada01971e8c698b05d4574a0c3273fce08759ed73",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/outreach/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "4836007b60754728729a5c4a4cadd7d00f88f0f624746709b277fe7fdcede44b",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/outreach/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/work_prop.png",
+            "dimensions": [
+              70,
+              82
+            ],
+            "sha256": "ea32495e6c40ac7b2f92343f78ba65267d69b0c8282e1e5f906a924b5fd41aec",
+            "alpha_bounds_px": [
+              4,
+              4,
+              66,
+              78
+            ],
+            "canvas_rect_px": [
+              252,
+              222,
+              70,
+              82
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/outreach/staff/work_prop.png",
+            "pivot_local_px": [
+              16,
+              54
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/head.png",
+            "dimensions": [
+              215,
+              178
+            ],
+            "sha256": "2ad294afc4c280b8c6c37ab5f7933c38c3c6e643a17447434c54ed8b14673992",
+            "alpha_bounds_px": [
+              4,
+              4,
+              211,
+              174
+            ],
+            "canvas_rect_px": [
+              79,
+              60,
+              215,
+              178
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/outreach/staff/head.png",
+            "pivot_local_px": [
+              113,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/outreach/staff/gear.png",
+            "dimensions": [
+              204,
+              157
+            ],
+            "sha256": "52afe6fe26c35690357a1f30ff2d7548a2e59504257f5792010931320675ad69",
+            "alpha_bounds_px": [
+              4,
+              4,
+              200,
+              153
+            ],
+            "canvas_rect_px": [
+              76,
+              66,
+              204,
+              157
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/outreach/staff/gear.png",
+            "pivot_local_px": [
+              116,
+              142
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/outreach/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/outreach/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "cb9f1e8f03879fe309ecdd92bc40fa0af168ff922eb43f4146e3aa5f831c8f54",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/outreach/interior.svg",
+      "overview_hit_rect": [
+        802,
+        267,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.records",
+      "name": "Records",
+      "storyboard": "H07",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/records/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "a73e8191d1d9e8a28ce7c85759119c748db87a3460bf92bc501280e5ae512504",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/records/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "260f86a7a1ed4f0bd699f2eb91b36804cbd6ee694933f3c1f83a0997d1c4f9b9",
+          "alpha_bounds_px": [
+            178,
+            114,
+            496,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Archivist",
+        "uniform": "glasses",
+        "action": "Moves a reference page",
+        "anchor_in_room": [
+          178,
+          99
+        ],
+        "scale": 0.96,
+        "duration": 4.6,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/records/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/records/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/records/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "25269204a14ef16da002cfce500709c16d988a11f9c71fa43435d6bb71a69b1e",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/records/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "b23054589c9de0b99c8263e163d926780dffc39e1a06e5061a124eb106619f5a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/records/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "f2fb556206699238f31a028dd0a93704aef7813068edaf7bdf46008a86c831f6",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/records/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/work_prop.png",
+            "dimensions": [
+              107,
+              57
+            ],
+            "sha256": "56c99f5e54ecc5c9e05e0a703352ebbe896a026d7474d384150b4e157be3f3c5",
+            "alpha_bounds_px": [
+              4,
+              4,
+              103,
+              53
+            ],
+            "canvas_rect_px": [
+              255,
+              258,
+              107,
+              57
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/records/staff/work_prop.png",
+            "pivot_local_px": [
+              13,
+              18
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/head.png",
+            "dimensions": [
+              233,
+              174
+            ],
+            "sha256": "7d29e6af2af9dc9a45d11cfda3922cc15b7d83b814f773851a460a270a431a49",
+            "alpha_bounds_px": [
+              4,
+              4,
+              229,
+              170
+            ],
+            "canvas_rect_px": [
+              61,
+              60,
+              233,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/records/staff/head.png",
+            "pivot_local_px": [
+              131,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/records/staff/gear.png",
+            "dimensions": [
+              117,
+              52
+            ],
+            "sha256": "708b7896c5e5ed57d370a8896511e5423dfe3e66723e2a50e75fe738cd83aa3f",
+            "alpha_bounds_px": [
+              4,
+              4,
+              113,
+              48
+            ],
+            "canvas_rect_px": [
+              149,
+              152,
+              117,
+              52
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/records/staff/gear.png",
+            "pivot_local_px": [
+              43,
+              56
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/records/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/records/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "bbcee41daaea83907e535e1f31efd23c7ceb0df89895651cd860be36ef2940af",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/records/interior.svg",
+      "overview_hit_rect": [
+        150,
+        383,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.r_d_eco",
+      "name": "R&D Eco",
+      "storyboard": "H08",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/r_d_eco/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "dce33d46aebb8db951b774f414ccbaee1117f792d9c3e9a7d9488cda32552a97",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/r_d_eco/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "601e5f5a74a23cd8cfbdbc09e3e277dfc26caf9efb5f4e9b315335d4c4c4085a",
+          "alpha_bounds_px": [
+            116,
+            118,
+            498,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Seed researcher",
+        "uniform": "safety glasses",
+        "action": "Adjusts the microscope",
+        "anchor_in_room": [
+          104,
+          100
+        ],
+        "scale": 0.96,
+        "duration": 3.9,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/r_d_eco/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "a5247a6c80abf0891b8bc0baa9c5d338844c3e13374f7ea82ef0b4b9d6dd4c35",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "11dc2ae9febe7dd110e6faeb48591f834ceb95a8f78522c72a3cbda8a2899f9a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "c18bd6c299d7e6475e971dca2f9eec0b696692d6ee8cee519e5f60c13db37cf5",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/work_prop.png",
+            "dimensions": [
+              42,
+              78
+            ],
+            "sha256": "95346de8f6bf8b82ecc4d1d2304a6a2571107021a05a53ce5e56753429e773b2",
+            "alpha_bounds_px": [
+              4,
+              4,
+              38,
+              74
+            ],
+            "canvas_rect_px": [
+              265,
+              221,
+              42,
+              78
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/work_prop.png",
+            "pivot_local_px": [
+              3,
+              55
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/head.png",
+            "dimensions": [
+              215,
+              178
+            ],
+            "sha256": "899aab94cd408de36eadfe9f708bc1f8acf4a22bb20c41d44435a66f74e68394",
+            "alpha_bounds_px": [
+              4,
+              4,
+              211,
+              174
+            ],
+            "canvas_rect_px": [
+              79,
+              60,
+              215,
+              178
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/head.png",
+            "pivot_local_px": [
+              113,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_eco/staff/gear.png",
+            "dimensions": [
+              117,
+              52
+            ],
+            "sha256": "92e5fe87509472088b78ad9774c2e06b650dfde3ee99a01bf0fe9d2dc42f6a52",
+            "alpha_bounds_px": [
+              4,
+              4,
+              113,
+              48
+            ],
+            "canvas_rect_px": [
+              149,
+              152,
+              117,
+              52
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/r_d_eco/staff/gear.png",
+            "pivot_local_px": [
+              43,
+              56
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/r_d_eco/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/r_d_eco/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "55058ef45f71d1b844866f1f78a756cdc450dc578601daaedd4bb4beaa73c10e",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/r_d_eco/interior.svg",
+      "overview_hit_rect": [
+        476,
+        383,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.r_d_combat",
+      "name": "R&D Combat",
+      "storyboard": "H09",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/r_d_combat/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "b1828b75d3d27073ff030f4a5e5b7bff85a3d1ca8817ee9b264f6709776dc51e",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/r_d_combat/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "bbb22cbffc089d29bb69b6231b200426040aa3aa805b47705636381a542ebf3c",
+          "alpha_bounds_px": [
+            166,
+            146,
+            500,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Equipment engineer",
+        "uniform": "work goggles",
+        "action": "Checks the line reel",
+        "anchor_in_room": [
+          182,
+          101
+        ],
+        "scale": 0.96,
+        "duration": 3.1,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/r_d_combat/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "0fb9b28abdbb829f9df099938c339f728efeaef820ce5831d34faee2a07fceec",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "2f85b0ad40dab7f3cb11c4e8cdd52d16546189a7d4dd8622ce88e217ba378098",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "14a07c09d9f5a1d848089d16fc25877b82486861d73f3918d5b107a10f15e363",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/work_prop.png",
+            "dimensions": [
+              91,
+              72
+            ],
+            "sha256": "cc376851038e92c6eb60c95add90c037a3a0956a349f956d721f402ab800b1cb",
+            "alpha_bounds_px": [
+              4,
+              4,
+              87,
+              68
+            ],
+            "canvas_rect_px": [
+              252,
+              236,
+              91,
+              72
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/work_prop.png",
+            "pivot_local_px": [
+              16,
+              40
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/head.png",
+            "dimensions": [
+              210,
+              174
+            ],
+            "sha256": "62e9282272d5991058f53602eb440f493e4821205f3ba4c1857e361dd450095d",
+            "alpha_bounds_px": [
+              4,
+              4,
+              206,
+              170
+            ],
+            "canvas_rect_px": [
+              84,
+              60,
+              210,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/head.png",
+            "pivot_local_px": [
+              108,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_combat/staff/gear.png",
+            "dimensions": [
+              192,
+              97
+            ],
+            "sha256": "bd720ed4d9f5e569fe57c4796fa0055b7ead88163092107b5bbfcf08ad92c319",
+            "alpha_bounds_px": [
+              4,
+              4,
+              188,
+              93
+            ],
+            "canvas_rect_px": [
+              90,
+              61,
+              192,
+              97
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/r_d_combat/staff/gear.png",
+            "pivot_local_px": [
+              102,
+              147
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/r_d_combat/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/r_d_combat/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "6d2746beeb3a7319b966a94f12b044f13bbf49b1ebb2a98accf60d9c7540ac7c",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/r_d_combat/interior.svg",
+      "overview_hit_rect": [
+        802,
+        383,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.r_d_guard",
+      "name": "R&D Guard",
+      "storyboard": "H10",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/r_d_guard/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "47bc7ea594f13bbccee61d1740898f5d5b4511b7859b236b14f17758242f1020",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/r_d_guard/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "937a0ef35eec283995e6e5302bf296cca44a568f55683e1e8801cde7545b72ba",
+          "alpha_bounds_px": [
+            202,
+            132,
+            506,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Equipment tester",
+        "uniform": "patrol cap",
+        "action": "Inspects a shield fitting",
+        "anchor_in_room": [
+          195,
+          100
+        ],
+        "scale": 0.96,
+        "duration": 3.5,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/r_d_guard/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "9bc56de67daaa8ea4ac5df7dc17106cf79bd5a3c4ab18584061c28853192261d",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "ffab2dda89b69e470459aa3caa5250f7108c88c4f3c3958027850ac1f1902f9c",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "d8364ece0790964cc193a5c01fc3464168193f639cadf3cc6a727d743a103af1",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/work_prop.png",
+            "dimensions": [
+              70,
+              70
+            ],
+            "sha256": "40c10169605b360ed920fdd4df4fe648b8302369d29089411e248237f6130695",
+            "alpha_bounds_px": [
+              4,
+              4,
+              66,
+              66
+            ],
+            "canvas_rect_px": [
+              261,
+              241,
+              70,
+              70
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/work_prop.png",
+            "pivot_local_px": [
+              7,
+              35
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/head.png",
+            "dimensions": [
+              210,
+              174
+            ],
+            "sha256": "86a7ed0b526a23a919d4ba31b5433b6a19731e4ff61a06d6cda870aea7064188",
+            "alpha_bounds_px": [
+              4,
+              4,
+              206,
+              170
+            ],
+            "canvas_rect_px": [
+              84,
+              60,
+              210,
+              174
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/head.png",
+            "pivot_local_px": [
+              108,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_guard/staff/gear.png",
+            "dimensions": [
+              207,
+              95
+            ],
+            "sha256": "9ef7649a426a1ff18b47d39e90b7f989344af129419f8a2b1018ef85f81b339a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              203,
+              91
+            ],
+            "canvas_rect_px": [
+              94,
+              66,
+              207,
+              95
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/r_d_guard/staff/gear.png",
+            "pivot_local_px": [
+              98,
+              142
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/r_d_guard/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/r_d_guard/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "9f714e918c39348797e5354eab5db5e4b858cb43fd3a8e5fd079065f07bef37a",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/r_d_guard/interior.svg",
+      "overview_hit_rect": [
+        150,
+        499,
+        314,
+        105
+      ]
+    },
+    {
+      "id": "room.r_d_crisis",
+      "name": "R&D Crisis",
+      "storyboard": "H11",
+      "assets": {
+        "back": {
+          "texture": "assets/imported/hq/rooms/r_d_crisis/back.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "46631bf616274c38ade0e1294e1837a9d735208095bafd4e8f98f975f8ab59cf",
+          "alpha_bounds_px": [
+            0,
+            0,
+            628,
+            210
+          ]
+        },
+        "front": {
+          "texture": "assets/imported/hq/rooms/r_d_crisis/front.png",
+          "dimensions": [
+            628,
+            210
+          ],
+          "sha256": "29296b7b34107b96192d6663df06327c51c8acc98d975b22614e054996dd1b73",
+          "alpha_bounds_px": [
+            150,
+            138,
+            502,
+            210
+          ]
+        }
+      },
+      "staff": {
+        "role": "Response coordinator",
+        "uniform": "radio headset",
+        "action": "Checks the radio",
+        "anchor_in_room": [
+          163,
+          100
+        ],
+        "scale": 0.96,
+        "duration": 3.2,
+        "clip": "Work",
+        "rig": "assets/imported/hq/rooms/r_d_crisis/staff.tscn",
+        "ground_anchor_units": [
+          48,
+          84
+        ],
+        "layers": [
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/shadow.png",
+            "dimensions": [
+              208,
+              34
+            ],
+            "sha256": "8a0462ce6aae7064a11a697f2be6c95cd12c94a8d18fdb7511db121c9325f361",
+            "alpha_bounds_px": [
+              4,
+              4,
+              204,
+              30
+            ],
+            "canvas_rect_px": [
+              84,
+              319,
+              208,
+              34
+            ],
+            "id": "shadow",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              84
+            ],
+            "draw_order": 1,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/shadow.png",
+            "pivot_local_px": [
+              108,
+              17
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/legs.png",
+            "dimensions": [
+              160,
+              82
+            ],
+            "sha256": "403f389737d6c8a5ec2c64bfebd1669fe9f80f3ba664b41a250ac49e18d6fe02",
+            "alpha_bounds_px": [
+              4,
+              4,
+              156,
+              78
+            ],
+            "canvas_rect_px": [
+              102,
+              264,
+              160,
+              82
+            ],
+            "id": "legs",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              74
+            ],
+            "draw_order": 2,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/legs.png",
+            "pivot_local_px": [
+              90,
+              32
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/torso.png",
+            "dimensions": [
+              167,
+              145
+            ],
+            "sha256": "9a447c0be71f42a08f2b864ed84f20967f6023571751fad858e796d67f6eb02d",
+            "alpha_bounds_px": [
+              4,
+              4,
+              163,
+              141
+            ],
+            "canvas_rect_px": [
+              101,
+              175,
+              167,
+              145
+            ],
+            "id": "torso",
+            "parent": null,
+            "pivot_canvas_units": [
+              48,
+              67
+            ],
+            "draw_order": 3,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/torso.png",
+            "pivot_local_px": [
+              91,
+              93
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/passive_arm.png",
+            "dimensions": [
+              75,
+              92
+            ],
+            "sha256": "94b9049977968f38b8c9f7694ca54b405f175f3a5bc31b240e74a197a6469412",
+            "alpha_bounds_px": [
+              4,
+              4,
+              71,
+              88
+            ],
+            "canvas_rect_px": [
+              87,
+              210,
+              75,
+              92
+            ],
+            "id": "passive_arm",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              34,
+              58
+            ],
+            "draw_order": 4,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/passive_arm.png",
+            "pivot_local_px": [
+              49,
+              22
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/hand.png",
+            "dimensions": [
+              95,
+              101
+            ],
+            "sha256": "c9d9b6d2ea5802bbb4afb3a6c72939b19bc3e4e6aac9a2d3bd4af1dbeab053e6",
+            "alpha_bounds_px": [
+              4,
+              4,
+              91,
+              97
+            ],
+            "canvas_rect_px": [
+              198,
+              201,
+              95,
+              101
+            ],
+            "id": "hand",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              58,
+              57
+            ],
+            "draw_order": 5,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/hand.png",
+            "pivot_local_px": [
+              34,
+              27
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/work_prop.png",
+            "dimensions": [
+              93,
+              90
+            ],
+            "sha256": "f663e315864823240716577ebecac373e208a43bd610794c597a9d24c7c92f33",
+            "alpha_bounds_px": [
+              4,
+              4,
+              89,
+              86
+            ],
+            "canvas_rect_px": [
+              248,
+              241,
+              93,
+              90
+            ],
+            "id": "work_prop",
+            "parent": "hand",
+            "pivot_canvas_units": [
+              67,
+              69
+            ],
+            "draw_order": 6,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/work_prop.png",
+            "pivot_local_px": [
+              20,
+              35
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/head.png",
+            "dimensions": [
+              215,
+              178
+            ],
+            "sha256": "819b86377af3412d41ad65b28b4b821c5345aa1e8108213376787f1514ba679a",
+            "alpha_bounds_px": [
+              4,
+              4,
+              211,
+              174
+            ],
+            "canvas_rect_px": [
+              79,
+              60,
+              215,
+              178
+            ],
+            "id": "head",
+            "parent": "torso",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 7,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/head.png",
+            "pivot_local_px": [
+              113,
+              148
+            ]
+          },
+          {
+            "texture": "assets/imported/hq/rooms/r_d_crisis/staff/gear.png",
+            "dimensions": [
+              204,
+              157
+            ],
+            "sha256": "52afe6fe26c35690357a1f30ff2d7548a2e59504257f5792010931320675ad69",
+            "alpha_bounds_px": [
+              4,
+              4,
+              200,
+              153
+            ],
+            "canvas_rect_px": [
+              76,
+              66,
+              204,
+              157
+            ],
+            "id": "gear",
+            "parent": "head",
+            "pivot_canvas_units": [
+              48,
+              52
+            ],
+            "draw_order": 8,
+            "png": "assets/imported/hq/rooms/r_d_crisis/staff/gear.png",
+            "pivot_local_px": [
+              116,
+              142
+            ]
+          }
+        ],
+        "source": "assets/source-art/hq/rooms/r_d_crisis/staff.svg"
+      },
+      "detail": {
+        "texture": "assets/imported/hq/rooms/r_d_crisis/interior.png",
+        "dimensions": [
+          628,
+          210
+        ],
+        "sha256": "46e661d343f96c6a3ff4af3e2a97f4fc021053bf7aed9c0ff55758b0e66f5c86",
+        "alpha_bounds_px": [
+          0,
+          0,
+          628,
+          210
+        ]
+      },
+      "source": "assets/source-art/hq/rooms/r_d_crisis/interior.svg",
+      "overview_hit_rect": [
+        476,
+        499,
+        314,
+        105
+      ]
+    }
+  ]
+}

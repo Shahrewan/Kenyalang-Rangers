@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="72" height="72" viewBox="0 0 72 72" stroke-linejoin="round" stroke-linecap="round">
+  <title>Detected</title>
+  <g id="detected" inkscape:groupmode="layer" inkscape:label="Detected">
+<path d="M8 31V18Q8 12 15 12H27M45 12H57Q64 12 64 18V31M64 42V55Q64 61 57 61H45M27 61H15Q8 61 8 55V42" fill="none" stroke="#bccd8a" stroke-width="4" /><ellipse cx="36" cy="36" rx="9" ry="9" fill="none" stroke="#a8c08c" stroke-width="3" />
+  </g>
+</svg>

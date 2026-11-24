@@ -1,0 +1,933 @@
+{
+  "schema_version": 1,
+  "author": "Kenyalang Rangers production artwork",
+  "date": "2026-11-24",
+  "sources": [
+    "C28-A First Contact art and storyboard",
+    "W18 Records chapter registry",
+    "W29 asset audit"
+  ],
+  "use_rights": "Original editable art for the project. D-014 release and credited source review pending.",
+  "heat_bar": {
+    "range": "Existing battle.heat and stage.heat_capacity only. The cap and any overflow are gameplay-owned.",
+    "textures": [
+      "effects/w29.heat_track",
+      "effects/w29.heat_fill",
+      "effects/w29.heat_flame"
+    ],
+    "track_size_units": [
+      240,
+      28
+    ],
+    "layout": "Keep aspect, left-fill clip, visible endpoint; keep existing numeric Heat label."
+  },
+  "trophy_thresholds": {
+    "input": "Existing ChaosScore.tier. Keys are artwork states.",
+    "mount": "chaos/trophy.mount",
+    "tier": {
+      "1": "chaos/trophy.tier_1000",
+      "2": "chaos/trophy.tier_2000",
+      "3": "chaos/trophy.tier_3000"
+    },
+    "art_stack": "Draw earned trophy form, then shared mount, in common 160×160 coordinates."
+  },
+  "exports": {
+    "effects/w29.heat_track": {
+      "path": "res://assets/imported/effects/w29/heat_track.png",
+      "width": 480,
+      "height": 56,
+      "alpha_bounds": [
+        3,
+        3,
+        477,
+        53
+      ],
+      "sha256": "8235be8b5d71aee9e0fee3287915f7b84df5fe91ec27949a355b639bda0bad19",
+      "source": "assets/source-art/effects/w29/heat_track.svg",
+      "source_sha256": "b1bff5bec4f6cd26ed6fb5dfe8bd3ec2d29dcc28310c0f62ca26476bf35ee8d4",
+      "origin_units": [
+        0,
+        14
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "effects/w29.heat_fill": {
+      "path": "res://assets/imported/effects/w29/heat_fill.png",
+      "width": 480,
+      "height": 56,
+      "alpha_bounds": [
+        10,
+        6,
+        470,
+        50
+      ],
+      "sha256": "d9fd5325df35a0148370dedb4af6883f8819b50403f1e79fa60419a90300158f",
+      "source": "assets/source-art/effects/w29/heat_fill.svg",
+      "source_sha256": "9c71b046f8b840a16976c10969742756641973927b2ea7b793a4e56b92089727",
+      "origin_units": [
+        0,
+        14
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "effects/w29.heat_flame": {
+      "path": "res://assets/imported/effects/w29/heat_flame.png",
+      "width": 72,
+      "height": 72,
+      "alpha_bounds": [
+        10,
+        9,
+        61,
+        65
+      ],
+      "sha256": "96be0e4dfcaba81a786bd6f0f9182476a26490ec995880c72528fe60e91a91b0",
+      "source": "assets/source-art/effects/w29/heat_flame.svg",
+      "source_sha256": "44750c78c7f72bfb0e9b8e541da15e0498f2674a0d433ed204e67e46eb61b80b",
+      "origin_units": [
+        18,
+        18
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "effects/w29.entry_recon": {
+      "path": "res://assets/imported/effects/w29/entry_recon.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        9,
+        40,
+        135,
+        99
+      ],
+      "sha256": "eb7c89e2af27736f96f9c099d39ca05a546eb01459541485e7fb80b96fba8829",
+      "source": "assets/source-art/effects/w29/entry_recon.svg",
+      "source_sha256": "cbc04489f2b5c05fd3d21354520a46782304b8af34db3713dad524a74683cc39",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing recon entry overlay",
+      "sample_clip_seconds": 0.62,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.heal": {
+      "path": "res://assets/imported/effects/w29/heal.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        18,
+        16,
+        122,
+        120
+      ],
+      "sha256": "ded7797dd6639e260db61bcf48ca41d204453338ec052ad8c3a2542d8736274d",
+      "source": "assets/source-art/effects/w29/heal.svg",
+      "source_sha256": "2fb1f61c93727d39269a2d6b673e87285473aaf6555fa42601c0a1f4e4a53f8f",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing successful healing effect or application",
+      "sample_clip_seconds": 0.48,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.repair": {
+      "path": "res://assets/imported/effects/w29/repair.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        27,
+        23,
+        121,
+        120
+      ],
+      "sha256": "60e53cd910decf2af8380b57c85370615e36c9caf034b19bbbedaae970dbcc9a",
+      "source": "assets/source-art/effects/w29/repair.svg",
+      "source_sha256": "1f9ff00ae4a7448c81e3668fd3b3e085635fd0ff9538be1c0d23ed74bb5655ac",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing repair amount",
+      "sample_clip_seconds": 0.52,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.slow_field": {
+      "path": "res://assets/imported/effects/w29/slow_field.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        16,
+        48,
+        128,
+        120
+      ],
+      "sha256": "e7b7e9bd42e723ddc851395c9e8b1ef99173284d3a8016fb323b325670b2c5be",
+      "source": "assets/source-art/effects/w29/slow_field.svg",
+      "source_sha256": "bbd0e700391b3a51f489ceb7fdf3db8f4c0357fd6172ac4ff91bde639ddeb4a3",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing slow-field active span",
+      "sample_clip_seconds": 0.6,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.concealed": {
+      "path": "res://assets/imported/effects/w29/concealed.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        15,
+        29,
+        127,
+        115
+      ],
+      "sha256": "7c1de58cc0054664f0d6ccf42b99d7e69244f8da71442d627e376c075266046e",
+      "source": "assets/source-art/effects/w29/concealed.svg",
+      "source_sha256": "0ce5b6ae6a8d4882b374ba9bc78bf848a4258ec229afda98c482f93341b3acbf",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing untargetable status",
+      "sample_clip_seconds": 0.65,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.detected": {
+      "path": "res://assets/imported/effects/w29/detected.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        12,
+        20,
+        132,
+        126
+      ],
+      "sha256": "3f2767cbcd88274a0cb5f077c42785b8289733e4ee5aabbeb53cd4ed37077120",
+      "source": "assets/source-art/effects/w29/detected.svg",
+      "source_sha256": "1541491848ddbef11e42b36f0a9bc7eb844f38794ac985914e23ea3c357a271a",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing detect/reveal span",
+      "sample_clip_seconds": 0.46,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.snared": {
+      "path": "res://assets/imported/effects/w29/snared.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        13,
+        23,
+        131,
+        129
+      ],
+      "sha256": "5ac156be6639d7b57b66f71ac7d6cc18dd36a27e1436c5542b59ecfc787c4a62",
+      "source": "assets/source-art/effects/w29/snared.svg",
+      "source_sha256": "110ae485a7422148bfd353ce321d40b8c860f1f995ce0f15e1cd970058447d2d",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing immobilized/snared span",
+      "sample_clip_seconds": 0.44,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.stunned": {
+      "path": "res://assets/imported/effects/w29/stunned.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        22,
+        18,
+        124,
+        116
+      ],
+      "sha256": "9269c97207f5c0f73dfd1cb8d623b5786cb12a5deab346de3a27a82105a92695",
+      "source": "assets/source-art/effects/w29/stunned.svg",
+      "source_sha256": "ac631048f590b9f06d9b20e00f0fc42f0efdab7430cd53f286ca09e8b91a2491",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing stunned span",
+      "sample_clip_seconds": 0.4,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.knockdown": {
+      "path": "res://assets/imported/effects/w29/knockdown.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        11,
+        57,
+        133,
+        120
+      ],
+      "sha256": "53b3b35a8bf7b90718e2fcf047717a8c9b9ecb9c81266e9ab0535bbc693e5314",
+      "source": "assets/source-art/effects/w29/knockdown.svg",
+      "source_sha256": "413490dafdd7b09466069a8574b5c20b7f8dabb7a9b0e8159d1f6e845f7f936c",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing knockdown/push crossing",
+      "sample_clip_seconds": 0.4,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.siege": {
+      "path": "res://assets/imported/effects/w29/siege.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        15,
+        17,
+        129,
+        121
+      ],
+      "sha256": "1432b9860e3bfbd27f8b425ab9d4512ebba969fe5716f193749a31a0c43c056a",
+      "source": "assets/source-art/effects/w29/siege.svg",
+      "source_sha256": "ecc0a95365225290a9b3aa939866955168ab27453da5d7a5a9f69f660b45d333",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing Siege target and prefire telegraph",
+      "sample_clip_seconds": 0.72,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.heat_smoke": {
+      "path": "res://assets/imported/effects/w29/heat_smoke.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        21,
+        22,
+        118,
+        113
+      ],
+      "sha256": "33bfba0b39591830a3f22d51bd5ba6bd6a6f12ea274a7eda2a03d81ed0941ee7",
+      "source": "assets/source-art/effects/w29/heat_smoke.svg",
+      "source_sha256": "c29d56226623d7d92bbb2203d91a9f8fd14729b410cc03eea1dfab12ffef38e7",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing Heat overflow feedback",
+      "sample_clip_seconds": 0.74,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.boss_phase": {
+      "path": "res://assets/imported/effects/w29/boss_phase.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        15,
+        13,
+        129,
+        123
+      ],
+      "sha256": "067635ddd48fe6e0b1efcccb599a34f06955044ae28719efa68753a0eca5cee9",
+      "source": "assets/source-art/effects/w29/boss_phase.svg",
+      "source_sha256": "5bd4f8c07e036ecbc4c57f4174bf6043df34d96672a348f6ce9cf5b8917e0c41",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing boss phase transition",
+      "sample_clip_seconds": 0.68,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.marked": {
+      "path": "res://assets/imported/effects/w29/marked.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        24,
+        12,
+        120,
+        124
+      ],
+      "sha256": "910a057f2801a47f5740fb228f0762f2305fd59128b21771e8afb47995ba0e42",
+      "source": "assets/source-art/effects/w29/marked.svg",
+      "source_sha256": "7ec67128ca30024ac5709ed9444ac6ab8ae36a046398f649022db56ed2742146",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing Mark status",
+      "sample_clip_seconds": 0.4,
+      "follow_state_span": true,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.emp": {
+      "path": "res://assets/imported/effects/w29/emp.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        11,
+        13,
+        135,
+        129
+      ],
+      "sha256": "8d383d15cd91df1cf5edd4792ba7871593dd79a7c8ce6b19f126404e16578031",
+      "source": "assets/source-art/effects/w29/emp.svg",
+      "source_sha256": "a6c773385c0bcbb2bf80cf8b3699096d215d72b315e153f477dbe9e65e23b9df",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing EMP/disabled-tech feedback",
+      "sample_clip_seconds": 0.48,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.enemy_shot": {
+      "path": "res://assets/imported/effects/w29/enemy_shot.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        15,
+        51,
+        127,
+        91
+      ],
+      "sha256": "56a6d9be24e8a93345d139fc656189c57264345e76afa78f3c79abf10d02aac4",
+      "source": "assets/source-art/effects/w29/enemy_shot.svg",
+      "source_sha256": "f8b9b4fff6d1d92c7d45c7deab54d94b082bb96b6899125e79a634590e56e7ce",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing attack presentation cue",
+      "sample_clip_seconds": 0.25,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.wallet_credit": {
+      "path": "res://assets/imported/effects/w29/wallet_credit.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        23,
+        10,
+        136,
+        105
+      ],
+      "sha256": "8f35620fc7225a549a7eceb56f5237955489db07cd2b4a4d7c94856820c28a37",
+      "source": "assets/source-art/effects/w29/wallet_credit.svg",
+      "source_sha256": "452a163c73fa5c45df87d86ab25af52cbcf73ccb36889061620fc8345de08139",
+      "origin_units": [
+        36,
+        36
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing Funds credit animation cue",
+      "sample_clip_seconds": 0.58,
+      "follow_state_span": false,
+      "layer_role": "field status or projected action art; do not use a visual duration as game timing"
+    },
+    "effects/w29.heat_overflow": {
+      "path": "res://assets/imported/effects/w29/heat_overflow.png",
+      "width": 144,
+      "height": 144,
+      "alpha_bounds": [
+        15,
+        17,
+        129,
+        131
+      ],
+      "sha256": "a1c4b61ebb6aec89fd13d6fc9893fc45019cbb9ed89e9d94e8fcc199941716a6",
+      "source": "assets/source-art/effects/w29/heat_overflow.svg",
+      "source_sha256": "d64d91c2faa939ec19cf25eaddea694b79492dc801245ee8a048f1059799d327",
+      "origin_units": [
+        36,
+        42
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "trigger": "existing heat_overflow signal"
+    },
+    "chaos/trophy.mount": {
+      "path": "res://assets/imported/chaos/trophy/mount.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        25,
+        237,
+        295,
+        313
+      ],
+      "sha256": "2c09b6758b33e22ddc658710b91574ecb378bee249197ffc33e0b8ce5029cee5",
+      "source": "assets/source-art/chaos/trophy/mount.svg",
+      "source_sha256": "6cfb4f49210e171011a4cae77b56e1d836b0b3cf66a133cb9b1cddaade9f3080",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "chaos/trophy.mount_body": {
+      "path": "res://assets/imported/chaos/trophy/mount_body.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        25,
+        237,
+        295,
+        313
+      ],
+      "sha256": "663d987f7e9d3c06ded78596ea90862939a3115e50ead470d1c3586e13b42df4",
+      "source": "assets/source-art/chaos/trophy/mount.svg",
+      "source_sha256": "6cfb4f49210e171011a4cae77b56e1d836b0b3cf66a133cb9b1cddaade9f3080",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "body"
+    },
+    "chaos/trophy.mount_plaque": {
+      "path": "res://assets/imported/chaos/trophy/mount_plaque.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        107,
+        283,
+        213,
+        305
+      ],
+      "sha256": "6bf5db2e6f825dbbf0bb5382d5f13198bc95ba87d109ae7dedbf038cb51e197f",
+      "source": "assets/source-art/chaos/trophy/mount.svg",
+      "source_sha256": "6cfb4f49210e171011a4cae77b56e1d836b0b3cf66a133cb9b1cddaade9f3080",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "plaque"
+    },
+    "chaos/trophy.tier_1000": {
+      "path": "res://assets/imported/chaos/trophy/tier_1000.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        83,
+        57,
+        237,
+        270
+      ],
+      "sha256": "8a1a696135f929b1d233945efc8456930e249d1f6414d280c6f7a1de65fd38d6",
+      "source": "assets/source-art/chaos/trophy/tier_1000.svg",
+      "source_sha256": "8316ec6da984413c598191a750e142443cbf9f370e5775911d23b3edaf826f59",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "chaos/trophy.tier_1000_foot": {
+      "path": "res://assets/imported/chaos/trophy/tier_1000_foot.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        94,
+        196,
+        226,
+        270
+      ],
+      "sha256": "d40e1aedd321184b0b8705da98ac5f07eb70c419882f39639a8561149f0e7ae7",
+      "source": "assets/source-art/chaos/trophy/tier_1000.svg",
+      "source_sha256": "8316ec6da984413c598191a750e142443cbf9f370e5775911d23b3edaf826f59",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "foot"
+    },
+    "chaos/trophy.tier_1000_crest": {
+      "path": "res://assets/imported/chaos/trophy/tier_1000_crest.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        83,
+        57,
+        237,
+        211
+      ],
+      "sha256": "b0f1e20551300501f73e6fdb8b3eb3d928c9e30de015675bda52e91efad774f5",
+      "source": "assets/source-art/chaos/trophy/tier_1000.svg",
+      "source_sha256": "8316ec6da984413c598191a750e142443cbf9f370e5775911d23b3edaf826f59",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "crest"
+    },
+    "chaos/trophy.tier_2000": {
+      "path": "res://assets/imported/chaos/trophy/tier_2000.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        66,
+        77,
+        254,
+        270
+      ],
+      "sha256": "63b6eb94cdea9844f4c953d442530315ae7c0ae55e7f7a0fb0e48d524b556f47",
+      "source": "assets/source-art/chaos/trophy/tier_2000.svg",
+      "source_sha256": "382b5776da376a4e895c3501aa8382bb028c56f8990f7fe34844ee6c1065e4d5",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "chaos/trophy.tier_2000_foot": {
+      "path": "res://assets/imported/chaos/trophy/tier_2000_foot.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        94,
+        196,
+        226,
+        270
+      ],
+      "sha256": "d40e1aedd321184b0b8705da98ac5f07eb70c419882f39639a8561149f0e7ae7",
+      "source": "assets/source-art/chaos/trophy/tier_2000.svg",
+      "source_sha256": "382b5776da376a4e895c3501aa8382bb028c56f8990f7fe34844ee6c1065e4d5",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "foot"
+    },
+    "chaos/trophy.tier_2000_crest": {
+      "path": "res://assets/imported/chaos/trophy/tier_2000_crest.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        66,
+        77,
+        254,
+        205
+      ],
+      "sha256": "8fb324a7654952c6f96101ab89bdb7ede13a376011d77d25f5faf8ba778ede01",
+      "source": "assets/source-art/chaos/trophy/tier_2000.svg",
+      "source_sha256": "382b5776da376a4e895c3501aa8382bb028c56f8990f7fe34844ee6c1065e4d5",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "crest"
+    },
+    "chaos/trophy.tier_3000": {
+      "path": "res://assets/imported/chaos/trophy/tier_3000.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        80,
+        47,
+        278,
+        270
+      ],
+      "sha256": "a53aac503b88c002ef14e2fdf2957b550efae35f1ff2965cf68e5ae5a222383e",
+      "source": "assets/source-art/chaos/trophy/tier_3000.svg",
+      "source_sha256": "f164165a90ad262ee102eb80e96a0838d49c8a266409691123e7c70451828722",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "chaos/trophy.tier_3000_foot": {
+      "path": "res://assets/imported/chaos/trophy/tier_3000_foot.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        94,
+        196,
+        226,
+        270
+      ],
+      "sha256": "d40e1aedd321184b0b8705da98ac5f07eb70c419882f39639a8561149f0e7ae7",
+      "source": "assets/source-art/chaos/trophy/tier_3000.svg",
+      "source_sha256": "f164165a90ad262ee102eb80e96a0838d49c8a266409691123e7c70451828722",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "foot"
+    },
+    "chaos/trophy.tier_3000_crest": {
+      "path": "res://assets/imported/chaos/trophy/tier_3000_crest.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        80,
+        47,
+        278,
+        232
+      ],
+      "sha256": "0ede5d14092f12d0604399d18c01ea03a792c02dc37a3ce37c83f5630707eab8",
+      "source": "assets/source-art/chaos/trophy/tier_3000.svg",
+      "source_sha256": "f164165a90ad262ee102eb80e96a0838d49c8a266409691123e7c70451828722",
+      "origin_units": [
+        80,
+        154
+      ],
+      "pixels_per_unit": 2,
+      "layer": "crest"
+    },
+    "education/records.scout_sniper": {
+      "path": "res://assets/imported/education/records/scout_sniper.png",
+      "width": 432,
+      "height": 272,
+      "alpha_bounds": [
+        13,
+        17,
+        419,
+        255
+      ],
+      "sha256": "4ca16ff1e82ade5c62f3955cd43f75715f1eef418107af8923caefe0c3dd1436",
+      "source": "assets/source-art/education/records/scout_sniper.svg",
+      "source_sha256": "3712a82e0de7053c953bb07b60aebc393971ca00801fe0b880b2920de41ab5cd",
+      "origin_units": [
+        108,
+        68
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "chapter_id": "records_chapter.scout_sniper"
+    },
+    "education/records.patrolman": {
+      "path": "res://assets/imported/education/records/patrolman.png",
+      "width": 432,
+      "height": 272,
+      "alpha_bounds": [
+        13,
+        17,
+        419,
+        255
+      ],
+      "sha256": "f79b8bf33b991d8beeeea8f08b2a837150fb4fa67b5747fc22cb7630e1b777ba",
+      "source": "assets/source-art/education/records/patrolman.svg",
+      "source_sha256": "f0052a739c3bced729a7bbf7e2fdb5fb8f462be6e113356789d313ef43d72274",
+      "origin_units": [
+        108,
+        68
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "chapter_id": "records_chapter.patrolman"
+    },
+    "education/records.combat_medic": {
+      "path": "res://assets/imported/education/records/combat_medic.png",
+      "width": 432,
+      "height": 272,
+      "alpha_bounds": [
+        13,
+        17,
+        419,
+        255
+      ],
+      "sha256": "f8affde9520fd88802490b916a314ebf07d9ea49eb3fbc5f9de1df9b20da0480",
+      "source": "assets/source-art/education/records/combat_medic.svg",
+      "source_sha256": "22ad1f008c74f902ffb0652c920b663748de8e8e3e320389bc9095a219a3614d",
+      "origin_units": [
+        108,
+        68
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "chapter_id": "records_chapter.combat_medic"
+    },
+    "education/records.woods_tracker": {
+      "path": "res://assets/imported/education/records/woods_tracker.png",
+      "width": 432,
+      "height": 272,
+      "alpha_bounds": [
+        13,
+        17,
+        419,
+        255
+      ],
+      "sha256": "1b2be0f9efabfccea3c0dd9b815896373606482e13af47ba77ce78b8fe7276fd",
+      "source": "assets/source-art/education/records/woods_tracker.svg",
+      "source_sha256": "8bc8040bd47f3011a718f411b964a36737a2420ad36d03716df8b9b9ce330633",
+      "origin_units": [
+        108,
+        68
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "chapter_id": "records_chapter.woods_tracker"
+    },
+    "education/records.article_frame": {
+      "path": "res://assets/imported/education/records/article_frame.png",
+      "width": 432,
+      "height": 272,
+      "alpha_bounds": [
+        13,
+        17,
+        419,
+        255
+      ],
+      "sha256": "e6815b8651bcc5361df8e158583c15cd1bbc0bcd5c1b0cb66c43ee4055b30ba8",
+      "source": "assets/source-art/education/records/article_frame.svg",
+      "source_sha256": "a1dedd455c9fa0464c6bf982877a4697531e81bc7cfa2392c421375491ecaa9f",
+      "origin_units": [
+        108,
+        68
+      ],
+      "pixels_per_unit": 2,
+      "layer": null
+    },
+    "portraits/story.finale": {
+      "path": "res://assets/imported/portraits/story/finale.png",
+      "width": 1280,
+      "height": 720,
+      "alpha_bounds": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "sha256": "1130d55066b02698a72cd8e99c3c39c4044e89b5c9e20d3264f29382b6169c4e",
+      "source": "assets/source-art/portraits/story/finale.svg",
+      "source_sha256": "a85a0cbd291110d8ed356f33ec49873969870972d862b191bc0dbb4d8745d179",
+      "origin_units": [
+        320,
+        180
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "stage_id": "C2-10",
+      "use": "Existing final negotiation and outcome beat only",
+      "safe_text_rect_units": [
+        49,
+        231,
+        268,
+        68
+      ],
+      "retained_scene": "T06",
+      "layer_order": [
+        "landscape",
+        "vignette",
+        "dialogue_plate",
+        "captured_pose"
+      ],
+      "gameplay": "Use the actual outcome value to select a pose. Narrative and settlement remain data-driven."
+    },
+    "portraits/story.messenger_cue": {
+      "path": "res://assets/imported/portraits/story/messenger_cue.png",
+      "width": 320,
+      "height": 320,
+      "alpha_bounds": [
+        53,
+        15,
+        290,
+        273
+      ],
+      "sha256": "2a4d6074f89d4ec94acb553e2ba3f4a4dd18fb3e40f93f8a811eec37a2ac6b30",
+      "source": "assets/source-art/portraits/story/messenger_cue.svg",
+      "source_sha256": "f1146c541bc058f7d767d8bda8cbdfd7d0ad5f2c139b0b9b146d1606a99bce81",
+      "origin_units": [
+        80,
+        126
+      ],
+      "pixels_per_unit": 2,
+      "layer": null,
+      "portrait": "portrait.poacher.alert",
+      "stage_id": "C1-03",
+      "use": "Optional handoff pose accent for the existing messenger beat. No combat unit or escape event."
+    }
+  },
+  "garden_uses": {
+    "seed_choices": {
+      "species.strangler_fig": {
+        "species": "species.strangler_fig",
+        "seed": "res://assets/imported/restoration/trees/strangler_fig/seed.png",
+        "mature_preview": "res://assets/imported/restoration/trees/strangler_fig/mature.png"
+      },
+      "species.belian": {
+        "species": "species.belian",
+        "seed": "res://assets/imported/restoration/trees/belian/seed.png",
+        "mature_preview": "res://assets/imported/restoration/trees/belian/mature.png"
+      },
+      "species.red_meranti": {
+        "species": "species.red_meranti",
+        "seed": "res://assets/imported/restoration/trees/red_meranti/seed.png",
+        "mature_preview": "res://assets/imported/restoration/trees/red_meranti/mature.png"
+      },
+      "species.mengaris": {
+        "species": "species.mengaris",
+        "seed": "res://assets/imported/restoration/trees/mengaris/seed.png",
+        "mature_preview": "res://assets/imported/restoration/trees/mengaris/mature.png"
+      }
+    },
+    "milestone": {
+      "prop": "res://assets/imported/restoration/nest_box.png",
+      "visitor": "res://assets/imported/restoration/hornbill_visitor.png"
+    },
+    "guide": "res://assets/imported/restoration/hornbill_guide.png"
+  }
+}

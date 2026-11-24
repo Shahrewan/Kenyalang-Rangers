@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+<title>W29 entry b</title>
+<g id="sign"><path d="M11 112Q48 93 111 112L119 121H11Z" fill="#66573C" stroke="#302E24" stroke-width="4" opacity="0.94" stroke-linecap="round" stroke-linejoin="round"/><rect x="25" y="20" width="10" height="94" rx="4" fill="#715A40" stroke="#302E24" stroke-width="4" opacity="1"/><rect x="94" y="20" width="10" height="94" rx="4" fill="#715A40" stroke="#302E24" stroke-width="4" opacity="1"/><rect x="12" y="22" width="105" height="65" rx="12" fill="#A9523D" stroke="#302E24" stroke-width="5" opacity="1"/><rect x="19" y="29" width="91" height="50" rx="7" fill="#B7654C" stroke="#D98E67" stroke-width="2" opacity="1"/><circle cx="26" cy="40" r="3" fill="#F2C598" stroke="none" stroke-width="0" opacity="1"/><circle cx="103" cy="40" r="3" fill="#F2C598" stroke="none" stroke-width="0" opacity="1"/></g>
+<g id="direction_mark" fill="none" stroke="#FAEDCC" stroke-width="4.8" stroke-linejoin="round" stroke-linecap="round"><path d="M34 67V43h7c11 0 12 11 2 12 12-1 13 12 1 12H34m0-12h7M69 54h23m-9-8 9 8-9 8"/></g>
+</svg>

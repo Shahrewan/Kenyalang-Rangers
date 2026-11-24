@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="253" height="202" viewBox="0 0 158 126">
+<g id="front_roots_and_trunk" inkscape:groupmode="layer" inkscape:label="Front Roots And Trunk" transform="">
+<path d="M58 27q-6 19-7 35l-3 33-8 17-15 9 6 3 17-5 9 1 9-13 12 2 17 13 10 1 5-5-20-20-12-32 21-28-8-7-21 22 1-22Z" fill="#936d4e" stroke="#323A2B" stroke-width="3.5" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M61 52q-7 23-5 40-3 11-8 16m29-30q2 12 6 19m12 23-9-9" fill="none" stroke="#B38F5E" stroke-width="2.8" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M69 58q-5 17-5 36l-4 12 10-9q-4-15-1-39Zm8 47 8 1 10 13-11-5Z" fill="#695541" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M107 39q-12 15-9 41l-5 20-15 14 9 4 20-11 17 12 10 1 13 5 6-6-15-12-15-12-1-27 11-14-6-15-14 14-1-14Z" fill="#936d4e" stroke="#323A2B" stroke-width="3.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M105 68q1 17-2 30m18-12 1 13 14 10" fill="none" stroke="#A7895B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="forward_lower_crown" inkscape:groupmode="layer" inkscape:label="Forward Lower Crown" transform="translate(14 55) scale(.92 .79)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#536944" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#849750" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#a8b471" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#536944" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="right_crown" inkscape:groupmode="layer" inkscape:label="Right Crown" transform="translate(73 27) scale(.89 1.05)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#536944" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#849750" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#a8b471" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#536944" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="upper_crown" inkscape:groupmode="layer" inkscape:label="Upper Crown" transform="translate(25 5) scale(.97 .99)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#536944" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#849750" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#a8b471" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#536944" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="overhanging_leaf_cluster" inkscape:groupmode="layer" inkscape:label="Overhanging Leaf Cluster" transform="">
+<path d="M10 48q-4-8 9-12 9-2 16 3 13-10 24 2 13-3 18 4 13 5 11 15-4 8-17 9-4 9-16 4-7 11-21 5-7 7-15 1-13 0-14-10-2-5 4-9-5-4 1-12Z" fill="#536944" stroke="#323A2B" stroke-width="2.5" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 51q5-10 14-7-2-6 7-3 6 2 9 4 9-7 16 0 9-1 17 5 8 4 5 10-10 5-16 0-10 9-21 6-8 6-14 3-10 4-16-2-7-5-1-16Z" fill="#849750" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 48q8-4 15-3m10 3q9-4 18 1m-41 9q10-5 17-4" fill="none" stroke="#a8b471" stroke-width="2.1" opacity="0.81" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="trail_edge_leaves" inkscape:groupmode="layer" inkscape:label="Trail Edge Leaves" transform="">
+<path d="M11 91q-4-5 0-9 9 0 13 6-3-7 4-10 9 4 9 13 9-6 16-2 0 9-13 12 8 3 8 8-11 4-24-3-12 1-16-6 0-5 3-9Z" fill="#687B48" stroke="#323A2B" stroke-width="2.3" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 91q12 3 17 6m-2-12 3 10m10-2-9 6m7 6-8-5" fill="none" stroke="#A4AE61" stroke-width="1.8" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="near_left_ferns" inkscape:groupmode="layer" inkscape:label="Near Left Ferns" transform="translate(13 87) scale(.73)">
+<path d="M41 35Q16 34 3 17q11-4 25 8Q12 10 13 3q14 1 25 20Q34 9 44 0q5 9 0 22Q54 9 63 9q-2 11-16 20Q60 21 72 23q-9 11-23 12Z" fill="#788951" stroke="#323A2B" stroke-width="2.2" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 30Q23 21 15 9m24 20Q40 13 44 6m0 24q8-10 14-14m-9 15q8-4 14-4" fill="none" stroke="#ACB572" stroke-width="1.4" opacity="0.81" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="near_right_ferns" inkscape:groupmode="layer" inkscape:label="Near Right Ferns" transform="translate(77 94) scale(.85)">
+<path d="M41 35Q16 34 3 17q11-4 25 8Q12 10 13 3q14 1 25 20Q34 9 44 0q5 9 0 22Q54 9 63 9q-2 11-16 20Q60 21 72 23q-9 11-23 12Z" fill="#70804B" stroke="#323A2B" stroke-width="2.2" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 30Q23 21 15 9m24 20Q40 13 44 6m0 24q8-10 14-14m-9 15q8-4 14-4" fill="none" stroke="#A3AB63" stroke-width="1.4" opacity="0.81" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

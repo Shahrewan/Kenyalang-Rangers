@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="280" height="211" viewBox="0 0 175 132">
+<g id="forest_floor" inkscape:groupmode="layer" inkscape:label="Forest Floor" transform="">
+<path d="M49 61q17-10 33-6 22-18 55-12 25 9 34 30v36q-15 19-46 21-45 0-69-12-13-13-7-27-11-10 0-30Z" fill="#535E3B" stroke="none" stroke-width="0" opacity="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M54 84q19-14 41-10 31-17 57-10 12 7 16 28 0 20-19 31-43 14-75-4-18 0-20-14-5-5 0-21Z" fill="#3E4A34" stroke="none" stroke-width="0" opacity="0.72" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 120q32-3 58 4 23 6 44-3" fill="none" stroke="#ADB078" stroke-width="2" opacity="0.37" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="back_trunks" inkscape:groupmode="layer" inkscape:label="Back Trunks" transform="">
+<path d="M83 39q11 16 13 38l-4 24-22 15 11 2 17-8 11 7 15-2-14-17 1-30 13-25-6-8-17 22-9-23Z" fill="#705E47" stroke="#323A2B" stroke-width="3.5" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M89 52q12 22 9 44m10 8-4-8" fill="none" stroke="#9D8352" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M138 41q-7 19-8 34l-5 17-18 13 4 6 22-7 17 19 16-1-12-17 13 4-14-16-3-21 8-20-8-9-9 18-1-20Z" fill="#776245" stroke="#323A2B" stroke-width="3.7" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M143 67q-6 18-5 29l11 13" fill="none" stroke="#A38558" stroke-width="2.7" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="upper_distant_leaves" inkscape:groupmode="layer" inkscape:label="Upper Distant Leaves" transform="translate(32 6) scale(.96)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#4B5C3D" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#6E7F4C" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#879A59" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#4B5C3D" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="right_distant_leaves" inkscape:groupmode="layer" inkscape:label="Right Distant Leaves" transform="translate(82 5) scale(.96)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#4C5D3C" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#78874E" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#929D5C" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#4C5D3C" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="low_distant_leaves" inkscape:groupmode="layer" inkscape:label="Low Distant Leaves" transform="translate(114 70) scale(.61)">
+<path d="M1 29C-2 23 5 16 12 17C7 11 15 6 22 10C22 3 33 1 40 6C45-1 54 0 59 7C70 3 76 9 74 15C83 14 91 20 88 26C98 30 93 38 86 39C84 46 73 50 65 44C63 52 48 52 43 46C36 53 24 50 23 43C13 47 4 42 6 37C0 37-2 34 1 29Z" fill="#48573B" stroke="#323A2B" stroke-width="2.6" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 26c-3-5 4-9 11-6-2-7 9-11 17-7 3-9 17-9 21-1 11-4 18 2 15 7 8-1 15 4 11 9-9 5-15 1-22 6-8 6-18 2-22 1-7 5-20 4-23-2-5 2-9-2-8-7Z" fill="#65774A" stroke="none" stroke-width="0" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 24q4-3 10-2m4-5q4-3 9-3m11 1q8-2 15 2m-34 7q2-2 8-3" fill="none" stroke="#87925A" stroke-width="2" opacity="0.87" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 34q8 2 14-4m29 3q9-4 14-1" fill="none" stroke="#48573B" stroke-width="2.3" opacity="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="right_ferns" inkscape:groupmode="layer" inkscape:label="Right Ferns" transform="translate(121 101) scale(.67)">
+<path d="M41 35Q16 34 3 17q11-4 25 8Q12 10 13 3q14 1 25 20Q34 9 44 0q5 9 0 22Q54 9 63 9q-2 11-16 20Q60 21 72 23q-9 11-23 12Z" fill="#707E4B" stroke="#323A2B" stroke-width="2.2" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 30Q23 21 15 9m24 20Q40 13 44 6m0 24q8-10 14-14m-9 15q8-4 14-4" fill="none" stroke="#9DAB5E" stroke-width="1.4" opacity="0.81" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

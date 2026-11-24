@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="216" height="136" viewBox="0 0 216 136" stroke-linejoin="round" stroke-linecap="round">
+  <title>Records chapter cover</title>
+  <g id="cover" inkscape:groupmode="layer" inkscape:label="Cover">
+<rect x="8" y="10" width="200" height="116" rx="12" fill="#e4d3ae" stroke="#302721" stroke-width="3" /><rect x="14" y="16" width="188" height="104" rx="8" fill="#f4ead0" stroke="#a08f6a" stroke-width="1.4" /><path d="M23 94Q70 69 115 90T195 70M23 103Q80 79 115 103T195 83M25 67Q64 36 129 51T195 32" fill="none" stroke="#c5b895" stroke-width="2.7" /><path d="M27 99L63 52L86 80L111 42L159 99Z" fill="#81916a" stroke="#302721" stroke-width="2.7" /><path d="M55 61L62 52L69 62M99 59L111 42L123 59" fill="none" stroke="#f4e8cf" stroke-width="2.7" /><ellipse cx="147" cy="52" rx="27" ry="27" fill="none" stroke="#302721" stroke-width="3.4" /><path d="M147 34V45M147 59V71M129 52H141M153 52H166" fill="none" stroke="#302721" stroke-width="2.6" />
+  </g>
+</svg>

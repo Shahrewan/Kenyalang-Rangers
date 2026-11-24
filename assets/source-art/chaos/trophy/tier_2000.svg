@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="160" height="160" viewBox="0 0 160 160" stroke-linejoin="round" stroke-linecap="round">
+  <title>Silver canopy cup</title>
+  <g id="foot" inkscape:groupmode="layer" inkscape:label="Foot">
+<path d="M66 100H94V125H111V133H49V125H66Z" fill="#866a4d" stroke="#302721" stroke-width="4" />
+  </g>  <g id="crest" inkscape:groupmode="layer" inkscape:label="Crest">
+<path d="M53 47Q36 43 36 58Q38 75 58 76M107 47Q124 43 124 58Q122 75 102 76" fill="none" stroke="#302721" stroke-width="6" /><path d="M48 41H112Q108 82 88 95Q84 98 80 100Q76 98 72 95Q52 82 48 41Z" fill="#b8c6b7" stroke="#302721" stroke-width="4.2" /><path d="M64 73Q67 57 96 55Q90 76 72 79L65 87M72 76L85 66" fill="none" stroke="#556a55" stroke-width="3.4" /><path d="M55 45H105" fill="none" stroke="#e9ecdf" stroke-width="3" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="240" height="28" viewBox="0 0 240 28" stroke-linejoin="round" stroke-linecap="round">
+  <title>Heat · recessed track and visible endpoint</title>
+  <g id="track" inkscape:groupmode="layer" inkscape:label="Track">
+<rect x="3" y="3" width="234" height="22" rx="8" fill="#392e27" stroke="#271f1c" stroke-width="2.6" /><rect x="9" y="8" width="222" height="12" rx="4" fill="#675244" stroke="none" stroke-width="1" /><path d="M10 7H230M10 22H230" fill="none" stroke="#b58b5f" stroke-width="1.6" /><path d="M73 9V19M120 9V19M167 9V19" fill="none" stroke="#94765d" stroke-width="1.3" /><path d="M222 9L226 13L222 18" fill="none" stroke="#e2bb82" stroke-width="1.3" />
+  </g>
+</svg>

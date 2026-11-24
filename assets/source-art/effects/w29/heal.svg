@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="72" height="72" viewBox="0 0 72 72" stroke-linejoin="round" stroke-linecap="round">
+  <title>Heal</title>
+  <g id="heal" inkscape:groupmode="layer" inkscape:label="Heal">
+<path d="M29 14H43V29H57V43H43V58H29V43H14V29H29Z" fill="#acbe83" stroke="#3b4934" stroke-width="2.8" /><path d="M48 15Q52 13 54 9Q56 13 60 15Q56 17 54 21Q52 17 48 15Z" fill="#f4e8cf" stroke="#527453" stroke-width="2" /><path d="M10 54Q13 52 15 49Q17 52 20 54Q17 56 15 59Q13 56 10 54Z" fill="#f4e8cf" stroke="#527453" stroke-width="2" />
+  </g>
+</svg>

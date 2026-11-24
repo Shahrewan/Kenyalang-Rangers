@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="72" height="72" viewBox="0 0 72 72" stroke-linejoin="round" stroke-linecap="round">
+  <title>Stunned</title>
+  <g id="stunned" inkscape:groupmode="layer" inkscape:label="Stunned">
+<path d="M20 34Q35 32 37 17Q39 32 54 34Q39 36 37 51Q35 36 20 34Z" fill="#e3b66f" stroke="#302721" stroke-width="3" /><path d="M47 17Q52 15 54 10Q56 15 61 17Q56 19 54 24Q52 19 47 17Z" fill="#f4e8cf" stroke="#302721" stroke-width="1.6" /><path d="M12 51Q16 49 18 45Q20 49 24 51Q20 53 18 57Q16 53 12 51Z" fill="#f4e8cf" stroke="#302721" stroke-width="1.6" />
+  </g>
+</svg>

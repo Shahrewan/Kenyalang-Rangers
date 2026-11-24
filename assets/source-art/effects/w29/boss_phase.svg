@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="72" height="72" viewBox="0 0 72 72" stroke-linejoin="round" stroke-linecap="round">
+  <title>Boss_Phase</title>
+  <g id="boss_phase" inkscape:groupmode="layer" inkscape:label="Boss Phase">
+<ellipse cx="36" cy="37" rx="27" ry="23" fill="none" stroke="#d3a266" stroke-width="2.7" /><path d="M36 8L54 35L36 60L18 35Z" fill="#ae5b48" stroke="#302721" stroke-width="3" /><path d="M35 25L44 35L36 46L28 35Z" fill="#e3b66f" stroke="#704638" stroke-width="2.1" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="67" viewBox="0 0 96 67"><title>Paper</title>
+<rect x="3" y="3" width="90" height="61" rx="12" fill="#263025"/>
+<rect x="4" y="3" width="88" height="58" rx="11" fill="#b79b73"/>
+<rect x="4" y="3" width="88" height="55" rx="11" fill="#f3ebdd" stroke="#283226" stroke-width="2.4"/>
+<path d="M16 7.5H80a7 7 0 0 1 7.5 7M8.5 15a7.5 7.5 0 0 1 7.5-7.5" fill="none" stroke="#dac8a2" stroke-width="1.7" stroke-linecap="round"/>
+</svg>
