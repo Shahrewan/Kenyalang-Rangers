@@ -1,14 +1,9 @@
 class_name BattleBoard
 extends Control
 
-const SKILL_ICONS := {
-	BattleSkillStatus.Mode.READY: preload("res://assets/imported/ui/w29/icons/light/check.svg"),
-	BattleSkillStatus.Mode.RECOVERING: preload("res://assets/imported/ui/w29/icons/light/clock.svg"),
-	BattleSkillStatus.Mode.LOCKED: preload("res://assets/imported/ui/w29/icons/light/lock.svg"),
-	BattleSkillStatus.Mode.SPENT: preload("res://assets/imported/ui/w29/icons/light/minus.svg"),
-}
 const HIT_LIFETIME := 24
 var _melee_hits := {}
+var _skill_orbs := BattleSkillOrb.new()
 
 var battle_map: BattleMap
 var routes: Array[BattleRoute]
@@ -56,27 +51,14 @@ func draw_melee_hits() -> void:
 		draw_string_outline(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color("#17241c"))
 		draw_string(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("#ffe3a2"))
 
-func draw_skill_status(unit: DeploymentState.Placement, hp_center: Vector2, hp_width: float) -> void:
-	var status := BattleSkillStatus.read(unit, deployments)
-	if status == null:
-		return
-	var wide := 44.0
-	var x := hp_center.x + hp_width * 0.5 + 4.0
-	if x + wide > size.x:
-		x = hp_center.x - hp_width * 0.5 - 4.0 - wide
-	var at := Vector2(x, hp_center.y + 4.0).clamp(Vector2.ZERO, (size - Vector2(wide, 20)).max(Vector2.ZERO))
-	var rect := Rect2(at, Vector2(wide, 18))
-	var color := Color("#93c9a2") if status.mode == BattleSkillStatus.Mode.READY else Color("#c6c3a9")
-	if status.just_ready:
-		color = Color("#fff0a1")
-	draw_rect(rect, Color("#1e2b23"))
-	draw_rect(rect, color, false, 2.0 if status.just_ready else 1.0)
-	draw_texture_rect(SKILL_ICONS[status.mode], Rect2(at + Vector2(2, 2), Vector2(13, 13)), false)
-	draw_string(get_theme_default_font(), at + Vector2(17, 13), "%d/%d" % [status.charges, status.maximum],
-		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f6edcf"))
-	if status.progress >= 0.0:
-		draw_rect(Rect2(at + Vector2(1, 15), Vector2(wide - 2.0, 2)), Color("#615c41"))
-		draw_rect(Rect2(at + Vector2(1, 15), Vector2((wide - 2.0) * status.progress, 2)), color)
+func add_skill_orb(unit: DeploymentState.Placement, anchor: Rect2) -> void:
+	_skill_orbs.add(unit.id, anchor, BattleSkillStatus.read(unit, deployments))
+
+func protect_orb_area(area: Rect2) -> void:
+	_skill_orbs.protect(area)
+
+func draw_skill_orbs() -> void:
+	_skill_orbs.draw(self, tile_size())
 
 func tile_size() -> float:
 	if battle_map == null:
@@ -106,6 +88,10 @@ func _ready() -> void:
 	resized.connect(queue_redraw)
 
 func _draw() -> void:
+	_skill_orbs.reset()
+	for child in get_children():
+		if child is Control and child.is_visible_in_tree():
+			_skill_orbs.protect(Rect2(child.position, child.size))
 	if battle_map == null:
 		return
 	var cell := tile_size()
@@ -165,9 +151,11 @@ func _draw() -> void:
 				center.y += (-0.20 if slot == 0 else 0.20) * cell
 				stacked[enemy.blocked_by] = slot + 1
 			draw_enemy_marker(enemy, center, cell)
+		draw_skill_orbs()
 		draw_melee_hits()
 
 func draw_enemy_marker(enemy: BattleEnemy, center: Vector2, cell: float, labeled := false) -> void:
+	_skill_orbs.protect(Rect2(center - Vector2.ONE * cell * 0.18, Vector2.ONE * cell * 0.36))
 	var visible_alpha := 1.0 if enemy.is_targetable(battle.clock.tick) else 0.4
 	draw_circle(center, cell * 0.18, Color("#8B3E2C", visible_alpha), true, -1, true)
 	draw_circle(center, cell * 0.18, Color("#F3EBDD", visible_alpha), false, 2.0, true)
@@ -234,7 +222,9 @@ func _draw_siege_warnings() -> void:
 		var font := get_theme_default_font()
 		var size_px := maxi(11, roundi(tile_size() * 0.23))
 		var width := font.get_string_size("Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
-		draw_string(font, center + Vector2(-width * 0.5, -tile_size() * 0.23), "Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, Color("#FFD0BB"))
+		var baseline := center + Vector2(-width * 0.5, -tile_size() * 0.23)
+		_skill_orbs.protect(Rect2(baseline - Vector2(0, size_px), Vector2(width, size_px * 1.2)))
+		draw_string(font, baseline, "Siege", HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, Color("#FFD0BB"))
 
 func _draw_gate(at: Vector2, cell: float, label: String, color: Color) -> void:
 	draw_rect(Rect2(at, Vector2.ONE * cell).grow(-2.0), color)
@@ -300,6 +290,7 @@ func _draw_deployments() -> void:
 				_draw_health(post_center + Vector2(0, tile_size() * 0.4), tile_size() * 0.8, unit.hp, unit.spec.max_hp)
 				continue
 		var color := Color("#B28550") if remaining > 0 else Color("#245567")
+		var silhouette := Rect2()
 		for cell in unit.spec.footprint(unit.anchor):
 			var model := _tile_rect(cell).grow(-8.0)
 			if not unit.mount_tower.is_empty():
@@ -307,6 +298,7 @@ func _draw_deployments() -> void:
 				model.position.y -= tile_size() * 0.36
 				color = Color("#4D7F73")
 			draw_rect(model, color)
+			silhouette = silhouette.merge(model) if silhouette.has_area() else model
 		if remaining > 0 and not (first_contact_field != null and unit.spec.logistics_post):
 			var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
 			draw_string(get_theme_default_font(), cell_center(unit.anchor) + Vector2(-12, 6), "%ds" % seconds)
@@ -329,7 +321,7 @@ func _draw_deployments() -> void:
 				_draw_unit_label(unit, center, unit.spec.label)
 			var hp_center := center + Vector2(0, tile_size() * 0.40)
 			_draw_health(hp_center, tile_size() * 0.5, unit.hp, unit.spec.max_hp)
-			draw_skill_status(unit, hp_center, tile_size() * 0.5)
+			add_skill_orb(unit, Rect2(silhouette.position, Vector2(silhouette.size.x, silhouette.size.y * 0.36)))
 
 func _draw_unit_label(unit: DeploymentState.Placement, center: Vector2, label: String) -> void:
 	var font := get_theme_default_font()
@@ -338,10 +330,13 @@ func _draw_unit_label(unit: DeploymentState.Placement, center: Vector2, label: S
 	var measured := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 	if measured > area_width:
 		size_px = maxi(9, floori(size_px * area_width / measured))
+	var text_width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
+	_skill_orbs.protect(Rect2(center - Vector2(text_width * 0.5, size_px * 0.65), Vector2(text_width, size_px * 1.2)))
 	draw_string(font, center + Vector2(-area_width / 2.0, size_px * 0.35), label, HORIZONTAL_ALIGNMENT_CENTER, area_width, size_px, Color("#F3EBDD"))
 
 func _draw_health(center: Vector2, width: float, hp: int, maximum: int) -> void:
 	var bar := Rect2(center - Vector2(width / 2.0, 0), Vector2(width, 4))
+	_skill_orbs.protect(bar.grow(1.0))
 	draw_rect(bar, Color("#202825"))
 	bar.size.x *= clampf(float(hp) / maximum, 0.0, 1.0)
 	draw_rect(bar, Color("#C6DB87") if hp == maximum else Color("#E8B957"))
