@@ -32,6 +32,7 @@ def main():
     parser.add_argument("--first-contact", action="store_true", help="Also test the illustrated C28-A mission")
     parser.add_argument("--hold-the-line", action="store_true", help="Also test the illustrated C28-B mission")
     parser.add_argument("--narrow-escape", action="store_true", help="Also test the illustrated C28-C mission")
+    parser.add_argument("--campaign-visuals", action="store_true", help="Check all live Ranger and Facility rigs and W29 resources")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -67,6 +68,8 @@ def main():
             runners += ("c28_hold_the_line_test",)
         if args.narrow_escape:
             runners += ("c28_narrow_escape_test",)
+        if args.campaign_visuals:
+            runners += ("campaign_visuals_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}
