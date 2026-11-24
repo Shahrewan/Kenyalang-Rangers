@@ -42,6 +42,9 @@ class Actor:
 	var rig: Node2D
 	var parts: Array[Sprite2D] = []
 	var bones: Dictionary[StringName, Bone2D] = {}
+	var facing: Node2D
+	var head_area: Rect2
+	var head_pivot: Vector2
 	var unit: DeploymentState.Placement
 	var enemy: BattleEnemy
 	var clip: StringName
@@ -67,6 +70,9 @@ class Turret:
 	var parts: Array[Sprite2D] = []
 	var unit: DeploymentState.Placement
 	var anchor := TURRET_ANCHOR
+	var operating_area: Rect2
+	var indicator_area: Rect2
+	var construction_area: Rect2
 	var clip: StringName
 	var phase := 0.0
 
@@ -146,7 +152,38 @@ func _make_actor(scene: PackedScene) -> Actor:
 		if art != null:
 			actor.parts.append(art)
 	actor.parts.sort_custom(func(a: Sprite2D, b: Sprite2D) -> bool: return a.z_index < b.z_index)
+	actor.facing = actor.rig.get_node_or_null("Facing") as Node2D
+	var head: Bone2D = actor.bones.get(&"head")
+	if head != null and actor.facing != null:
+		actor.head_pivot = _rest_transform(head, actor.facing).origin
+		actor.head_area = _rest_art(head, "Art", actor.facing)
+		var hat := _rest_art(head, "hat/Art", actor.facing)
+		if hat.has_area():
+			actor.head_area = actor.head_area.merge(hat)
 	return actor
+
+static func _rest_transform(node: Node2D, root: Node2D) -> Transform2D:
+	var result := Transform2D.IDENTITY
+	while node != root:
+		var transform: Transform2D = node.rest if node is Bone2D else node.transform
+		result = transform * result
+		node = node.get_parent() as Node2D
+	return result
+
+static func _rest_art(parent: Node2D, path: NodePath, root: Node2D) -> Rect2:
+	var part := parent.get_node_or_null(path) as Sprite2D
+	return _rest_transform(part, root) * part.get_rect() if part != null else Rect2()
+
+func _actor_upper_area(actor: Actor, local: Transform2D) -> Rect2:
+	if not actor.head_area.has_area():
+		var scale_px: float = _board.tile_size()
+		return Rect2(actor.rig.position + Vector2(-0.25, -0.66) * scale_px, Vector2(0.5, 0.32) * scale_px)
+	var face_to_board := local * actor.facing.global_transform
+	var head: Bone2D = actor.bones[&"head"]
+	var live_pivot := actor.facing.global_transform.affine_inverse() * head.global_position
+	# The rest silhouette gives consistent clearance when the head pitches during combat.
+	var offset := (live_pivot - actor.head_pivot).limit_length(2.5)
+	return face_to_board * Rect2(actor.head_area.position + offset, actor.head_area.size)
 
 func _play(actor: Actor, clip: StringName) -> void:
 	if not actor.rig.player.has_animation(clip):
@@ -383,6 +420,11 @@ func _deploy_turret(unit: DeploymentState.Placement, scene: PackedScene) -> void
 	for part: Sprite2D in turret.rig.find_children("*", "Sprite2D", true, false):
 		turret.parts.append(part)
 	turret.parts.sort_custom(func(a: Sprite2D, b: Sprite2D) -> bool: return a.z_index < b.z_index)
+	var body := _rest_art(turret.rig, "base/body/Art", turret.rig)
+	var mechanism := _rest_art(turret.rig, "base/body/active/Art", turret.rig)
+	turret.operating_area = body.merge(mechanism) if mechanism.has_area() else body
+	turret.indicator_area = _rest_art(turret.rig, "base/body/active/indicator/Art", turret.rig)
+	turret.construction_area = _rest_art(turret.rig, "base/construction/Art", turret.rig)
 	turrets[unit.id] = turret
 	var state := &"Ready" if full_pack and _battle.deployment.build_ticks_left(unit.id) == 0 else &"Construction"
 	_play_turret(turret, state)
@@ -614,7 +656,19 @@ func draw_turrets() -> void:
 						terrain("KRT_55", _tile(reserved), Color(1, 1, 1, 0.52))
 			var hp_center := cell_center + Vector2(0, scale_px * 0.4)
 			_board._draw_health(hp_center, scale_px * 0.8, unit.hp, unit.spec.max_hp)
-			_board.draw_skill_status(unit, hp_center, scale_px * 0.8)
+			var building := _battle.deployment.build_ticks_left(unit.id) > 0
+			var area := turret.construction_area if building else turret.operating_area
+			if area.has_area():
+				var to_board := local * turret.rig.global_transform
+				var roof := Rect2(area.position, Vector2(area.size.x, area.size.y * 0.42))
+				_board.protect_orb_area(to_board * roof)
+				if not building and turret.indicator_area.has_area():
+					var center := turret.indicator_area.get_center().x
+					roof = Rect2(Vector2(center - 8.0, roof.position.y), Vector2(16.0, roof.size.y))
+				_board.add_skill_orb(unit, to_board * roof)
+			else:
+				_board.add_skill_orb(unit, Rect2(cell_center - Vector2(scale_px * 0.5, scale_px * 0.34),
+					Vector2(scale_px, scale_px * 0.20)))
 
 func draw_actors() -> void:
 	var scale_px: float = _board.tile_size()
@@ -652,6 +706,11 @@ func draw_actors() -> void:
 			var maximum := actor.unit.spec.max_hp if actor.unit != null else actor.enemy.definition.max_hp
 			var hp_center := actor.rig.position + Vector2(0, scale_px * 0.055)
 			_board._draw_health(hp_center, scale_px * 0.48, hp, maximum)
+			var upper := _actor_upper_area(actor, local)
+			if actor.unit != null:
+				_board.add_skill_orb(actor.unit, upper)
+			else:
+				_board.protect_orb_area(upper)
 			if actor.enemy != null:
 				_board._draw_enemy_status(actor.enemy, actor.rig.position - Vector2(0, scale_px * 0.32), scale_px)
 			if full_pack:
@@ -662,10 +721,7 @@ func draw_actors() -> void:
 			var at := _center(enemy.grid_position()) + Vector2(0, _block_offset(enemy, stacked) * scale_px)
 			_board.draw_enemy_marker(enemy, at, scale_px, true)
 	_draw_effects()
-	for actor: Actor in rangers.values():
-		if not actor.terminal:
-			var hp_center := actor.rig.position + Vector2(0, scale_px * 0.055)
-			_board.draw_skill_status(actor.unit, hp_center, scale_px * 0.48)
+	_board.draw_skill_orbs()
 	_board.draw_melee_hits()
 	if _regional != null:
 		_regional.draw_foreground()

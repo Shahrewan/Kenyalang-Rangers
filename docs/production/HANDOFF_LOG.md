@@ -302,3 +302,8 @@
 - Applied the approved W29 home layout and upgrade badges. Skill readiness uses each placement’s actual charge or stock and combat-time deadline. Accepted melee damage shows the amount of HP removed, and the hold readout shows block count and facing.
 - Set per-operation Chapter 2 pacing and shared per-type deployment cooldowns across Story and Chaos. C1-02 keeps its original normal-clear fixture at tick 8169. C1-03’s revised legal perfect deployment order resolves at tick 13478. C2-07’s tuned setup reaches a perfect at tick 25526. C2-08 and C2-09 remain balance gaps in the tested configurations. [Before and after runs](../qa/C30_CAMPAIGN_BALANCE.md)
 - Godot 4.7.2 passed 3,287 checks across 33 runners and rendered both native target sizes. The signed APK passed resource replay and save continuity. ADB listed no physical phone. [Exact verification and device checklist](../qa/C30_CAMPAIGN_BALANCE.md#regression-and-android) · [PR #37](https://github.com/Shahrewan/Kenyalang-Rangers/pull/37)
+
+## C31-A Compact active skill orbs — 2026-11-24
+
+- W29-styled orbs read the existing C30 skill model. Rig head and Facility registration place the orbs, and local offsets protect health bars, silhouettes and nearby orbs. Selection retains the full skill readout.
+- Godot 4.7.2 passed 3,324 regression checks. Native C2-10 captures cover both target sizes at 100% and 130% text, and matched C2-01 captures compare C30 and C31-A. The signed APK passed resource and save checks. ADB listed no physical phone. [Verification and device checks](../qa/C31_A_SKILL_ORBS.md) · [PR #38](https://github.com/Shahrewan/Kenyalang-Rangers/pull/38)

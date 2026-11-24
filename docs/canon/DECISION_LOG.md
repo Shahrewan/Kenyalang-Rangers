@@ -314,3 +314,7 @@ The approved W29 registrations bind all 15 Story operations to their existing st
 The owner directed Chapter 2 opening pressure to ease through stage-local spawn pacing, with the original opening-wave resources retained for comparison. C30 adds stage preparation and interval factors before existing modifiers. The C2-07 exception supports the supplied Firebreak and reached a zero-escape clear through automatic combat. Use individual combat-time cooldowns of 24–35 seconds for live Rangers and 40–60 seconds for most Facilities. The Logistics Post uses 24 seconds for subsequent copies, retaining its free instant first placement and construction duration. The pending Specialist field kits retain their existing status.
 
 Skill readouts and melee feedback follow actual gameplay. Basic damage, facing, Heat, fatal escape, boss phase and reward rules retain their existing sources. Late C2-08/09 clear feasibility, final tuning and live Android acceptance remain open. [C30 Campaign matrix and evidence](../qa/C30_CAMPAIGN_BALANCE.md)
+
+## C31-A compact battlefield skill readouts — 2026-11-24
+
+The owner directed active skill indicators to be compact orbs beside the character’s head or the Facility’s upper mechanism. The 17 px core at an 80 px tile scales with the board. Use the existing C30 readiness, lock, stock and combat-clock recharge values. The selected-unit panel retains the full count and seconds. Native frames and Android pack verification passed. [C31-A evidence](../qa/C31_A_SKILL_ORBS.md)
