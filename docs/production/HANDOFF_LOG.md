@@ -307,3 +307,8 @@
 
 - W29-styled orbs read the existing C30 skill model. Rig head and Facility registration place the orbs, and local offsets protect health bars, silhouettes and nearby orbs. Selection retains the full skill readout.
 - Godot 4.7.2 passed 3,324 regression checks. Native C2-10 captures cover both target sizes at 100% and 130% text, and matched C2-01 captures compare C30 and C31-A. The signed APK passed resource and save checks. ADB listed no physical phone. [Verification and device checks](../qa/C31_A_SKILL_ORBS.md) · [PR #38](https://github.com/Shahrewan/Kenyalang-Rangers/pull/38)
+
+### C31-B · Remaining Ranger field kits · 2026-11-24
+
+- All 12 Rangers are fieldable after their existing recruitment gates. The five new field bindings use the existing W29 production art, shared combat clock, placement rules and C31-A skill orbs. [Field-kit tuning and source decisions](../canon/DECISION_LOG.md#c31-b-ranger-field-kit-playtest-tuning--2026-11-24)
+- The QA handoff records real Story and Chaos captures, host regressions, APK verification and late-Campaign autonomous runs with legal loadouts. [QA report](../qa/C31_B_RANGER_FIELD_KITS.md)

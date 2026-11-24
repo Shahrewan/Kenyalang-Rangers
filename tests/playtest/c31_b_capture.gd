@@ -127,13 +127,16 @@ func _chaos(app) -> void:
 	await _capture("chaos-k9-seer")
 	_check(art.rangers.size() == 5 and not sim.active.is_empty(), "All five articulated Rangers render beside battle enemies")
 	var cue := -1
+	var scan_frame := sim.clock.tick
 	while sim.clock.tick < 4100 and sim.clock.is_running():
-		if sim.active.values().any(func(enemy: BattleEnemy) -> bool:
+		if sim.clock.tick >= scan_frame + 120 and art.rangers[SABOTEUR].clip == &"Skill" and sim.active.values().any(func(enemy: BattleEnemy) -> bool:
 			return enemy.definition.technological and enemy.tech_interference_until > sim.clock.tick):
 			cue = sim.clock.tick
 			break
 		_advance(field, sim.clock.tick + 1)
-	_check(cue >= 0 and art.rangers[SABOTEUR].unit.interference_radius > 1, "Saboteurist renders an expanded pulse on an actual Tracking Bot")
+	_check(cue >= 0 and art.rangers[SABOTEUR].unit.interference_radius > 1, "Saboteurist renders a later expanded pulse on an actual Tracking Bot")
+	var controller := field.get_node("%DeploymentController")
+	controller._show_retreat(SABOTEUR)
 	field._refresh()
 	await _capture("chaos-saboteur")
 

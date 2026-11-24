@@ -159,10 +159,7 @@ func _full_tray(app: Control) -> void:
 	var controller := scene.get_node("%DeploymentController")
 	var roster := DeploymentRoster.new()
 	var rangers: DeploymentRoster = load("res://data/rangers/c14_campaign_roster.tres")
-	roster.entries.assign(rangers.entries)
-	var eighth := rangers.entries[0].duplicate() as DeploymentSpec
-	eighth.id = &"qa_eighth"
-	roster.entries.append(eighth)
+	roster.entries.assign(rangers.entries.slice(0, 8))
 	var facilities: DeploymentRoster = load("res://data/facilities/catalog.tres")
 	roster.entries.append_array(facilities.entries.slice(0, 6))
 	controller.roster = roster
