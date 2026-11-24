@@ -40,6 +40,7 @@ var _trial_intervals: PackedFloat32Array
 var _trial_buffs: Array[StringName]
 var _proven_profiles := false
 var _hold_rangers_seconds := 0.0
+var _ranger_level := 1
 
 func _initialize() -> void:
 	_run.call_deferred()
@@ -69,6 +70,8 @@ func _run() -> void:
 				_trial_intervals.append(interval.to_float())
 		elif arg.begins_with("--hold-rangers="):
 			_hold_rangers_seconds = arg.get_slice("=", 1).to_float()
+		elif arg.begins_with("--ranger-level="):
+			_ranger_level = clampi(arg.get_slice("=", 1).to_int(), 1, DeployableLevels.MAX_LEVEL)
 		elif arg.begins_with("--policy="):
 			_late_policy = arg.get_slice("=", 1)
 		elif arg.begins_with("--buffs="):
@@ -96,6 +99,8 @@ func _run() -> void:
 func _plan(operation: StoryOperation, progressed: bool) -> OperationPlan:
 	var profile := CampaignSave.fresh()
 	profile.leader_name = "Pacing check"
+	if _ranger_level > 1:
+		profile.funds = 3 * DeployableLevels.cost(1, _ranger_level)
 	profile.rooms["room.control_room"] = operation.min_control_level
 	profile.rooms["room.human_resources"] = 4 if progressed else 2
 	profile.rooms["room.mechanical"] = 3 if progressed else 1
@@ -151,6 +156,20 @@ func _plan(operation: StoryOperation, progressed: bool) -> OperationPlan:
 		for spec: DeploymentSpec in plan.choices:
 			if spec.id == id:
 				plan.select_unit(spec, true)
+	if _ranger_level > 1:
+		var tracks := 0
+		var selection := plan.selected_ids.duplicate()
+		for id: StringName in selection:
+			if not DeployableLevels.definition(id).is_ranger():
+				continue
+			var error := progress.purchase_levels(id, _ranger_level)
+			if not error.is_empty():
+				push_error("Could not purchase playtest Ranger levels: " + error)
+				break
+			tracks += 1
+			if tracks == 3:
+				break
+		plan.configure_campaign(progress, selection)
 	if progressed and not _trial_buffs.is_empty():
 		for id in _trial_buffs:
 			plan.set_modifier(BattleModifiers.CATALOG.definition(id), true)
@@ -215,7 +234,7 @@ func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 		if order.at < stage.opening_delay_seconds * CombatClock.TICKS_PER_SECOND or order.id == FIREBREAK:
 			paid_cells.append(order)
 	var result := progress.complete(operation, sim.is_perfect()) if entered and sim.outcome == BattleSimulation.Outcome.WON else {}
-	return {"stage": operation.stage.stage_id, "profile": ("advanced" if _advanced else "progressed") if progressed else "low",
+	var outcome := {"stage": operation.stage.stage_id, "profile": ("advanced" if _advanced else "progressed") if progressed else "low",
 		"legal_plan": resolved.can_start() and entered, "buffs": plan.modifier_selection(), "first_arrival": _spawned[0] if not _spawned.is_empty() else -1,
 		"first_ranger": first_ranger, "peak": peak, "wave_1_peak": opening_peak, "wave_1_escapes": first_wave_escapes,
 		"outcome": sim.outcome, "perfect": sim.is_perfect(), "integrity": sim.integrity,
@@ -228,6 +247,14 @@ func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 		"funds_credited": progress.funds() - funds_before, "pending_awards": result.get("pending_awards", []),
 		"firebreak_owned": progress.owns(FIREBREAK), "settled": not result.is_empty(),
 		"boss_phase_ticks": boss_phase_ticks}
+	if _ranger_level > 1:
+		var paid_levels := {}
+		for id: StringName in plan.selected_ids:
+			var level := progress.deployable_level(id)
+			if String(id).begins_with("ranger.") and level > 1:
+				paid_levels[id] = level
+		outcome["purchased_ranger_levels"] = paid_levels
+	return outcome
 
 func _earn_trial_firebreak() -> bool:
 	# Reuse the shipped C2-07 clear policy. Only the experimental award differs.

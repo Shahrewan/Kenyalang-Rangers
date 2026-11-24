@@ -1,9 +1,17 @@
-[gd_resource type="Resource" script_class="RangerSpec" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/deployable_growth.gd" id="GrowthScript"]
+
+[sub_resource type="Resource" id="Growth"]
+script = ExtResource("GrowthScript")
+hp = 175
+attack_damage = 12
+repair = 24
 
 [resource]
 script = ExtResource("1")
+growth = SubResource("Growth")
 id = &"ranger.outpost_mechanic"
 redeploy_seconds = 24.0
 label = "Outpost Mechanic"

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="RangerSpec" format=3]
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/deployable_growth.gd" id="GrowthScript"]
 
 [sub_resource type="Resource" id="Scan"]
 script = ExtResource("2")
@@ -11,8 +12,14 @@ recharge_seconds = 6.0
 status_seconds = 20.0
 mark_damage_percent = 2
 
+[sub_resource type="Resource" id="Growth"]
+script = ExtResource("GrowthScript")
+hp = 150
+attack_damage = 16
+
 [resource]
 script = ExtResource("1")
+growth = SubResource("Growth")
 id = &"ranger.kenyalang_seer"
 label = "Kenyalang Seer"
 ranger_class = 2

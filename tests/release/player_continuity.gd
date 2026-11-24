@@ -80,6 +80,8 @@ func _run() -> void:
 		_check(false, "Use seed, resume or verify from the package checker")
 	if "--facility-growth" in args:
 		_verify_facility_upgrade(mode)
+	if "--ranger-growth" in args:
+		_verify_ranger_upgrade(mode)
 	app.free()
 	await process_frame
 	quit(1 if failures else 0)
@@ -106,6 +108,29 @@ func _verify_facility_upgrade(mode: String) -> void:
 		"Returning profile retains the paid level and gets scaled Logistics Post HP")
 	if mode == "resume":
 		_check(returning.purchase_levels(POST, 40).is_empty(), "Updated pack continues the same upgrade track")
+
+func _verify_ranger_upgrade(mode: String) -> void:
+	const PATH := "user://c32-c-ranger-level.json"
+	const SCOUT := &"ranger.scout_sniper"
+	if mode == "seed":
+		var fixture := CampaignSave.fresh()
+		fixture.leader_name = "Rimba"
+		fixture.funds = 300_000
+		_check(ProfileFile.replace(PATH, fixture, false), "Prepare a funded Ranger upgrade profile")
+		var profile := CampaignProgress.new(PATH)
+		_check(profile.purchase_levels(SCOUT, 20).is_empty() and profile.funds() == 239_904,
+			"Seed pack purchases Level 20 Scout Sniper")
+		return
+	var returning := CampaignProgress.new(PATH)
+	var level := 20 if mode == "resume" else 40
+	var spec := DeployableLevels.effective(DeployableLevels.definition(SCOUT), returning.deployable_level(SCOUT)) as RangerSpec
+	_check(returning.load_status == CampaignProgress.LoadStatus.READY and spec.level == level
+		and spec.max_hp == (105 if level == 20 else 110) and spec.attack_damage == (25 if level == 20 else 26)
+		and spec.active_skill.damage == spec.attack_damage and returning.records_enhancements().is_empty()
+		and returning.funds() == (239_904 if level == 20 else 108_999),
+		"Returning profile retains the paid Ranger level with scaled outputs and the original Records gate")
+	if mode == "resume":
+		_check(returning.purchase_levels(SCOUT, 40).is_empty(), "Updated pack continues the same Ranger upgrade track")
 
 func _open_room(app: Control, id: String) -> void:
 	app.show_menu()
