@@ -51,3 +51,4 @@ Status key: [ ] Not started, [~] In progress, [x] Verified. Change only after re
 - [~] C29 [Live Headquarters](../qa/C29_HEADQUARTERS_VISUALS.md) binds the W29 modular building, all 11 departments and staff loops, and the saved Chaos trophy. Native room taps and the signed APK payload passed. Physical Android review remains open.
 
 For each row add: owner, Git commit, actual automated test log, manual Android verification, known issues, acceptance sign-off date. These are milestones, NOT estimates of equal development effort.
+- [~] C28-D [Campaign presentation](../qa/C28_D_CAMPAIGN_VISUALS.md) binds W29 artwork to all 15 Story missions. The Story, visual and exported-resource checks cover the six boards and three bosses. Five Ranger field kits, late autonomous balance playtesting, reward approvals and physical Android verification remain open. [PR #36](https://github.com/Shahrewan/Kenyalang-Rangers/pull/36)
