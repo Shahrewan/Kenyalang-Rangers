@@ -317,3 +317,8 @@
 
 - C2-08 uses slower Heat gain with the existing owned equipment. C2-09 uses a longer setup window and gradually faster arrivals. Legal low, progressed and advanced trials produced the outcomes in the QA report. The alternative Firebreak ownership trial remains a decision for the owner.
 - Outreach and Records use revision 2 of the player banks. The QA handoff includes provenance, real Story and education captures, regression results and the Android payload procedure. [C31-C QA](../qa/C31_C_LATE_CAMPAIGN.md)
+
+### C32 · Economy and progression · 2026-11-24
+
+- C32 adds a proposal and reproducible, runtime-backed economy tests with 1,080 daily ledger rows. The ordinary-only gate test, returning-save paths and distinct first-clear and first-perfect settlement passed. The approved First Contact amount and live economy remain in place.
+- Owner review covers the exact Campaign and Records schedule, legacy treatment, Firebreak and the recurring source sensitivities. Android scope is unchanged from C31-C because this milestone contains tests and review material. [Proposal](C32_ECONOMY_PROPOSAL.md) · [QA](../qa/C32_ECONOMY_AND_PROGRESSION.md)

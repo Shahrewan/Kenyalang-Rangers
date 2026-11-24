@@ -1,0 +1,135 @@
+{
+  "status": "proposal_pending_owner_review",
+  "approved_exception": {
+    "mission": "C1-01",
+    "field": "first_clear_funds",
+    "amount": 10000
+  },
+  "campaign": {
+    "C1-01": {
+      "first_clear_funds": 10000,
+      "first_perfect_funds": 5000,
+      "replay_funds": 500
+    },
+    "C1-02": {
+      "first_clear_funds": 30000,
+      "first_perfect_funds": 15000,
+      "replay_funds": 1000
+    },
+    "C1-03": {
+      "first_clear_funds": 60000,
+      "first_perfect_funds": 25000,
+      "replay_funds": 1500
+    },
+    "C1-04": {
+      "first_clear_funds": 100000,
+      "first_perfect_funds": 40000,
+      "replay_funds": 2000
+    },
+    "C1-05": {
+      "first_clear_funds": 180000,
+      "first_perfect_funds": 60000,
+      "replay_funds": 2500
+    },
+    "C2-01": {
+      "first_clear_funds": 240000,
+      "first_perfect_funds": 80000,
+      "replay_funds": 3000
+    },
+    "C2-02": {
+      "first_clear_funds": 300000,
+      "first_perfect_funds": 100000,
+      "replay_funds": 3500
+    },
+    "C2-03": {
+      "first_clear_funds": 360000,
+      "first_perfect_funds": 120000,
+      "replay_funds": 4000
+    },
+    "C2-04": {
+      "first_clear_funds": 420000,
+      "first_perfect_funds": 140000,
+      "replay_funds": 4500
+    },
+    "C2-05": {
+      "first_clear_funds": 480000,
+      "first_perfect_funds": 160000,
+      "replay_funds": 5000
+    },
+    "C2-06": {
+      "first_clear_funds": 540000,
+      "first_perfect_funds": 180000,
+      "replay_funds": 6000
+    },
+    "C2-07": {
+      "first_clear_funds": 600000,
+      "first_perfect_funds": 200000,
+      "replay_funds": 6500
+    },
+    "C2-08": {
+      "first_clear_funds": 660000,
+      "first_perfect_funds": 220000,
+      "replay_funds": 7000
+    },
+    "C2-09": {
+      "first_clear_funds": 720000,
+      "first_perfect_funds": 240000,
+      "replay_funds": 8000
+    },
+    "C2-10": {
+      "first_clear_funds": 800000,
+      "first_perfect_funds": 265000,
+      "replay_funds": 9000,
+      "story_completion_funds": 1100000
+    }
+  },
+  "reference_first_perfects": [
+    "C1-02",
+    "C1-05",
+    "C2-02",
+    "C2-05",
+    "C2-08",
+    "C2-10"
+  ],
+  "records_perfect_chapter_funds": {
+    "records_chapter.scout_sniper": 50000,
+    "records_chapter.patrolman": 75000,
+    "records_chapter.combat_medic": 100000,
+    "records_chapter.woods_tracker": 125000
+  },
+  "sensitivity_only": {
+    "outreach_best_by_level": [
+      25000,
+      60000,
+      75000,
+      90000,
+      110000
+    ],
+    "chaos_positive_modifier_allowance_floor": 200
+  },
+  "story_active_seconds_at_2x": {
+    "C1-01": 52,
+    "C1-02": 58,
+    "C1-03": 103,
+    "C1-04": 100,
+    "C1-05": 127,
+    "C2-01": 125,
+    "C2-02": 142,
+    "C2-03": 130,
+    "C2-04": 131,
+    "C2-05": 174,
+    "C2-06": 125,
+    "C2-07": 242,
+    "C2-08": 210,
+    "C2-09": 213,
+    "C2-10": 263
+  },
+  "gdd_60_day_source_targets": {
+    "story": 7420000,
+    "outreach": 5000000,
+    "garden": 5300000,
+    "chaos": 5200000,
+    "records": 1550000,
+    "finance_replay": 550000
+  }
+}
