@@ -134,17 +134,18 @@ func _build(data: Dictionary, id: StringName, previous: StringName, order: int, 
 	stage.first_perfect_funds = 0
 	stage.opening_delay_seconds = float(data.balance_trial.opening_delay_seconds)
 	var heat: Variant = data.balance_trial.heat
-	stage.heat_capacity = float(heat.capacity) if heat is Dictionary else 0.0
-	stage.heat_integrity_loss = int(heat.integrity_loss_per_reset) if heat is Dictionary else 0
+	if heat is Dictionary:
+		stage.heat_capacity = float(heat.capacity)
+		stage.heat_integrity_loss = int(heat.integrity_loss_per_reset)
+		stage.heat_gain_scale = float(heat.get("gain_scale", 1.0))
 	result.has_heat = stage.heat_capacity > 0.0
 	stage.capture_boss_id = _optional_id(data.outcome.get("early_capture_boss_id"))
-	var pacing: Dictionary = data.balance_trial.get("c30_pacing", {})
+	var pacing: Dictionary = data.balance_trial.get("c31_c_pacing", data.balance_trial.get("c30_pacing", {}))
 	var preparation := float(pacing.get("preparation_seconds", 0.0))
 	if not is_finite(preparation) or preparation < 0.0:
 		return _fail("Campaign preparation time must be finite and nonnegative.")
 	stage.opening_delay_seconds += preparation
-	var intervals: Array = pacing.get("wave_interval_multipliers", [])
-	var waves := _waves(data.waves, meta.published_first_pass_wave_counts, intervals)
+	var waves := _waves(data.waves, meta.published_first_pass_wave_counts, pacing)
 	if waves.is_empty():
 		return _fail("Wave totals or enemy references are invalid.")
 	stage.waves = waves
@@ -166,18 +167,23 @@ func _bind_escape_rules(stage: BattleStage, fatal_ids: Array) -> bool:
 				found[id] = true
 	return found.size() == fatal_ids.size()
 
-func _waves(rows: Array, published: Array, intervals: Array) -> Array[BattleWave]:
+func _waves(rows: Array, published: Array, pacing: Dictionary) -> Array[BattleWave]:
 	var waves: Array[BattleWave] = []
-	if rows.size() != published.size() or (not intervals.is_empty() and intervals.size() != rows.size()):
+	var multipliers: Array = pacing.get("wave_interval_multipliers", [])
+	var intervals: Array = pacing.get("wave_interval_seconds", [])
+	if rows.size() != published.size() or (not multipliers.is_empty() and multipliers.size() != rows.size()) \
+			or (not intervals.is_empty() and intervals.size() != rows.size()):
 		return waves
 	var resolved: Dictionary[StringName, BattleEnemyDefinition] = {}
 	for i in rows.size():
 		var row: Dictionary = rows[i]
 		var wave := BattleWave.new()
 		wave.rest_after_seconds = float(row.base_rest_after_seconds)
-		var interval_scale := 1.0 if intervals.is_empty() else float(intervals[i])
+		var interval_scale := 1.0 if multipliers.is_empty() else float(multipliers[i])
 		var boss_wave := str(published[i]) == "boss"
 		if not is_finite(interval_scale) or interval_scale <= 0.0 or (boss_wave and interval_scale != 1.0):
+			return []
+		if not intervals.is_empty() and (not is_finite(float(intervals[i])) or float(intervals[i]) <= 0.0):
 			return []
 		var count := 0
 		for item in row.groups:
@@ -190,7 +196,13 @@ func _waves(rows: Array, published: Array, intervals: Array) -> Array[BattleWave
 			group.enemy = resolved[id]
 			group.count = int(item.count)
 			group.route_index = int(item.route_index)
-			group.interval_seconds = float(item.base_interval_seconds) * (1.0 if group.enemy is BossSpec else interval_scale)
+			var authored_interval := float(item.base_interval_seconds)
+			if group.enemy is BossSpec:
+				if not intervals.is_empty() and not is_equal_approx(float(intervals[i]), authored_interval):
+					return []
+				group.interval_seconds = authored_interval
+			else:
+				group.interval_seconds = authored_interval * interval_scale if intervals.is_empty() else float(intervals[i])
 			count += group.count
 			wave.groups.append(group)
 		var expected := 1 if boss_wave else int(published[i])
