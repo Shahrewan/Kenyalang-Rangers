@@ -284,3 +284,9 @@
 - Bound the approved E03, Medic, Sonic Turret and post-wave-2 messenger visuals to the illustrated C1-03 Story mission. The live fixture covered the 9/11/13 waves, all seven E03 clips, both messenger routes and the three results.
 - Settings includes Developer Funds with existing wallet limits and profile saves. Verified add, remove, invalid input, limits and returning profile data.
 - Godot 4.7.2 passed 2,115 regressions. The W29 catalog and art checks, 20 native captures, signed APK dependency audit and returning C28-B profile replay passed. Physical Android review remains open. [Evidence and phone procedure](../qa/C28_C_NARROW_ESCAPE.md)
+
+## C29 Live Headquarters — 2026-11-24
+
+- Composed the approved W29 building directly in Headquarters. Eleven registered bays use the saved room levels, furnishings, stationary Work loops and the existing department routes. The lobby uses the approved mount and the saved Chaos tier.
+- Verified fresh, purchased and fully constructed profiles, 130% text, and room taps through the constrained scroll layout. Godot 4.7.2 passed 2,209 regressions and 22 native captures.
+- The signed ARM64 APK passed the HQ dependency audit and headless replay using the shipped resources and a returning C28-C profile. Physical Android checks remain open. [Evidence and device checklist](../qa/C29_HEADQUARTERS_VISUALS.md)

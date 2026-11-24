@@ -27,6 +27,8 @@ The pack covers the named combat roster, all Facility layouts, the six boards, t
 
 W29 PR #32 supplies the production art and reusable Godot scenes. [C28-B](../../qa/C28_B_HOLD_THE_LINE.md) implements the [approved E02 integration ticket](W29_C01_HOLD_THE_LINE_HANDOFF.md) in C1-02. Desktop previews cover the remaining new art and menu skin. Phone verification and D-014 release review remain open.
 
+[C29](../../qa/C29_HEADQUARTERS_VISUALS.md) binds the complete HQ composition, all 11 Work rigs, department pages and the saved trophy in the live game.
+
 ## Rigging handoff
 
 The owner approved `b3c0243` as the visual baseline. Open a roster entry in the [art catalog](../../../data/presentation/w29/art_catalog.json) to locate its Godot rig, editable source and animation contract. Preserve the reference pose, draw order, registered pivots, shared cutouts and attachments when developing the clips. The same catalog links Facility placement anchors and the Headquarters staff loops. Future boss concepts may depart further from the standard unit silhouettes and costumes. The current kits carry the approved art.

@@ -28,17 +28,22 @@ var _dialog: ConfirmationDialog
 var _confirmed: Callable
 
 func _ready() -> void:
+	theme = HeadquartersArt.THEME
 	add_theme_constant_override("separation", 12)
 	var back := StoryUI.header(self, definition.label, func() -> void: back_requested.emit(), "Funds")
 	_balance = back.get_parent().get_node("FundsSummary")
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var details := StoryUI.panel(StoryUI.scroll_column(body), true)
+	var detail_scroll := StoryUI.scroll_column(body)
+	(detail_scroll.get_parent() as Control).size_flags_stretch_ratio = 1.45
+	var details := StoryUI.panel(detail_scroll, true)
 	_status = StoryUI.label("", 28, StoryUI.INK)
 	details.add_child(_status)
 	_art = HeadquartersOfficeArt.new()
-	_art.role = definition.role
-	_art.custom_minimum_size.y = 98
+	_art.catalog = HeadquartersArt.new()
+	_art.room_id = definition.id
+	_art.level = progress.room_level(definition.id)
+	_art.custom_minimum_size.y = 184
 	details.add_child(_art)
 	_benefits = StoryUI.label("", 20, StoryUI.INK)
 	details.add_child(_benefits)
@@ -91,8 +96,7 @@ func _refresh() -> void:
 	var level := progress.room_level(definition.id)
 	_balance.text = "%s Funds" % StoryUI.funds(progress.funds())
 	_status.text = "Unbuilt" if level == 0 else "Level %d of %d" % [level, HeadquartersCatalog.MAX_LEVEL]
-	_art.built = level > 0
-	_art.queue_redraw()
+	_art.update_level(level)
 	_benefits.text = _benefits_at(level)
 	if _activity != null:
 		_activity.visible = level > 0

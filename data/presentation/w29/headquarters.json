@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "canvas_units": [
+    1280,
+    720
+  ],
+  "shell": {
+    "jungle": "assets/imported/hq/shell/jungle.png",
+    "roof": "assets/imported/hq/shell/roof.png",
+    "frame_back": "assets/imported/hq/shell/frame_back.png",
+    "lobby": "assets/imported/hq/shell/lobby.png",
+    "frame_front": "assets/imported/hq/shell/frame_front.png",
+    "foreground": "assets/imported/hq/shell/foreground.png"
+  },
+  "unbuilt": "assets/imported/hq/unbuilt.png",
+  "vacant_bay": [
+    802,
+    499,
+    314,
+    105
+  ],
+  "trophy_anchor": [
+    918,
+    636
+  ],
+  "trophy_max_size": [
+    57,
+    48
+  ],
+  "rooms": [
+    {
+      "id": "room.control_room",
+      "rect": [
+        150,
+        151,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/control_room/back.png",
+      "front": "assets/imported/hq/rooms/control_room/front.png",
+      "detail": "assets/imported/hq/rooms/control_room/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/control_room/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          220,
+          98
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.human_resources",
+      "rect": [
+        476,
+        151,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/human_resources/back.png",
+      "front": "assets/imported/hq/rooms/human_resources/front.png",
+      "detail": "assets/imported/hq/rooms/human_resources/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/human_resources/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          212,
+          98
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.finance_room",
+      "rect": [
+        802,
+        151,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/finance_room/back.png",
+      "front": "assets/imported/hq/rooms/finance_room/front.png",
+      "detail": "assets/imported/hq/rooms/finance_room/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/finance_room/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          200,
+          98
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.mechanical",
+      "rect": [
+        150,
+        267,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/mechanical/back.png",
+      "front": "assets/imported/hq/rooms/mechanical/front.png",
+      "detail": "assets/imported/hq/rooms/mechanical/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/mechanical/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          91,
+          101
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.ecology",
+      "rect": [
+        476,
+        267,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/ecology/back.png",
+      "front": "assets/imported/hq/rooms/ecology/front.png",
+      "detail": "assets/imported/hq/rooms/ecology/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/ecology/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          84,
+          97
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.outreach",
+      "rect": [
+        802,
+        267,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/outreach/back.png",
+      "front": "assets/imported/hq/rooms/outreach/front.png",
+      "detail": "assets/imported/hq/rooms/outreach/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/outreach/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          169,
+          100
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.records",
+      "rect": [
+        150,
+        383,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/records/back.png",
+      "front": "assets/imported/hq/rooms/records/front.png",
+      "detail": "assets/imported/hq/rooms/records/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/records/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          178,
+          99
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.r_d_eco",
+      "rect": [
+        476,
+        383,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/r_d_eco/back.png",
+      "front": "assets/imported/hq/rooms/r_d_eco/front.png",
+      "detail": "assets/imported/hq/rooms/r_d_eco/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/r_d_eco/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          104,
+          100
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.r_d_combat",
+      "rect": [
+        802,
+        383,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/r_d_combat/back.png",
+      "front": "assets/imported/hq/rooms/r_d_combat/front.png",
+      "detail": "assets/imported/hq/rooms/r_d_combat/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/r_d_combat/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          182,
+          101
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.r_d_guard",
+      "rect": [
+        150,
+        499,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/r_d_guard/back.png",
+      "front": "assets/imported/hq/rooms/r_d_guard/front.png",
+      "detail": "assets/imported/hq/rooms/r_d_guard/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/r_d_guard/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          195,
+          100
+        ],
+        "scale": 0.96
+      }
+    },
+    {
+      "id": "room.r_d_crisis",
+      "rect": [
+        476,
+        499,
+        314,
+        105
+      ],
+      "back": "assets/imported/hq/rooms/r_d_crisis/back.png",
+      "front": "assets/imported/hq/rooms/r_d_crisis/front.png",
+      "detail": "assets/imported/hq/rooms/r_d_crisis/interior.png",
+      "staff": {
+        "rig": "assets/imported/hq/rooms/r_d_crisis/staff.tscn",
+        "clip": "Work",
+        "anchor_in_room": [
+          163,
+          100
+        ],
+        "scale": 0.96
+      }
+    }
+  ]
+}
