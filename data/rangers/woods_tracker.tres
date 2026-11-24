@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="RangerSpec" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.woods_tracker"
+label = "Woods Tracker"
+ranger_class = 3
+kind = 0
+max_hp = 100
+attack_damage = 22
+attack_seconds = 1.3
+recruitment_stage = &"C1-04"
+records_enhancement = &"records_chapter.woods_tracker"
+cost = 10
+redeploy_seconds = 12.0
+attack_range = 1
+field_kit = 1
+field_radius = 1
+field_status_seconds = 2.0
+field_damage = 22
+retreat_refund_percent = 50
+retreat_cooldown_reduction_seconds = 4.0
+records_bonus_hp = 10
+records_redeploy_reduction_seconds = 2.0

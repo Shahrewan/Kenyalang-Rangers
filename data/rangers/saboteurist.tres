@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RangerSpec" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.saboteurist"
+label = "Saboteurist"
+ranger_class = 3
+kind = 0
+max_hp = 130
+attack_damage = 18
+attack_seconds = 2.3
+recruitment_stage = &"C2-05"
+cost = 12
+redeploy_seconds = 14.0
+attack_range = 1
+technological_only = true
+field_kit = 2
+pulse_seconds = 2.0
+field_radius = 1
+field_status_seconds = 2.0
+field_damage = 20
+retreat_refund_percent = 50

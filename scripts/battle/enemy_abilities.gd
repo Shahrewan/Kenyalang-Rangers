@@ -5,7 +5,7 @@ signal applied(enemy: BattleEnemy, target: Vector2i)
 
 func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: FacilityCombat, tick: int) -> void:
 	var ability := enemy.definition.ability
-	if ability == null or tick < enemy.stunned_until:
+	if ability == null or tick < maxi(enemy.stunned_until, enemy.tech_interference_until):
 		return
 	if enemy.ability_fire_tick > 0:
 		if tick >= enemy.ability_fire_tick:
@@ -55,7 +55,7 @@ func _select_target(enemy: BattleEnemy, ability: EnemyAbility, deployment: Deplo
 	return chosen
 
 func _can_target(enemy: BattleEnemy, ability: EnemyAbility, id: StringName, unit: DeploymentState.Placement) -> bool:
-	if unit == null or not unit.spec.is_ranger() or unit.distance_to(enemy.grid_cell()) > ability.radius:
+	if unit == null or unit.arrival_tick > 0 or not unit.spec.is_ranger() or unit.distance_to(enemy.grid_cell()) > ability.radius:
 		return false
 	if ability.effect == EnemyAbility.Effect.JAM:
 		return unit.spec.skill != DeploymentSpec.Skill.NONE

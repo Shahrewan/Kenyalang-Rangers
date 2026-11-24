@@ -242,7 +242,7 @@ func _draw_deployments() -> void:
 			for cell: Vector2i in post.footprint(Vector2i(1, 0)):
 				first_contact_field.terrain("KRT_51", _tile_rect(cell))
 	if preview_spec != null:
-		var candidates := battle_map.ground if preview_spec.is_melee() else battle_map.elevated
+		var candidates := battle_map.ground if preview_spec.uses_ground() else battle_map.elevated
 		for cell in candidates:
 			if deployments.placement_error(preview_spec, cell).is_empty():
 				draw_rect(_tile_rect(cell).grow(-4.0), Color("#C9D99B"), false, 2.0)

@@ -37,7 +37,7 @@ func _add_unit(grid: GridContainer, spec: DeploymentSpec) -> void:
 	var title := StoryUI.label("%s · %s" % [spec.label, level], 20, StoryUI.INK)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.add_child(title)
-	var detail := lock_message(spec) if not owned else "Combat kit pending" if DeployableLevels.pending_kit(spec.id) else ""
+	var detail := lock_message(spec) if not owned else ""
 	if not detail.is_empty():
 		tile.add_child(StoryUI.label(detail, 17, StoryUI.INK))
 	var open := StoryUI.action("Review levels" if owned else "View details")

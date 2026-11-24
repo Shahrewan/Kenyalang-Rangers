@@ -30,6 +30,9 @@ func logistics(base: LogisticsRules) -> LogisticsRules:
 	rules.yield_percent += int(amount(&"post_yield_percent"))
 	return rules
 
+func ranger_cost(base: int) -> int:
+	return ceili(base * (100 + int(amount(&"ranger_cost_percent"))) / 100.0)
+
 func deployable(source: DeploymentSpec) -> DeploymentSpec:
 	if ids.is_empty():
 		return source
@@ -37,11 +40,14 @@ func deployable(source: DeploymentSpec) -> DeploymentSpec:
 	if tuned.is_ranger():
 		tuned.max_hp = roundi(tuned.max_hp * scale(&"ranger_hp_percent"))
 		tuned.attack_damage = roundi(tuned.attack_damage * scale(&"ranger_damage_percent"))
-		tuned.cost = ceili(tuned.cost * (100 + int(amount(&"ranger_cost_percent"))) / 100.0)
-		if tuned is RangerSpec and tuned.active_skill != null:
-			tuned.active_skill = tuned.active_skill.duplicate() as RangerSkill
-			tuned.active_skill.damage = roundi(tuned.active_skill.damage * scale(&"ranger_damage_percent"))
-			tuned.active_skill.recharge_seconds *= scale(&"skill_duration_percent") / scale(&"skill_recovery_percent")
+		tuned.cost = ranger_cost(tuned.cost)
+		if tuned is RangerSpec:
+			tuned.field_damage = roundi(tuned.field_damage * scale(&"ranger_damage_percent"))
+			tuned.arrival_damage_step = roundi(tuned.arrival_damage_step * scale(&"ranger_damage_percent"))
+			if tuned.active_skill != null:
+				tuned.active_skill = tuned.active_skill.duplicate() as RangerSkill
+				tuned.active_skill.damage = roundi(tuned.active_skill.damage * scale(&"ranger_damage_percent"))
+				tuned.active_skill.recharge_seconds *= scale(&"skill_duration_percent") / scale(&"skill_recovery_percent")
 	else:
 		tuned.build_seconds *= scale(&"build_time_percent")
 	return tuned

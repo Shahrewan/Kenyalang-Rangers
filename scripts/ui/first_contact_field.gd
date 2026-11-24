@@ -48,6 +48,10 @@ class Actor:
 	var unit: DeploymentState.Placement
 	var enemy: BattleEnemy
 	var clip: StringName
+	var companion: FirstContactCutout
+	var companion_states: Dictionary
+	var howl_socket: Bone2D
+	var howl_offset: Vector2
 	var terminal := false
 	var escaped := false
 	var phase := 0.0
@@ -61,6 +65,7 @@ class Effect:
 	var target: Vector2
 	var origin: Vector2
 	var start: int
+	var attachment: Bone2D
 	var socket: StringName
 	var socket_offset: Vector2
 
@@ -100,8 +105,8 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 	_layout = skin.registration()
 	_patrolman_sockets = skin.patrolman_sockets()
 	full_pack = not FirstContactSkin.is_pilot(stage_id)
+	_assets = CampaignVisualAssets.new()
 	if full_pack:
-		_assets = CampaignVisualAssets.new()
 		if not _assets.region(board.battle_map.map_id).is_empty():
 			_regional = CampaignRegionArt.new(board, skin, _assets)
 		battle.ranger_combat.healing_presented.connect(_heal_presented.bind(&"Attack"))
@@ -128,6 +133,7 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 	battle.enemy_hit_presented.connect(_enemy_hit)
 	battle.enemy_attack_presented.connect(_enemy_attack)
 	battle.ranger_combat.attack_presented.connect(_ranger_attack)
+	battle.ranger_combat.kit_presented.connect(_kit_presented)
 	battle.deployment.unit_deployed.connect(_deployed)
 	battle.deployment.unit_removed.connect(_removed)
 	battle.deployment.unit_hit.connect(_ranger_hit)
@@ -193,6 +199,35 @@ func _play(actor: Actor, clip: StringName) -> void:
 	actor.clip = clip
 	actor.phase = 0.0
 	actor.rig.play_state(clip)
+	if actor.companion != null:
+		var companion_clip: StringName = actor.companion_states.get(String(clip), actor.companion.default_state)
+		if actor.companion.player.assigned_animation != companion_clip:
+			actor.companion.play_state(companion_clip)
+
+func _attach_companion(actor: Actor, registration: Dictionary) -> void:
+	if registration.is_empty():
+		return
+	var id := StringName(registration.asset_id)
+	var scene := _assets.rig(_assets.actor(id))
+	var parent := actor.rig.get_node_or_null(registration.parent) as Node2D
+	if scene == null or parent == null:
+		return
+	actor.companion = scene.instantiate() as FirstContactCutout
+	actor.companion.position = FirstContactSkin.vector(registration.attach_offset_units_right)
+	parent.add_child(actor.companion)
+	actor.companion_states = registration.states
+	var parts: Array[Sprite2D] = []
+	var socket := _assets.socket(id, "howl_fx")
+	for bone: Bone2D in actor.companion.find_children("*", "Bone2D", true, false):
+		var part := bone.get_node_or_null("Art") as Sprite2D
+		if part != null:
+			parts.append(part)
+		if not socket.is_empty() and bone.name == StringName(socket[0]):
+			actor.howl_socket = bone
+			actor.howl_offset = FirstContactSkin.vector(socket[1])
+	parts.sort_custom(func(a: Sprite2D, b: Sprite2D) -> bool: return a.z_index < b.z_index)
+	parts.append_array(actor.parts)
+	actor.parts = parts
 
 func _spawned(id: int, kind: StringName) -> void:
 	var scene: PackedScene = RIGS.get(kind)
@@ -227,17 +262,20 @@ func _deployed(unit: DeploymentState.Placement) -> void:
 		_deploy_turret(unit, _turret_rig)
 	else:
 		var scene: PackedScene = _medic_rig if unit.spec.id == FirstContactSkin.MEDIC else RIGS.get(unit.spec.id)
-		if scene == null and full_pack:
-			scene = _assets.rig(_assets.actor(unit.spec.id))
+		var registration := _assets.actor(unit.spec.id)
+		if scene == null and (full_pack or (unit.ranger != null and unit.ranger.has_expanded_field_kit())):
+			scene = _assets.rig(registration)
 		if scene == null:
 			return
 		var actor := _make_actor(scene)
 		actor.unit = unit
 		actor.rig.set_facing(unit.facing)
 		actor.rig.facing_locked = unit.spec.is_melee()
+		_attach_companion(actor, registration.get("companion_attachment", {}))
 		rangers[unit.id] = actor
 		_play(actor, &"Deploy")
-		_effect("deploy_dust", Vector2(unit.anchor), 18)
+		if unit.arrival_tick == 0:
+			_effect("deploy_dust", Vector2(unit.anchor), 18)
 	_board.queue_redraw()
 
 func _removed(unit: DeploymentState.Placement) -> void:
@@ -309,10 +347,12 @@ func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: Strin
 		var bone := actor.bones[effect.socket]
 		var muzzle: Vector2 = actor.rig.get_global_transform().affine_inverse() * (bone.global_transform * effect.socket_offset)
 		effect.origin = Vector2(unit.anchor) + Vector2(0.5, 0.5 + _foot_offset(actor)) + muzzle / 80.0
-	elif full_pack and unit.spec.id != &"ranger.patrolman":
+	elif (full_pack or unit.ranger.has_expanded_field_kit()) and unit.spec.id != &"ranger.patrolman":
 		if not unit.spec.is_melee():
 			actor.rig.set_facing(-1 if position.x < unit.anchor.x else 1)
 		_socket_effect(actor, "enemy_hit", Vector2(unit.anchor), "attack_fx", 18)
+		if unit.spec.id in [&"ranger.k9_ranger", &"ranger.kenyalang_seer"]:
+			_effect("enemy_hit", position, 12)
 	else:
 		var effect := _effect("patrol_strike", Vector2(unit.anchor), 18)
 		var socket: Array = _patrolman_sockets.attack_fx
@@ -350,12 +390,44 @@ func _skill(id: StringName, target: Vector2i) -> void:
 		var cue := "heal" if unit.facility.role == FacilitySpec.Role.MEDIC_CABIN else "wallet_credit"
 		_facility_action(unit, Vector2(target), cue)
 	elif rangers.has(id):
+		if unit.ranger.active_skill.effect in [RangerSkill.Effect.HOWL, RangerSkill.Effect.SCAN]:
+			return
 		var actor := rangers[id]
 		_play(actor, &"Skill")
 		var cue := "patrol_block"
 		if unit.ranger.active_skill.effect == RangerSkill.Effect.EMP_FIELD:
 			cue = "emp"
 		_socket_effect(actor, cue, Vector2(unit.anchor), "attack_fx", 18)
+
+func _kit_presented(unit: DeploymentState.Placement, cell: Vector2, cue: String) -> void:
+	var actor: Actor = rangers.get(unit.id)
+	if actor == null:
+		return
+	match cue:
+		"tracker_net":
+			_play(actor, &"Skill")
+			_socket_effect(actor, "snared", Vector2(unit.anchor), "net_release", 18)
+			_effect("snared", cell, 27)
+		"strike_arrival", "strike_landed":
+			_play(actor, &"Skill" if cue == "strike_arrival" else &"Deploy")
+			_effect("deploy_dust", cell, 18)
+		"strike_impact":
+			_effect("enemy_hit", cell, 22)
+		"interference":
+			if unit.interference_radius > unit.ranger.field_radius:
+				_play(actor, &"Skill")
+			_socket_effect(actor, "emp", cell, "pulse_origin", 21)
+		"marked", "slow_field":
+			_play(actor, &"Skill")
+			var effect := _effect(cue, cell, 25)
+			if cue == "slow_field":
+				effect.attachment = actor.howl_socket
+				effect.socket_offset = actor.howl_offset
+		"boomerang_bounce":
+			_effect("enemy_hit", cell, 14)
+		_:
+			_effect(cue, cell, 24)
+	_board.queue_redraw()
 
 func _socket_effect(actor: Actor, name: String, at: Vector2, cue: String, ticks: int) -> void:
 	var effect := _effect(name, at, ticks)
@@ -503,6 +575,8 @@ func _animate(actor: Actor, seconds: float) -> bool:
 			actor.rig.set_facing(1 if x > actor.last_x else -1)
 		actor.last_x = x
 	actor.rig.advance_combat(seconds)
+	if actor.companion != null:
+		actor.companion.advance_combat(seconds)
 	var player: AnimationPlayer = actor.rig.player
 	if actor.terminal:
 		if actor.phase >= player.get_animation(actor.clip).length:
@@ -691,13 +765,16 @@ func draw_actors() -> void:
 	for actor: Actor in drawn:
 		if not is_instance_valid(actor.rig) or actor.rig.is_queued_for_deletion():
 			continue
+		if not actor.terminal and actor.unit != null and actor.unit.arrival_tick > 0:
+			_draw_arrival(actor)
+			continue
 		var alpha := 1.0
 		if full_pack and actor.enemy != null and not actor.enemy.is_targetable(_battle.clock.tick):
 			alpha = 0.5
 		if actor.terminal and actor.clip != &"Captured":
 			alpha = 1.0 - clampf(actor.phase / actor.rig.player.get_animation(actor.clip).length, 0.0, 1.0)
 		for part: Sprite2D in actor.parts:
-			if not full_pack or _part_visible(part, actor.rig):
+			if (not full_pack and actor.companion == null) or _part_visible(part, actor.rig):
 				_board.draw_set_transform_matrix(local * part.global_transform)
 				_board.draw_texture(part.texture, Vector2.ZERO, Color(1, 1, 1, alpha) * part.self_modulate)
 		_board.draw_set_transform(Vector2.ZERO)
@@ -728,6 +805,16 @@ func draw_actors() -> void:
 	else:
 		_woodland(2)
 
+func _draw_arrival(actor: Actor) -> void:
+	var center := _center(Vector2(actor.unit.anchor) + Vector2(0.5, 0))
+	var remaining := actor.unit.arrival_tick - _battle.clock.tick
+	var seconds := ceili(float(remaining) / CombatClock.TICKS_PER_SECOND)
+	var text := "Incoming %ds" % seconds
+	var font := ThemeDB.fallback_font
+	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	_board.draw_rect(Rect2(center - Vector2(width * 0.5 + 5, 11), Vector2(width + 10, 23)), Color(0.13, 0.2, 0.17, 0.94))
+	_board.draw_string(font, center + Vector2(-width * 0.5, 5), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.PALE_GOLDENROD)
+
 func _part_visible(part: Node2D, root: Node2D) -> bool:
 	var node := part
 	while node != root:
@@ -749,6 +836,10 @@ func _draw_status_art(actor: Actor, scale_px: float) -> void:
 			cues.append("stunned")
 		elif enemy.immobilized_until > tick:
 			cues.append("snared")
+		if enemy.tech_interference_until > tick:
+			cues.append("emp")
+		if enemy.howl_slow_until > tick:
+			cues.append("slow_field")
 		if enemy.definition.heat_per_second + enemy.phase_heat_bonus > 0:
 			_fx("heat_smoke", actor.rig.position - Vector2(0, scale_px * 0.70), 0.54)
 	else:
@@ -790,6 +881,8 @@ func _draw_effects() -> void:
 			if not is_instance_valid(effect.actor.rig) or effect.actor.rig.is_queued_for_deletion():
 				continue
 			at = socket_position(effect.actor, effect.socket, effect.socket_offset)
+		if is_instance_valid(effect.attachment):
+			at = _board.get_global_transform().affine_inverse() * (effect.attachment.global_transform * effect.socket_offset)
 		if effect.name == "shot":
 			var end := _center(effect.target)
 			var start: Vector2 = _board.grid_origin() + effect.origin * _board.tile_size()
@@ -818,7 +911,7 @@ func _paint_healing(center: Vector2, width: float) -> void:
 	_board.draw_texture_rect(HEAL, Rect2(center - extent * 0.5, extent), false)
 
 func _fx(id: String, center: Vector2, width: float, turn := 0.0) -> void:
-	var texture := _assets.effect(id) if full_pack else null
+	var texture := _assets.effect(id) if full_pack or id in ["snared", "marked", "slow_field", "emp", "wallet_credit"] else null
 	if texture == null:
 		texture = _skin.try_region("effects", id)
 	if texture == null:

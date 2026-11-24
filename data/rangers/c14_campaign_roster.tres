@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DeploymentRoster" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="DeploymentRoster" load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/deployment_roster.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/deployment_spec.gd" id="2"]
@@ -9,7 +9,12 @@
 [ext_resource type="Resource" path="res://data/rangers/barricade_ops.tres" id="7"]
 [ext_resource type="Resource" path="res://data/rangers/outpost_mechanic.tres" id="8"]
 [ext_resource type="Resource" path="res://data/rangers/crowd_controller.tres" id="9"]
+[ext_resource type="Resource" path="res://data/rangers/k9_ranger.tres" id="10"]
+[ext_resource type="Resource" path="res://data/rangers/kenyalang_seer.tres" id="11"]
+[ext_resource type="Resource" path="res://data/rangers/woods_tracker.tres" id="12"]
+[ext_resource type="Resource" path="res://data/rangers/saboteurist.tres" id="13"]
+[ext_resource type="Resource" path="res://data/rangers/strike_team.tres" id="14"]
 
 [resource]
 script = ExtResource("1")
-entries = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9")])
+entries = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9"), ExtResource("10"), ExtResource("11"), ExtResource("12"), ExtResource("13"), ExtResource("14")])

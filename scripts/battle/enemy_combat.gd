@@ -5,7 +5,7 @@ signal hit(enemy: BattleEnemy, target: StringName, kind: EnemyAttackProfile.Kind
 
 func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: FacilityCombat, tick: int) -> void:
 	var profile := enemy.definition.attack_profile
-	if profile == null or tick < enemy.stunned_until:
+	if profile == null or tick < maxi(enemy.stunned_until, enemy.tech_interference_until):
 		return
 	if not enemy.aim_target.is_empty():
 		if tick >= enemy.fire_tick:
@@ -38,7 +38,7 @@ func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: Facili
 		_hit(enemy, best, tick)
 
 func _distance_to(cell: Vector2i, unit: DeploymentState.Placement, profile: EnemyAttackProfile) -> int:
-	if unit != null and DeploymentState.accepts_hit(unit.spec, profile.kind):
+	if unit != null and unit.arrival_tick == 0 and DeploymentState.accepts_hit(unit.spec, profile.kind):
 		return unit.distance_to(cell)
 	return profile.radius + 1
 

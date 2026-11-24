@@ -10,6 +10,8 @@ signal skill_fired(unit_id: StringName, target: Vector2i)
 signal unit_deployed(unit: Placement)
 signal unit_removed(unit: Placement)
 signal unit_hit(unit: Placement)
+signal ranger_committed(unit: Placement)
+signal ranger_withdrew(unit: Placement)
 signal post_paid(unit: Placement)
 
 const NO_CELL := Vector2i(-1, -1)
@@ -20,6 +22,10 @@ class Placement:
 	var ranger: RangerSpec
 	var facility: FacilitySpec
 	var stock := 0
+	var arrival_tick := 0
+	var arrival_rank := 0
+	var net_landed := false
+	var interference_radius := 0
 	var next_utility_tick := 0
 	var records_enhanced: bool
 	var skill_charges := 0
@@ -90,7 +96,7 @@ class Placement:
 		basic_interval_ticks = interval
 
 	func can_act(tick: int) -> bool:
-		return tick >= maxi(entangled_until, knocked_down_until)
+		return arrival_tick == 0 and tick >= maxi(entangled_until, knocked_down_until)
 
 	func attack_rate(tick: int) -> float:
 		return attack_rate_scale if tick < attack_slow_until else 1.0
@@ -118,6 +124,7 @@ var last_skill_error := ""
 var _ready_tick: Dictionary[StringName, int] = {}
 var _deployment_counts: Dictionary[StringName, int] = {}
 var _enhancements: Array[StringName]
+var _strike_rank := 0
 
 func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, opening: LogisticsRules = null, enhancements: Array[StringName] = [], modifiers: BattleModifiers = null) -> void:
 	map = board
@@ -130,7 +137,15 @@ func _init(board: BattleMap, battle_clock: CombatClock, preview_budget := 0, ope
 
 func cost_for(spec: DeploymentSpec) -> int:
 	if not spec.logistics_post:
-		return maxi(0, spec.cost - specialist_discount) if _is_specialist(spec) else spec.cost
+		if not _is_specialist(spec):
+			return spec.cost
+		var ranger := spec as RangerSpec
+		var cost := spec.cost
+		if ranger.field_kit == RangerSpec.FieldKit.STRIKE and _strike_rank > 0:
+			var definition := DeployableLevels.definition(spec.id)
+			var base := definition.cost if definition != null else spec.cost
+			cost += effects.ranger_cost(base + _strike_rank * ranger.arrival_cost_step) - effects.ranger_cost(base)
+		return maxi(0, cost - specialist_discount)
 	if posts_deployed == 0:
 		return 0
 	return rules.later_post_base_cost + (posts_deployed - 1) * rules.later_post_cost_step
@@ -151,7 +166,7 @@ func build_ticks_left(id: StringName) -> int:
 
 func has_legal_opening(entries: Array[DeploymentSpec]) -> bool:
 	for spec in entries:
-		var cells := map.ground if spec.is_melee() else map.elevated
+		var cells := map.ground if spec.uses_ground() else map.elevated
 		for cell in cells:
 			if placement_error(spec, cell).is_empty():
 				return true
@@ -206,7 +221,7 @@ func placement_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 
 func footprint_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 	var bounds := Rect2i(Vector2i.ZERO, map.size)
-	var required := BattleMap.Tile.GROUND if spec.is_melee() else BattleMap.Tile.ELEVATED
+	var required := BattleMap.Tile.GROUND if spec.uses_ground() else BattleMap.Tile.ELEVATED
 	var tower := _mountable_tower(spec, anchor)
 	for cell in spec.footprint(anchor):
 		if not bounds.has_point(cell):
@@ -216,7 +231,7 @@ func footprint_error(spec: DeploymentSpec, anchor: Vector2i) -> String:
 		if map.tile_at(cell) != required:
 			if spec.kind == DeploymentSpec.Kind.FACILITY_PAIR:
 				return "Needs two adjacent elevated tiles."
-			return "Ground tiles required." if spec.is_melee() else "Elevated tiles required."
+			return "Ground tiles required." if spec.uses_ground() else "Elevated tiles required."
 	for cell in spec.reserved(anchor):
 		if not bounds.has_point(cell) or cell in map.spawns or cell == map.tunnel or occupancy.has(cell):
 			return "The clearance cell above is unavailable."
@@ -240,6 +255,9 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 	unit.id = id
 	if spec.is_ranger():
 		unit.brace_charges = int(effects.amount(&"brace_charges"))
+		if unit.ranger != null and unit.ranger.arrival_seconds > 0.0:
+			unit.arrival_tick = clock.tick + CombatClock.ticks_for(unit.ranger.arrival_seconds)
+			unit.arrival_rank = _strike_rank
 	if effects.amount(&"disable_skills") > 0:
 		unit.skill_charges = 0
 	var tower := _mountable_tower(spec, anchor)
@@ -258,6 +276,8 @@ func deploy(spec: DeploymentSpec, anchor: Vector2i, facing: int) -> String:
 		_ready_tick[spec.id] = clock.tick + _redeploy_ticks(seconds)
 	cancel_skill()
 	unit_deployed.emit(unit)
+	if unit.ranger != null:
+		ranger_committed.emit(unit)
 	return ""
 
 func interaction_id(cell: Vector2i) -> StringName:
@@ -311,6 +331,10 @@ func retreat(id: StringName) -> bool:
 	_release_cells(id, unit)
 	var type_id := unit.spec.id
 	_ready_tick[type_id] = maxi(_ready_tick.get(type_id, 0), clock.tick + _redeploy_ticks(unit.spec.redeploy_seconds))
+	if unit.hp > 0 and unit.ranger != null:
+		if unit.ranger.field_kit == RangerSpec.FieldKit.STRIKE:
+			_strike_rank = mini(_strike_rank + 1, unit.ranger.arrival_max_escalations)
+		ranger_withdrew.emit(unit)
 	return true
 
 func _redeploy_ticks(seconds: float) -> int:
@@ -320,11 +344,11 @@ func _redeploy_ticks(seconds: float) -> int:
 static func accepts_hit(spec: DeploymentSpec, kind: EnemyAttackProfile.Kind) -> bool:
 	if not spec.is_ranger():
 		return kind == EnemyAttackProfile.Kind.SIEGE
-	return kind != EnemyAttackProfile.Kind.SIEGE and (kind != EnemyAttackProfile.Kind.MELEE or spec.is_melee())
+	return kind != EnemyAttackProfile.Kind.SIEGE and (kind != EnemyAttackProfile.Kind.MELEE or spec.uses_ground())
 
 func receive_hit(id: StringName, damage: int, kind: EnemyAttackProfile.Kind) -> bool:
 	var unit: Placement = placed.get(id)
-	if not clock.is_running() or damage <= 0 or unit == null or not accepts_hit(unit.spec, kind):
+	if not clock.is_running() or damage <= 0 or unit == null or unit.arrival_tick > 0 or not accepts_hit(unit.spec, kind):
 		return false
 	unit.hp = maxi(0, unit.hp - damage)
 	if unit.hp == 0:

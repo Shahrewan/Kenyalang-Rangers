@@ -4,6 +4,7 @@ extends RefCounted
 signal hit(enemy_id: int, damage: int, attacker: DeploymentState.Placement)
 signal attack_presented(unit: DeploymentState.Placement, target_id: int, clip: StringName)
 signal healing_presented(medic: DeploymentState.Placement, target: Vector2i)
+signal kit_presented(unit: DeploymentState.Placement, cell: Vector2, cue: String)
 
 class SlowField:
 	var area: Rect2i
@@ -27,7 +28,7 @@ func expire_fields(tick: int) -> void:
 func movement_scale(enemy: BattleEnemy, tick: int) -> float:
 	if tick < maxi(enemy.immobilized_until, enemy.stunned_until):
 		return 0.0
-	var scale := 1.0
+	var scale := enemy.howl_speed_scale if tick < enemy.howl_slow_until else 1.0
 	if not fields.is_empty():
 		var cell := enemy.grid_cell()
 		for field in fields:
@@ -53,6 +54,20 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 		match ranger.attack_pattern:
 			RangerSpec.AttackPattern.FRONTAL:
 				victims = candidates
+			RangerSpec.AttackPattern.BOUNCE:
+				var remaining: Array[int] = []
+				for id: int in _enemies:
+					var enemy := _enemies[id]
+					if id != primary and enemy.is_targetable(tick) and (not enemy.definition.aerial or unit.spec.targets_aerial):
+						remaining.append(id)
+				for jump in 2:
+					var origin_id := victims.back() as int
+					var in_reach := _inside(remaining, _square(_enemies[origin_id].grid_cell(), ranger.bounce_radius))
+					if in_reach.is_empty():
+						break
+					var next := _leading(in_reach)
+					victims.append(next)
+					remaining.erase(next)
 			RangerSpec.AttackPattern.SPLASH:
 				var area := _square(_enemies[primary].grid_cell(), ranger.splash_radius)
 				victims = _inside(candidates, area)
@@ -61,7 +76,9 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 	for id in victims:
 		if not _clock.is_running():
 			return
-		var enemy := _enemies[id]
+		var enemy: BattleEnemy = _enemies.get(id)
+		if enemy == null:
+			continue
 		var bonus := 0
 		var counter_damage := 0
 		if ranger != null:
@@ -71,6 +88,8 @@ func basic_attack(unit: DeploymentState.Placement, deployment: DeploymentState, 
 				bonus += ranger.focused_damage_bonus_percent
 			if unit.records_enhanced and ranger.records_counter_damage > 0 and _attacks(enemy, unit, tick):
 				counter_damage = ranger.records_counter_damage
+		if ranger != null and ranger.attack_pattern == RangerSpec.AttackPattern.BOUNCE and id != primary:
+			kit_presented.emit(unit, enemy.grid_position(), "boomerang_bounce")
 		hit.emit(id, roundi(unit.spec.attack_damage * (100 + bonus) / 100.0) + counter_damage, unit)
 
 func _attacks(enemy: BattleEnemy, unit: DeploymentState.Placement, tick: int) -> bool:
@@ -99,6 +118,8 @@ func use_skill(unit: DeploymentState.Placement, target: Vector2i, deployment: De
 		return _treat(target, deployment, skill.healing)
 	if skill.effect == RangerSkill.Effect.SCAN:
 		return _scan(unit, deployment, skill)
+	if skill.effect == RangerSkill.Effect.HOWL:
+		return _howl(unit, skill)
 	var candidates := _candidates(unit, deployment)
 	if candidates.is_empty():
 		return "No eligible enemy in range."
@@ -149,25 +170,148 @@ func _treat(cell: Vector2i, deployment: DeploymentState, healing: int) -> String
 	return ""
 
 func _scan(unit: DeploymentState.Placement, deployment: DeploymentState, skill: RangerSkill) -> String:
-	var target: BattleEnemy
-	for enemy: BattleEnemy in _enemies.values():
-		if not deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
-			continue
-		if target == null or enemy.definition.danger > target.definition.danger:
-			target = enemy
-		elif enemy.definition.danger == target.definition.danger and enemy.distance > target.distance:
-			target = enemy
-	if target == null:
+	var candidates: Array[int] = []
+	for id: int in _enemies:
+		var enemy := _enemies[id]
+		if deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
+			candidates.append(id)
+	if candidates.is_empty():
 		return "No enemy in scan range."
+	var target := _enemies[_highest_danger(candidates)]
 	var until := _clock.tick + CombatClock.ticks_for(skill.status_seconds)
 	target.revealed_until = maxi(target.revealed_until, until)
 	target.add_damage_mark(_clock.tick, until, skill.mark_damage_percent)
+	kit_presented.emit(unit, target.grid_position(), "marked")
 	return ""
+
+func _howl(unit: DeploymentState.Placement, skill: RangerSkill) -> String:
+	var area := _square(unit.anchor, unit.spec.attack_range)
+	var affected := false
+	var until := _clock.tick + CombatClock.ticks_for(skill.status_seconds)
+	for enemy: BattleEnemy in _enemies.values():
+		if not area.has_point(enemy.grid_cell()):
+			continue
+		enemy.revealed_until = maxi(enemy.revealed_until, until)
+		enemy.howl_slow_until = maxi(enemy.howl_slow_until, until)
+		enemy.howl_speed_scale = skill.field_speed_scale
+		affected = true
+	if not affected:
+		return "No enemy in howl range."
+	kit_presented.emit(unit, Vector2(unit.anchor), "slow_field")
+	return ""
+
+func committed(unit: DeploymentState.Placement) -> void:
+	match unit.ranger.field_kit:
+		RangerSpec.FieldKit.TRACKER:
+			var ids := _visible_ground()
+			if ids.is_empty():
+				return
+			var center := _highest_danger(ids)
+			var target := _enemies[center]
+			var area := _square(target.grid_cell(), unit.ranger.field_radius)
+			var until := _clock.tick + CombatClock.ticks_for(unit.ranger.field_status_seconds)
+			for id in _inside(ids, area):
+				_enemies[id].immobilized_until = maxi(_enemies[id].immobilized_until, until)
+			unit.net_landed = true
+			kit_presented.emit(unit, target.grid_position(), "tracker_net")
+			hit.emit(center, unit.ranger.field_damage, unit)
+		RangerSpec.FieldKit.SABOTEUR:
+			_interference_pulse(unit, _clock.tick)
+
+func withdrew(unit: DeploymentState.Placement, deployment: DeploymentState) -> void:
+	var ranger := unit.ranger
+	match ranger.field_kit:
+		RangerSpec.FieldKit.TRACKER:
+			if unit.net_landed:
+				_refund(unit, deployment)
+				deployment.reduce_deployment_cooldowns(CombatClock.ticks_for(ranger.retreat_cooldown_reduction_seconds))
+				kit_presented.emit(unit, Vector2(unit.anchor), "wallet_credit")
+		RangerSpec.FieldKit.SABOTEUR:
+			_refund(unit, deployment)
+			kit_presented.emit(unit, Vector2(unit.anchor), "emp")
+			var area := _square(unit.anchor, ranger.field_radius)
+			var until := _clock.tick + CombatClock.ticks_for(ranger.field_status_seconds)
+			for id in _inside(_enemy_ids(), area):
+				var enemy: BattleEnemy = _enemies.get(id)
+				if not _clock.is_running():
+					break
+				if enemy == null:
+					continue
+				if enemy.definition.technological:
+					enemy.stunned_until = maxi(enemy.stunned_until, until)
+				hit.emit(id, ranger.field_damage, unit)
+
+func _refund(unit: DeploymentState.Placement, deployment: DeploymentState) -> void:
+	deployment.tokens += floori(unit.paid_cost * unit.ranger.retreat_refund_percent / 100.0)
+
+func advance_kits(deployment: DeploymentState, tick: int) -> void:
+	for unit: DeploymentState.Placement in deployment.placed.values():
+		if not _clock.is_running():
+			return
+		if unit.ranger == null:
+			continue
+		match unit.ranger.field_kit:
+			RangerSpec.FieldKit.STRIKE:
+				if unit.arrival_tick > 0 and tick >= unit.arrival_tick:
+					_arrive(unit)
+			RangerSpec.FieldKit.SABOTEUR:
+				if tick >= unit.next_utility_tick:
+					_interference_pulse(unit, tick)
+
+func _arrive(unit: DeploymentState.Placement) -> void:
+	unit.arrival_tick = 0
+	var ranger := unit.ranger
+	var candidates := _visible_ground()
+	var damage := ranger.field_damage + unit.arrival_rank * ranger.arrival_damage_step
+	var cue := "strike_landed" if candidates.is_empty() else "strike_arrival"
+	kit_presented.emit(unit, Vector2(unit.anchor), cue)
+	unit.next_attack_tick = _clock.tick + CombatClock.ticks_for(ranger.attack_seconds)
+	for strike in mini(unit.arrival_rank + 1, candidates.size()):
+		if not _clock.is_running():
+			break
+		var target := _highest_danger(candidates)
+		candidates.erase(target)
+		kit_presented.emit(unit, _enemies[target].grid_position(), "strike_impact")
+		hit.emit(target, damage, unit)
+
+func _interference_pulse(unit: DeploymentState.Placement, tick: int) -> void:
+	var interval := CombatClock.ticks_for(unit.ranger.pulse_seconds)
+	unit.next_utility_tick = tick + interval
+	unit.interference_radius = maxi(unit.ranger.field_radius, unit.interference_radius + 1)
+	var area := _square(unit.anchor, unit.interference_radius)
+	for enemy: BattleEnemy in _enemies.values():
+		if enemy.definition.technological and area.has_point(enemy.grid_cell()):
+			enemy.tech_interference_until = maxi(enemy.tech_interference_until, unit.next_utility_tick)
+	kit_presented.emit(unit, Vector2(unit.anchor), "interference")
+
+func _enemy_ids() -> Array[int]:
+	var ids: Array[int] = []
+	ids.assign(_enemies.keys())
+	return ids
+
+func _visible_ground() -> Array[int]:
+	var result: Array[int] = []
+	for id: int in _enemies:
+		var enemy := _enemies[id]
+		if not enemy.definition.aerial and enemy.is_targetable(_clock.tick):
+			result.append(id)
+	return result
+
+func _highest_danger(ids: Array[int]) -> int:
+	var chosen := ids.front() as int
+	for id in ids:
+		var enemy := _enemies[id]
+		var best := _enemies[chosen]
+		if enemy.definition.danger > best.definition.danger or (enemy.definition.danger == best.definition.danger and enemy.distance > best.distance):
+			chosen = id
+	return chosen
 
 func _candidates(unit: DeploymentState.Placement, deployment: DeploymentState) -> Array[int]:
 	var result: Array[int] = []
 	for id: int in _enemies:
 		var enemy := _enemies[id]
+		if unit.ranger != null and unit.ranger.technological_only and not enemy.definition.technological:
+			continue
 		if enemy.is_targetable(_clock.tick) and deployment.can_attack(unit, enemy.grid_cell(), enemy.definition.aerial):
 			result.append(id)
 	return result

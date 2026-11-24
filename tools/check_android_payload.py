@@ -35,6 +35,7 @@ def main():
     parser.add_argument("--campaign-visuals", action="store_true", help="Check all live Ranger and Facility rigs and W29 resources")
     parser.add_argument("--combat-balance", action="store_true", help="Verify C30 damage, live skill state and cooldowns from the exported pack")
     parser.add_argument("--skill-orbs", action="store_true", help="Check C31 orb geometry and live skill states from the exported pack")
+    parser.add_argument("--ranger-kits", action="store_true", help="Run C31-B Ranger gameplay and save checks from the exported pack")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -76,6 +77,8 @@ def main():
             runners += ("c30_combat_test",)
         if args.skill_orbs:
             runners += ("c31_skill_orb_test",)
+        if args.ranger_kits:
+            runners += ("c31_b_ranger_kits_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}

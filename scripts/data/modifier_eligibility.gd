@@ -38,7 +38,7 @@ func _init(stage: BattleStage, entries: Array[DeploymentSpec], state: Deployment
 		if populated:
 			_waves.append(wave)
 	for spec in entries:
-		var cells := stage.map.ground if spec.is_melee() else stage.map.elevated
+		var cells := stage.map.ground if spec.uses_ground() else stage.map.elevated
 		var anchors: Array[Vector2i] = cells.filter(func(cell: Vector2i) -> bool: return state.footprint_error(spec, cell).is_empty())
 		if anchors.is_empty():
 			continue
@@ -166,6 +166,8 @@ func _reachable_enemy(spec: DeploymentSpec, within: Array[Vector2i] = []) -> boo
 		if spec.is_melee():
 			covered.append_array(_state.coverage(spec, anchor, 1))
 		for item in _encounters:
+			if spec is RangerSpec and spec.technological_only and not item.enemy.technological:
+				continue
 			if item.enemy.aerial and (spec.is_melee() or not spec.targets_aerial):
 				continue
 			for cell in item.route.cells:

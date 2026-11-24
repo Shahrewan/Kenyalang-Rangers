@@ -25,9 +25,7 @@ func _initialize() -> void:
 			_check(reachable or supply.has(spec.id), "%s has a permanent or mission supply source" % spec.id)
 			if not reachable:
 				print("SUPPLY ONLY ", spec.id)
-			if DeployableLevels.pending_kit(spec.id):
-				print("PENDING FIELD KIT ", spec.id)
-			_check(content.has_combat_kit(spec.id) == (not DeployableLevels.pending_kit(spec.id)), "%s field-kit availability matches roster" % spec.id)
+			_check(content.has_combat_kit(spec.id), "%s field kit is in the live roster" % spec.id)
 			var total := 0
 			var consistent := true
 			for level in range(1, 100):

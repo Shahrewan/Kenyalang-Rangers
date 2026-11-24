@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="RangerSpec" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+
+[sub_resource type="Resource" id="Howl"]
+script = ExtResource("2")
+label = "Howl"
+effect = 5
+recharge_seconds = 12.0
+status_seconds = 4.0
+field_speed_scale = 0.5
+
+[resource]
+script = ExtResource("1")
+id = &"ranger.k9_ranger"
+label = "K9 Ranger"
+ranger_class = 1
+kind = 0
+max_hp = 230
+attack_damage = 12
+attack_seconds = 1.7
+recruitment_stage = &"C2-01"
+cost = 14
+redeploy_seconds = 30.0
+ground_ranged = true
+block_capacity = 1
+attack_range = 2
+skill = 1
+active_skill = SubResource("Howl")

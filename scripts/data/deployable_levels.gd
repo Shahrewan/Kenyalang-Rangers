@@ -5,21 +5,17 @@ const MAX_LEVEL := 100
 const TOTAL_COST := 1000000
 const MILESTONES := [20, 40, 60, 80, 100]
 const FIELD_RANGERS := preload("res://data/rangers/c14_campaign_roster.tres")
-const PENDING_RANGERS := preload("res://data/rangers/pending_upgrade_roster.tres")
 const FACILITIES := preload("res://data/facilities/catalog.tres")
 
 static func catalog(rangers: bool) -> Array[DeploymentSpec]:
-	return FIELD_RANGERS.entries + PENDING_RANGERS.entries if rangers else FACILITIES.entries.duplicate()
+	return FIELD_RANGERS.entries.duplicate() if rangers else FACILITIES.entries.duplicate()
 
 static func definition(id: StringName) -> DeploymentSpec:
-	for roster in [FIELD_RANGERS, PENDING_RANGERS, FACILITIES]:
+	for roster in [FIELD_RANGERS, FACILITIES]:
 		for entry: DeploymentSpec in roster.entries:
 			if entry.id == id:
 				return entry
 	return null
-
-static func pending_kit(id: StringName) -> bool:
-	return PENDING_RANGERS.entries.any(func(entry: DeploymentSpec) -> bool: return entry.id == id)
 
 static func cumulative(level: int) -> int:
 	var x := _fraction(level)
