@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="160" height="160" viewBox="0 0 160 160" stroke-linejoin="round" stroke-linecap="round">
+  <title>Bronze field compass</title>
+  <g id="foot" inkscape:groupmode="layer" inkscape:label="Foot">
+<path d="M66 100H94V125H111V133H49V125H66Z" fill="#866a4d" stroke="#302721" stroke-width="4" />
+  </g>  <g id="crest" inkscape:groupmode="layer" inkscape:label="Crest">
+<ellipse cx="80" cy="67" rx="36" ry="36" fill="#ba7c53" stroke="#302721" stroke-width="4.5" /><ellipse cx="80" cy="67" rx="26" ry="26" fill="#f2c08e" stroke="#785348" stroke-width="2.3" /><path d="M91 42L88 70L69 92L72 64Z" fill="#8e654f" stroke="#302721" stroke-width="2.6" /><path d="M91 42L80 67L72 64Z" fill="#f4e8cf" stroke="#302721" stroke-width="1.6" />
+  </g>
+</svg>

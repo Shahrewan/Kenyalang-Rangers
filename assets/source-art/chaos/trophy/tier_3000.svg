@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="160" height="160" viewBox="0 0 160 160" stroke-linejoin="round" stroke-linecap="round">
+  <title>Gold hornbill trophy</title>
+  <g id="foot" inkscape:groupmode="layer" inkscape:label="Foot">
+<path d="M66 100H94V125H111V133H49V125H66Z" fill="#866a4d" stroke="#302721" stroke-width="4" />
+  </g>  <g id="crest" inkscape:groupmode="layer" inkscape:label="Crest">
+<path d="M42 94Q54 85 60 75L62 50Q64 39 79 36Q87 28 92 26Q107 24 114 34Q122 38 124 51L118 50Q130 51 137 63Q114 57 104 63Q107 72 104 81Q99 93 86 97L78 112Q73 116 67 112L70 99Z" fill="#dca553" stroke="#302721" stroke-width="4" /><path d="M64 72Q72 67 78 73Q83 79 93 74Q88 87 79 89L69 88Z" fill="#eed8aa" stroke="#302721" stroke-width="2" /><path d="M88 38Q98 37 112 36L121 46L103 47Z" fill="#a96243" stroke="#302721" stroke-width="2.0" /><rect x="92" y="48" width="5" height="7" rx="2.5" fill="#302721" stroke="none" stroke-width="1" /><path d="M42 95H108" fill="none" stroke="#93693a" stroke-width="2.8" />
+  </g>
+</svg>

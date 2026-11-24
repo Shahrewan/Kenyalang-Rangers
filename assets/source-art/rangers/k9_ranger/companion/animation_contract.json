@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "asset_id": "companion.k9_ranger.dog",
+  "sampling_fps": 60,
+  "default": "Idle",
+  "clock": "Advance with the handler's combat clock delta.",
+  "states": {
+    "Idle": {
+      "playback": "loop",
+      "event": "Stationary beside the handler",
+      "keys": [
+        [
+          0,
+          0,
+          {
+            "tail": -8
+          }
+        ],
+        [
+          0.5,
+          0,
+          {
+            "tail": 8,
+            "head": 1.7
+          }
+        ],
+        [
+          1.0,
+          0,
+          {
+            "tail": -8
+          }
+        ]
+      ]
+    },
+    "Move": {
+      "playback": "loop",
+      "event": "Visual arrival or exit trot",
+      "keys": [
+        [
+          0,
+          0,
+          {
+            "leg_near_rear": -16,
+            "leg_near_front": 14,
+            "tail": 5
+          }
+        ],
+        [
+          0.2,
+          -1,
+          {
+            "leg_far_rear": 14,
+            "leg_far_front": -13,
+            "tail": -4
+          }
+        ],
+        [
+          0.4,
+          0,
+          {
+            "leg_near_rear": -16,
+            "leg_near_front": 14,
+            "tail": 5
+          }
+        ]
+      ]
+    },
+    "Howl": {
+      "playback": "return",
+      "next": "Idle",
+      "event": "Handler reveal and slow cue",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.14,
+          0,
+          {
+            "head": -12,
+            "tail": -10
+          }
+        ],
+        [
+          0.38,
+          0,
+          {
+            "head": -22,
+            "tail": -16
+          }
+        ],
+        [
+          0.62,
+          0,
+          {}
+        ]
+      ],
+      "accent": {
+        "socket": "howl_fx",
+        "preview_seconds": 0.38
+      }
+    },
+    "Down": {
+      "playback": "hold",
+      "event": "Handler forced loss",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.4,
+          1.5,
+          {
+            "head": 16,
+            "tail": 36,
+            "leg_far_rear": 10,
+            "leg_near_front": -11
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="448" height="448" viewBox="0 0 448 448" stroke-linejoin="round" stroke-linecap="round">
+  <title>Poacher Leader · Confronting</title>
+  <g id="clothing" inkscape:groupmode="layer" inkscape:label="Clothing">
+<path d="M83 436L89 341Q101 255 158 233L276 230Q330 245 350 321L366 439Z" fill="#73382f" stroke="#332820" stroke-width="9" /><path d="M139 273L123 435H89L96 341Q105 283 139 273ZM300 259Q339 272 345 321L363 438H311L306 364Z" fill="#533831" stroke="#332820" stroke-width="6" /><path d="M182 232Q207 221 240 225L258 265L224 294L188 269Z" fill="#f1bc99" stroke="#332820" stroke-width="7" /><path d="M149 246L184 236L220 284L243 234L277 240L291 276L257 267L222 308L191 278L165 283Z" fill="#533831" stroke="#332820" stroke-width="7" /><path d="M139 417Q203 421 306 417L307 437H138Z" fill="#665040" stroke="#332820" stroke-width="5" /><path d="M172 303L191 279L219 307L218 410H149L153 351Z" fill="#c09966" stroke="none" stroke-width="1" opacity=".25"/><path d="M263 283Q286 291 299 311L302 406H256Z" fill="#c09966" stroke="none" stroke-width="1" opacity=".15"/>
+  </g>  <g id="equipment" inkscape:groupmode="layer" inkscape:label="Equipment">
+<path d="M139 258L170 247L176 320L221 399L186 429H125L132 332Z" fill="#823c34" stroke="#332820" stroke-width="6" /><path d="M277 247L321 266L328 296L304 288L277 306L254 290Z" fill="#c09966" stroke="#332820" stroke-width="6" /><path d="M210 294L229 309L211 331L192 313Z" fill="#aa8155" stroke="#332820" stroke-width="5" /><path d="M311 319V408M294 373H329" fill="none" stroke="#ae8061" stroke-width="5.5" />
+  </g>  <g id="head" inkscape:groupmode="layer" inkscape:label="Head">
+<image xlink:href="../../../imported/bosses/poacher_leader/head.png" x="86" y="32" width="273" height="238" preserveAspectRatio="xMidYMax meet"/>
+  </g>  <g id="gesture" inkscape:groupmode="layer" inkscape:label="Gesture">
+<path d="M104 358Q111 345 129 348Q146 353 152 366L162 404Q162 427 141 431Q121 431 113 412Z" fill="#f1bc99" stroke="#332820" stroke-width="7" /><path d="M322 346Q337 342 347 355L359 393Q359 421 338 430Q319 431 310 405L311 373Z" fill="#f1bc99" stroke="#332820" stroke-width="7" /><path d="M137 385L141 405M335 380L341 398" fill="none" stroke="#cc936f" stroke-width="3" />
+  </g>
+</svg>

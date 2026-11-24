@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.1.0",
+  "asset_id": "facility.ranger_coordination_hub",
+  "display_name": "Ranger Coordination Hub",
+  "status": "unbound_presentation_asset",
+  "source": "res://assets/source-art/facilities/ranger_coordination_hub/master.svg",
+  "source_sha256": "c9a690f1c40569a65d4cc0f3efcd5bec9f119374a9b1ef75a0347ff0d341ef5b",
+  "provenance": "Original vector redraw for Kenyalang Rangers, W29, based on W08 facilities.png and the C28-A crate/radio, sage terrain and ink palette.",
+  "permission_review": "D-014 pending final shipping sign-off.",
+  "canon_refs": [
+    "SimSimi pp. 15–17 § J",
+    "Storyboard pp. 17, 28–29, 66, 69, 127"
+  ],
+  "readability_cue": "sloped map and Ranger pennant",
+  "canvas_units": [
+    160,
+    80
+  ],
+  "pixels_per_unit": 4,
+  "tile_units": 80,
+  "footprint_cells": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "reserved_cells": [],
+  "canvas_origin_from_occupied_cell_top_left_units": [
+    0,
+    0
+  ],
+  "base_anchor_canvas_units": [
+    80,
+    67
+  ],
+  "anchor_from_occupied_cell_top_left_units": [
+    80,
+    67
+  ],
+  "ready_alpha_bounds_canvas_px_xyxy": [
+    36,
+    41,
+    603,
+    287
+  ],
+  "world_scale": "One scalar tile_size()/80 for both axes. Place root at tile origin plus anchor_from_occupied_cell_top_left_units times scalar.",
+  "portrait_scale": "Fit uniformly inside card art area. The badge already has transparent square padding.",
+  "mount_socket_canvas_units": null,
+  "parts": [
+    {
+      "id": "base",
+      "parent": null,
+      "draw_order": 0,
+      "texture": "res://assets/imported/facilities/ranger_coordination_hub/base.png",
+      "sha256": "81dbc465353cfc214cb657d2689acd37c03343a358e94c930a83afc807352205",
+      "origin_png_px": [
+        32,
+        205
+      ],
+      "size_px": [
+        575,
+        86
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        36,
+        209,
+        603,
+        287
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        288,
+        63
+      ]
+    },
+    {
+      "id": "body",
+      "parent": "base",
+      "draw_order": 1,
+      "texture": "res://assets/imported/facilities/ranger_coordination_hub/body.png",
+      "sha256": "ae2c2339fb6349ca10348df176da9e282a92d527a091f407ade195b8f8eec5e5",
+      "origin_png_px": [
+        77,
+        109
+      ],
+      "size_px": [
+        482,
+        158
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        81,
+        113,
+        555,
+        263
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        243,
+        159
+      ]
+    },
+    {
+      "id": "active",
+      "parent": "body",
+      "draw_order": 2,
+      "texture": "res://assets/imported/facilities/ranger_coordination_hub/active.png",
+      "sha256": "60c747bf7941b769711e078d89c5e3963da2b80bd0fb65e860357474d97cfecd",
+      "origin_png_px": [
+        444,
+        37
+      ],
+      "size_px": [
+        147,
+        123
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        448,
+        41,
+        587,
+        156
+      ],
+      "pivot_units": [
+        115,
+        36
+      ],
+      "pivot_local_png_px": [
+        16,
+        107
+      ]
+    },
+    {
+      "id": "indicator",
+      "parent": "active",
+      "draw_order": 3,
+      "texture": "res://assets/imported/facilities/ranger_coordination_hub/indicator.png",
+      "sha256": "5225f3c6a38ae53d626ba2c93577a0c8f90a779013db3b64aa0a932c4fc343cd",
+      "origin_png_px": [
+        286,
+        143
+      ],
+      "size_px": [
+        56,
+        57
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        290,
+        147,
+        338,
+        196
+      ],
+      "pivot_units": [
+        115,
+        36
+      ],
+      "pivot_local_png_px": [
+        174,
+        1
+      ]
+    },
+    {
+      "id": "construction",
+      "parent": "base",
+      "draw_order": 5,
+      "texture": "res://assets/imported/facilities/shared/pair/construction.png",
+      "sha256": "aee4e3d184a5e6e885b9122cc208acdb5b9ffd01d6a38e6bf687578ea4b7fb70",
+      "origin_png_px": [
+        89,
+        109
+      ],
+      "size_px": [
+        470,
+        158
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        113,
+        555,
+        263
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        159
+      ]
+    },
+    {
+      "id": "siege",
+      "parent": "base",
+      "draw_order": 7,
+      "texture": "res://assets/imported/facilities/shared/pair/siege.png",
+      "sha256": "d3242e97bc98060aebf1ffeff4e90c4a1f5b1bd4fa34a4060d8ae529473099d9",
+      "origin_png_px": [
+        80,
+        159
+      ],
+      "size_px": [
+        481,
+        101
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        84,
+        163,
+        557,
+        256
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        240,
+        109
+      ]
+    },
+    {
+      "id": "ruin",
+      "parent": "base",
+      "draw_order": 6,
+      "texture": "res://assets/imported/facilities/shared/pair/ruin.png",
+      "sha256": "67713aed737b6179734a1daa50c40d48484c808c0e7769bb3983f3371fc157fb",
+      "origin_png_px": [
+        89,
+        161
+      ],
+      "size_px": [
+        470,
+        110
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        165,
+        555,
+        267
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        107
+      ]
+    }
+  ],
+  "states": {
+    "Ready": {
+      "length": 2.0,
+      "loop": true,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.83
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.83
+        ]
+      ]
+    },
+    "Active": {
+      "length": 0.45,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.68
+        ],
+        [
+          0.11,
+          1.0
+        ],
+        [
+          0.45,
+          0.84
+        ]
+      ],
+      "part_rotation_degrees": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.11,
+          0.0
+        ],
+        [
+          0.45,
+          0.0
+        ]
+      ],
+      "socket": null,
+      "cue": "Active for an existing allied buff cue if exposed"
+    },
+    "Ghost": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "opacity": 0.52
+    },
+    "Construction": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction"
+      ]
+    },
+    "UnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "ConstructionUnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "Destroyed": {
+      "length": 0.3,
+      "loop": false,
+      "visible": [
+        "base",
+        "ruin"
+      ]
+    }
+  },
+  "badge": {
+    "texture": "res://assets/imported/facilities/ranger_coordination_hub/badge.png",
+    "size_px": [
+      112,
+      112
+    ],
+    "sha256": "1e55a7cc4c83f2abbf1686e2688d308b2548edef9315d53ccaf8308188c74d7b"
+  },
+  "rig": "res://assets/imported/facilities/ranger_coordination_hub/rig.tscn",
+  "master_reassembly_max_premultiplied_channel_delta": 1
+}

@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.1.0",
+  "asset_id": "facility.skill_relay_station",
+  "display_name": "Skill Relay Station",
+  "status": "unbound_presentation_asset",
+  "source": "res://assets/source-art/facilities/skill_relay_station/master.svg",
+  "source_sha256": "c6d1843fd712c21c205fc6f9b07a6103cc03a1a442c050e7a376f4833ed2acb7",
+  "provenance": "Original vector redraw for Kenyalang Rangers, W29, based on W08 facilities.png and the C28-A crate/radio, sage terrain and ink palette.",
+  "permission_review": "D-014 pending final shipping sign-off.",
+  "canon_refs": [
+    "SimSimi pp. 15–17 § J",
+    "Storyboard pp. 17, 28–29, 66, 69, 127"
+  ],
+  "readability_cue": "clock and amber status screen",
+  "canvas_units": [
+    160,
+    80
+  ],
+  "pixels_per_unit": 4,
+  "tile_units": 80,
+  "footprint_cells": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "reserved_cells": [],
+  "canvas_origin_from_occupied_cell_top_left_units": [
+    0,
+    0
+  ],
+  "base_anchor_canvas_units": [
+    80,
+    67
+  ],
+  "anchor_from_occupied_cell_top_left_units": [
+    80,
+    67
+  ],
+  "ready_alpha_bounds_canvas_px_xyxy": [
+    36,
+    16,
+    603,
+    287
+  ],
+  "world_scale": "One scalar tile_size()/80 for both axes. Place root at tile origin plus anchor_from_occupied_cell_top_left_units times scalar.",
+  "portrait_scale": "Fit uniformly inside card art area. The badge already has transparent square padding.",
+  "mount_socket_canvas_units": null,
+  "parts": [
+    {
+      "id": "base",
+      "parent": null,
+      "draw_order": 0,
+      "texture": "res://assets/imported/facilities/skill_relay_station/base.png",
+      "sha256": "81dbc465353cfc214cb657d2689acd37c03343a358e94c930a83afc807352205",
+      "origin_png_px": [
+        32,
+        205
+      ],
+      "size_px": [
+        575,
+        86
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        36,
+        209,
+        603,
+        287
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        288,
+        63
+      ]
+    },
+    {
+      "id": "body",
+      "parent": "base",
+      "draw_order": 1,
+      "texture": "res://assets/imported/facilities/skill_relay_station/body.png",
+      "sha256": "c5c2a2a12aef235425872dc5c9c5a60ceaeccfa923cf56874ec616da58fc5737",
+      "origin_png_px": [
+        77,
+        57
+      ],
+      "size_px": [
+        490,
+        206
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        81,
+        61,
+        563,
+        259
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        243,
+        211
+      ]
+    },
+    {
+      "id": "active",
+      "parent": "body",
+      "draw_order": 2,
+      "texture": "res://assets/imported/facilities/skill_relay_station/active.png",
+      "sha256": "b9fc73b6088d3b3cc852b64cd685bbce578b2a058bd4f189fad2e5e45a0762df",
+      "origin_png_px": [
+        369,
+        12
+      ],
+      "size_px": [
+        142,
+        239
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        373,
+        16,
+        507,
+        247
+      ],
+      "pivot_units": [
+        110,
+        45
+      ],
+      "pivot_local_png_px": [
+        71,
+        168
+      ]
+    },
+    {
+      "id": "indicator",
+      "parent": "active",
+      "draw_order": 3,
+      "texture": "res://assets/imported/facilities/skill_relay_station/indicator.png",
+      "sha256": "997fe7b0281c63010caef5beb850f5085749c2f5a611a3b1ffe8cdaa167b26e5",
+      "origin_png_px": [
+        158,
+        126
+      ],
+      "size_px": [
+        188,
+        68
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        162,
+        130,
+        342,
+        190
+      ],
+      "pivot_units": [
+        110,
+        45
+      ],
+      "pivot_local_png_px": [
+        282,
+        54
+      ]
+    },
+    {
+      "id": "construction",
+      "parent": "base",
+      "draw_order": 5,
+      "texture": "res://assets/imported/facilities/shared/pair/construction.png",
+      "sha256": "aee4e3d184a5e6e885b9122cc208acdb5b9ffd01d6a38e6bf687578ea4b7fb70",
+      "origin_png_px": [
+        89,
+        109
+      ],
+      "size_px": [
+        470,
+        158
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        113,
+        555,
+        263
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        159
+      ]
+    },
+    {
+      "id": "siege",
+      "parent": "base",
+      "draw_order": 7,
+      "texture": "res://assets/imported/facilities/shared/pair/siege.png",
+      "sha256": "d3242e97bc98060aebf1ffeff4e90c4a1f5b1bd4fa34a4060d8ae529473099d9",
+      "origin_png_px": [
+        80,
+        159
+      ],
+      "size_px": [
+        481,
+        101
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        84,
+        163,
+        557,
+        256
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        240,
+        109
+      ]
+    },
+    {
+      "id": "ruin",
+      "parent": "base",
+      "draw_order": 6,
+      "texture": "res://assets/imported/facilities/shared/pair/ruin.png",
+      "sha256": "67713aed737b6179734a1daa50c40d48484c808c0e7769bb3983f3371fc157fb",
+      "origin_png_px": [
+        89,
+        161
+      ],
+      "size_px": [
+        470,
+        110
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        165,
+        555,
+        267
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        107
+      ]
+    }
+  ],
+  "states": {
+    "Ready": {
+      "length": 2.0,
+      "loop": true,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.83
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.83
+        ]
+      ]
+    },
+    "Active": {
+      "length": 0.45,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.68
+        ],
+        [
+          0.11,
+          1.0
+        ],
+        [
+          0.45,
+          0.84
+        ]
+      ],
+      "part_rotation_degrees": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.11,
+          0.0
+        ],
+        [
+          0.45,
+          0.0
+        ]
+      ],
+      "socket": null,
+      "cue": "Active on existing Ranger-skill cooldown pulse"
+    },
+    "Ghost": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "opacity": 0.52
+    },
+    "Construction": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction"
+      ]
+    },
+    "UnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "ConstructionUnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "Destroyed": {
+      "length": 0.3,
+      "loop": false,
+      "visible": [
+        "base",
+        "ruin"
+      ]
+    }
+  },
+  "badge": {
+    "texture": "res://assets/imported/facilities/skill_relay_station/badge.png",
+    "size_px": [
+      112,
+      112
+    ],
+    "sha256": "fd3e1e5d8c8a9082a46a480c81058ece98837f3415db7f62cdcfcd5e5efa9502"
+  },
+  "rig": "res://assets/imported/facilities/skill_relay_station/rig.tscn",
+  "master_reassembly_max_premultiplied_channel_delta": 1
+}

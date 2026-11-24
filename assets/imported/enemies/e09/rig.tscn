@@ -1,0 +1,88 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://scripts/animation/first_contact_cutout.gd" id="rig"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e09/tread_far.png" id="tread_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e09/torso.png" id="torso"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e09/tread_near.png" id="tread_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e09/sensor_arm.png" id="sensor_arm"]
+[ext_resource type="Texture2D" path="res://assets/imported/enemies/e09/sensor.png" id="sensor"]
+
+[node name="EnemiesE09Rig" type="Node2D"]
+texture_filter = 2
+script = ExtResource("rig")
+contract_path = "res://data/presentation/w29/animation/enemies__e09.json"
+
+[node name="Facing" type="Node2D" parent="."]
+
+[node name="Skeleton" type="Skeleton2D" parent="Facing"]
+
+[node name="torso" type="Bone2D" parent="Facing/Skeleton"]
+position = Vector2(0, -15)
+rest = Transform2D(1, 0, 0, 1, 0, -15)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="tread_far" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(8, 3)
+rest = Transform2D(1, 0, 0, 1, 8, 3)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="tread_near" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-11, 3)
+rest = Transform2D(1, 0, 0, 1, -11, 3)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="sensor_arm" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(0, -8)
+rest = Transform2D(1, 0, 0, 1, 0, -8)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="sensor" type="Bone2D" parent="Facing/Skeleton/torso/sensor_arm"]
+position = Vector2(0, -12)
+rest = Transform2D(1, 0, 0, 1, 0, -12)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/tread_far"]
+z_index = 1
+z_as_relative = false
+position = Vector2(-7.25, -9.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tread_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso"]
+z_index = 2
+z_as_relative = false
+position = Vector2(-26.5, -17)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("torso")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/tread_near"]
+z_index = 3
+z_as_relative = false
+position = Vector2(-18.25, -6.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tread_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/sensor_arm"]
+z_index = 4
+z_as_relative = false
+position = Vector2(-6.25, -18.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("sensor_arm")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/sensor_arm/sensor"]
+z_index = 5
+z_as_relative = false
+position = Vector2(-11.5, -17.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("sensor")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

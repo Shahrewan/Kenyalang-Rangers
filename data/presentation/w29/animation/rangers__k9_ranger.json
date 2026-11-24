@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "asset_id": "ranger.k9_ranger",
+  "status": "W29 verified character motion, isolated from gameplay",
+  "sampling_fps": 60,
+  "default": "Idle",
+  "facing": "Mirror about the facing root. Keep overlays outside that node.",
+  "anchor": "Same ground anchor in every state; motion is presentation only.",
+  "clock": "Use the existing combat-clock delta. Pause passes zero.",
+  "key_format": "[seconds, torso_y_offset_units, {bone_id: local_rotation_degrees}]. Missing bone rotation is neutral.",
+  "states": {
+    "Idle": {
+      "playback": "loop",
+      "event": "Placed, alive and no transient pose",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.62,
+          0,
+          {
+            "head": -2.6,
+            "forearm_near": 2.5
+          }
+        ],
+        [
+          1.24,
+          0,
+          {}
+        ]
+      ]
+    },
+    "Deploy": {
+      "playback": "return",
+      "next": "Idle",
+      "event": "Successful placement",
+      "keys": [
+        [
+          0,
+          -4,
+          {
+            "head": 4,
+            "thigh_near": 7
+          }
+        ],
+        [
+          0.18,
+          0,
+          {
+            "head": -3,
+            "forearm_far": -6
+          }
+        ],
+        [
+          0.39,
+          0,
+          {}
+        ]
+      ],
+      "return_if_blocking": "Block"
+    },
+    "Attack": {
+      "playback": "return",
+      "next": "Idle",
+      "event": "Existing action and attack presentation cue",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.12,
+          0,
+          {
+            "head": 1,
+            "forearm_near": -11,
+            "forearm_far": -7
+          }
+        ],
+        [
+          0.25,
+          -0.5,
+          {
+            "head": -3,
+            "upper_arm_near": -9,
+            "forearm_near": -16,
+            "hand_near": 11,
+            "tranq_carbine": -3
+          }
+        ],
+        [
+          0.46,
+          0,
+          {}
+        ]
+      ],
+      "return_if_blocking": "Block",
+      "accent": {
+        "socket": "attack_fx",
+        "preview_seconds": 0.25
+      }
+    },
+    "Skill": {
+      "playback": "return",
+      "next": "Idle",
+      "event": "Signal companion howl for the existing reveal/slow presentation",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.16,
+          -1,
+          {
+            "head": 1,
+            "forearm_near": -11,
+            "forearm_far": -7
+          }
+        ],
+        [
+          0.32,
+          -1.8,
+          {
+            "head": -3,
+            "upper_arm_near": -9,
+            "forearm_near": -16,
+            "hand_near": 11,
+            "tranq_carbine": -3
+          }
+        ],
+        [
+          0.47,
+          0,
+          {
+            "head": -2,
+            "upper_arm_near": -9,
+            "forearm_near": -16,
+            "hand_near": 11,
+            "tranq_carbine": -3
+          }
+        ],
+        [
+          0.66,
+          0,
+          {}
+        ]
+      ],
+      "return_if_blocking": "Block",
+      "accent": {
+        "socket": "tranq_muzzle",
+        "preview_seconds": 0.32
+      }
+    },
+    "Hit": {
+      "playback": "return",
+      "next": "Idle",
+      "event": "Nonterminal damage presentation cue",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.095,
+          0,
+          {
+            "head": 9,
+            "upper_arm_near": 12,
+            "upper_arm_far": 8
+          }
+        ],
+        [
+          0.29,
+          0,
+          {}
+        ]
+      ],
+      "return_if_blocking": "Block"
+    },
+    "Retreat": {
+      "playback": "hold",
+      "event": "Voluntary removal cue",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.16,
+          -1.3,
+          {
+            "head": 11,
+            "thigh_near": 9,
+            "shin_far": -7
+          }
+        ],
+        [
+          0.36,
+          -2.6,
+          {
+            "head": 13,
+            "thigh_near": 12,
+            "shin_far": -8,
+            "upper_arm_near": 10
+          }
+        ]
+      ]
+    },
+    "Defeat": {
+      "playback": "hold",
+      "event": "Forced loss cue",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.16,
+          0,
+          {
+            "head": 11,
+            "upper_arm_near": 11
+          }
+        ],
+        [
+          0.43,
+          2.3,
+          {
+            "head": 22,
+            "upper_arm_near": 24,
+            "thigh_near": 13,
+            "thigh_far": -12
+          }
+        ]
+      ]
+    },
+    "Block": {
+      "playback": "loop",
+      "event": "Existing snapshot contains blocked actors",
+      "keys": [
+        [
+          0,
+          0,
+          {
+            "head": -3,
+            "upper_arm_far": -11,
+            "forearm_far": -9,
+            "hand_far": 4
+          }
+        ],
+        [
+          0.32,
+          0,
+          {
+            "head": -2,
+            "upper_arm_far": -11,
+            "forearm_far": -7,
+            "hand_far": 4
+          }
+        ],
+        [
+          0.64,
+          0,
+          {
+            "head": -3,
+            "upper_arm_far": -11,
+            "forearm_far": -9,
+            "hand_far": 4
+          }
+        ]
+      ]
+    }
+  }
+}

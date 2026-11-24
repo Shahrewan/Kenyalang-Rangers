@@ -1,0 +1,578 @@
+{
+  "schema_version": 1,
+  "id": "T04",
+  "region": "Tanjung Datu",
+  "missions": [
+    "C2-05",
+    "C2-06"
+  ],
+  "batch": "W29-B07",
+  "landmark": "Coastal headland and outer roots",
+  "approval_status": "visual_review_pending",
+  "binding_status": "verified_art_unbound",
+  "geometry_resource": "data/stages/campaign/t04_tanjung_datu.tres",
+  "geometry_sha256": "a8c200a3e0d1540992e3d6816c21c9b65e39b2061e203ba8dffaa52a4b82143a",
+  "grid_cells": [
+    12,
+    5
+  ],
+  "tile_artist_units": 80,
+  "geometry_note": "Use BattleBoard origin and current tile_size(). No texture defines geometry.",
+  "source_references": [
+    "GDD pp. 7–8, 21–22, 32",
+    "UI pp. 4–5, 8, 117–119 (T02) and 31 (T05)",
+    "C28-A First Contact terrain and exit art"
+  ],
+  "route_cells": [
+    [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        10,
+        2
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  ],
+  "ground": [
+    {
+      "cell": [
+        1,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        2,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        3,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        4,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        5,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        6,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        7,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        8,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        9,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "cell": [
+        10,
+        2
+      ],
+      "connection_mask": 10,
+      "region": "KRT_15",
+      "clockwise_degrees": 0,
+      "arrow_direction": [
+        1,
+        0
+      ]
+    }
+  ],
+  "raised": [
+    {
+      "cell": [
+        1,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        2,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    },
+    {
+      "cell": [
+        5,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        6,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    },
+    {
+      "cell": [
+        9,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        10,
+        0
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    },
+    {
+      "cell": [
+        1,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        2,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    },
+    {
+      "cell": [
+        5,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        6,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    },
+    {
+      "cell": [
+        9,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_27",
+        "KRT_28",
+        "KRT_31",
+        "KRT_32"
+      ]
+    },
+    {
+      "cell": [
+        10,
+        4
+      ],
+      "region": "KRT_21",
+      "exposed_edge_art": [
+        "KRT_25",
+        "KRT_26",
+        "KRT_27",
+        "KRT_29",
+        "KRT_30"
+      ]
+    }
+  ],
+  "opening_post_pairs": [
+    [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    [
+      [
+        5,
+        0
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    [
+      [
+        9,
+        0
+      ],
+      [
+        10,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    [
+      [
+        5,
+        4
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    [
+      [
+        9,
+        4
+      ],
+      [
+        10,
+        4
+      ]
+    ]
+  ],
+  "entries": [
+    {
+      "cell": [
+        0,
+        2
+      ],
+      "route_index": 0,
+      "label": "",
+      "outgoing": [
+        1,
+        0
+      ],
+      "texture": "assets/imported/environments/shared/entry.png",
+      "size_px": [
+        128,
+        128
+      ],
+      "sha256": "b970866bf83eb688c4440d0d0dba81019a306a0a36cb602bd2fd7cb67935e211",
+      "source_svg": "assets/source-art/environments/shared/entry.svg"
+    }
+  ],
+  "exit": {
+    "cell": [
+      11,
+      2
+    ],
+    "region": "KRT_48",
+    "escape_world_cell": [
+      11,
+      2
+    ],
+    "approach": [
+      "west"
+    ],
+    "display": "woodland_edge",
+    "layers": [
+      {
+        "id": "woodland_runout",
+        "display_size_units": [
+          90,
+          80
+        ],
+        "offset_units_from_terminal_top_left": [
+          80,
+          0
+        ],
+        "draw_phase": "ground",
+        "texture": "assets/imported/first_contact/parts/woodland_exit/woodland_runout.png",
+        "size_px": [
+          144,
+          128
+        ],
+        "sha256": "03b3701b2eb2b3f0797ecfa77b43626474e8f67d7e5dae601f38491f92591ca7",
+        "source_svg": "assets/source-art/first-contact/woodland_exit/woodland_runout.svg"
+      },
+      {
+        "id": "woodland_trees_back",
+        "display_size_units": [
+          175,
+          132
+        ],
+        "offset_units_from_terminal_top_left": [
+          0,
+          -54
+        ],
+        "draw_phase": "behind_actors",
+        "texture": "assets/imported/environments/t04/woodland_trees_back.png",
+        "size_px": [
+          280,
+          211
+        ],
+        "sha256": "02d7455d05d14a96ab134a7c6ec9a00299a82d3bcbdeec072ea452864a2aacc1",
+        "source_svg": "assets/source-art/environments/t04/woodland_trees_back.svg"
+      },
+      {
+        "id": "woodland_trees_front",
+        "display_size_units": [
+          158,
+          126
+        ],
+        "offset_units_from_terminal_top_left": [
+          0,
+          -46
+        ],
+        "draw_phase": "in_front_of_actors",
+        "texture": "assets/imported/environments/t04/woodland_trees_front.png",
+        "size_px": [
+          253,
+          202
+        ],
+        "sha256": "56ca1cb747d0b63b2d472ff07069b3481f5f1feb6a22120a8180abca3cab389a",
+        "source_svg": "assets/source-art/environments/t04/woodland_trees_front.svg"
+      }
+    ],
+    "anchor": "Terminal tile top-left with independent uniform tile_size()/80 scaling.",
+    "occlusion": "Foreground renders after enemies, HP and world effects; remove visible Exit pose at the existing escape event."
+  },
+  "atlas": {
+    "texture": "assets/imported/first_contact/t01_terrain_atlas.png",
+    "regions": "assets/source-art/first-contact/atlas_regions.json",
+    "junction_override": {
+      "texture": "assets/imported/environments/shared/junction_04.png",
+      "size_px": [
+        128,
+        128
+      ],
+      "sha256": "c972e656dbc6b9e27ba17c81b45850afcee068330580ddfb065aca550c71d128",
+      "source_svg": "assets/source-art/environments/shared/junction_04.svg"
+    }
+  },
+  "backdrop": {
+    "texture": "assets/imported/environments/t04/backdrop.jpg",
+    "size_px": [
+      1280,
+      720
+    ],
+    "sha256": "e4702231a41c406de9b147b032c9677cf9f18a9d5a2706ce0c8b59b10e5c387c",
+    "source_master": "assets/source-art/environments/t04/backdrop_master.png",
+    "source_sha256": "8ee9c52bd802bc894a6eff1b7231532f2b1d4daa242d22a4dd44b78548304cd2",
+    "fit": "cover",
+    "cover_anchor": [
+      0.5,
+      0.13
+    ],
+    "decorative": true,
+    "render_before": "terrain",
+    "provenance": "Original project-specific ImageGen scenic master, W29 2026-11-24. C28-A T01 is the style input. W08 T02 concept is a motif input only."
+  },
+  "planning_thumbnail": {
+    "texture": "assets/imported/environments/t04/card_wide.jpg",
+    "size_px": [
+      440,
+      200
+    ],
+    "sha256": "db33a03d18a4e87d3e77b954d47b7fe5e49484944bd9eef3503b22fcc52eece4"
+  }
+}

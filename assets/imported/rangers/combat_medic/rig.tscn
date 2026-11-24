@@ -1,0 +1,253 @@
+[gd_scene load_steps=18 format=3]
+[ext_resource type="Script" path="res://scripts/animation/first_contact_cutout.gd" id="rig"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/thigh_far.png" id="thigh_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/shin_far.png" id="shin_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/boot_far.png" id="boot_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/thigh_near.png" id="thigh_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/shin_near.png" id="shin_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/boot_near.png" id="boot_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/upper_arm_far.png" id="upper_arm_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/forearm_far.png" id="forearm_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/torso.png" id="torso"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/upper_arm_near.png" id="upper_arm_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/forearm_near.png" id="forearm_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/treatment_case.png" id="treatment_case"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/hand_far.png" id="hand_far"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/crowd_controller/hand_near.png" id="hand_near"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/head.png" id="head"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/combat_medic/hat.png" id="hat"]
+
+[node name="RangersCombatMedicRig" type="Node2D"]
+texture_filter = 2
+script = ExtResource("rig")
+contract_path = "res://data/presentation/w29/animation/rangers__combat_medic.json"
+
+[node name="Facing" type="Node2D" parent="."]
+
+[node name="Skeleton" type="Skeleton2D" parent="Facing"]
+
+[node name="torso" type="Bone2D" parent="Facing/Skeleton"]
+position = Vector2(0, -10.75)
+rest = Transform2D(1, 0, 0, 1, 0, -10.75)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="thigh_far" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(7.25, -0.25)
+rest = Transform2D(1, 0, 0, 1, 7.25, -0.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="shin_far" type="Bone2D" parent="Facing/Skeleton/torso/thigh_far"]
+position = Vector2(0.5, 3.5)
+rest = Transform2D(1, 0, 0, 1, 0.5, 3.5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="boot_far" type="Bone2D" parent="Facing/Skeleton/torso/thigh_far/shin_far"]
+position = Vector2(0.25, 2.5)
+rest = Transform2D(1, 0, 0, 1, 0.25, 2.5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="thigh_near" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-7, -0.25)
+rest = Transform2D(1, 0, 0, 1, -7, -0.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="shin_near" type="Bone2D" parent="Facing/Skeleton/torso/thigh_near"]
+position = Vector2(-0.4, 3.5)
+rest = Transform2D(1, 0, 0, 1, -0.4, 3.5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="boot_near" type="Bone2D" parent="Facing/Skeleton/torso/thigh_near/shin_near"]
+position = Vector2(-0.7, 2.5)
+rest = Transform2D(1, 0, 0, 1, -0.7, 2.5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="upper_arm_far" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(6.5, -20.25)
+rest = Transform2D(1, 0, 0, 1, 6.5, -20.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="forearm_far" type="Bone2D" parent="Facing/Skeleton/torso/upper_arm_far"]
+position = Vector2(4.75, 3.5)
+rest = Transform2D(1, 0, 0, 1, 4.75, 3.5)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="upper_arm_near" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-5.25, -20)
+rest = Transform2D(1, 0, 0, 1, -5.25, -20)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="forearm_near" type="Bone2D" parent="Facing/Skeleton/torso/upper_arm_near"]
+position = Vector2(-5.5, 7.25)
+rest = Transform2D(1, 0, 0, 1, -5.5, 7.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="hand_near" type="Bone2D" parent="Facing/Skeleton/torso/upper_arm_near/forearm_near"]
+position = Vector2(8, 2.75)
+rest = Transform2D(1, 0, 0, 1, 8, 2.75)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="treatment_case" type="Bone2D" parent="Facing/Skeleton/torso/upper_arm_near/forearm_near/hand_near"]
+position = Vector2(2.75, -0.25)
+rest = Transform2D(1, 0, 0, 1, 2.75, -0.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="hand_far" type="Bone2D" parent="Facing/Skeleton/torso/upper_arm_far/forearm_far"]
+position = Vector2(-1, 9.75)
+rest = Transform2D(1, 0, 0, 1, -1, 9.75)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="head" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(1.5, -24.25)
+rest = Transform2D(1, 0, 0, 1, 1.5, -24.25)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="hat" type="Bone2D" parent="Facing/Skeleton/torso/head"]
+position = Vector2(-1.75, -22.75)
+rest = Transform2D(1, 0, 0, 1, -1.75, -22.75)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_far"]
+z_index = 1
+z_as_relative = false
+position = Vector2(-7.75, -6.75)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("thigh_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_far/shin_far"]
+z_index = 2
+z_as_relative = false
+position = Vector2(-6.75, -5.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("shin_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_far/shin_far/boot_far"]
+z_index = 3
+z_as_relative = false
+position = Vector2(-8.75, -6.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("boot_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_near"]
+z_index = 4
+z_as_relative = false
+position = Vector2(-6.75, -6.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("thigh_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_near/shin_near"]
+z_index = 5
+z_as_relative = false
+position = Vector2(-7.6, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("shin_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/thigh_near/shin_near/boot_near"]
+z_index = 6
+z_as_relative = false
+position = Vector2(-8.65, -6)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("boot_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_far"]
+z_index = 7
+z_as_relative = false
+position = Vector2(-5.5, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("upper_arm_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_far/forearm_far"]
+z_index = 8
+z_as_relative = false
+position = Vector2(-6.75, -4)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("forearm_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso"]
+z_index = 9
+z_as_relative = false
+position = Vector2(-14.75, -28.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("torso")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_near"]
+z_index = 10
+z_as_relative = false
+position = Vector2(-10.5, -4.75)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("upper_arm_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_near/forearm_near"]
+z_index = 11
+z_as_relative = false
+position = Vector2(-4.75, -4.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("forearm_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_near/forearm_near/hand_near/treatment_case"]
+z_index = 12
+z_as_relative = false
+position = Vector2(-5.25, -6.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("treatment_case")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_far/forearm_far/hand_far"]
+z_index = 13
+z_as_relative = false
+position = Vector2(-5, -4.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("hand_far")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/upper_arm_near/forearm_near/hand_near"]
+z_index = 14
+z_as_relative = false
+position = Vector2(-4.25, -5.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("hand_near")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/head"]
+z_index = 15
+z_as_relative = false
+position = Vector2(-24.5, -27.25)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("head")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/head/hat"]
+z_index = 16
+z_as_relative = false
+position = Vector2(-26, -10.75)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("hat")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

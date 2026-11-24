@@ -1,0 +1,630 @@
+{
+  "revision": "W29-B11",
+  "theme": "res://resources/presentation/w29_ui_theme.tres",
+  "logical_reference": [
+    1280,
+    720
+  ],
+  "review_windows": [
+    [
+      1280,
+      720
+    ],
+    [
+      960,
+      540
+    ]
+  ],
+  "touch_min_logical": [
+    64,
+    64
+  ],
+  "safe_inset_logical": 24,
+  "content_font": "res://assets/imported/ui/w29/fonts/NotoSans-Regular.ttf",
+  "emphasis_font": "res://assets/imported/ui/w29/fonts/NotoSans-Bold.ttf",
+  "title_font": "res://assets/imported/ui/w29/fonts/NotoSerif-Bold.ttf",
+  "font_license": "res://assets/imported/ui/w29/fonts/OFL.txt",
+  "palette": {
+    "shadow": "#222b22",
+    "forest": "#343d32",
+    "ink": "#283226",
+    "olive": "#69734a",
+    "sage": "#87916b",
+    "muted": "#d6c8ad",
+    "paper": "#f3ebdd",
+    "warm": "#e8dbbe",
+    "sand": "#bb9d73",
+    "amber": "#e8b957",
+    "rust": "#bc6550"
+  },
+  "frames": {
+    "forest": {
+      "texture": "res://assets/imported/ui/w29/frames/forest.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "deep_forest": {
+      "texture": "res://assets/imported/ui/w29/frames/deep_forest.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "paper": {
+      "texture": "res://assets/imported/ui/w29/frames/paper.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "parchment": {
+      "texture": "res://assets/imported/ui/w29/frames/parchment.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "button": {
+      "texture": "res://assets/imported/ui/w29/frames/button.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "button_hover": {
+      "texture": "res://assets/imported/ui/w29/frames/button_hover.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "button_down": {
+      "texture": "res://assets/imported/ui/w29/frames/button_down.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "primary": {
+      "texture": "res://assets/imported/ui/w29/frames/primary.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "primary_hover": {
+      "texture": "res://assets/imported/ui/w29/frames/primary_hover.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "primary_down": {
+      "texture": "res://assets/imported/ui/w29/frames/primary_down.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "disabled": {
+      "texture": "res://assets/imported/ui/w29/frames/disabled.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "danger": {
+      "texture": "res://assets/imported/ui/w29/frames/danger.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "danger_hover": {
+      "texture": "res://assets/imported/ui/w29/frames/danger_hover.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "danger_down": {
+      "texture": "res://assets/imported/ui/w29/frames/danger_down.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "selected": {
+      "texture": "res://assets/imported/ui/w29/frames/selected.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "input": {
+      "texture": "res://assets/imported/ui/w29/frames/input.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "track": {
+      "texture": "res://assets/imported/ui/w29/frames/track.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "fill": {
+      "texture": "res://assets/imported/ui/w29/frames/fill.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "warning": {
+      "texture": "res://assets/imported/ui/w29/frames/warning.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "focus": {
+      "texture": "res://assets/imported/ui/w29/frames/focus.svg",
+      "texture_margins_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  "glyphs": {
+    "back": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/back.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/back.svg"
+    },
+    "forward": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/forward.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/forward.svg"
+    },
+    "close": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/close.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/close.svg"
+    },
+    "headquarters": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/headquarters.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/headquarters.svg"
+    },
+    "campaign": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/campaign.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/campaign.svg"
+    },
+    "chaos": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/chaos.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/chaos.svg"
+    },
+    "restoration": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/restoration.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/restoration.svg"
+    },
+    "settings": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/settings.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/settings.svg"
+    },
+    "guide": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/guide.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/guide.svg"
+    },
+    "control": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/control.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/control.svg"
+    },
+    "human_resources": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/human_resources.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/human_resources.svg"
+    },
+    "finance": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/finance.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/finance.svg"
+    },
+    "mechanical": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/mechanical.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/mechanical.svg"
+    },
+    "ecology": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/ecology.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/ecology.svg"
+    },
+    "outreach": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/outreach.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/outreach.svg"
+    },
+    "records": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/records.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/records.svg"
+    },
+    "research": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/research.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/research.svg"
+    },
+    "ranger": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/ranger.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/ranger.svg"
+    },
+    "facility": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/facility.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/facility.svg"
+    },
+    "map": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/map.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/map.svg"
+    },
+    "intel": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/intel.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/intel.svg"
+    },
+    "lock": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/lock.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/lock.svg"
+    },
+    "check": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/check.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/check.svg"
+    },
+    "perfect": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/perfect.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/perfect.svg"
+    },
+    "warning": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/warning.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/warning.svg"
+    },
+    "retry": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/retry.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/retry.svg"
+    },
+    "clock": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/clock.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/clock.svg"
+    },
+    "heal": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/heal.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/heal.svg"
+    },
+    "repair": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/repair.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/repair.svg"
+    },
+    "attack": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/attack.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/attack.svg"
+    },
+    "defense": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/defense.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/defense.svg"
+    },
+    "support": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/support.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/support.svg"
+    },
+    "specialist": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/specialist.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/specialist.svg"
+    },
+    "technology": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/technology.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/technology.svg"
+    },
+    "siege": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/siege.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/siege.svg"
+    },
+    "aerial": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/aerial.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/aerial.svg"
+    },
+    "heavy": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/heavy.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/heavy.svg"
+    },
+    "fog": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/fog.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/fog.svg"
+    },
+    "sound": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/sound.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/sound.svg"
+    },
+    "mute": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/mute.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/mute.svg"
+    },
+    "water": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/water.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/water.svg"
+    },
+    "add": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/add.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/add.svg"
+    },
+    "minus": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/minus.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/minus.svg"
+    },
+    "play": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/play.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/play.svg"
+    },
+    "pause": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/pause.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/pause.svg"
+    },
+    "toggle_on": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/toggle_on.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/toggle_on.svg"
+    },
+    "toggle_off": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/toggle_off.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/toggle_off.svg"
+    },
+    "caret": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/caret.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/caret.svg"
+    },
+    "list": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/list.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/list.svg"
+    },
+    "quiz": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/quiz.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/quiz.svg"
+    },
+    "heat": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/heat.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/heat.svg"
+    },
+    "construct": {
+      "dark": "res://assets/imported/ui/w29/icons/dark/construct.svg",
+      "light": "res://assets/imported/ui/w29/icons/light/construct.svg"
+    }
+  },
+  "modifier_glyphs": {
+    "benefit_eco": "ecology",
+    "benefit_combat": "attack",
+    "benefit_guard": "defense",
+    "benefit_crisis": "warning",
+    "challenge_environment": "heat",
+    "challenge_enemy": "intel",
+    "challenge_loadout": "lock",
+    "challenge_logistics": "construct",
+    "configuration": "settings"
+  },
+  "modifier_id_glyphs": {
+    "B01": "ecology",
+    "B02": "ecology",
+    "B03": "ecology",
+    "B04": "ecology",
+    "B05": "attack",
+    "B06": "attack",
+    "B07": "attack",
+    "B08": "attack",
+    "B09": "defense",
+    "B10": "defense",
+    "B11": "defense",
+    "B12": "defense",
+    "B13": "warning",
+    "B14": "warning",
+    "B15": "warning",
+    "D01": "construct",
+    "D04": "construct",
+    "D05": "construct",
+    "D07": "construct",
+    "D10": "construct",
+    "D12": "construct",
+    "D02": "intel",
+    "D06": "intel",
+    "D08": "intel",
+    "D09": "intel",
+    "D11": "intel",
+    "D13": "intel",
+    "D15": "intel",
+    "D03": "lock",
+    "D14": "heat"
+  },
+  "reuse": {
+    "funds": "res://assets/imported/first_contact/parts/interface/funds.png",
+    "tokens": "res://assets/imported/first_contact/parts/interface/token.png",
+    "integrity": "res://assets/imported/first_contact/parts/interface/integrity.png",
+    "wave": "res://assets/imported/first_contact/parts/interface/wave.png",
+    "story_map": "res://assets/imported/first_contact/story_node_backplate.svg",
+    "perfect_receipt": "res://assets/imported/first_contact/parts/interface/result_perfect.png",
+    "clear_receipt": "res://assets/imported/first_contact/parts/interface/result_clear.png",
+    "defeat_receipt": "res://assets/imported/first_contact/parts/interface/result_defeat.png",
+    "first_contact": "res://assets/imported/first_contact/t01_forest_backdrop.jpg",
+    "garden": "res://assets/imported/restoration/garden_clearing.jpg"
+  },
+  "brand": {
+    "hornbill": "res://assets/imported/ui/w29/brand/hornbill.svg",
+    "fern": "res://assets/imported/ui/w29/brand/fern.svg",
+    "app_icon": "res://assets/imported/ui/w29/brand/app_icon.svg"
+  },
+  "provenance": {
+    "frames_glyphs_brand": "Original vector assets authored for Kenyalang Rangers W29. Owner release review pending.",
+    "fonts": "Noto Sans and Noto Serif by Google. Included unmodified under SIL OFL 1.1.",
+    "reused": "Existing W28/C28-A field/interface assets and C20 restoration clearing."
+  },
+  "exports": {
+    "assets/imported/ui/w29/brand/app_icon.svg": "5fd0e49afcbaedc324e06671d6b6d7776d9acb6221e6e30b7eb9c0cba6af243b",
+    "assets/imported/ui/w29/brand/fern.svg": "acaaeeafe2b595abbfa6872871cec48c72ba91af566eafdbeeb81d9874c5e8e5",
+    "assets/imported/ui/w29/brand/hornbill.svg": "613457540f853ad2f4ac384dc4ef6dba7264fdeb8e4f46c8d8803abccde13632",
+    "assets/imported/ui/w29/fonts/NotoSans-Bold.ttf": "e83493c945848ecd4a9ad0f6d19164541a0d3e23a9c952304a00a46e00272ac5",
+    "assets/imported/ui/w29/fonts/NotoSans-Regular.ttf": "89c3c497f618fdaa0b2d1e98fef93582f28c71debd2c4a8cdf41f190ced2909d",
+    "assets/imported/ui/w29/fonts/NotoSerif-Bold.ttf": "0af0ff2be8f84910fb21ec5fe1b6b7395e3073250502a334baf6ca2f860c88fe",
+    "assets/imported/ui/w29/fonts/OFL.txt": "ea62b5d9207709c0a88e03036407b5400a47cf7380ab667348202e7345662eb0",
+    "assets/imported/ui/w29/frames/button.svg": "2a5f0b223c07cb03bab04141ab9952fef797f503f74ff9470ed3b78a513642b8",
+    "assets/imported/ui/w29/frames/button_down.svg": "68d29971889b46731dd6ebfe99573f2b0a77578403b8a0b7bfcdb595d643f5ef",
+    "assets/imported/ui/w29/frames/button_hover.svg": "197477b160f77efba008580358187a80894cb847f58ee56dedc3540832699e08",
+    "assets/imported/ui/w29/frames/danger.svg": "0a732b7f2343fac1b3553d3c820d2418bce96abfe7ad3a5b1951e99f9b815bc5",
+    "assets/imported/ui/w29/frames/danger_down.svg": "490a090afbe8fd33a2362a944abc3f929b2b24a2639d62db4bcea9bc584148e4",
+    "assets/imported/ui/w29/frames/danger_hover.svg": "ed79142865a8aaa3bfcc2f8e651c8ef8d61bf9d5d846f74ab3dd6b91268b8130",
+    "assets/imported/ui/w29/frames/deep_forest.svg": "0559dedad6094c7ea76e27e8c3c4be5d4a44e26d59ff9a08ca5efd21bc889c57",
+    "assets/imported/ui/w29/frames/disabled.svg": "c90bc032032898b764e725d771da41aac5151840bf649bb5c86bedd538f54a97",
+    "assets/imported/ui/w29/frames/fill.svg": "42ed74780b38f1404e24a0250dba2fd12762c2edd56912c7db6e2d155965e893",
+    "assets/imported/ui/w29/frames/focus.svg": "fa71c5b1af0a58d4861ff806d0417bbef1f722b70166ef7dfa4a1818089d65e4",
+    "assets/imported/ui/w29/frames/forest.svg": "ac9eb5bbbb6d743d5b93d757a92662d7268aeccd7abd81e8b09d283ac6cdab72",
+    "assets/imported/ui/w29/frames/input.svg": "9e9ff8a3101ca4b84889d7575de636c557f697a070d95dc3177628a51db56f7f",
+    "assets/imported/ui/w29/frames/paper.svg": "ef4707f0a72c3c2fc1d1352f02ec5af8b2f8538b50d5f178b7531611db297e91",
+    "assets/imported/ui/w29/frames/parchment.svg": "c5941a6ee3e7dfae50f78943442b221a27bdac781699b3b45bd7eb28ec2a34e9",
+    "assets/imported/ui/w29/frames/primary.svg": "efb55ced07e1fa44dea7e8b30382a01c5c50cde4f5c7fa3bc9274a820a9e4bcb",
+    "assets/imported/ui/w29/frames/primary_down.svg": "37e54d88ba7acc0913ad174db7abf14f2ef4410093f09ae140a21a3460e495cd",
+    "assets/imported/ui/w29/frames/primary_hover.svg": "bae16334549318e26462b7fe754d5be35ff3799e1b86ab1bd43e5a0bb2473411",
+    "assets/imported/ui/w29/frames/selected.svg": "81f9838e0c2e196851961379450302822dede4ea51289bc8147f40b33e6f4faf",
+    "assets/imported/ui/w29/frames/track.svg": "b7f496bc2fb66c5dab76e9833508fe0bb480dc6898f518584c1a54354dbf563e",
+    "assets/imported/ui/w29/frames/warning.svg": "ae2117afbc197f532653008117af3cc871a392dcff0c78038050a0b90662b2f1",
+    "assets/imported/ui/w29/icons/dark/add.svg": "ba803b88d30c639df1b7fe4bbfc31a23593eeb98b62cf0c57193643e266e94ac",
+    "assets/imported/ui/w29/icons/dark/aerial.svg": "eff82c53c9cd232e135e5b440e8d10e3a7317e8475480b59919f9f773c7d67fd",
+    "assets/imported/ui/w29/icons/dark/attack.svg": "b27a8c6b7818a4d116cd3e8ccf02751cb0a780817f500dba7c09d0320dfb6159",
+    "assets/imported/ui/w29/icons/dark/back.svg": "1fceb110a3f5ae5296d99dd58bd13b04cf5bb0911b98ccbdb50b60f4d5e87479",
+    "assets/imported/ui/w29/icons/dark/campaign.svg": "912eee9b828634c1a44a8a5a03e5e8e4bb3f212b8a6018ca4bbad2c3a61fa560",
+    "assets/imported/ui/w29/icons/dark/caret.svg": "ae9b27975b7eacf87f112d6007cc4eeb3228aed4cd63ce37195e198e0026d392",
+    "assets/imported/ui/w29/icons/dark/chaos.svg": "69249cecd5e1b8216c3c532541b4a6c293d946639ea4033d637770ea854b17b3",
+    "assets/imported/ui/w29/icons/dark/check.svg": "0cc1cdef41b8da9e3bd1a47f9041e2cb6cdf93ffc4130c148c889a456d3b9999",
+    "assets/imported/ui/w29/icons/dark/clock.svg": "1fb97bf7451b359bdcf5d60f69e04d6721ab2047f539260eef10f01b974bf174",
+    "assets/imported/ui/w29/icons/dark/close.svg": "6cc7269c21dcdc4a9000879ef1f785d7dd9a3bc031b2aad1cdab7e4dad28cd4e",
+    "assets/imported/ui/w29/icons/dark/construct.svg": "452703f17c13199f41eadeadf6d99f5cac7ed239669bd302ba1b8ab2471af92d",
+    "assets/imported/ui/w29/icons/dark/control.svg": "f6540439b93a6d15672cf460f2a771488c7e405c9dd7d8d9a4f5e71f8bb34b58",
+    "assets/imported/ui/w29/icons/dark/defense.svg": "c41b4df1f7e50e4009218df24a4ddbb05a598bd5308be39e5ee771bf613588fb",
+    "assets/imported/ui/w29/icons/dark/ecology.svg": "d231e7581f4652c595c78f09a9001b691eacc316cd33021949e111d2afb241d0",
+    "assets/imported/ui/w29/icons/dark/facility.svg": "f76df904d2e51478da4fdb47e2e3e29bc31d909ca2fb0bcb1122eac290c4d52a",
+    "assets/imported/ui/w29/icons/dark/finance.svg": "b72427aa4c7fba4b36f04af7a7aa76717e4262770213e19f25232ee4fec78212",
+    "assets/imported/ui/w29/icons/dark/fog.svg": "7e8b7f1e5da682c193c7f1da89377f88cbeb23c2f1fd7b0165cdaf0a71a4f70d",
+    "assets/imported/ui/w29/icons/dark/forward.svg": "f04cedbb86118e3b403da280341bbe25b45c4de25495ec35bb31683f2ee7b5c5",
+    "assets/imported/ui/w29/icons/dark/guide.svg": "a87d705298a18cf349072d5e4ecc6152854a774d3da4d3e7b6c695572362d5b0",
+    "assets/imported/ui/w29/icons/dark/headquarters.svg": "cebb9386d1ccc6ce0dc419fabec3e8764e0989c5f656eb48dc43bfdd9810373a",
+    "assets/imported/ui/w29/icons/dark/heal.svg": "8d83564f755ecae499086111eaae3f452b3975856ed6363d5ae0815d8d83cbd7",
+    "assets/imported/ui/w29/icons/dark/heat.svg": "95a218839ed4e1201a5748ff1bde2f39c768f70e77965997665bd28da4668b0f",
+    "assets/imported/ui/w29/icons/dark/heavy.svg": "d578707fcf679a847825e9bd40042802259c0be47df051befc89c29f8acec786",
+    "assets/imported/ui/w29/icons/dark/human_resources.svg": "43901523e9a66cf55aabe2a5cf3904c0a9d5de0d16970a591aa6f9308abc6105",
+    "assets/imported/ui/w29/icons/dark/intel.svg": "acde15afe0b971a4db9237150a4d98c3157e9fbfc537396c996c50f71228d3e2",
+    "assets/imported/ui/w29/icons/dark/list.svg": "b366c28955003bf6feaa87b6026710d7e496b09ddf103609843943f3af5b64bf",
+    "assets/imported/ui/w29/icons/dark/lock.svg": "0e2487742b140dac9c8276fa95db39538f8ff2e64efd1b226ae918e86fa243aa",
+    "assets/imported/ui/w29/icons/dark/map.svg": "772479975d5372c643559803ff0843f8db43d879396766cd2019b091aee9239c",
+    "assets/imported/ui/w29/icons/dark/mechanical.svg": "0769e68a1a1bc2fe2e47eefee395eeb36634a138a53dafc4ea53ce7c9b52c7be",
+    "assets/imported/ui/w29/icons/dark/minus.svg": "c54509c2db4e2e29aacc064dd84d13c2ece8b895f690e4db723173c08da47cf8",
+    "assets/imported/ui/w29/icons/dark/mute.svg": "648c3fbb171e0407ef4c791448b812ec01e6a90daebfc2342dbec47407159d40",
+    "assets/imported/ui/w29/icons/dark/outreach.svg": "841b35b268a634d7f1c5924f7c57daec7fe60f5d03c900fe0c998c854858bcd3",
+    "assets/imported/ui/w29/icons/dark/pause.svg": "2eb1ab5cf4624ae37792792800f19c77939bc638689fdc5466136db6ea696aed",
+    "assets/imported/ui/w29/icons/dark/perfect.svg": "a05a092a267e3948a96461db678fb37da5517447aeca30d8a6e85a8acd031737",
+    "assets/imported/ui/w29/icons/dark/play.svg": "0609818ab8d5ad966b974d0b92bb67ebd965e9efb85e3c25e9c27926cad8ff51",
+    "assets/imported/ui/w29/icons/dark/quiz.svg": "1f62aeea44dc81cca2559cbcde0862f03403dd2fa4e6c57171b971bb771dee50",
+    "assets/imported/ui/w29/icons/dark/ranger.svg": "dfbef768fe14e00bcd2e4ba7bb345d612583bba739c6f3ae284b39b87db86c53",
+    "assets/imported/ui/w29/icons/dark/records.svg": "ecce89d18903fe9e5cfbae3112ab08f8de262d68a95cc8ea39c5e2ed3317e718",
+    "assets/imported/ui/w29/icons/dark/repair.svg": "625d3a9cb69866a0a94b432184502797c526d01075a16d815f0f8290d0c8d438",
+    "assets/imported/ui/w29/icons/dark/research.svg": "d742211ffc492d2e69be7c8e082ec862f6874e764e5b6f5c84592a79450b632c",
+    "assets/imported/ui/w29/icons/dark/restoration.svg": "7572ce0fa29805c7c1b66295ada8eed0c8a0130b965db676b8cb2910b71e98bb",
+    "assets/imported/ui/w29/icons/dark/retry.svg": "c954c818a2c8327937976566a80650846a7755b2b3ae7c302d7aa6cee203b8b2",
+    "assets/imported/ui/w29/icons/dark/settings.svg": "eff07112aed25e509a04a635f6ce0131d5984f81374755ec82319c4f2756a1b5",
+    "assets/imported/ui/w29/icons/dark/siege.svg": "aa6d9482c4c4fb3cb238a93b387a3691213e2a8bc61fe1f09e844146307078d8",
+    "assets/imported/ui/w29/icons/dark/sound.svg": "dd2f3f6800beb6a6f5e7e3e63572f65f87faf937d32afd0b6cad5ade4e3be2a3",
+    "assets/imported/ui/w29/icons/dark/specialist.svg": "b637b39c3fc117ac8ce19f60f30e909b5c6a82d1d0644934724594d37dadd137",
+    "assets/imported/ui/w29/icons/dark/support.svg": "c4d588a2a1f266dad055b3956c4f64bbe8780c8cdc25834fdeaf16d2422c2813",
+    "assets/imported/ui/w29/icons/dark/technology.svg": "2d1e0d4ab74d03dab5732317e526d712b9d0801622e44d739aa88e36019a9897",
+    "assets/imported/ui/w29/icons/dark/toggle_off.svg": "eba0f73c62d3cb08493243f6225174c038566c7c4d90cc0329889c888aab5176",
+    "assets/imported/ui/w29/icons/dark/toggle_on.svg": "645f3d96424a684b9afe54f56a28cd8748326ec5d75a4fba040214fdfae4c6e7",
+    "assets/imported/ui/w29/icons/dark/warning.svg": "24ca6ee837e386932fc925ac4dc6b34f8aa3f56fd1b23263c368e564badf27a8",
+    "assets/imported/ui/w29/icons/dark/water.svg": "2f5e459169587a9d8ace3ecaf8177f4b2fe3587c5ae053195085d2044fcd06a2",
+    "assets/imported/ui/w29/icons/light/add.svg": "e22e3d89f08f68a40e6acc79f8d696779ea1d38412fb967fc8e49575fd16a21c",
+    "assets/imported/ui/w29/icons/light/aerial.svg": "89d74e5637daaf992590569c557597d1ec569732e116e75ffe4a4da13a1870a6",
+    "assets/imported/ui/w29/icons/light/attack.svg": "da089866005290c3d9b82934c291d4081ee83b2cf9134f84f46c235477543c12",
+    "assets/imported/ui/w29/icons/light/back.svg": "e1aee91e7afe76a32feb29b6df4eeee590bc2f857a2d9aad308bd771e90997db",
+    "assets/imported/ui/w29/icons/light/campaign.svg": "550858f51ae250a32223be8f4e79e9ef920800d7a5e46476aa2771fcd451ebb1",
+    "assets/imported/ui/w29/icons/light/caret.svg": "f8af0e2e2f538aafe259e4f1947397ff6beb21e11c6f630f65220df296b9f674",
+    "assets/imported/ui/w29/icons/light/chaos.svg": "c8cd778ded854c18153353e59eb72200306efca713c3a13256573b78f7a93b71",
+    "assets/imported/ui/w29/icons/light/check.svg": "a8f81a5bc15e58da13dd33d8316f1a56e8a94c5ddcdac829ea7a9d9067ed8935",
+    "assets/imported/ui/w29/icons/light/clock.svg": "999ba4f52dafeb2f30f7cf64813cba4e0188dad79e0261fefca5701a154307da",
+    "assets/imported/ui/w29/icons/light/close.svg": "5cba96033d4eab9ab6c412f9bc5965d79e218e2566bb18604252e3920643e172",
+    "assets/imported/ui/w29/icons/light/construct.svg": "f2ac73f2ef0daff9251db97eed37d5b32236e516769459d592c9b785ff276d9f",
+    "assets/imported/ui/w29/icons/light/control.svg": "94fca0a6a2e76857f0fed9dad40a7842c6c4e6da047ffeef2feec545bd003056",
+    "assets/imported/ui/w29/icons/light/defense.svg": "e084f3e0b5bfe68ff6b84366d0ba949762eb127addd15fddd1cef894c5a7884e",
+    "assets/imported/ui/w29/icons/light/ecology.svg": "493075c42e7343ddc7ce2fac70c113bcf82c6c74b16682b5bd5acdd7badb42e2",
+    "assets/imported/ui/w29/icons/light/facility.svg": "d2f562c119fdf8554b781f37366bb9aa18ce24cd9e26e5d41832f666ee366493",
+    "assets/imported/ui/w29/icons/light/finance.svg": "d6a68e654083a8c32f111d4b9a8843ad5e3436741d6f5eb5ba790322a83cfcef",
+    "assets/imported/ui/w29/icons/light/fog.svg": "26f4507435adb7e06cbe01df11941f87b904808944d1c89b00f50113abf9bf47",
+    "assets/imported/ui/w29/icons/light/forward.svg": "290158038ba7faed2f1119d529f143c05c7c34a087befaf069b16b284b8cd365",
+    "assets/imported/ui/w29/icons/light/guide.svg": "5fae5673b13b24cc2969b0197c7008d68c644c82fb91b5bdcd866d75df1987dc",
+    "assets/imported/ui/w29/icons/light/headquarters.svg": "823222a5cad296192b53c2dea864fd2e4a649e92bddf4f15eb71e5edc2ca7d38",
+    "assets/imported/ui/w29/icons/light/heal.svg": "bd3080779522af13aa285bbc70331cee570ccb124c636f3c43d395f2c01b9884",
+    "assets/imported/ui/w29/icons/light/heat.svg": "ac9ebaa6604316596fbd2ab48366468a2beec9dad231c650537a6ff0d43c65e2",
+    "assets/imported/ui/w29/icons/light/heavy.svg": "86452b5df2f5bcbb0385536fee63f9d20b765c6482dcb9ccc0afa6abf2f60bb8",
+    "assets/imported/ui/w29/icons/light/human_resources.svg": "1848f0696207517b8abcf6492f25093f98fbe4399241b28e17394d736660c62b",
+    "assets/imported/ui/w29/icons/light/intel.svg": "75692985ede8123e6df49c0190b9870a1d0d4d05f9583c31f602d47972933253",
+    "assets/imported/ui/w29/icons/light/list.svg": "d9f2487bf063d6f064c6ba4d992c807eea1b4a4e516ee1a28d33f7f6ebc489dc",
+    "assets/imported/ui/w29/icons/light/lock.svg": "2a7a499701ecae2a732ad165e3e8263b190c96640f1010f163e8432de6d1d7fa",
+    "assets/imported/ui/w29/icons/light/map.svg": "5b481edbaff96932127bfddf0671c1768ebe1f62e6dc875d7ce9674909eb4397",
+    "assets/imported/ui/w29/icons/light/mechanical.svg": "8a971479f831ee63045fd79da9ddc7e8e44385770a372fbc90fc7264c1cea875",
+    "assets/imported/ui/w29/icons/light/minus.svg": "6762f9e23a2fdd4f6301d0eb62353df7917b78b98a41388bbb5d72d3b3e2f4e1",
+    "assets/imported/ui/w29/icons/light/mute.svg": "5f644922295e8cde6d326817880aeff18d68ffa626c2bc84c72be4dbf4f2675c",
+    "assets/imported/ui/w29/icons/light/outreach.svg": "63bba04006a381d3402fc697d142a897c02a1fd42fdd9dec38b1ca1ff45b5ee7",
+    "assets/imported/ui/w29/icons/light/pause.svg": "9dd3bcf45b4c0114c77d6a5bbd142fc668e7cf85792af88436e80b7867323c08",
+    "assets/imported/ui/w29/icons/light/perfect.svg": "52d049c25af986389d75b0e00191a5218b9865257896372aae95d5ecfb6a5c5f",
+    "assets/imported/ui/w29/icons/light/play.svg": "ee004e69d9eabc062e053baa703b7f60c5edb34129e77f711767d62feccd6f8c",
+    "assets/imported/ui/w29/icons/light/quiz.svg": "e6b3199d788beee77a5bbb3793abb098281ad6d40e8c156b0af364c8cd6e9a3f",
+    "assets/imported/ui/w29/icons/light/ranger.svg": "19072440600b67e4749513b2cf5906186690548d50438e6c380b10b070c8f1f1",
+    "assets/imported/ui/w29/icons/light/records.svg": "d5da4f59f07ff6e394c6c89b7a5638438626c3b5e75842343de748b1b11b6506",
+    "assets/imported/ui/w29/icons/light/repair.svg": "714e7f5e965d471639cc30af8d309052534c239147598ea14b0382afcb1f8273",
+    "assets/imported/ui/w29/icons/light/research.svg": "5f1bee79dd27955ef01a9fb6fe3acd377395bb6bc73347a116373f17712a122c",
+    "assets/imported/ui/w29/icons/light/restoration.svg": "3b17c0f989d1b4725e150de7fccddcf91648b949fbbe01c4de545f5264f1acb5",
+    "assets/imported/ui/w29/icons/light/retry.svg": "15216429314c1765b200202f3e9f284d4d0b9e6e3a88597568100eef3713110f",
+    "assets/imported/ui/w29/icons/light/settings.svg": "48c97f84d3072c8556d97166834e2818a5ec53f943e54252b9f4b4339f85822c",
+    "assets/imported/ui/w29/icons/light/siege.svg": "2c6cd9e611871f2535a3651275ab4a0d371027b9435032cd8d72321e796d1222",
+    "assets/imported/ui/w29/icons/light/sound.svg": "cc870a54a62732cf4db8773ce9197980f5c1d54ce028d1c101f16a3701e1fbfb",
+    "assets/imported/ui/w29/icons/light/specialist.svg": "6c70dcbfbfe7e11e115c910ab8aaeaaacd32677d5ab96233a2725dd767a724ae",
+    "assets/imported/ui/w29/icons/light/support.svg": "1128bc4f317da60752e589c3bba1aaacb79969ad6d498de70bbeeba9e21a5e60",
+    "assets/imported/ui/w29/icons/light/technology.svg": "f58daf20755c1380226e14703fb2f6e53288a9340e111cfce89a2b621eeb0d8e",
+    "assets/imported/ui/w29/icons/light/toggle_off.svg": "95c9215dc39a14b32971cd80bffa276dff9d60546b2b2dd5e9aac1b9ecabca50",
+    "assets/imported/ui/w29/icons/light/toggle_on.svg": "4415db68b4415bf19c2f6c57838e60432ef3dd2d2cab43bd40efa850b58f56dd",
+    "assets/imported/ui/w29/icons/light/warning.svg": "60309433f7de8735116ed5ba7bcf329e441aed8ea9a1563f84cab724250b8b88",
+    "assets/imported/ui/w29/icons/light/water.svg": "a041e90f9077644e2d94ee5bc0554b04e74cd004e854e8b7fd4b97e04003090d"
+  }
+}

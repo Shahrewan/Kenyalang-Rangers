@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="216" height="136" viewBox="0 0 216 136" stroke-linejoin="round" stroke-linecap="round">
+  <title>Records chapter cover</title>
+  <g id="cover" inkscape:groupmode="layer" inkscape:label="Cover">
+<rect x="8" y="10" width="200" height="116" rx="12" fill="#e4d3ae" stroke="#302721" stroke-width="3" /><rect x="14" y="16" width="188" height="104" rx="8" fill="#f4ead0" stroke="#a08f6a" stroke-width="1.4" /><path d="M23 94Q70 69 115 90T195 70M23 103Q80 79 115 103T195 83M25 67Q64 36 129 51T195 32" fill="none" stroke="#c5b895" stroke-width="2.7" /><path d="M66 104Q62 74 99 44Q107 34 113 29Q124 51 104 70Q87 87 66 104Z" fill="#8ca575" stroke="#302721" stroke-width="3" /><path d="M77 86Q93 68 107 44" fill="none" stroke="#52664a" stroke-width="2.5" /><path d="M129 85Q128 69 149 57Q164 60 162 74Q150 88 129 85Z" fill="#aa8459" stroke="#302721" stroke-width="2.5" /><ellipse cx="142" cy="52" rx="4" ry="7" fill="#73523f" stroke="#302721" stroke-width="1.8" /><ellipse cx="153" cy="45" rx="4" ry="7" fill="#73523f" stroke="#302721" stroke-width="1.8" /><ellipse cx="165" cy="49" rx="4" ry="7" fill="#73523f" stroke="#302721" stroke-width="1.8" />
+  </g>
+</svg>

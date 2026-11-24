@@ -1,0 +1,571 @@
+{
+  "schema_version": 1,
+  "asset_version": "1.0.0",
+  "ranger_id": "ranger.crowd_controller",
+  "display_name": "Crowd Controller",
+  "status": "W29 production cutout and isolated pose proof; runtime binding separate",
+  "source_svg": "assets/source-art/rangers/crowd_controller/crowd_controller.svg",
+  "coordinate_system": "Top-left origin, +x right, +y down",
+  "canvas_units": [
+    96,
+    96
+  ],
+  "normalized_raster_canvas_px": [
+    384,
+    384
+  ],
+  "pixels_per_unit": 4,
+  "godot_units_per_png_pixel": 0.25,
+  "tile_units": 80,
+  "ground_anchor_units": [
+    48,
+    84
+  ],
+  "target_visible_height_units": 69,
+  "neutral_facing": "right",
+  "horizontal_mirror_origin": "Facing node at foot anchor",
+  "underfoot_hp_offset_units": [
+    0,
+    5
+  ],
+  "deployment": {
+    "tile": "elevated",
+    "footprint_0_based": [
+      [
+        0,
+        0
+      ]
+    ],
+    "anchor": "Foot at addressed cell center"
+  },
+  "animation_contract": "assets/source-art/rangers/crowd_controller/animation_contract.json",
+  "export": {
+    "format": "PNG RGBA",
+    "minimum_padding_px": 4,
+    "filter": "linear",
+    "rasterizer": "Inkscape 1.4",
+    "crop_offset_origin": "top-left of normalized raster canvas"
+  },
+  "derived_badge": {
+    "path": "assets/imported/rangers/crowd_controller/field_badge.png",
+    "dimensions_px": [
+      96,
+      96
+    ],
+    "max_content_px": [
+      82,
+      78
+    ],
+    "baseline_px": 86,
+    "art_bounds_px": [
+      16,
+      8,
+      80,
+      86
+    ],
+    "sha256": "cc7ba467ea9e17f068e8034fb601d1612bf90bebcf2d051288568f856224a682"
+  },
+  "provenance": {
+    "creator": "Kenyalang Rangers production art",
+    "revision": "2026-11-24",
+    "base_manifest": "assets/source-art/rangers/scout_sniper/manifest.json",
+    "base_source": "assets/source-art/rangers/scout_sniper/scout_sniper.svg",
+    "base_source_sha256": "94df8b84d2883616781950d4bcfc4ef4510cb466f2da426d9cfa50d0976ce5b6",
+    "source": "Approved body proportions, established base cutouts and original role-specific SVG art.",
+    "reference": "W06 Ranger art spec, W27 approved enemy and Patrolman proportions, UI storyboard pp. 2–3 and 11, GDD pp. 9–11",
+    "release_review": "D-014"
+  },
+  "sockets": {
+    "tool_grip": {
+      "part": "hand_near",
+      "canvas_units": [
+        48,
+        63
+      ]
+    },
+    "attack_fx": {
+      "part": "projector",
+      "canvas_units": [
+        76,
+        61
+      ]
+    },
+    "emp_emitter": {
+      "part": "projector",
+      "canvas_units": [
+        76,
+        61
+      ]
+    }
+  },
+  "parts": [
+    {
+      "id": "battery",
+      "label": "Back-mounted power pack",
+      "parent": "torso",
+      "pivot_canvas_units": [
+        39,
+        61
+      ],
+      "svg_layer_id": "part_battery",
+      "png": "assets/imported/rangers/crowd_controller/battery.png",
+      "draw_order": 1,
+      "canvas_rect_px": [
+        92,
+        188,
+        84,
+        112
+      ],
+      "pivot_canvas_normalized": [
+        0.40625,
+        0.63541667
+      ],
+      "pivot_local_px": [
+        64,
+        56
+      ],
+      "sha256": "1b5baab1d3b14d3da8873c020cd0e445ec49d11f4189b24e1c3f68319967c2e3"
+    },
+    {
+      "id": "thigh_far",
+      "label": "Far thigh",
+      "svg_layer_id": "part_thigh_far",
+      "parent": "torso",
+      "draw_order": 2,
+      "png": "assets/imported/rangers/crowd_controller/thigh_far.png",
+      "sha256": "868fa93acb182c7621c2ebe2ab1ff775cb76358353e634206d834aaaaca97d52",
+      "canvas_rect_px": [
+        190,
+        265,
+        56,
+        56
+      ],
+      "pivot_canvas_units": [
+        55.25,
+        73.0
+      ],
+      "pivot_canvas_normalized": [
+        0.57552083,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        31.0,
+        27.0
+      ]
+    },
+    {
+      "id": "shin_far",
+      "label": "Far shin",
+      "svg_layer_id": "part_shin_far",
+      "parent": "thigh_far",
+      "draw_order": 3,
+      "png": "assets/imported/rangers/crowd_controller/shin_far.png",
+      "sha256": "264ebac59c898f0ed76be05844de04fecbb212c67949d692276a2efbab910560",
+      "canvas_rect_px": [
+        196,
+        284,
+        53,
+        51
+      ],
+      "pivot_canvas_units": [
+        55.75,
+        76.5
+      ],
+      "pivot_canvas_normalized": [
+        0.58072917,
+        0.796875
+      ],
+      "pivot_local_px": [
+        27.0,
+        22.0
+      ]
+    },
+    {
+      "id": "boot_far",
+      "label": "Far boot",
+      "svg_layer_id": "part_boot_far",
+      "parent": "shin_far",
+      "draw_order": 4,
+      "png": "assets/imported/rangers/crowd_controller/boot_far.png",
+      "sha256": "e09160dd6d564d4f88ef2be97f8646db581914f108d54080c1bf608944cbb808",
+      "canvas_rect_px": [
+        189,
+        291,
+        64,
+        50
+      ],
+      "pivot_canvas_units": [
+        56.0,
+        79.0
+      ],
+      "pivot_canvas_normalized": [
+        0.58333333,
+        0.82291667
+      ],
+      "pivot_local_px": [
+        35.0,
+        25.0
+      ]
+    },
+    {
+      "id": "thigh_near",
+      "label": "Near thigh",
+      "svg_layer_id": "part_thigh_near",
+      "parent": "torso",
+      "draw_order": 5,
+      "png": "assets/imported/rangers/crowd_controller/thigh_near.png",
+      "sha256": "47a8e069de043947d3df72bc1944a05356aa82d63ee0f957cea914b734025734",
+      "canvas_rect_px": [
+        137,
+        266,
+        52,
+        53
+      ],
+      "pivot_canvas_units": [
+        41.0,
+        73.0
+      ],
+      "pivot_canvas_normalized": [
+        0.42708333,
+        0.76041667
+      ],
+      "pivot_local_px": [
+        27.0,
+        26.0
+      ]
+    },
+    {
+      "id": "shin_near",
+      "label": "Near shin",
+      "svg_layer_id": "part_shin_near",
+      "parent": "thigh_near",
+      "draw_order": 6,
+      "png": "assets/imported/rangers/crowd_controller/shin_near.png",
+      "sha256": "105a1e246ed831f8fe455f99341fbc312c41baac4b90330d1b0e1f4e720bb975",
+      "canvas_rect_px": [
+        132,
+        286,
+        53,
+        49
+      ],
+      "pivot_canvas_units": [
+        40.6,
+        76.5
+      ],
+      "pivot_canvas_normalized": [
+        0.42291667,
+        0.796875
+      ],
+      "pivot_local_px": [
+        30.4,
+        20.0
+      ]
+    },
+    {
+      "id": "boot_near",
+      "label": "Near boot",
+      "svg_layer_id": "part_boot_near",
+      "parent": "shin_near",
+      "draw_order": 7,
+      "png": "assets/imported/rangers/crowd_controller/boot_near.png",
+      "sha256": "f4c5374f0495e186da4a40b49e21283d23d8fbd743fbd22532b81df29cabb02d",
+      "canvas_rect_px": [
+        125,
+        292,
+        63,
+        49
+      ],
+      "pivot_canvas_units": [
+        39.9,
+        79.0
+      ],
+      "pivot_canvas_normalized": [
+        0.415625,
+        0.82291667
+      ],
+      "pivot_local_px": [
+        34.6,
+        24.0
+      ]
+    },
+    {
+      "id": "upper_arm_far",
+      "label": "Far upper arm",
+      "svg_layer_id": "part_upper_arm_far",
+      "parent": "torso",
+      "draw_order": 8,
+      "png": "assets/imported/rangers/crowd_controller/upper_arm_far.png",
+      "sha256": "ca62817df2dd13f462a19d30197ce66c87cd115a83f7201377c865a87f2810eb",
+      "canvas_rect_px": [
+        196,
+        192,
+        63,
+        56
+      ],
+      "pivot_canvas_units": [
+        54.5,
+        53.0
+      ],
+      "pivot_canvas_normalized": [
+        0.56770833,
+        0.55208333
+      ],
+      "pivot_local_px": [
+        22.0,
+        20.0
+      ]
+    },
+    {
+      "id": "forearm_far",
+      "label": "Far forearm",
+      "svg_layer_id": "part_forearm_far",
+      "parent": "upper_arm_far",
+      "draw_order": 9,
+      "png": "assets/imported/rangers/crowd_controller/forearm_far.png",
+      "sha256": "4c8bb99cc841075e23c2b37ff0ab4f30dd784741533307cd3c3dea8a7dab5ad9",
+      "canvas_rect_px": [
+        210,
+        210,
+        48,
+        73
+      ],
+      "pivot_canvas_units": [
+        59.25,
+        56.5
+      ],
+      "pivot_canvas_normalized": [
+        0.6171875,
+        0.58854167
+      ],
+      "pivot_local_px": [
+        27.0,
+        16.0
+      ]
+    },
+    {
+      "id": "torso",
+      "label": "Jacket and belt",
+      "svg_layer_id": "part_torso",
+      "parent": null,
+      "draw_order": 10,
+      "png": "assets/imported/rangers/crowd_controller/torso.png",
+      "sha256": "8ce0a8523c22a2ab23d7d53b2cf5b726ad09bcb620b1479ae445fd2995422586",
+      "canvas_rect_px": [
+        133,
+        180,
+        124,
+        140
+      ],
+      "pivot_canvas_units": [
+        48.0,
+        73.25
+      ],
+      "pivot_canvas_normalized": [
+        0.5,
+        0.76302083
+      ],
+      "pivot_local_px": [
+        59.0,
+        113.0
+      ]
+    },
+    {
+      "id": "upper_arm_near",
+      "label": "Near upper arm",
+      "svg_layer_id": "part_upper_arm_near",
+      "parent": "torso",
+      "draw_order": 11,
+      "png": "assets/imported/rangers/crowd_controller/upper_arm_near.png",
+      "sha256": "ff4815aa5da81c48cd9ef5443842b4b49fdc1270f84624d4e8ecd49934424fa3",
+      "canvas_rect_px": [
+        129,
+        194,
+        63,
+        67
+      ],
+      "pivot_canvas_units": [
+        42.75,
+        53.25
+      ],
+      "pivot_canvas_normalized": [
+        0.4453125,
+        0.5546875
+      ],
+      "pivot_local_px": [
+        42.0,
+        19.0
+      ]
+    },
+    {
+      "id": "forearm_near",
+      "label": "Near forearm",
+      "svg_layer_id": "part_forearm_near",
+      "parent": "upper_arm_near",
+      "draw_order": 12,
+      "png": "assets/imported/rangers/crowd_controller/forearm_near.png",
+      "sha256": "4cbf80df1eecff690ba02f25cf5d517f8a9389780d1a7494924960ed3e8539e5",
+      "canvas_rect_px": [
+        130,
+        224,
+        67,
+        51
+      ],
+      "pivot_canvas_units": [
+        37.25,
+        60.5
+      ],
+      "pivot_canvas_normalized": [
+        0.38802083,
+        0.63020833
+      ],
+      "pivot_local_px": [
+        19.0,
+        18.0
+      ]
+    },
+    {
+      "id": "projector",
+      "label": "Padded EMP projector",
+      "parent": "hand_near",
+      "pivot_canvas_units": [
+        48,
+        63
+      ],
+      "svg_layer_id": "part_projector",
+      "png": "assets/imported/rangers/crowd_controller/projector.png",
+      "draw_order": 13,
+      "canvas_rect_px": [
+        167,
+        210,
+        154,
+        72
+      ],
+      "pivot_canvas_normalized": [
+        0.5,
+        0.65625
+      ],
+      "pivot_local_px": [
+        25,
+        42
+      ],
+      "sha256": "414c07e2025baaed927ddc81817d258dbb62f5609a7a22b6cb0167d6631f7488"
+    },
+    {
+      "id": "hand_far",
+      "label": "Far hand",
+      "svg_layer_id": "part_hand_far",
+      "parent": "forearm_far",
+      "draw_order": 14,
+      "png": "assets/imported/rangers/crowd_controller/hand_far.png",
+      "sha256": "f314d2203ee1e22568d317394e3fc02e42a3c0e19cab492bac7488f9607dc6f6",
+      "canvas_rect_px": [
+        213,
+        248,
+        40,
+        38
+      ],
+      "pivot_canvas_units": [
+        58.25,
+        66.25
+      ],
+      "pivot_canvas_normalized": [
+        0.60677083,
+        0.69010417
+      ],
+      "pivot_local_px": [
+        20.0,
+        17.0
+      ]
+    },
+    {
+      "id": "hand_near",
+      "label": "Near hand",
+      "svg_layer_id": "part_hand_near",
+      "parent": "forearm_near",
+      "draw_order": 15,
+      "png": "assets/imported/rangers/crowd_controller/hand_near.png",
+      "sha256": "c1548ae9d8e0f34a6e59a9c086fe906c9df031cc23d6400a184b8124bfd832a9",
+      "canvas_rect_px": [
+        164,
+        231,
+        46,
+        45
+      ],
+      "pivot_canvas_units": [
+        45.25,
+        63.25
+      ],
+      "pivot_canvas_normalized": [
+        0.47135417,
+        0.65885417
+      ],
+      "pivot_local_px": [
+        17.0,
+        22.0
+      ]
+    },
+    {
+      "id": "head",
+      "label": "Head and bangs",
+      "svg_layer_id": "part_head",
+      "parent": "torso",
+      "draw_order": 16,
+      "png": "assets/imported/rangers/crowd_controller/head.png",
+      "sha256": "3cec45ee84d9e0db87bc9f62dca30ba0716c9fac41d53d817d586abaa3c0cacf",
+      "canvas_rect_px": [
+        100,
+        87,
+        192,
+        129
+      ],
+      "pivot_canvas_units": [
+        49.5,
+        49.0
+      ],
+      "pivot_canvas_normalized": [
+        0.515625,
+        0.51041667
+      ],
+      "pivot_local_px": [
+        98.0,
+        109.0
+      ]
+    },
+    {
+      "id": "hat",
+      "label": "Ranger headgear",
+      "svg_layer_id": "part_hat",
+      "parent": "head",
+      "draw_order": 17,
+      "png": "assets/imported/rangers/crowd_controller/hat.png",
+      "sha256": "a598182cc90c3f09977e868704eef1d5420811773939e6211213bdeb465fbf99",
+      "canvas_rect_px": [
+        94,
+        63,
+        211,
+        127
+      ],
+      "pivot_canvas_units": [
+        47.75,
+        26.25
+      ],
+      "pivot_canvas_normalized": [
+        0.49739583,
+        0.2734375
+      ],
+      "pivot_local_px": [
+        97.0,
+        42.0
+      ]
+    }
+  ],
+  "source_sha256": "b4550d6f298716752c15d000901213c29b792db4bda49f2e716f3a8c251bb553",
+  "art_bounds_units": [
+    24.0,
+    16.75,
+    55.25,
+    67.5
+  ],
+  "measured_visible_height_units": 67.5,
+  "neutral_rgba_reassembly_max_delta": 1
+}

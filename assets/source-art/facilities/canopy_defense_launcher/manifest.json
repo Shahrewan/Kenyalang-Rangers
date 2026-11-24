@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "asset_version": "0.1.0",
+  "asset_id": "facility.canopy_defense_launcher",
+  "display_name": "Canopy Defense Launcher",
+  "status": "unbound_presentation_asset",
+  "source": "res://assets/source-art/facilities/canopy_defense_launcher/master.svg",
+  "source_sha256": "13da85d1470a02e425852c5acdf2c28429d82afc14193261afc00b6880b85d7c",
+  "provenance": "Original vector redraw for Kenyalang Rangers, W29, based on W08 facilities.png and the C28-A crate/radio, sage terrain and ink palette.",
+  "permission_review": "D-014 pending final shipping sign-off.",
+  "canon_refs": [
+    "SimSimi pp. 15–17 § J",
+    "Storyboard pp. 17, 28–29, 66, 69, 127"
+  ],
+  "readability_cue": "twin upward tube rims",
+  "canvas_units": [
+    160,
+    80
+  ],
+  "pixels_per_unit": 4,
+  "tile_units": 80,
+  "footprint_cells": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "reserved_cells": [],
+  "canvas_origin_from_occupied_cell_top_left_units": [
+    0,
+    0
+  ],
+  "base_anchor_canvas_units": [
+    80,
+    67
+  ],
+  "anchor_from_occupied_cell_top_left_units": [
+    80,
+    67
+  ],
+  "ready_alpha_bounds_canvas_px_xyxy": [
+    36,
+    34,
+    603,
+    287
+  ],
+  "world_scale": "One scalar tile_size()/80 for both axes. Place root at tile origin plus anchor_from_occupied_cell_top_left_units times scalar.",
+  "portrait_scale": "Fit uniformly inside card art area. The badge already has transparent square padding.",
+  "mount_socket_canvas_units": null,
+  "parts": [
+    {
+      "id": "base",
+      "parent": null,
+      "draw_order": 0,
+      "texture": "res://assets/imported/facilities/canopy_defense_launcher/base.png",
+      "sha256": "81dbc465353cfc214cb657d2689acd37c03343a358e94c930a83afc807352205",
+      "origin_png_px": [
+        32,
+        205
+      ],
+      "size_px": [
+        575,
+        86
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        36,
+        209,
+        603,
+        287
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        288,
+        63
+      ]
+    },
+    {
+      "id": "body",
+      "parent": "base",
+      "draw_order": 1,
+      "texture": "res://assets/imported/facilities/canopy_defense_launcher/body.png",
+      "sha256": "d3fc068c58cb75740f366da24228ee51d379d0ef7135146710d1a2df5736639a",
+      "origin_png_px": [
+        93,
+        141
+      ],
+      "size_px": [
+        446,
+        130
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        97,
+        145,
+        535,
+        267
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        227,
+        127
+      ]
+    },
+    {
+      "id": "active",
+      "parent": "body",
+      "draw_order": 2,
+      "texture": "res://assets/imported/facilities/canopy_defense_launcher/active.png",
+      "sha256": "2ca2b8315b403751056ae1d64561b39b5f293d84d0b0fcdc1e876b47cec38725",
+      "origin_png_px": [
+        228,
+        30
+      ],
+      "size_px": [
+        266,
+        252
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        232,
+        34,
+        490,
+        278
+      ],
+      "pivot_units": [
+        80,
+        49
+      ],
+      "pivot_local_png_px": [
+        92,
+        166
+      ]
+    },
+    {
+      "id": "indicator",
+      "parent": "active",
+      "draw_order": 3,
+      "texture": "res://assets/imported/facilities/canopy_defense_launcher/indicator.png",
+      "sha256": "c423fab7a574e4b98bc7ff8087fd2d13a6f4165a362c2fe817c6643138fb39df",
+      "origin_png_px": [
+        410,
+        206
+      ],
+      "size_px": [
+        88,
+        44
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        414,
+        210,
+        494,
+        246
+      ],
+      "pivot_units": [
+        80,
+        49
+      ],
+      "pivot_local_png_px": [
+        -90,
+        -10
+      ]
+    },
+    {
+      "id": "construction",
+      "parent": "base",
+      "draw_order": 5,
+      "texture": "res://assets/imported/facilities/shared/pair/construction.png",
+      "sha256": "aee4e3d184a5e6e885b9122cc208acdb5b9ffd01d6a38e6bf687578ea4b7fb70",
+      "origin_png_px": [
+        89,
+        109
+      ],
+      "size_px": [
+        470,
+        158
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        113,
+        555,
+        263
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        159
+      ]
+    },
+    {
+      "id": "siege",
+      "parent": "base",
+      "draw_order": 7,
+      "texture": "res://assets/imported/facilities/shared/pair/siege.png",
+      "sha256": "d3242e97bc98060aebf1ffeff4e90c4a1f5b1bd4fa34a4060d8ae529473099d9",
+      "origin_png_px": [
+        80,
+        159
+      ],
+      "size_px": [
+        481,
+        101
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        84,
+        163,
+        557,
+        256
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        240,
+        109
+      ]
+    },
+    {
+      "id": "ruin",
+      "parent": "base",
+      "draw_order": 6,
+      "texture": "res://assets/imported/facilities/shared/pair/ruin.png",
+      "sha256": "67713aed737b6179734a1daa50c40d48484c808c0e7769bb3983f3371fc157fb",
+      "origin_png_px": [
+        89,
+        161
+      ],
+      "size_px": [
+        470,
+        110
+      ],
+      "alpha_bounds_canvas_px_xyxy": [
+        93,
+        165,
+        555,
+        267
+      ],
+      "pivot_units": [
+        80,
+        67
+      ],
+      "pivot_local_png_px": [
+        231,
+        107
+      ]
+    }
+  ],
+  "states": {
+    "Ready": {
+      "length": 2.0,
+      "loop": true,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.83
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.83
+        ]
+      ]
+    },
+    "Active": {
+      "length": 0.45,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "indicator_alpha": [
+        [
+          0.0,
+          0.68
+        ],
+        [
+          0.11,
+          1.0
+        ],
+        [
+          0.45,
+          0.84
+        ]
+      ],
+      "part_rotation_degrees": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.11,
+          -4.0
+        ],
+        [
+          0.45,
+          0.0
+        ]
+      ],
+      "socket": [
+        101,
+        15
+      ],
+      "cue": "Active on existing launcher hit"
+    },
+    "Ghost": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator"
+      ],
+      "opacity": 0.52
+    },
+    "Construction": {
+      "length": 0.1,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction"
+      ]
+    },
+    "UnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "body",
+        "active",
+        "indicator",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "ConstructionUnderSiege": {
+      "length": 0.5,
+      "loop": false,
+      "visible": [
+        "base",
+        "construction",
+        "siege"
+      ],
+      "siege_alpha": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.12,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ]
+      ]
+    },
+    "Destroyed": {
+      "length": 0.3,
+      "loop": false,
+      "visible": [
+        "base",
+        "ruin"
+      ]
+    }
+  },
+  "badge": {
+    "texture": "res://assets/imported/facilities/canopy_defense_launcher/badge.png",
+    "size_px": [
+      112,
+      112
+    ],
+    "sha256": "5176dcac2c55c989290e23713648c5d51228d300502591812bcc759787e200b9"
+  },
+  "rig": "res://assets/imported/facilities/canopy_defense_launcher/rig.tscn",
+  "master_reassembly_max_premultiplied_channel_delta": 1
+}

@@ -6,10 +6,13 @@ const RADIUS := 1.5
 const SOCKETS := {
 	"rangers/patrolman": {"shield": "far_shield_grip", "baton": "near_baton_grip"},
 	"enemies/e01": {"pouch": "pouch_pin"},
+	"enemies/e02": {"satchel": "satchel_pin"},
 }
 
 var failures := 0
 var samples := 0
+var part_count := 0
+var clip_count := 0
 var proof := {}
 
 
@@ -18,11 +21,14 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	for unit: String in UNITS:
+	var units := Array(OS.get_cmdline_user_args())
+	if units.is_empty():
+		units = UNITS
+	for unit: String in units:
 		_check_unit(unit)
 	var out := FileAccess.open("res://probe_result.json", FileAccess.WRITE)
 	out.store_string(JSON.stringify({"sampled_poses": samples, "units": proof}, "  "))
-	print("W27: 32 imported parts, 13 pose contracts, %d neutral and animated samples, %d failures" % [samples, failures])
+	print("Cutout QA: %d imported parts, %d pose contracts, %d neutral and animated samples, %d failures" % [part_count, clip_count, samples, failures])
 	quit(1 if failures else 0)
 
 
@@ -38,6 +44,10 @@ func _check_unit(unit: String) -> void:
 	var sprites := {}
 	var images := {}
 	var art_parts: Array = manifest.parts
+	part_count += art_parts.size()
+	clip_count += contract.states.size()
+	if manifest.has("derived_badge"):
+		_check_badge(manifest.derived_badge)
 	for bone: Bone2D in facing.find_children("*", "Bone2D", true, false):
 		bones[String(bone.name)] = bone
 	_check(bones.size() == art_parts.size(), unit + " bone count")
@@ -104,6 +114,18 @@ func _check_unit(unit: String) -> void:
 	_test_playback(unit, player, contract, bones, art_parts, sprites)
 	proof[unit] = snapshots
 	rig.free()
+
+
+func _check_badge(record: Dictionary) -> void:
+	var texture := load("res://" + String(record.path)) as Texture2D
+	if texture == null:
+		_check(false, "Derived badge texture")
+		return
+	var image := texture.get_image()
+	var bounds: Array = record.art_bounds_px
+	var expected := Rect2i(int(bounds[0]), int(bounds[1]), int(bounds[2] - bounds[0]), int(bounds[3] - bounds[1]))
+	_check(image.get_size() == Vector2i(_vector(record.dimensions_px)), "Derived badge dimensions")
+	_check(image.get_used_rect() == expected and image.detect_alpha() != Image.ALPHA_NONE, "Derived badge alpha bounds")
 
 
 func _install_clips(player: AnimationPlayer, bones: Dictionary, rig: Node2D, states: Dictionary) -> void:
@@ -189,7 +211,7 @@ func _sample(unit: String, label: String, parts: Array, bones: Dictionary,
 				_check(false, "%s %s joint %s" % [unit, label, id])
 				break
 
-	var grip_pairs: Dictionary = SOCKETS[unit]
+	var grip_pairs: Dictionary = SOCKETS.get(unit, {})
 	for prop_id: String in grip_pairs:
 		var socket: Dictionary = sockets[grip_pairs[prop_id]]
 		var socket_part: Bone2D = bones[socket.part]

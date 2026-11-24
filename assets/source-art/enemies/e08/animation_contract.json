@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "asset_id": "E08",
+  "status": "W29 art-only keys mapped to existing combat cues.",
+  "sampling_fps": 60,
+  "default": "Move",
+  "facing": "Look along a horizontal segment. Retain the last horizontal facing along a vertical segment.",
+  "anchor": "Illustrated gait stays at the externally provided route position. Keep actor/route motion external.",
+  "clock": "Manually advance once with an existing combat clock delta. Playback never advances the route.",
+  "key_format": "[seconds, torso_y_offset_units, {bone_id: local_rotation_degrees}]. An omitted bone returns to its neutral rotation at that key. Interpolate linearly.",
+  "states": {
+    "Move": {
+      "event": "Existing route motion; the art stays on its anchor.",
+      "playback": "loop",
+      "keys": [
+        [
+          0,
+          0,
+          {
+            "arm_far": -4,
+            "rotor_far": 8,
+            "arm_near": 3,
+            "rotor_near": -7,
+            "gimbal": 6
+          }
+        ],
+        [
+          0.28,
+          -2,
+          {
+            "arm_far": 4,
+            "rotor_far": -8,
+            "arm_near": -3,
+            "rotor_near": 7,
+            "gimbal": -6
+          }
+        ],
+        [
+          0.56,
+          0,
+          {
+            "arm_far": -4,
+            "rotor_far": 8,
+            "arm_near": 3,
+            "rotor_near": -7,
+            "gimbal": 6
+          }
+        ]
+      ]
+    },
+    "Blocked": {
+      "event": "Optional actor pause; Recon Drone never uses a grounded blocker.",
+      "playback": "loop",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.28,
+          -1,
+          {
+            "arm_far": -4,
+            "rotor_far": 8,
+            "arm_near": 3,
+            "rotor_near": -7,
+            "gimbal": 6
+          }
+        ],
+        [
+          0.56,
+          0,
+          {}
+        ]
+      ]
+    },
+    "Attack": {
+      "event": "Existing ranged attack cue.",
+      "playback": "return",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.16,
+          0,
+          {
+            "gimbal": 14,
+            "arm_far": -6,
+            "arm_near": 7
+          }
+        ],
+        [
+          0.4,
+          0,
+          {}
+        ]
+      ],
+      "next": "Move",
+      "return_if_blocking": "Blocked"
+    },
+    "Hit": {
+      "event": "Existing nonterminal damage cue.",
+      "playback": "return",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.09,
+          1,
+          {
+            "arm_far": 4,
+            "rotor_far": -8,
+            "arm_near": -3,
+            "rotor_near": 7,
+            "gimbal": -6
+          }
+        ],
+        [
+          0.24,
+          0,
+          {}
+        ]
+      ],
+      "next": "Move",
+      "return_if_blocking": "Blocked"
+    },
+    "Defeat": {
+      "event": "Existing removal cue.",
+      "playback": "hold",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.28,
+          4,
+          {
+            "gimbal": 14,
+            "arm_far": -6,
+            "arm_near": 7
+          }
+        ]
+      ]
+    },
+    "Exit": {
+      "event": "Existing tunnel escape cue.",
+      "playback": "hold",
+      "keys": [
+        [
+          0,
+          0,
+          {}
+        ],
+        [
+          0.24,
+          0,
+          {
+            "arm_far": -4,
+            "rotor_far": 8,
+            "arm_near": 3,
+            "rotor_near": -7,
+            "gimbal": 6
+          }
+        ]
+      ]
+    }
+  }
+}

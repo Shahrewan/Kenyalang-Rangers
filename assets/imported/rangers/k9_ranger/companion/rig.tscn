@@ -1,0 +1,118 @@
+[gd_scene load_steps=9 format=3]
+[ext_resource type="Script" path="res://scripts/animation/first_contact_cutout.gd" id="rig"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/leg_far_rear.png" id="leg_far_rear"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/leg_far_front.png" id="leg_far_front"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/tail.png" id="tail"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/torso.png" id="torso"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/leg_near_rear.png" id="leg_near_rear"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/leg_near_front.png" id="leg_near_front"]
+[ext_resource type="Texture2D" path="res://assets/imported/rangers/k9_ranger/companion/head.png" id="head"]
+
+[node name="RangersK9RangerCompanionRig" type="Node2D"]
+texture_filter = 2
+script = ExtResource("rig")
+contract_path = "res://data/presentation/w29/animation/rangers__k9_ranger__companion.json"
+
+[node name="Facing" type="Node2D" parent="."]
+
+[node name="Skeleton" type="Skeleton2D" parent="Facing"]
+
+[node name="torso" type="Bone2D" parent="Facing/Skeleton"]
+position = Vector2(-4, -13)
+rest = Transform2D(1, 0, 0, 1, -4, -13)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="leg_far_rear" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-10.625, 1.375)
+rest = Transform2D(1, 0, 0, 1, -10.625, 1.375)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="leg_far_front" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(10, 1)
+rest = Transform2D(1, 0, 0, 1, 10, 1)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="tail" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-11, -2)
+rest = Transform2D(1, 0, 0, 1, -11, -2)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="leg_near_rear" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(-6, 2)
+rest = Transform2D(1, 0, 0, 1, -6, 2)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="leg_near_front" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(10, 2)
+rest = Transform2D(1, 0, 0, 1, 10, 2)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="head" type="Bone2D" parent="Facing/Skeleton/torso"]
+position = Vector2(11, -6)
+rest = Transform2D(1, 0, 0, 1, 11, -6)
+auto_calculate_length_and_angle = false
+length = 5.0
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/leg_far_rear"]
+z_index = 1
+z_as_relative = false
+position = Vector2(-5.375, -4.625)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("leg_far_rear")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/leg_far_front"]
+z_index = 2
+z_as_relative = false
+position = Vector2(-5, -6)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("leg_far_front")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/tail"]
+z_index = 3
+z_as_relative = false
+position = Vector2(-15, -12)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tail")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso"]
+z_index = 4
+z_as_relative = false
+position = Vector2(-15.5, -13)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("torso")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/leg_near_rear"]
+z_index = 5
+z_as_relative = false
+position = Vector2(-7, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("leg_near_rear")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/leg_near_front"]
+z_index = 6
+z_as_relative = false
+position = Vector2(-5, -6)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("leg_near_front")
+centered = false
+
+[node name="Art" type="Sprite2D" parent="Facing/Skeleton/torso/head"]
+z_index = 7
+z_as_relative = false
+position = Vector2(-9.25, -20.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("head")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

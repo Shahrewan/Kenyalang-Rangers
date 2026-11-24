@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="hat_olive" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#9A9567" />
+      <stop offset="1" stop-color="#827E56" />
+    </linearGradient>
+    <linearGradient id="face_peach" x2="0.92" y2="0.75">
+      <stop offset="0" stop-color="#F5BF9B" />
+      <stop offset="0.6" stop-color="#FBD0AD" />
+      <stop offset="1" stop-color="#F7C39D" />
+    </linearGradient>
+    <linearGradient id="hair_chestnut" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#5B4B41" />
+      <stop offset="1" stop-color="#4B3F39" />
+    </linearGradient>
+    <linearGradient id="cape_olive" x2="0.16" y2="1">
+      <stop offset="0" stop-color="#9A956A" />
+      <stop offset="1" stop-color="#848157" />
+    </linearGradient>
+    <clipPath id="mantle_shape">
+      <path d="M40.1 50.9 Q43.1 49.6 46.0 52.2 L49.1 55.1 C45.2 61.1 42.1 68.5 36.6 74.0 Q35.6 75.0 34.2 73.8 L23.9 64.5 Q22.7 63.2 24.0 62.1 C29.1 57.9 35.4 53.4 40.1 50.9 Z" fill="white" stroke="none" />
+    </clipPath>
+  </defs>
+  <title>Crowd Controller · W29 editable production cutout</title>
+  <g id="part_battery" inkscape:groupmode="layer" inkscape:label="Back-mounted power pack" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="25" y="50" width="17" height="23" rx="3" fill="#595F50" stroke="#2B2622" stroke-width="2.0" />
+    <rect x="28" y="49" width="8" height="22" rx="2" fill="#7C826D" stroke="#2B2622" stroke-width="2.0" />
+    <rect x="28" y="58" width="3" height="6" rx="0.7" fill="#AFB794" stroke="none" stroke-width="0" />
+  </g>
+  <g id="part_thigh_far" inkscape:groupmode="layer" inkscape:label="Far thigh" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M51.0 69.0 Q54.8 67.7 57.5 70.4 Q59.6 73.0 59.0 77.6 L51.0 78.0 Q48.4 72.5 51.0 69.0 Z" fill="#514C41" />
+  </g>
+  <g id="part_shin_far" inkscape:groupmode="layer" inkscape:label="Far shin" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M52.3 73.8 Q55.3 72.7 58.2 74.2 L60.0 81.2 L51.7 81.5 Q50.5 78.2 52.3 73.8 Z" fill="#514C41" />
+  </g>
+  <g id="part_boot_far" inkscape:groupmode="layer" inkscape:label="Far boot" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M51.3 75.7 Q54.5 74.8 58.8 75.4 L60.8 81.9 Q61.3 82.9 59.8 82.9 H51.7 Q50.5 82.8 50.3 81.4 L49.5 76.8 Z" fill="#4E4B40" />
+    <path d="M51.8 77.6 L58.1 77.1 L59.7 81.4 H52.4 Z" fill="#595648" stroke="none" />
+  </g>
+  <g id="part_thigh_near" inkscape:groupmode="layer" inkscape:label="Near thigh" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="40.6" cy="76.5" rx="2.2" ry="2.2" fill="#5E584A" stroke="none" stroke-width="0" />
+    <path d="M37.5 69.5 Q40.5 68.2 43.7 69.6 Q45.0 72.1 44.9 77.2 L36.7 77.3 Q36.0 73.9 37.5 69.5 Z" fill="#5E584A" />
+  </g>
+  <g id="part_shin_near" inkscape:groupmode="layer" inkscape:label="Near shin" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M37.6 74.1 Q41.0 73.1 43.8 74.6 Q44.2 77.5 42.1 81.4 L35.2 81.3 Q35.4 77.6 37.6 74.1 Z" fill="#5E584A" />
+  </g>
+  <g id="part_boot_near" inkscape:groupmode="layer" inkscape:label="Near boot" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M37.2 75.6 Q41.5 74.7 44.8 75.8 L43.3 81.8 Q43.1 82.9 42.1 82.9 H34.8 Q33.2 82.9 33.7 81.7 L35.8 76.7 Q36.2 76.0 37.2 75.6 Z" fill="#5B594A" />
+    <path d="M37.6 77.7 L43.3 77.4 L42.4 81.4 H35.7 Z" fill="#666253" stroke="none" />
+  </g>
+  <g id="part_upper_arm_far" inkscape:groupmode="layer" inkscape:label="Far upper arm" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M51.4 52.6 Q53.0 49.6 56.6 50.5 Q60.0 51.5 61.5 54.6 L62.5 57.7 Q61.0 60.3 57.3 59.5 Q55.2 56.7 52.4 55.5 Z" fill="#647062" />
+    <path d="M56.0 51.7 Q59.2 51.6 60.4 55.5 L58.8 56.0 Z" fill="#9CA78F" stroke="none" />
+  </g>
+  <g id="part_forearm_far" inkscape:groupmode="layer" inkscape:label="Far forearm" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M57.3 54.9 Q60.2 54.3 61.6 57.0 Q63.0 60.4 61.2 64.6 L59.9 67.7 Q57.0 69.4 54.9 66.7 L56.2 62.1 Q56.7 59.4 55.9 57.0 Z" fill="#647062" />
+    <path d="M56.0 64.4 L60.2 65.9" fill="none" stroke="#2B2622" stroke-width="1.45" />
+  </g>
+  <g id="part_torso" inkscape:groupmode="layer" inkscape:label="Jacket and belt" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40.3 53.0 C42.5 50.5 44.8 47.7 48.8 47.2 Q52.5 47.2 55.3 50.7 Q60.3 52.1 61.0 58.1 Q61.6 63.2 60.8 65.7 L62.0 75.0 Q62.2 76.3 61.0 76.9 Q55.8 78.2 50.3 77.4 Q43.9 78.1 37.7 77.0 Q35.4 76.4 35.6 74.5 L37.2 61.0 Z" fill="#87927B" />
+    <path d="M45.0 49.5 Q46.5 49.6 49.6 50.8 L53.6 50.1 L50.7 54.0 Z" fill="#F8C9A6" stroke="none" />
+    <path d="M43.2 51.9 L50.2 55.5 L55.0 51.5" fill="none" stroke="#2B2622" stroke-width="1.7" />
+    <path d="M38.7 57.7 Q42.8 59.7 45.8 59.5 L43.1 76.5 L37.1 75.5 Z" fill="#647062" stroke="none" />
+    <path d="M38.0 67.4 L45.0 68.1 L44.0 74.0 L37.6 73.8 Z" fill="#75714D" stroke="#2B2622" stroke-width="1.65" />
+    <path d="M38.2 69.2 L44.6 69.8" fill="none" stroke="#2B2622" stroke-width="1.45" />
+    <path d="M55.1 67.5 L59.9 67.0 L60.3 73.6 L55.5 74.4 Z" fill="#79754E" stroke="#2B2622" stroke-width="1.6" />
+    <path d="M55.5 68.3 L58.8 67.9 L59.0 69.8 L55.7 70.4 Z" fill="#F0DEC2" stroke="none" />
+    <path d="M50.4 55.4 Q50.5 59.6 50.2 64.3 L50.4 76.7" fill="none" stroke="#2B2622" stroke-width="1.7" />
+    <path d="M37.3 66.7 Q48.0 68.2 61.2 65.4 L61.4 68.6 Q50.0 71.0 37.1 69.4 Z" fill="#3D362D" stroke="#2B2622" stroke-width="1.35" />
+    <rect x="49.7" y="66.9" width="4.5" height="2.75" rx="0.6" fill="#C8A775" stroke="#2B2622" stroke-width="1.25" />
+    <path d="M59 53 L62 54 L51 67 L47 67 Z" fill="#515A50" stroke="#2B2622" stroke-width="1.4" />
+    <rect x="51" y="58" width="5" height="3.3" rx="0.7" fill="#8C9A83" stroke="#2B2622" stroke-width="1.0" />
+    <rect x="52" y="59" width="2.4" height="0.8" rx="0.3" fill="#F0DEC2" stroke="none" stroke-width="0" />
+  </g>
+  <g id="part_upper_arm_near" inkscape:groupmode="layer" inkscape:label="Near upper arm" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M39.9 51.6 Q43.2 49.8 45.5 52.0 Q46.0 54.6 43.7 57.4 L39.2 62.5 Q36.0 63.7 34.6 61.1 Q34.3 58.4 37.0 55.5 Z" fill="#87927B" />
+    <path d="M36.9 57.0 L41.4 57.6 L39.3 60.9 L35.8 60.1 Z" fill="#B5A17B" stroke="none" />
+  </g>
+  <g id="part_forearm_near" inkscape:groupmode="layer" inkscape:label="Near forearm" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35.4 59.0 Q38.3 57.5 41.0 59.3 L45.6 61.0 Q48.0 62.0 46.5 65.5 Q45.0 67.2 42.8 65.9 L36.5 63.8 Q34.0 62.1 35.4 59.0 Z" fill="#647062" />
+    <path d="M41.8 59.7 L46.2 61.4 Q47.0 62.6 46.2 65.4 L44.4 65.9 L40.0 64.2 Z" fill="#F0DEC2" stroke="#2B2622" stroke-width="1.35" />
+  </g>
+  <g id="part_projector" inkscape:groupmode="layer" inkscape:label="Padded EMP projector" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M44 60 Q44 57 48 56 L69 55 L77 57 L78 63 L75 67 L52 68 L45 66 Z" fill="#55574E" stroke="#2B2622" stroke-width="2.35" />
+    <rect x="68" y="54.5" width="9" height="14" rx="2.6" fill="#79887B" stroke="#2B2622" stroke-width="2.0" />
+    <rect x="72" y="57" width="4.2" height="8" rx="1.3" fill="#BDD2AF" stroke="none" stroke-width="0" />
+    <rect x="49" y="58" width="13" height="4" rx="1" fill="#8A9276" stroke="#2B2622" stroke-width="1.3" />
+    <rect x="62" y="62" width="5" height="3.3" rx="0.7" fill="#C1C495" stroke="#2B2622" stroke-width="1.0" />
+    <rect x="63" y="63" width="2.4" height="0.8" rx="0.3" fill="#F0DEC2" stroke="none" stroke-width="0" />
+  </g>
+  <g id="part_hand_far" inkscape:groupmode="layer" inkscape:label="Far hand" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M55.9 64.3 Q57.55 63.5 59.8 65.3 Q61.15 66.1 61.15 67.9 Q60.65 69.45 58.95 69.35 Q56.65 69.2 55.7 67.25 Q55.05 65.5 55.9 64.3 Z" fill="url(#face_peach)" stroke="#2B2622" stroke-width="1.85" />
+  </g>
+  <g id="part_hand_near" inkscape:groupmode="layer" inkscape:label="Near hand" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M44.7 60.55 Q46.8 59.4 49.0 60.7 Q50.7 61.75 50.15 63.75 Q49.3 66.65 47.0 66.8 Q44.4 66.85 43.2 64.9 Z" fill="url(#face_peach)" stroke="#2B2622" stroke-width="2.05" />
+    <path d="M44.6 64.05 Q46.75 65.6 49.05 64.9 Q48.7 65.9 47.0 65.8 Q45.4 65.8 44.25 64.9 Z" fill="#EEAD87" stroke="none" />
+  </g>
+  <g id="part_head" inkscape:groupmode="layer" inkscape:label="Head and bangs" stroke="#2B2622" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28.15 34.35 C29.8 27.55 36.9 24.5 43.9 24.4 C51.8 23.3 60.7 24.8 64.7 29.2 Q67.3 33.0 67.7 37.0 Q68.9 40.25 70.1 41.4 Q71.3 43.0 69.65 43.1 Q68.15 43.0 66.15 41.35 Q67.1 46.7 63.85 50.9 Q62.75 52.1 61.65 51.6 L61.35 48.1 Q56.65 51.3 50.2 50.85 L43.0 50.65 Q40.4 52.5 37.7 50.2 Q35.35 51.3 33.2 48.7 Q31.55 50.0 29.4 47.6 Q26.1 44.5 27.75 39.6 Z" fill="url(#hair_chestnut)" />
+    <path d="M36.7 36.7 Q34.3 36.3 32.75 38.3 Q31.15 39.9 31.9 42.55 Q32.4 44.7 35.15 45.0 Q37.3 44.6 37.65 42.0 Z" fill="#F8C9A6" stroke="#2B2622" stroke-width="1.85" />
+    <path d="M34.55 39.1 Q33.3 40.25 34.35 42.65" fill="none" stroke="#E9A680" stroke-width="1.1" />
+    <path d="M37.7 37.25 C40.35 33.3 46.1 31.6 51.75 31.0 Q58.4 31.0 62.9 37.9 L63.0 44.55 Q62.95 47.45 59.4 48.5 C54.6 50.0 47.8 49.75 43.35 49.35 Q37.55 48.8 36.9 45.05 L36.45 40.8 Z" fill="url(#face_peach)" stroke="#2B2622" stroke-width="1.9" />
+    <ellipse cx="46.55" cy="45.05" rx="2.25" ry="1.35" fill="#ECA985" opacity="0.42" stroke="none" />
+    <ellipse cx="60.55" cy="44.95" rx="1.25" ry="1.05" fill="#ECA985" opacity="0.34" stroke="none" />
+    <rect x="46.7" y="37.4" width="2.1" height="7.2" rx="1.04" fill="#2B2622" stroke="none" />
+    <rect x="57.95" y="37.4" width="2.1" height="7.2" rx="1.04" fill="#2B2622" stroke="none" />
+    <path d="M36.1 34.9 L46.25 30.95 C44.3 35.55 42.9 39.4 42.95 43.7 Q42.7 48.75 43.45 51.15 Q43.35 52.55 41.95 51.6 Q39.1 49.95 37.55 47.4 Q36.95 48.75 36.15 49.0 Q33.45 46.85 33.8 42.2 L34.05 37.8 Z" fill="url(#hair_chestnut)" stroke="#2B2622" stroke-width="1.72" />
+    <path d="M41.2 33.55 C45.3 29.95 48.1 27.95 53.95 27.3 Q59.85 26.85 63.6 29.25 C66.25 30.9 66.0 35.9 69.3 39.35 L70.3 41.1 Q71.0 42.25 69.9 42.4 Q67.2 42.1 64.85 39.2 Q61.1 35.55 59.4 32.4 Q58.5 36.0 56.05 38.15 Q54.5 39.7 52.2 39.9 Q51.25 39.95 51.5 39.05 Q52.55 35.1 50.4 33.6 Q47.25 37.55 42.9 38.25 Q41.4 38.5 40.9 37.25 Z" fill="url(#hair_chestnut)" stroke="#2B2622" stroke-width="1.7" />
+    <path d="M37.1 38.7 Q36.6 42.4 37.1 44.9" fill="none" stroke="#69564B" stroke-width="0.9" />
+  </g>
+  <g id="part_hat" inkscape:groupmode="layer" inkscape:label="Ranger headgear" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M27 34 L28 25 Q29 20 38 19 L55 18 Q66 19 69 25 L70 34 L59 37 L34 38 Z" fill="#777E68" stroke="#2B2622" stroke-width="2.35" />
+    <path d="M30 27 Q34 21 48 21 L57 21 Q61 22 63 25 L44 25 Z" fill="#A1AA8A" stroke="none" stroke-width="0" />
+    <path d="M27 33 Q43 30 61 28 Q72 27 74 34 L67 38 L54 35 L28 39 Z" fill="#46453C" stroke="#2B2622" stroke-width="2.35" />
+    <rect x="26" y="31" width="10" height="14" rx="3.5" fill="#4F5249" stroke="#2B2622" stroke-width="2.55" />
+    <rect x="28.5" y="34" width="4.7" height="7.7" rx="2" fill="#8DA387" stroke="none" stroke-width="0" />
+    <path d="M30 30 Q32 23 36 21" fill="none" stroke="#46453C" stroke-width="2" />
+  </g>
+</svg>

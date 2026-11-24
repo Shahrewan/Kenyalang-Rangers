@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 96 96" width="384" height="384">
+  <title>Recon Drone</title>
+  <g id="part_arm_far" inkscape:groupmode="layer" inkscape:label="Far rotor arm">
+    <path d="M52 37 L74 29 L77 33 L77 38 L55 44 L51 41Z" fill="#9a8063" stroke="#32251f" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g id="part_rotor_far" inkscape:groupmode="layer" inkscape:label="Far rotor and hub">
+    <path d="M71 29 L75 27 L80 28 L82 32 L78 38 L73 39 L70 34Z" fill="#78594b" stroke="#32251f" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M75 31 Q84 27 93 28 L93 32 L78 34 L62 36 L60 34Z" fill="#bfaa8a" stroke="#32251f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="75" cy="33" r="2.5" fill="#9e4e3b" stroke="#32251f" stroke-width="1.5" />
+  </g>
+  <g id="part_arm_near" inkscape:groupmode="layer" inkscape:label="Near rotor arm">
+    <path d="M42 37 L23 31 L21 34 L24 40 L43 45 L46 42Z" fill="#ac8967" stroke="#32251f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g id="part_rotor_near" inkscape:groupmode="layer" inkscape:label="Near rotor and hub">
+    <path d="M22 31 L26 31 L29 35 L27 39 L23 41 L19 38 L19 34Z" fill="#78594b" stroke="#32251f" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M23 33 Q29 30 42 31 L43 34 L27 37 L9 39 L7 36Z" fill="#bfaa8a" stroke="#32251f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="24" cy="35" r="2.6" fill="#9e4e3b" stroke="#32251f" stroke-width="1.5" />
+  </g>
+  <g id="part_torso" inkscape:groupmode="layer" inkscape:label="Brick-red drone casing">
+    <path d="M38 32 Q45 29 53 33 L61 36 Q65 40 62 50 L57 57 Q48 62 39 57 L34 51 L34 42Z" fill="#a55541" stroke="#32251f" stroke-width="2.65" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M38 35 Q46 32 54 35 L57 38 Q48 37 39 41Z" fill="#ca8061" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M42 53 L50 53 L55 57 L49 60 L42 57Z" fill="#6a5143" stroke="#32251f" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g id="part_gimbal" inkscape:groupmode="layer" inkscape:label="Attached camera gimbal">
+    <path d="M51 41 Q57 38 62 42 Q67 45 65 51 L62 56 L55 56 L50 52 L49 46Z" fill="#ac9577" stroke="#32251f" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="60" cy="48" r="4.4" fill="#594a40" stroke="#32251f" stroke-width="1.6" />
+    <circle cx="61" cy="47" r="1.85" fill="#e0ac60" stroke="#32251f" stroke-width="0.5" />
+  </g>
+</svg>

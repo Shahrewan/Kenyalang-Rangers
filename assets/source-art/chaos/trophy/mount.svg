@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="160" height="160" viewBox="0 0 160 160" stroke-linejoin="round" stroke-linecap="round">
+  <title>Unranked trophy mount</title>
+  <g id="body" inkscape:groupmode="layer" inkscape:label="Body">
+<path d="M26 121H134L145 143V154H15V143Z" fill="#6c5140" stroke="#302721" stroke-width="5" /><path d="M20 143H140L131 132H28Z" fill="#98764f" stroke="#302721" stroke-width="2.8" />
+  </g>  <g id="plaque" inkscape:groupmode="layer" inkscape:label="Plaque">
+<rect x="55" y="143" width="50" height="8" rx="3" fill="#bc9862" stroke="#302721" stroke-width="2.1" />
+  </g>
+</svg>

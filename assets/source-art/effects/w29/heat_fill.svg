@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="240" height="28" viewBox="0 0 240 28" stroke-linejoin="round" stroke-linecap="round">
+  <title>Heat · crosshatched meter fill</title>
+  <g id="fill" inkscape:groupmode="layer" inkscape:label="Fill">
+<rect x="5" y="3" width="230" height="22" rx="7" fill="#a54c3e" stroke="none" stroke-width="1" /><rect x="5" y="6" width="230" height="14" rx="5" fill="#cb7452" stroke="none" stroke-width="1" /><path d="M14 8H226" fill="none" stroke="#edaa68" stroke-width="2" /><path d="M22 9L16 19M44 9L38 19M66 9L60 19M88 9L82 19M110 9L104 19M132 9L126 19M154 9L148 19M176 9L170 19M198 9L192 19M220 9L214 19" fill="none" stroke="#e9a56c" stroke-width="1.4" />
+  </g>
+</svg>

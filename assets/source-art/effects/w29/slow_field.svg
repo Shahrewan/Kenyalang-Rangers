@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="72" height="72" viewBox="0 0 72 72" stroke-linejoin="round" stroke-linecap="round">
+  <title>Slow_Field</title>
+  <g id="slow_field" inkscape:groupmode="layer" inkscape:label="Slow Field">
+<ellipse cx="36" cy="42" rx="27" ry="17" fill="none" stroke="#a7bd8d" stroke-width="2" stroke-dasharray="5 5"/><ellipse cx="36" cy="42" rx="23" ry="14" fill="#91ae73" stroke="none" stroke-width="1" opacity=".24"/><path d="M22 33L32 41L42 35M24 47L33 53L44 45" fill="none" stroke="#a9b887" stroke-width="2.7" />
+  </g>
+</svg>

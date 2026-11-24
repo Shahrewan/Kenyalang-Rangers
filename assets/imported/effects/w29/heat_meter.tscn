@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/imported/effects/w29/heat_track.png" id="Track"]
+[ext_resource type="Texture2D" path="res://assets/imported/effects/w29/heat_fill.png" id="Fill"]
+[ext_resource type="Texture2D" path="res://assets/imported/effects/w29/heat_flame.png" id="Flame"]
+
+[node name="HeatRow" type="HBoxContainer"]
+custom_minimum_size = Vector2(300, 28)
+offset_right = 440.0
+offset_bottom = 28.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Flame" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("Flame")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeatLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_font_sizes/font_size = 18
+text = "Heat 0/100"
+
+[node name="HeatGauge" type="TextureProgressBar" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(134, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+texture_under = ExtResource("Track")
+texture_progress = ExtResource("Fill")
+nine_patch_stretch = true
+step = 0.01
+stretch_margin_left = 16
+stretch_margin_top = 4
+stretch_margin_right = 16
+stretch_margin_bottom = 4

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="36" height="36" viewBox="0 0 36 36" stroke-linejoin="round" stroke-linecap="round">
+  <title>Heat icon</title>
+  <g id="flame" inkscape:groupmode="layer" inkscape:label="Flame">
+<path d="M15 31Q5 29 7 20Q8 17 13 16Q13 11 17 6Q18 15 22 14Q25 12 25 10Q31 18 28 25Q26 31 21 31Z" fill="#b65e49" stroke="#302721" stroke-width="2.7" /><path d="M14 27Q13 23 19 19Q20 23 23 23Q24 29 19 30Z" fill="#e3b66f" stroke="#302721" stroke-width="1.7" />
+  </g>
+</svg>

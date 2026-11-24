@@ -248,3 +248,27 @@
 - Integrated the approved woodland branch at `63edd68`. Added the 17-part Patrolman and 15-part E01 scenes and field bindings for the 19-part Scout. T01 art follows the live board positions, and rigs and effects follow the shared combat clock.
 - Registered the four Post layers, illustrated HUD, Story nodes, radio portraits and result badges. First Contact outcomes were reproduced through the Story launcher with real combat. The existing C26 movement and repeated placement rules remain in force. [Cases, screenshots and phone checklist](../qa/C28_A_FIRST_CONTACT.md)
 - Pinned editor import and startup, 2,037 regression checks, 916 cutout samples and both native captures passed. The signed ARM64 APK passed package checks and host replay. A physical Android review remains open.
+
+## W29 production art audit and first batch — 2026-11-24
+
+- Reviewed post-C28-A main at `9c4e68f`, the original PDFs and external reference assets, and the current shipped paths. [W29 audit and batch plan](W29_PRODUCTION_ART.md) separates artwork, candidates, reusable components and missing art by ID.
+- W29-B01 provides the editable E02 Poacher master, 15 independent transparent parts, registered pivots, pose keys and a derived Intel crop. The [review sheet and acceptance report](w29/W29_B01_IMPORT_ACCEPTANCE.md) show both field sizes and the isolated rig proof.
+- Godot 4.7.2 passed 386 E02 samples and the 2,037 baseline checks. Original C28-A art and W27 joints passed their existing checks. W29 contains production art and QA tooling. The [W29-C01 handoff](w29/W29_C01_HOLD_THE_LINE_HANDOFF.md) gives the exact scope and tests for the pending live binding after owner review.
+
+### W29-B01 base-art revision — 2026-11-24
+
+- E02 v0.2 supersedes the declined first drawing. Its manifest points to the 13 existing E01 cutouts and preserves E01's bone registration. Its own exports are the neckerchief/jacket part, satchel and badge. The standard-unit base rule and boss exception apply to later batches. [Updated review and import evidence](w29/W29_B01_IMPORT_ACCEPTANCE.md)
+
+- E02 v0.3 retains the approved proportions and E01 pivots, and introduces a short side-part, brick-red field vest, ochre sleeves and charcoal trousers. The refreshed manifest tracks nine variant parts, six shared parts and the badge. [Current review and import evidence](w29/W29_B01_IMPORT_ACCEPTANCE.md)
+
+## W29 full production art delivery — 2026-11-24
+
+- Accepted E02 v0.3 as the style anchor for the wider enemy roster. The [asset delivery](w29/W29_PRODUCTION_DELIVERY.md) records the completed art files, cutout tests and native menu/HQ review scenes.
+- The art catalog covers 12 named Rangers, 15 enemies, three bosses, a K9 companion and all 13 Facilities. T01 stays available and T02–T06 have new plates and registered overlay layers.
+- Facilities fit the original elevated tile footprints at both scales. All 11 HQ rooms have modular scenery and stationary role-specific Work loops. The theme, dialogue, trophy, Heat and effects artwork are ready as separate presentation assets.
+- The [C1-02 binding](w29/W29_C01_HOLD_THE_LINE_HANDOFF.md) uses the compiled E02 rig. The gameplay code and shipping export route still use the existing presentation. Android touch and final release checks follow live binding.
+
+## W29 approved rigging handoff — 2026-11-24
+
+- The owner approved the current production artwork and requested a repository handoff for animation. Commit `b3c0243` anchors the reviewed visuals. The [art catalog and pose contract](w29/W29_PRODUCTION_DELIVERY.md#rigging-handoff) identify the editable masters, assembled rigs and proof images.
+- Future boss designs may take more visual freedom to distinguish them from standard units. The registered cuts and reference poses in this handoff use the approved artwork.

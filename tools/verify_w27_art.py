@@ -36,19 +36,21 @@ def verify_post():
     print("Logistics Post: approved SVG and four PNG layers match their recorded hashes")
 
 
-def probe(project):
+def probe(project, units=UNITS):
     (project / "project.godot").write_text(
         'config_version=5\n[application]\nconfig/name="W27 Cutout QA"\n'
         '[rendering]\nrenderer/rendering_method="gl_compatibility"\n'
     )
     (project / "plain_rig.gd").write_text("extends Node2D\n")
-    for unit in UNITS:
+    for unit in units:
         source = f"assets/source-art/{unit}"
         manifest_file = copy_into(f"{source}/manifest.json", project)
         manifest = json.loads(manifest_file.read_text())
         copy_into(f"{source}/animation_contract.json", project)
         for part in manifest["parts"]:
             copy_into(part["png"], project)
+        if "derived_badge" in manifest:
+            copy_into(manifest["derived_badge"]["path"], project)
         name = unit.split("/")[-1]
         scene = generate(manifest, "res://plain_rig.gd").replace(
             'name="ScoutRig"', f'name="{name}"', 1)
@@ -56,7 +58,7 @@ def probe(project):
 
     probe_file = copy_into("tests/art/w27_cutout_probe.gd", project)
     run_engine(project, ["--editor", "--import", "--quit"])
-    result = run_engine(project, ["--script", f"res://{probe_file.relative_to(project)}"])
+    result = run_engine(project, ["--script", f"res://{probe_file.relative_to(project)}", "--", *units])
     print(result.stdout.strip())
     if "ERROR:" in result.stderr:
         raise RuntimeError(result.stderr)
@@ -66,15 +68,17 @@ def probe(project):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--poses", type=Path, help="Optional JSON output of sampled Godot transforms")
+    parser.add_argument("--unit", action="append", help="Art family and ID, e.g. enemies/e02")
     args = parser.parse_args()
     expected = (ROOT / ".godot-version").read_text().strip()
     actual = subprocess.check_output(["godot", "--version"], text=True).strip()
     if not actual.startswith(expected + "."):
         raise RuntimeError(f"Godot {expected} required, found {actual}")
-    verify_post()
+    if not args.unit:
+        verify_post()
     with tempfile.TemporaryDirectory(prefix="w27-godot-") as folder:
         try:
-            poses = probe(Path(folder))
+            poses = probe(Path(folder), args.unit or UNITS)
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
             print(error.stdout or "")
             print(error.stderr or "")

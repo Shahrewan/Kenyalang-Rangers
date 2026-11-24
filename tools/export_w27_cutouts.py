@@ -1,4 +1,4 @@
-"""Export or check the independently drawn W27 SVG layers (Inkscape and Pillow)."""
+"""Export or check independent cutout SVG layers (Inkscape and Pillow)."""
 
 import argparse
 import copy
@@ -43,6 +43,17 @@ def opaque_joint(alpha, pivot):
     )
 
 
+def export_badge(badge, merged, scratch, generated):
+    art = merged.crop(merged.getbbox())
+    art.thumbnail(badge["max_content_px"], Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", badge["dimensions_px"])
+    canvas.alpha_composite(art, ((canvas.width - art.width) // 2, badge["baseline_px"] - art.height))
+    preview = scratch / "field_badge.png"
+    canvas.save(preview, optimize=True)
+    generated[ROOT / badge["path"]] = preview
+    badge.update(art_bounds_px=list(canvas.getbbox()), sha256=sha256(preview))
+
+
 def export_unit(unit, scratch, write):
     path = ROOT / "assets/source-art" / unit / "manifest.json"
     original = json.loads(path.read_text())
@@ -76,7 +87,11 @@ def export_unit(unit, scratch, write):
             PADDING, PADDING, cropped.width - PADDING, cropped.height - PADDING), key
         preview = scratch / f"{key}.png"
         cropped.save(preview, optimize=True)
-        generated[ROOT / part["png"]] = preview
+        destination = ROOT / part["png"]
+        if destination.is_relative_to(ROOT / "assets/imported" / unit):
+            generated[destination] = preview
+        else:
+            assert destination.read_bytes() == preview.read_bytes(), f"Shared cutout differs: {destination}"
         pivot = part["pivot_canvas_units"]
         part.update(
             canvas_rect_px=[box[0], box[1], cropped.width, cropped.height],
@@ -95,13 +110,14 @@ def export_unit(unit, scratch, write):
     difference = ImageChops.difference(merged.convert("RGBa"), master.convert("RGBa"))
     greatest_error = max(high for _, high in difference.getextrema())
     assert greatest_error <= 3, (unit, greatest_error)
-    reference_path = ROOT / result["study_reference"]
-    assert sha256(reference_path) == result["study_reference_sha256"], unit
-    with Image.open(reference_path) as reference:
-        comparison = ImageChops.difference(merged.convert("RGBa"), reference.convert("RGBa"))
-    study_error = max(high for _, high in comparison.getextrema())
-    assert study_error <= 2, (unit, study_error)
-    result["study_reassembly_max_delta"] = study_error
+    if unit in UNITS or "study_reference" in result:
+        reference_path = ROOT / result["study_reference"]
+        assert sha256(reference_path) == result["study_reference_sha256"], unit
+        with Image.open(reference_path) as reference:
+            comparison = ImageChops.difference(merged.convert("RGBa"), reference.convert("RGBa"))
+        study_error = max(high for _, high in comparison.getextrema())
+        assert study_error <= 2, (unit, study_error)
+        result["study_reassembly_max_delta"] = study_error
     left, top, right, bottom = master.getchannel("A").getbbox()
     result.update(
         source_sha256=sha256(source),
@@ -109,6 +125,8 @@ def export_unit(unit, scratch, write):
         measured_visible_height_units=(bottom - top) / DENSITY,
         neutral_rgba_reassembly_max_delta=greatest_error,
     )
+    if "derived_badge" in result:
+        export_badge(result["derived_badge"], merged, scratch, generated)
     if write:
         for file, preview in generated.items():
             file.parent.mkdir(parents=True, exist_ok=True)
@@ -121,14 +139,17 @@ def export_unit(unit, scratch, write):
 
     print(f"{result['display_name']}: {len(parts)} transparent parts, "
           f"{len(parts) - 1} joined pivots, {result['measured_visible_height_units']} units, "
-          f"maximum premultiplied delta: master {greatest_error}/255, study {study_error}/255")
+          f"maximum premultiplied master delta: {greatest_error}/255")
+    if "study_reassembly_max_delta" in result:
+        print(f"  maximum premultiplied study delta: {result['study_reassembly_max_delta']}/255")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--write", action="store_true", help="Refresh parts and measured metadata")
+    parser.add_argument("--unit", action="append", help="Art family and ID, e.g. enemies/e02")
     options = parser.parse_args()
-    for unit in UNITS:
+    for unit in options.unit or UNITS:
         with tempfile.TemporaryDirectory(prefix="w27-cutout-") as scratch:
             export_unit(unit, Path(scratch), options.write)
 

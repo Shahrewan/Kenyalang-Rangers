@@ -274,3 +274,21 @@ The owner approved the stage kit and directed T01’s exit artwork to follow the
 ## D-012 and D-014 C28-A runtime binding — 2026-11-24
 
 C1-01 uses the approved First Contact art on Godot `4.7.2.stable.official.ed1daf0bf` with matching `4.7.2.stable` export templates. Actors use the existing clock and combat events. The visible E01 disappears when the existing escape event fires, with its terminal clip sampled under the canopy. The T01 map, roster, timings, 10% C26 movement boost, type cooldowns, progression and save schema retain their existing sources. PC captures cover 1280 × 720 and 960 × 540. The ARM64 development package is ready for a named Android phone. ADB listed none in this workspace. [Test evidence and phone procedure](../qa/C28_A_FIRST_CONTACT.md)
+
+## D-012 and D-014 W29 evidence — 2026-11-24
+
+W29 used the existing C28-A look, scale, layer and registration as its production reference. The original E02 Poacher cutout set passed isolated import and playback checks. Its layered source, measured pivots and provenance are recorded in the [W29-B01 acceptance report](../production/w29/W29_B01_IMPORT_ACCEPTANCE.md) and [source manifest](../../assets/source-art/enemies/e02/manifest.json). Owner visual review, live C1-02 binding, phone validation and D-014 release sign-off remain open.
+
+## D-012 W29 approved bases for standard units — 2026-11-24
+
+The owner declined E02 v0.1 and directed standard units to start from the approved art itself. Use Scout Sniper and Patrolman as the Ranger bases and Forest Trespasser as the human enemy base. Preserve their proportions, face treatment, line weight and finished texture wherever the role permits. Use small wardrobe and equipment changes for identification. Reserve major silhouette and proportion changes for bosses. E02 v0.2 uses the exact E01 head, limbs and pivots with a neckerchief and field satchel. Approval of the reuse rule is recorded here. The revised E02 artwork awaits visual review. [Revised art plan](../production/W29_PRODUCTION_ART.md#delivery-plan) · [Review sheet](../production/w29/w29-b01-review.png)
+
+The owner accepted E02's shared proportions and requested a distinct hairstyle and outfit. E02 v0.3 retains the height, face proportions, rig pivots and sockets. Its short side-part and utility-vest outfit await visual review. [Current comparison](../production/w29/w29-b01-review.png)
+
+## D-012 W29 full production direction — 2026-11-24
+
+The owner approved Poacher v0.3 and directed the rest of the roster to follow the accepted style. The broader work uses the exact standard-unit anatomy and changes costume, hairstyle and role gear. The owner requested Facilities fitted to their existing tiles and stationary, role-dressed staff loops in Headquarters. The full asset pack applies those directions and carries its own visual review sheets. D-014 release clearance for new art and physical Android verification are open. [Delivery and evidence](../production/w29/W29_PRODUCTION_DELIVERY.md)
+
+## W29 artwork approval for rigging — 2026-11-24
+
+The owner approved the W29 visuals at `b3c0243` for the rigging and animation handoff. Use the approved shapes, colors, silhouettes and registered part placement as the reference pose. Future boss designs may use more distinctive silhouettes, costumes and visual motifs to stand apart from the standard roster. The handoff uses the current boss artwork. [Rigging handoff](../production/w29/W29_PRODUCTION_DELIVERY.md#rigging-handoff)
