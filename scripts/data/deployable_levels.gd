@@ -40,6 +40,14 @@ static func effective(spec: DeploymentSpec, level: int) -> DeploymentSpec:
 			unit.active_skill.damage = _output(unit.active_skill.damage, growth.skill_damage, unit.level)
 	elif unit is FacilitySpec:
 		unit.heal_per_kit = _output(unit.heal_per_kit, growth.healing, unit.level)
+		if unit.cooldown_reduction_seconds > 0.0 and growth.cooldown_reduction_seconds > 0.0:
+			unit.cooldown_reduction_seconds = lerpf(unit.cooldown_reduction_seconds, growth.cooldown_reduction_seconds, _fraction(unit.level))
+		unit.detection_radius = _output(unit.detection_radius, growth.detection_radius, unit.level)
+		unit.heat_slow_percent = _output(unit.heat_slow_percent, growth.heat_slow_percent, unit.level)
+		unit.discount_tokens = _output(unit.discount_tokens, growth.discount_tokens, unit.level)
+		unit.attack_rate_bonus_percent = _output(unit.attack_rate_bonus_percent, growth.attack_rate_bonus_percent, unit.level)
+		unit.incoming_reduction_percent = _output(unit.incoming_reduction_percent, growth.incoming_reduction_percent, unit.level)
+		unit.outgoing_reduction_percent = _output(unit.outgoing_reduction_percent, growth.outgoing_reduction_percent, unit.level)
 	return unit
 
 static func with_records_stats(spec: DeploymentSpec, enhancements: Array[StringName]) -> DeploymentSpec:

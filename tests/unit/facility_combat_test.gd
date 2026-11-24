@@ -209,8 +209,7 @@ func _relay_cooldowns() -> void:
 func _sonic_turret() -> void:
 	var battle := _encounter()
 	var state := battle.deployment
-	var upgraded := SONIC.duplicate() as FacilitySpec
-	upgraded.level = 100
+	var upgraded := DeployableLevels.effective(SONIC, 100)
 	state.deploy(upgraded, Vector2i(1, 0), 1)
 	var ground_one := _enemy(battle, 100, 0.7)
 	var ground_two := _enemy(battle, 101, 1.7)
@@ -220,16 +219,16 @@ func _sonic_turret() -> void:
 	_frames(battle, 419)
 	_check(state.build_ticks_left(SONIC.id) == 1 and ground_one.hp == 500, "Level 100 Sonic retains the full seven-second construction with no early shot")
 	_frames(battle, 1)
-	_check(ground_one.hp == 488 and ground_two.hp == 488 and distant.hp == 500 and aerial.hp == 500, "Sonic hits each ground target in its square for 12 HP")
+	_check(ground_one.hp == 486 and ground_two.hp == 486 and distant.hp == 500 and aerial.hp == 500, "Lv.100 Sonic hits each ground target in its square for 14 HP")
 	var distance := ground_one.distance
 	_frames(battle, 1)
 	_check(ground_one.sonic_slow_until == 510 and is_equal_approx(ground_one.distance - distance, 0.065 * CombatClock.STEP_SECONDS), "Sonic's separate slow changes movement")
 	battle.clock.paused = true
 	_frames(battle, 180)
-	_check(battle.clock.tick == 421 and ground_one.hp == 488 and state.placed[SONIC.id].next_attack_tick == 588, "Pause holds the Sonic cadence and slow")
+	_check(battle.clock.tick == 421 and ground_one.hp == 486 and state.placed[SONIC.id].next_attack_tick == 588, "Pause holds the Sonic cadence and slow")
 	battle.clock.paused = false
 	_frames(battle, 167)
-	_check(ground_one.hp == 476, "Sonic attacks again after 2.8 combat seconds")
+	_check(ground_one.hp == 472, "Sonic attacks again after 2.8 combat seconds")
 
 func _electric_turret() -> void:
 	var battle := _encounter()

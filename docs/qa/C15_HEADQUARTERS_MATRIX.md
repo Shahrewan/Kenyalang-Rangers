@@ -19,6 +19,6 @@ The 260 progression checks and 40 UI checks ran with the 928 existing checks, to
 
 ## Playtest choices
 
-The starting balance and 9,999,999 wallet cap retain the approved trial values. The exact Logistics Post endpoints are active. Other Lv.100 raw-stat endpoints are unsourced and remain unset. The upgrade UI identifies these pending values and preserves existing stats until reviewed data is available. The five pending Ranger combat kits have level records after recruitment and await combat integration.
+At C15, the starting balance and 9,999,999 wallet cap retained the approved trial values. The Logistics Post production endpoints were active, and other raw-stat endpoints still awaited review. C32-B added trial growth for all 13 Facilities. [Facility levels, screenshots and live combat verification](C32_B_FACILITY_GROWTH.md)
 
 The save tests cover grade, timer and reward transactions using fixture IDs. Live Outreach and Records require authored banks and their activity screens. Live planting and collection belong to C20. C15 exposes room access, gates and the saved garden summary. Stage and finale payouts remain pending as documented in W13. [Decisions](../canon/DECISION_LOG.md#c15-headquarters-and-local-progression--2026-11-22) · [Physical phone checklist](../../export/README.md#c15-headquarters-phone-check)

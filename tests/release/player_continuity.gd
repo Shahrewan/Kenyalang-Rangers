@@ -78,9 +78,34 @@ func _run() -> void:
 			_check(profile.outreach_state().batch.size() == 5, "Second relaunch keeps the installed Outreach rotation")
 	else:
 		_check(false, "Use seed, resume or verify from the package checker")
+	if "--facility-growth" in args:
+		_verify_facility_upgrade(mode)
 	app.free()
 	await process_frame
 	quit(1 if failures else 0)
+
+func _verify_facility_upgrade(mode: String) -> void:
+	const PATH := "user://c32-b-update-level.json"
+	const POST := &"facility.logistics_post"
+	if mode == "seed":
+		var fixture := CampaignSave.fresh()
+		fixture.leader_name = "Rimba"
+		fixture.funds = 300_000
+		_check(ProfileFile.replace(PATH, fixture, false), "Prepare a funded upgrade profile")
+		var profile := CampaignProgress.new(PATH)
+		_check(profile.purchase_room(HeadquartersCatalog.MECHANICAL).is_empty()
+			and profile.purchase_levels(POST, 20).is_empty() and profile.funds() == 219_904,
+			"Seed pack purchases Mechanical and Level 20 Logistics Post")
+		return
+	var returning := CampaignProgress.new(PATH)
+	var level := 20 if mode == "resume" else 40
+	var spec := DeployableLevels.effective(DeployableLevels.definition(POST), returning.deployable_level(POST))
+	_check(returning.load_status == CampaignProgress.LoadStatus.READY and spec.level == level
+		and spec.max_hp == (168 if level == 20 else 176)
+		and returning.funds() == (219_904 if level == 20 else 88_999),
+		"Returning profile retains the paid level and gets scaled Logistics Post HP")
+	if mode == "resume":
+		_check(returning.purchase_levels(POST, 40).is_empty(), "Updated pack continues the same upgrade track")
 
 func _open_room(app: Control, id: String) -> void:
 	app.show_menu()

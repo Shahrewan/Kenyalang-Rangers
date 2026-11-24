@@ -322,3 +322,8 @@
 
 - C32 adds a proposal and reproducible, runtime-backed economy tests with 1,080 daily ledger rows. The ordinary-only gate test, returning-save paths and distinct first-clear and first-perfect settlement passed. The approved First Contact amount and live economy remain in place.
 - Owner review covers the exact Campaign and Records schedule, legacy treatment, Firebreak and the recurring source sensitivities. Android scope is unchanged from C31-C because this milestone contains tests and review material. [Proposal](C32_ECONOMY_PROPOSAL.md) · [QA](../qa/C32_ECONOMY_AND_PROGRESSION.md)
+
+### C32-B · Facility upgrade scaling · 2026-11-24
+
+- Mechanical previews the same HP and primary outputs used in Story and Rainforest Chaos, with the exact price and remaining balance. The original level economy, C2-07 mission Firebreak and Chaos gates are retained. [Trial endpoints](../qa/C32_B_FACILITY_GROWTH.md#before-and-after)
+- Verified 78 Facility and level combinations in combat, C31-C normal and perfect clears, eight native Mechanical captures and the signed Android package on the host. Phone validation and final endpoint tuning remain open. [QA and phone procedure](../qa/C32_B_FACILITY_GROWTH.md)
