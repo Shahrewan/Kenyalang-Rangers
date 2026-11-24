@@ -113,15 +113,38 @@ func _stat_summary(level: int) -> String:
 	var spec := DeployableLevels.effective(definition, level)
 	var stats := PackedStringArray(["%d HP" % spec.max_hp])
 	if spec is RangerSpec:
-		if spec.attack_damage > 0:
-			stats.append("%d damage per %s s" % [spec.attack_damage, str(spec.attack_seconds)])
-		if spec.heal_hp > 0:
-			stats.append("%d HP healed per action" % spec.heal_hp)
-		if spec.repair_hp > 0:
-			stats.append("%d HP repaired per action" % spec.repair_hp)
+		_append_ranger_stats(stats, spec)
 	elif spec is FacilitySpec:
 		stats.append(_facility_output(spec))
 	return "\n".join(stats)
+
+func _append_ranger_stats(stats: PackedStringArray, spec: RangerSpec) -> void:
+	var records_earned := spec.records_enhancement in progress.records_enhancements()
+	if records_earned and spec.records_bonus_hp > 0:
+		stats.append("+%d HP from Records" % spec.records_bonus_hp)
+	if spec.attack_damage > 0:
+		stats.append("%d damage per %s s" % [spec.attack_damage, str(spec.attack_seconds)])
+	if spec.heal_hp > 0:
+		stats.append("%d HP healed per action" % spec.heal_hp)
+	if spec.repair_hp > 0:
+		stats.append("%d HP repaired per action" % spec.repair_hp)
+	var skill := spec.active_skill
+	if skill != null and (skill.damage > 0 or skill.healing > 0):
+		var status := " (Records locked)" if skill.requires_records and not records_earned else ""
+		if skill.damage > 0:
+			stats.append("%s · %d damage%s" % [skill.label, skill.damage, status])
+		if skill.healing > 0:
+			stats.append("%s · %d HP healed%s" % [skill.label, skill.healing, status])
+	match spec.field_kit:
+		RangerSpec.FieldKit.TRACKER:
+			stats.append("%d net damage" % spec.field_damage)
+		RangerSpec.FieldKit.SABOTEUR:
+			stats.append("%d retreat pulse damage" % spec.field_damage)
+		RangerSpec.FieldKit.STRIKE:
+			var damage := PackedStringArray()
+			for rank in spec.arrival_max_escalations + 1:
+				damage.append(str(spec.field_damage + rank * spec.arrival_damage_step))
+			stats.append("%s arrival damage per target" % " / ".join(damage))
 
 func _facility_output(spec: FacilitySpec) -> String:
 	match spec.role:

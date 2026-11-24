@@ -8,6 +8,11 @@ extends Resource
 @export var repair: int
 @export var skill_damage: int
 
+@export_group("Ranger effects")
+@export var skill_healing: int
+@export var field_damage: int
+@export var arrival_damage_step: int
+
 @export_group("Facility effects")
 @export var cooldown_reduction_seconds: float
 @export var detection_radius: int

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/deployable_growth.gd" id="GrowthScript"]
 
 [sub_resource type="Resource" id="EmpField"]
 script = ExtResource("2")
@@ -13,8 +14,15 @@ status_seconds = 4.0
 splash_radius = 1
 field_speed_scale = 0.5
 
+[sub_resource type="Resource" id="Growth"]
+script = ExtResource("GrowthScript")
+hp = 150
+attack_damage = 36
+skill_damage = 60
+
 [resource]
 script = ExtResource("1")
+growth = SubResource("Growth")
 id = &"ranger.crowd_controller"
 redeploy_seconds = 29.0
 label = "Crowd Controller"

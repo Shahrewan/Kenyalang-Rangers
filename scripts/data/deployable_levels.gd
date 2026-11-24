@@ -35,9 +35,12 @@ static func effective(spec: DeploymentSpec, level: int) -> DeploymentSpec:
 	if unit is RangerSpec:
 		unit.heal_hp = _output(unit.heal_hp, growth.healing, unit.level)
 		unit.repair_hp = _output(unit.repair_hp, growth.repair, unit.level)
-		if unit.active_skill != null and growth.skill_damage > 0:
+		unit.field_damage = _output(unit.field_damage, growth.field_damage, unit.level)
+		unit.arrival_damage_step = _output(unit.arrival_damage_step, growth.arrival_damage_step, unit.level)
+		if unit.active_skill != null and (growth.skill_damage > 0 or growth.skill_healing > 0):
 			unit.active_skill = unit.active_skill.duplicate() as RangerSkill
 			unit.active_skill.damage = _output(unit.active_skill.damage, growth.skill_damage, unit.level)
+			unit.active_skill.healing = _output(unit.active_skill.healing, growth.skill_healing, unit.level)
 	elif unit is FacilitySpec:
 		unit.heal_per_kit = _output(unit.heal_per_kit, growth.healing, unit.level)
 		if unit.cooldown_reduction_seconds > 0.0 and growth.cooldown_reduction_seconds > 0.0:

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="RangerSpec" format=3]
+[gd_resource type="Resource" script_class="RangerSpec" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/ranger_spec.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/ranger_skill.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/deployable_growth.gd" id="GrowthScript"]
 
 [sub_resource type="Resource" id="Howl"]
 script = ExtResource("2")
@@ -11,8 +12,14 @@ recharge_seconds = 12.0
 status_seconds = 4.0
 field_speed_scale = 0.5
 
+[sub_resource type="Resource" id="Growth"]
+script = ExtResource("GrowthScript")
+hp = 288
+attack_damage = 14
+
 [resource]
 script = ExtResource("1")
+growth = SubResource("Growth")
 id = &"ranger.k9_ranger"
 label = "K9 Ranger"
 ranger_class = 1
