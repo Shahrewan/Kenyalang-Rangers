@@ -53,7 +53,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.953, 0.922, 0.867, 1)
 size_flags_horizontal = 3
-text_overrun_behavior = 3
+autowrap_mode = 3
 theme_override_font_sizes/font_size = 25
 text = "Sample battle"
 
@@ -94,13 +94,13 @@ tooltip_text = "Logistic Tokens"
 [node name="Pause" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(120, 54)
+custom_minimum_size = Vector2(126, 62)
 text = "Pause"
 
 [node name="Speed" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(72, 54)
+custom_minimum_size = Vector2(88, 62)
 text = "1×"
 
 [node name="HeatRow" type="HBoxContainer" parent="Content"]
@@ -306,11 +306,14 @@ theme_override_constants/separation = 12
 [node name="Continue" type="Button" parent="Dialogue/Center/Body/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(145, 54)
+custom_minimum_size = Vector2(172, 64)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.45
 text = "Continue"
 
 [node name="Skip" type="Button" parent="Dialogue/Center/Body/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(145, 54)
+custom_minimum_size = Vector2(172, 64)
+size_flags_horizontal = 3
 text = "Skip"

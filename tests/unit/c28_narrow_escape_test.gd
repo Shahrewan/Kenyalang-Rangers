@@ -365,6 +365,10 @@ func _drop(field: CampaignBattle, id: StringName, tile: Vector2i) -> void:
 	drag.relative = target - start
 	root.push_input(drag, true)
 	_touch(target, false)
+	var facing := field.find_child("FaceLeft", true, false) as Button
+	if facing.is_visible_in_tree():
+		facing.pressed.emit()
+		field.find_child("ConfirmDeploy", true, false).pressed.emit()
 
 func _tap(field: CampaignBattle, cell: Vector2i) -> void:
 	var point := _at(field, cell)

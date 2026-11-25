@@ -151,6 +151,11 @@ func _drag(card: Control, board: BattleBoard, cell: Vector2i, offset: float) -> 
 	motion.relative = to - from
 	root.push_input(motion, true)
 	_touch(to, false)
+	var scene := board.get_parent().get_parent()
+	var facing := scene.find_child("FaceLeft", true, false) as Button
+	if facing.is_visible_in_tree():
+		facing.pressed.emit()
+		scene.find_child("ConfirmDeploy", true, false).pressed.emit()
 
 func _touch(at: Vector2, down: bool) -> void:
 	var pointer := InputEventScreenTouch.new()

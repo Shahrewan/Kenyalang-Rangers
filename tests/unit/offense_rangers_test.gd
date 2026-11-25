@@ -197,6 +197,8 @@ func _sandbox_touch() -> void:
 	_drag(tray.get_child(0).get_global_rect().get_center(), _at(board, Vector2i(2, 0)))
 	_drag(tray.get_child(1).get_global_rect().get_center(), _at(board, Vector2i(2, 2)))
 	_drag(tray.get_child(2).get_global_rect().get_center(), _at(board, Vector2i(3, 1), -16.0))
+	scene.find_child("FaceLeft", true, false).pressed.emit()
+	scene.find_child("ConfirmDeploy", true, false).pressed.emit()
 	_check(state.placed.size() == 3 and state.tokens == 54 and state.placed[GUARD.id].facing == -1, "Synthetic touch deploys the Offense roster with the chosen Guard facing")
 	_frames(battle, 824)
 	var enemy := battle.active[1]

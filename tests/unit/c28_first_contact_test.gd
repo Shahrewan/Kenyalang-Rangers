@@ -217,6 +217,11 @@ func _drag(card: Control, board: BattleBoard, cell: Vector2i, facing: int) -> vo
 	release.position = target
 	release.pressed = false
 	root.push_input(release, true)
+	var field := board.get_parent().get_parent()
+	var choice := field.find_child("FaceLeft" if facing < 0 else "FaceRight", true, false) as Button
+	if choice.is_visible_in_tree():
+		choice.pressed.emit()
+		field.find_child("ConfirmDeploy", true, false).pressed.emit()
 
 func _check(ok: bool, message: String) -> void:
 	if ok:

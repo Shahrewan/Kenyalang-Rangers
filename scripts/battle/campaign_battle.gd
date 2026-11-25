@@ -127,6 +127,7 @@ func _next_beat() -> void:
 	_active_beat = _queue.pop_front()
 	dialogue_id = _active_beat.id
 	_line_index = 0
+	%DeploymentController.cancel_interaction()
 	battle.clock.dialogue_open = true
 	$Content.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED
 	_dialogue.show()

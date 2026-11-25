@@ -214,8 +214,10 @@ func _placement_feedback(scene: BattleScene, controller: Node, tray: Control) ->
 	_check(reason.is_visible_in_tree() and reason.text == "Need 1 more Logistic Tokens." and state.tokens == ranger.cost - 1, "Token shortfall uses the same local warning without a spend")
 	state.tokens = original_tokens
 	_drag(from, at)
+	scene.find_child("FaceLeft", true, false).pressed.emit()
+	scene.find_child("ConfirmDeploy", true, false).pressed.emit()
 	var deployed := state.placed.has(ranger.id)
-	_check(deployed, "Dragging the same card commits the legal placement")
+	_check(deployed, "Choosing facing and confirming commits the legal placement")
 	if deployed:
 		_send_touch(at, true)
 		await create_timer(0.40).timeout

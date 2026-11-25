@@ -25,12 +25,14 @@ var state: DeploymentState
 var mode := 0
 var preview_skills := true
 var _illustrated_cards := {}
+var _badges: Dictionary[StringName, Texture2D] = {}
 var _simulation: BattleSimulation
 var _gesture := DeploymentGesture.new()
 var _entries: Array[DeploymentSpec]
 var _cards: Array[PanelContainer] = []
 var _labels: Array[Label] = []
 var _pointer := NO_POINTER
+var _swallow_emulated_mouse := false
 var _retreat_unit: StringName
 var _offered: Dictionary[StringName, DeploymentSpec] = {}
 var _press_at := Vector2.ZERO
@@ -40,8 +42,18 @@ var _drag_to_field := false
 var _local_notice: PanelContainer
 var _notice_text: Label
 var _notice_until := 0
+var _painted_tick := -1
 var _skill_detail: Label
 var _inspected_unit: StringName
+var _facing_picker: HBoxContainer
+var _facing_caption: Label
+var _face_left: Button
+var _face_right: Button
+var _deploy_button: Button
+var _dismiss_facing: Button
+var _pending_spec: DeploymentSpec
+var _pending_cell := DeploymentState.NO_CELL
+var _pending_facing := 0
 
 func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
@@ -54,6 +66,7 @@ func _ready() -> void:
 	_hint.get_parent().add_child(_skill_detail)
 	_hint.get_parent().move_child(_skill_detail, _hint.get_index() + 1)
 	_skill_detail.hide()
+	_build_facing_picker()
 	_local_notice = PanelContainer.new()
 	_local_notice.theme_type_variation = &"LightPanel"
 	_local_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -87,19 +100,26 @@ func _ready() -> void:
 		_labels.append(label)
 		_tray.add_child(card)
 	_resize_cards()
-	get_viewport().size_changed.connect(_resize_cards)
+	get_viewport().size_changed.connect(_viewport_resized)
+
+func _viewport_resized() -> void:
+	_resize_cards()
+	cancel_interaction()
 
 func illustrate(skin: FirstContactSkin) -> void:
+	var assets := CampaignVisualAssets.new()
 	for state_name in ["tray_starter", "tray_ready", "tray_wait"]:
 		_illustrated_cards[state_name] = skin.panel(state_name, 15)
 	for i in _cards.size():
 		var id := _entries[i].id
+		_labels[i].add_theme_color_override("font_color", StoryUI.INK)
 		var badge: Texture2D
 		if skin.registration().thumbnails.regions.has(String(_entries[i].id)):
 			badge = skin.region("badge", String(id))
 		else:
-			badge = FirstContactSkin.w29_badge(id)
+			badge = assets.badge(id)
 		if badge != null:
+			_badges[id] = badge
 			var portrait = _cards[i].get_child(0).get_child(0)
 			portrait.badge = badge
 			portrait.queue_redraw()
@@ -108,6 +128,39 @@ func _resize_cards() -> void:
 	var minimum := Vector2(174, 60).max(StoryUI.android_touch_minimum(_tray))
 	for card in _cards:
 		card.custom_minimum_size = minimum
+	var hit := StoryUI.android_touch_minimum(_tray)
+	for button: Button in [_face_left, _face_right, _deploy_button, _dismiss_facing, _retreat, _confirm, _cancel]:
+		button.custom_minimum_size = Vector2(maxf(92, hit.x), maxf(60, hit.y))
+
+func _build_facing_picker() -> void:
+	_facing_picker = StoryUI.row(_hint.get_parent(), 10)
+	_facing_picker.name = "FacingSelection"
+	_facing_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_facing_caption = StoryUI.label("", 19, StoryUI.AMBER)
+	_facing_caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_facing_caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_facing_picker.add_child(_facing_caption)
+	var group := ButtonGroup.new()
+	_face_left = _facing_action("Face left  ←", "FaceLeft", _select_facing.bind(-1))
+	_face_right = _facing_action("Face right  →", "FaceRight", _select_facing.bind(1))
+	for choice: Button in [_face_left, _face_right]:
+		choice.toggle_mode = true
+		choice.button_group = group
+		choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_deploy_button = _facing_action("Deploy", "ConfirmDeploy", _confirm_deployment, true)
+	_deploy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_deploy_button.size_flags_stretch_ratio = 0.9
+	_dismiss_facing = _facing_action("Cancel", "CancelDeploy", cancel_pending_placement)
+	_dismiss_facing.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_dismiss_facing.size_flags_stretch_ratio = 0.65
+	_facing_picker.hide()
+
+func _facing_action(label: String, id: String, callback: Callable, primary := false) -> Button:
+	var button := StoryUI.action(label, primary)
+	button.name = id
+	button.pressed.connect(callback)
+	_facing_picker.add_child(button)
+	return button
 
 func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = null) -> void:
 	_simulation = simulation
@@ -134,8 +187,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	state.skill_recharged.connect(func() -> void: sound_requested.emit("skill"))
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
-	_cancel_pointer()
-	_hide_retreat()
+	cancel_interaction()
 	_local_notice.hide()
 	if plan != null and plan.operation.campaign_spec and not plan.operation.hints.is_empty():
 		_hint.text = ""
@@ -163,41 +215,71 @@ func _process(_delta: float) -> void:
 	if state.clock.tick >= _notice_until or not state.clock.is_running():
 		_local_notice.hide()
 	if not state.clock.is_running():
-		_cancel_pointer()
-		_hide_retreat()
+		if _pointer != NO_POINTER or _pending_spec != null or _retreat.visible or not state.armed.is_empty():
+			cancel_interaction()
 	elif _pointer != NO_POINTER and _gesture.reveal_hold(Time.get_ticks_msec()):
 		_show_retreat(_gesture.unit)
-	_refresh()
+	if state.clock.tick != _painted_tick:
+		_refresh()
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_node_ready():
-		_cancel_pointer()
-		_hide_retreat()
+	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_APPLICATION_PAUSED] and is_node_ready():
+		cancel_interaction()
 
 func _input(event: InputEvent) -> void:
+	if event.device == InputEvent.DEVICE_ID_EMULATION:
+		_handle_emulated_mouse(event)
+		return
 	if state == null or not state.clock.is_running():
 		return
 	var handled := false
 	if event is InputEventScreenTouch:
-		if event.canceled and event.index == _pointer:
-			_cancel_pointer()
-			_hide_retreat()
+		if event.canceled:
+			if event.index == _pointer:
+				cancel_interaction()
+			handled = true
+		elif _pointer != NO_POINTER and event.index != _pointer:
 			handled = true
 		else:
 			handled = _pointer_button(event.index, event.position, event.pressed)
 	elif event is InputEventScreenDrag:
-		handled = _pointer_motion(event.index, event.position)
-	elif event is InputEventMouseButton and event.device != InputEvent.DEVICE_ID_EMULATION:
+		handled = _pointer != NO_POINTER and event.index != _pointer
+		if not handled:
+			handled = _pointer_motion(event.index, event.position)
+	elif event is InputEventMouseButton:
 		if event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN] and _tray_clip().has_point(event.position):
 			_scroll.scroll_horizontal += 120 if event.button_index == MOUSE_BUTTON_WHEEL_DOWN else -120
 			handled = true
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			handled = _pointer_button(MOUSE_POINTER, event.position, event.pressed)
-	elif event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION:
+	elif event is InputEventMouseMotion:
 		handled = _pointer_motion(MOUSE_POINTER, event.position)
 	if handled:
-		_refresh()
+		if event is InputEventScreenDrag or event is InputEventMouseMotion:
+			_board.queue_redraw()
+		else:
+			_refresh()
 		get_viewport().set_input_as_handled()
+
+func _handle_emulated_mouse(event: InputEvent) -> void:
+	# Godot delivers the emulated mouse event before its native touch counterpart.
+	# Capture the pair for field/tray gestures while leaving ordinary GUI taps to Godot.
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_swallow_emulated_mouse = state != null and state.clock.is_running() and (
+				_pointer != NO_POINTER or _is_field_gesture(event.position))
+		if _swallow_emulated_mouse:
+			get_viewport().set_input_as_handled()
+		if not event.pressed:
+			_swallow_emulated_mouse = false
+	elif event is InputEventMouseMotion and _swallow_emulated_mouse:
+		get_viewport().set_input_as_handled()
+
+func _is_field_gesture(at: Vector2) -> bool:
+	if _pending_spec != null or (_retreat.visible and _retreat.get_global_rect().has_point(at)):
+		return false
+	return _tray_clip().has_point(at) or not state.interaction_id(_board.cell_at(at)).is_empty() or (
+		not state.armed.is_empty() and _board.get_global_rect().has_point(at))
 
 func _pointer_button(id: int, at: Vector2, pressed: bool) -> bool:
 	if pressed:
@@ -211,9 +293,7 @@ func _pointer_button(id: int, at: Vector2, pressed: bool) -> bool:
 	return true
 
 func _press(id: int, at: Vector2) -> bool:
-	if _pointer != NO_POINTER:
-		return false
-	if _retreat.visible and _retreat.get_global_rect().has_point(at):
+	if _pointer != NO_POINTER or not _is_field_gesture(at):
 		return false
 	_hide_retreat()
 	var cell: Vector2i = _board.cell_at(at)
@@ -222,7 +302,7 @@ func _press(id: int, at: Vector2) -> bool:
 	if _tray_clip().has_point(at):
 		for i in _cards.size():
 			if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
-				card = _offered[_entries[i].id]
+				card = _offered.get(_entries[i].id)
 				break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
 	var in_tray := _tray_clip().has_point(at)
@@ -255,9 +335,13 @@ func _pointer_motion(id: int, at: Vector2) -> bool:
 	if _gesture.dragging != null and _gesture.moved:
 		_board.preview_spec = _gesture.dragging
 		_board.preview_cell = _board.cell_at(at)
-		_board.preview_facing = _board.facing_at(at)
+		_board.preview_facing = 0
+		_board.preview_badge = null
 		var error := state.placement_error(_gesture.dragging, _board.preview_cell)
-		_hint.text = "Release to deploy." if error.is_empty() else error
+		if not error.is_empty():
+			_hint.text = error
+		else:
+			_hint.text = "Release to choose facing." if _gesture.dragging.is_melee() else "Release to deploy."
 	return true
 
 func _tray_clip() -> Rect2:
@@ -273,13 +357,16 @@ func _release(at: Vector2) -> void:
 	match action:
 		DeploymentGesture.Release.DROP:
 			var spec := _gesture.dragging
-			var error := state.deploy(spec, cell, _board.facing_at(at))
-			if error.is_empty():
-				sound_requested.emit("deploy")
-				_hint.text = "%s deployed." % spec.label
+			if spec.is_melee():
+				var error := state.placement_error(spec, cell)
+				if error.is_empty():
+					_pending_spec = spec
+					_pending_cell = cell
+					_select_facing(0)
+				else:
+					_placement_failed(error, at)
 			else:
-				_show_local_error(error, at)
-				_hint.text = "Placement cancelled · no Tokens spent."
+				_deploy(spec, cell, 1, at)
 		DeploymentGesture.Release.TAP:
 			if state.interaction_id(cell) == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
@@ -298,10 +385,73 @@ func _release(at: Vector2) -> void:
 				_show_local_error("Choose a tile in range.", at)
 				_hint.text = "Choose a highlighted tile, then confirm."
 
+func _select_facing(direction: int) -> void:
+	if _pending_spec == null or not state.clock.is_running():
+		return
+	_pending_facing = direction
+	_board.preview_spec = _pending_spec
+	_board.preview_cell = _pending_cell
+	_board.preview_facing = direction
+	_board.preview_badge = _badges.get(_pending_spec.id)
+	_board.preview_locked = true
+	_face_left.set_pressed_no_signal(direction == -1)
+	_face_right.set_pressed_no_signal(direction == 1)
+	_refresh()
+
+func _confirm_deployment() -> void:
+	if _pending_spec == null or _pending_facing == 0:
+		return
+	var spec := _pending_spec
+	var cell := _pending_cell
+	var facing := _pending_facing
+	_clear_pending()
+	_deploy(spec, cell, facing, _board.get_global_transform_with_canvas() * _board.cell_center(cell))
+	_refresh()
+
+func _deploy(spec: DeploymentSpec, cell: Vector2i, facing: int, at: Vector2) -> void:
+	var error := state.deploy(spec, cell, facing)
+	if error.is_empty():
+		sound_requested.emit("deploy")
+		_hint.text = "%s deployed." % spec.label
+	else:
+		_placement_failed(error, at)
+
+func _placement_failed(error: String, at: Vector2) -> void:
+	_show_local_error(error, at)
+	_hint.text = "%s No Tokens spent." % error
+
+func cancel_pending_placement() -> bool:
+	if _pending_spec == null:
+		return false
+	_clear_pending()
+	_hint.text = "Placement cancelled · no Tokens spent."
+	_refresh()
+	return true
+
+func _clear_pending() -> void:
+	_pending_spec = null
+	_pending_cell = DeploymentState.NO_CELL
+	_pending_facing = 0
+	_clear_preview()
+
+func cancel_interaction() -> void:
+	if state == null:
+		return
+	if _pending_spec != null or _gesture.dragging != null:
+		_hint.text = "Placement cancelled · no Tokens spent."
+	_cancel_pointer()
+	_clear_pending()
+	_hide_retreat()
+	state.cancel_skill()
+	_local_notice.hide()
+	_refresh_controls()
+	_board.queue_redraw()
+
 func _show_local_error(message: String, at: Vector2) -> void:
 	_notice_text.text = message
 	_local_notice.reset_size()
-	var local := _board.get_global_transform_with_canvas().affine_inverse() * at
+	var canvas := _board.get_global_transform_with_canvas()
+	var local := canvas.affine_inverse() * at if at.is_finite() and not is_zero_approx(canvas.determinant()) else _board.size * 0.5
 	var offset := Vector2(12, -_local_notice.size.y - 12)
 	_local_notice.position = (local + offset).clamp(Vector2.ZERO, (_board.size - _local_notice.size).max(Vector2.ZERO))
 	_notice_until = state.clock.tick + CombatClock.TICKS_PER_SECOND * 3
@@ -313,7 +463,15 @@ func _cancel_pointer() -> void:
 	_pan_tray = false
 	_drag_to_field = false
 	_gesture.reset()
+	if _pending_spec == null:
+		_clear_preview()
+
+func _clear_preview() -> void:
 	_board.preview_spec = null
+	_board.preview_cell = DeploymentState.NO_CELL
+	_board.preview_facing = 0
+	_board.preview_badge = null
+	_board.preview_locked = false
 
 func _show_retreat(id: StringName) -> void:
 	_inspected_unit = id
@@ -348,9 +506,12 @@ func _retreat_ranger() -> void:
 	elif state.retreat(_retreat_unit):
 		_hint.text = "Ranger retreated. Redeploy after the cooldown."
 	_hide_retreat()
+	_refresh()
 
 func _tap_skill(id: StringName) -> void:
-	var unit := state.placed[id]
+	var unit: DeploymentState.Placement = state.placed.get(id)
+	if unit == null:
+		return
 	if unit.ranger != null or unit.facility != null:
 		if unit.spec.skill == DeploymentSpec.Skill.NONE:
 			if unit.facility != null:
@@ -384,7 +545,9 @@ func _cancel_skill() -> void:
 
 func _skill_fired(id: StringName, target: Vector2i) -> void:
 	sound_requested.emit("skill")
-	var unit: DeploymentState.Placement = state.placed[id]
+	var unit: DeploymentState.Placement = state.placed.get(id)
+	if unit == null:
+		return
 	if unit.facility != null:
 		if unit.facility.role == FacilitySpec.Role.SPECIALIST_CALLTOWER:
 			_hint.text = "Next Specialist deployment costs %d fewer Tokens." % state.specialist_discount
@@ -404,18 +567,32 @@ func _skill_fired(id: StringName, target: Vector2i) -> void:
 	_hint.text = "%s skill activated." % unit.spec.label
 
 func _refresh() -> void:
+	_painted_tick = state.clock.tick
+	_refresh_controls()
+	_refresh_tray()
+	_board.queue_redraw()
+
+func _refresh_controls() -> void:
+	var choosing := _pending_spec != null
+	_facing_picker.visible = choosing
+	_hint.visible = not choosing
+	if choosing:
+		_facing_caption.text = "%s · %d Tokens" % [_pending_spec.label, state.cost_for(_pending_spec)]
+		_deploy_button.disabled = _pending_facing == 0 or not state.clock.is_running()
 	var selected: DeploymentState.Placement = state.placed.get(_inspected_unit)
 	var inspected := BattleSkillStatus.read(selected, state)
-	_skill_detail.visible = inspected != null
+	_skill_detail.visible = inspected != null and not choosing
 	if inspected != null:
 		_skill_detail.text = inspected.detail()
 	if _retreat.visible and (not state.placed.has(_retreat_unit) or (_retreat.text == "Cancel build" and state.build_ticks_left(_retreat_unit) == 0)):
 		_hide_retreat()
-	var armed := not state.armed.is_empty()
+	var armed := not state.armed.is_empty() and not choosing
 	_confirm.visible = armed
 	_cancel.visible = armed
 	_confirm.disabled = not state.clock.is_running() or state.pending_target == DeploymentState.NO_CELL
 	_cancel.disabled = not state.clock.is_running()
+
+func _refresh_tray() -> void:
 	var deployed := {}
 	for unit: DeploymentState.Placement in state.placed.values():
 		var copies: Array = deployed.get_or_add(unit.spec.id, [])
@@ -433,8 +610,9 @@ func _refresh() -> void:
 				key = "tray_starter"
 			elif ticks == 0 and state.tokens >= state.cost_for(spec) and not (spec.logistics_post and state.rules.starter_only):
 				key = "tray_ready"
-			_cards[i].add_theme_stylebox_override("panel", _illustrated_cards[key])
-			_labels[i].add_theme_color_override("font_color", StoryUI.INK)
+			var panel: StyleBox = _illustrated_cards[key]
+			if _cards[i].get_theme_stylebox("panel") != panel:
+				_cards[i].add_theme_stylebox_override("panel", panel)
 		var detail := "%d Tokens" % state.cost_for(spec)
 		if spec.logistics_post and state.rules.starter_only and state.posts_deployed > 0:
 			detail = "Starter deployed"
@@ -451,7 +629,6 @@ func _refresh() -> void:
 			if status != "Deployed":
 				detail += "\n" + status
 		_labels[i].text = "%s\n%s" % [spec.label, detail]
-	_board.queue_redraw()
 
 func _deployed_card_detail(unit: DeploymentState.Placement) -> String:
 	var tick := state.clock.tick

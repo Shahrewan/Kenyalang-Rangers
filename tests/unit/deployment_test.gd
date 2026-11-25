@@ -142,6 +142,9 @@ func _touch_scene() -> void:
 	_drag(start, elevated)
 	_check(state.tokens == 60 and state.occupancy.is_empty(), "Wrong-tile native touch release preserves budget and board")
 	_drag(start, ground)
+	_check(state.tokens == 60 and state.occupancy.is_empty(), "Valid drop awaits explicit facing without spending")
+	scene.find_child("FaceLeft", true, false).pressed.emit()
+	scene.find_child("ConfirmDeploy", true, false).pressed.emit()
 	var patrol: DeploymentState.Placement = state.placed.get(&"patrolman")
 	_check(patrol != null and patrol.facing == -1 and state.tokens == 50, "Native touch press, drag and release deploy with locked facing")
 	if patrol == null:
