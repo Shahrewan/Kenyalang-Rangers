@@ -19,6 +19,7 @@ var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
 var _progress: FirstContactProgress
 var _reported := false
+var _rendered_outcome := BattleSimulation.Outcome.RUNNING
 var _tips := true
 var _boss_briefing := false
 var _alert_deadlines: Dictionary[String, int] = {}
@@ -95,9 +96,13 @@ func _change_opening(index: int) -> void:
 	_restart()
 
 func _physics_process(_delta: float) -> void:
-	if battle == null or not battle.clock.is_running():
+	if battle == null:
 		return
-	battle.clock.advance_frame()
+	if battle.clock.is_running():
+		battle.clock.advance_frame()
+	elif battle.outcome == _rendered_outcome:
+		return
+	# Input can end the battle between physics ticks. Publish that outcome once.
 	_refresh()
 
 func open_dialogue() -> void:
@@ -285,6 +290,7 @@ func _practice_hit() -> void:
 		battle.damage_enemy(id, enemy.hp - goal + enemy.active_shield(battle.clock.tick))
 
 func _refresh() -> void:
+	_rendered_outcome = battle.outcome
 	var placement: DeploymentState = %DeploymentController.state
 	_hud.render(battle, battle.expected_enemy_count, placement.tokens)
 	if %HeatRow.visible:
