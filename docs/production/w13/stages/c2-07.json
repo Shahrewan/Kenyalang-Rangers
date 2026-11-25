@@ -11,7 +11,7 @@
     "requires_previous_clear": "C2-06",
     "fixed_debuff_ids": ["D14", "D06"],
     "published_first_pass_wave_counts": [25, 30, 35, 38],
-    "clear_unlock_ids": [],
+    "clear_unlock_ids": ["facility.firebreak_beacon"],
     "mission_supply": [
       {
         "id": "facility.firebreak_beacon",
@@ -138,7 +138,7 @@
     "perfect_clear": "successful_clear_and_zero_combat_escapes",
     "foreman_escape_trial": null
   },
-  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "rewards": {"status": "owner_approved_playtest", "first_clear_funds": 600000, "first_perfect_funds": 200000, "replay_funds": 6500},
   "tutorial_hints": [
     {
       "id": "hint.c2_07.heat",

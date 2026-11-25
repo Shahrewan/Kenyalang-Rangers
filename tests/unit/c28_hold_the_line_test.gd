@@ -46,8 +46,8 @@ func _run() -> void:
 	app = _launcher()
 	_check(app._campaign_progress.record_for(STAGE) == {"cleared": true, "perfect": false}
 		and app._campaign_progress.snapshot().pending_attempt.is_empty()
-		and app._campaign_progress.owns(MEDIC) and app._campaign_progress.owns(TURRET) and app._campaign_progress.funds() == 0,
-		"Reload preserves the clear, unlocks and zero-Funds settlement")
+		and app._campaign_progress.owns(MEDIC) and app._campaign_progress.owns(TURRET) and app._campaign_progress.funds() == 30000,
+		"Reload preserves the clear, unlocks and its paid 30,000 Funds")
 	app.show_story()
 	_operation(app, "C1_03").pressed.emit()
 	app._screen.find_child("StartOperation", true, false).pressed.emit()
@@ -200,8 +200,8 @@ func _play_fixture(app: Control) -> void:
 	var report: Dictionary = app._screen.report
 	_check(report.stage_id == STAGE and report.outcome == "Clear" and report.integrity == 90 and report.defeated == 17
 		and report.escaped == 1 and not report.perfect and not report.save_failed, "Report matches the live ordinary clear and save")
-	_check(report.settlement.first_clear and report.settlement.credited == 0
-		and report.settlement.pending_awards == ["first_clear_funds"] and report.settlement.unlocked == [MEDIC, TURRET],
+	_check(report.settlement.first_clear and report.settlement.credited == 30000
+		and report.settlement.awards == {"first_clear_funds": 30000} and report.settlement.unlocked == [MEDIC, TURRET],
 		"Settlement preserves the award key and both approved unlock IDs")
 	_check(_has_texture(app._screen, "result_clear"), "C1-02 uses the shared ordinary-clear mark")
 	await _capture("normal-result", app._screen)

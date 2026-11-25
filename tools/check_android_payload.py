@@ -39,6 +39,7 @@ def main():
     parser.add_argument("--education", action="store_true", help="Verify the installed Outreach and Records banks from the exported pack")
     parser.add_argument("--facility-growth", action="store_true", help="Verify the packaged Facility levels and their live combat effects")
     parser.add_argument("--ranger-growth", action="store_true", help="Verify the packaged Ranger levels and their live combat effects")
+    parser.add_argument("--economy-rewards", action="store_true", help="Rehearse Campaign and Records payout cutover and Beacon recruitment")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -105,6 +106,10 @@ def main():
                     flags.append("--facility-growth")
                 if args.ranger_growth:
                     flags.append("--ranger-growth")
+                if args.economy_rewards:
+                    flags.append("--economy-rewards")
+                    if profile == "update":
+                        flags.append("--legacy-economy")
                 run(f"{profile}-{phase}", profile, seed if phase == "seed" else pack, flags)
 
 

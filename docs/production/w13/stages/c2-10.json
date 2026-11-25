@@ -157,11 +157,11 @@
     "foreman_escape_trial": null
   },
   "rewards": {
-    "status": "tbd",
-    "first_clear_funds": null,
-    "first_perfect_funds": null,
-    "replay_funds": null,
-    "story_completion_funds": null,
+    "status": "owner_approved_playtest",
+    "first_clear_funds": 800000,
+    "first_perfect_funds": 265000,
+    "replay_funds": 9000,
+    "story_completion_funds": 1100000,
     "story_completion_reward_present": true
   },
   "tutorial_hints": [],

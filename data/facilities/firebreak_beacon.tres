@@ -15,6 +15,7 @@ category = 2
 kind = 3
 role = 8
 mission_supply_stage = &"C2-07"
+recruitment_stage = &"C2-07"
 id = &"facility.firebreak_beacon"
 label = "Firebreak Beacon"
 cost = 30

@@ -30,9 +30,9 @@ func _run() -> void:
 		and normal.integrity > 0 and normal.heat_overflows == 5, "Lv.1 Post plan clears C2-08 with an ordinary escape and real Heat loss")
 	var perfect := _play(foreman, true)
 	_check(perfect.perfect and perfect.defeated == 102 and perfect.heat_overflows > 0
-		and perfect.boss_phase_ticks.size() == 1 and not perfect.firebreak_owned, "C2-08 perfect uses ordinary owned equipment and the Foreman phase")
-	_check(perfect.settled and perfect.funds_credited == 0 and "first_perfect_funds" in perfect.pending_awards
-		and normal.settled and normal.funds_credited == 0 and "first_clear_funds" in normal.pending_awards, "Both outcomes settle the actual flags and pending Funds")
+		and perfect.boss_phase_ticks.size() == 1 and FIREBREAK not in perfect.loadout, "C2-08 perfect uses ordinary owned equipment and the Foreman phase")
+	_check(perfect.settled and perfect.funds_credited == 880000 and perfect.pending_awards.is_empty()
+		and normal.settled and normal.funds_credited == 660000 and normal.pending_awards.is_empty(), "Both outcomes settle the approved Funds")
 	var boss := foreman.stage.waves.back().groups[0].enemy as BossSpec
 	_check(boss.phases[0].temporary_hp == 600 and boss.phases[0].protection_seconds == 5.0 and not boss.escape_causes_defeat,
 		"Foreman retains the authored shield and ordinary escape behavior")
@@ -51,8 +51,8 @@ func _run() -> void:
 	normal = _play(convoy, false)
 	_check(normal.outcome == BattleSimulation.Outcome.WON and normal.escaped == 6 and normal.integrity == 10
 		and not normal.perfect and normal.fatal_escape == "", "A later legal opening can clear C2-09 with ordinary escapes")
-	_check(normal.settled and normal.funds_credited == 0 and perfect.settled and perfect.funds_credited == 0,
-		"C2-09 settles both outcome records with unpriced awards")
+	_check(normal.settled and normal.funds_credited == 720000 and perfect.settled and perfect.funds_credited == 960000,
+		"C2-09 settles both outcome records with approved awards")
 	_check(convoy.stage.opening_delay_seconds == 52.0 and convoy.stage.waves.size() == 4 and convoy.stage.enemy_count() == 138,
 		"C2-09 keeps the four original queues")
 	_check(convoy.stage.waves[2].groups.any(func(group: BattleSpawnGroup) -> bool:

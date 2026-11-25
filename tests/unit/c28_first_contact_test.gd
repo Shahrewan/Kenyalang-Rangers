@@ -19,7 +19,7 @@ func _run() -> void:
 	var normal := await _mission("normal", Vector2i(6, 4), Vector2i(7, 3))
 	var failed := await _mission("failure")
 	_check(perfect.integrity == 100 and perfect.escaped == 0 and perfect.defeated == 14 and perfect.perfect
-		and perfect.settlement.credited == 10000, "Illustrated perfect clear settles the C26 award")
+		and perfect.settlement.credited == 15000, "Illustrated perfect clear settles both first awards")
 	_check(normal.integrity == 90 and normal.escaped == 1 and normal.defeated == 13
 		and not normal.perfect and normal.settlement.credited == 10000, "Illustrated ordinary clear records exactly one escape and award")
 	_check(failed.integrity == 0 and failed.escaped == 10 and failed.outcome == "Defeat"

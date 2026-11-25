@@ -332,3 +332,8 @@
 
 - Human Resources previews the paid, linear HP and raw output curves for all 12 Rangers. Skill damage, treatment, repair and field attacks reach the actual combat consumers. Existing Records bonuses and gates, C1-01 supplies, Facility scaling and saved profiles retain their rules.
 - The full Lv.1 Ranger Campaign replay matched main. The three focused late operations reproduced zero-escape clears with original and paid Lv.40 loadouts. The QA handoff includes six-level live results, ten native captures, APK validation and the physical-phone procedure. Final trial endpoints remain open for owner review. [QA report](../qa/C32_C_RANGER_GROWTH.md)
+
+### C32-D · Economy rewards and Facility ownership · 2026-11-25
+
+- Activated the exact Campaign and Records schedule. A single genuine fresh combat progression cleared all 15 operations and bought Control, Mechanical, Ranger and Facility levels using only earned Campaign Funds. A true C2-07 replay granted the missing permanent Beacon. Its Lv.1 mission supply remains separate.
+- Verified historical flags, exact one-time and replay receipts, wallet clipping, the 7-/30-/60-day model, max-level income comparisons, native receipts and the signed package. Physical phone validation, legacy compensation and recurring-income proposals remain separate owner items. [QA and device procedure](../qa/C32_D_ECONOMY_REWARDS.md)

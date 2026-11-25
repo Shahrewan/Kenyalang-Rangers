@@ -64,9 +64,9 @@ func _run() -> void:
 	_check(app._route == &"plan" and app._screen.plan.operation.stage.stage_id == STAGE, "Review plan retries the same Story operation")
 	var normal := await _play(app, "normal", NORMAL.duplicate())
 	_check(normal.outcome == "Clear" and normal.integrity > 0 and normal.escaped > 0 and normal.defeated + normal.escaped == 33
-		and normal.settlement.first_clear and normal.settlement.pending_awards == ["first_clear_funds"]
-		and normal.settlement.credited == 0 and normal.settlement.unlocked == [&"ranger.guard_veteran", &"facility.medic_cabin"],
-		"Ordinary clear settles the existing unlocks and pending reward key")
+		and normal.settlement.first_clear and normal.settlement.awards == {"first_clear_funds": 60000}
+		and normal.settlement.credited == 60000 and normal.settlement.unlocked == [&"ranger.guard_veteran", &"facility.medic_cabin"],
+		"Ordinary clear settles both unlocks and its 60,000 award")
 	_check(progress.adjust_developer_funds(DeployableLevels.TOTAL_COST) and progress.purchase_levels(POST, 100).is_empty(),
 		"The perfect replay uses the existing level-100 Logistics Post")
 	app.show_story()
@@ -77,8 +77,8 @@ func _run() -> void:
 	app._screen._refresh_plan()
 	var perfect := await _play(app, "perfect", PERFECT.duplicate())
 	_check(perfect.outcome == "Perfect clear" and perfect.integrity == 100 and perfect.escaped == 0 and perfect.defeated == 33
-		and perfect.settlement.pending_awards == ["replay_funds", "first_perfect_funds"]
-		and perfect.settlement.credited == 0 and perfect.settlement.unlocked.is_empty(), "Perfect replay keeps the two pending reward keys and pays no Funds")
+		and perfect.settlement.awards == {"replay_funds": 1500, "first_perfect_funds": 25000}
+		and perfect.settlement.credited == 26500 and perfect.settlement.unlocked.is_empty(), "Perfect replay adds the new perfect award to the replay payment")
 	var saved_funds := progress.funds()
 	app.free()
 	await process_frame
@@ -222,7 +222,8 @@ func _play(app: Control, scenario: String, queue: Array) -> Dictionary:
 	_skip(field)
 	await process_frame
 	var report: Dictionary = app._screen.report
-	_check(report.balance == original_funds and not report.save_failed, "C1-03 %s report preserves the original wallet" % scenario)
+	_check(report.balance == original_funds + int(report.settlement.get("credited", 0)) and not report.save_failed,
+		"C1-03 %s report reconciles the original wallet and the actual credit" % scenario)
 	print("C1-03 %s at %d: %d defeated, %d escaped, %d Integrity" % [scenario, tick, report.defeated, report.escaped, report.integrity])
 	await _capture("result-" + scenario, app._screen)
 	return report

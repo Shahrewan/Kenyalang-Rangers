@@ -68,13 +68,13 @@ func _run() -> void:
 	var args := OS.get_cmdline_user_args()
 	_daily = "--daily" in args
 	_long_chaos_spacing = 2 if "--long-chaos-mix=2" in args else (3 if "--long-chaos-mix" in args else 0)
-	_check(_content.error.is_empty() and _proposal.get("status") == "proposal_pending_owner_review", "Loaded baseline content and proposal")
+	_check(_content.error.is_empty() and _proposal.get("status") == "approved_for_playtest", "Loaded the active schedule and comparison values")
 	if _failures == 0:
 		_reference()
 		if _long_chaos_spacing > 0:
 			_simulate("guardrails", "chaos_regular")
 		else:
-			for variant in ["installed", "rewards", "guardrails"]:
+			for variant in ["pre_activation", "installed", "guardrails"]:
 				for key: String in PROFILES:
 					if args.has("--profile=" + key) or not Array(args).any(func(arg: String) -> bool: return arg.begins_with("--profile=")):
 						_simulate(variant, key)
@@ -111,9 +111,9 @@ func _simulate(variant: String, key: String) -> void:
 		_discarded[source] = 0
 	var outreach_room: HeadquartersRoom = CampaignSave.HEADQUARTERS.room(OUTREACH)
 	var original_grades := outreach_room.best_response.duplicate()
-	if variant != "installed":
+	if variant == "pre_activation":
 		for id: String in _education.chapters:
-			_education.chapters[id].final_perfect_chapter_funds = _proposal.records_perfect_chapter_funds[id]
+			_education.chapters[id].final_perfect_chapter_funds = null
 	if variant == "guardrails":
 		outreach_room.best_response = PackedInt32Array(_proposal.sensitivity_only.outreach_best_by_level)
 	for day in range(1, DAYS + 1):
@@ -212,10 +212,14 @@ func _play_story(source: StoryOperation, perfect: bool, wins: bool) -> bool:
 		_count("story_defeats")
 		return true
 	var operation := source
-	if _variant != "installed":
+	if _variant == "pre_activation":
 		operation = source.duplicate() as StoryOperation
 		operation.rewards = source.rewards.duplicate()
-		operation.rewards.merge(_proposal.campaign[id], true)
+		for field: String in _proposal.campaign[id]:
+			if id != "C1-01" or field != "first_clear_funds":
+				operation.rewards[field] = null
+		if id == "C2-07":
+			operation.clear_unlock_ids = []
 	var receipt := _wallet.complete(operation, perfect)
 	_check(not receipt.is_empty(), "Story settlement " + id)
 	if receipt.is_empty():
