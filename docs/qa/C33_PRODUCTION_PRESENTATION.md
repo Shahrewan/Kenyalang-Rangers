@@ -1,6 +1,6 @@
 # C33 production presentation
 
-Baseline `eea0279` includes PR #45. Implementation `480879a` adds the approved W29 presentation to Rainforest Chaos and closes gaps in the Story replay, Outreach, Records and Settings interfaces. The player build uses Godot `4.7.2.stable.official.ed1daf0bf` and the matching Android debug template.
+Baseline `eea0279` includes PR #45. Implementation `480879a` adds the approved W29 presentation to Rainforest Chaos and closes gaps in the Story replay, Outreach, Records and Settings interfaces. The player build uses Godot `4.7.2.stable.official.ed1daf0bf` and the matching Android debug template. [PR #46](https://github.com/Shahrewan/Kenyalang-Rangers/pull/46)
 
 ## Audit and implementation
 
