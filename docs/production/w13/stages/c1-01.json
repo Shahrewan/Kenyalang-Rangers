@@ -79,10 +79,10 @@
     "foreman_escape_trial": null
   },
   "rewards": {
-    "status": "first_clear_approved_c26_other_awards_tbd",
+    "status": "owner_approved_playtest",
     "first_clear_funds": 10000,
-    "first_perfect_funds": null,
-    "replay_funds": null,
+    "first_perfect_funds": 5000,
+    "replay_funds": 500,
     "existing_c05_fixture": {"first_clear_funds": 100, "first_perfect_funds": 50}
   },
   "tutorial_hints": [

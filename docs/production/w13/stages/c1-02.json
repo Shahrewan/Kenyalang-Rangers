@@ -73,7 +73,7 @@
     "perfect_clear": "successful_clear_and_zero_combat_escapes",
     "foreman_escape_trial": null
   },
-  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "rewards": {"status": "owner_approved_playtest", "first_clear_funds": 30000, "first_perfect_funds": 15000, "replay_funds": 1000},
   "tutorial_hints": [
     {
       "id": "hint.c1_02.block",

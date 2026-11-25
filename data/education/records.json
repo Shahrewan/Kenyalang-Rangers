@@ -5,7 +5,7 @@
   "editorial_status": "approved",
   "locale": "en-MY",
   "question_timer_seconds": 15,
-  "payout_status": "prototype_gdd_question_rewards",
+  "payout_status": "owner_approved_playtest",
   "final_first_correct_funds": 30000,
   "gdd_budget_model": {
     "approx_questions": 40,
@@ -20,7 +20,7 @@
       "topic": "Hornbill observations",
       "ranger_id": "ranger.scout_sniper",
       "perfect_clear_enhancement": "Steady Aim and Focus enhancements",
-      "final_perfect_chapter_funds": null,
+      "final_perfect_chapter_funds": 50000,
       "questions": [
         {
           "id": "records.rhinoceros_name",
@@ -326,7 +326,7 @@
       "topic": "Forests and waterways",
       "ranger_id": "ranger.patrolman",
       "perfect_clear_enhancement": "Reinforced Patrol",
-      "final_perfect_chapter_funds": null,
+      "final_perfect_chapter_funds": 75000,
       "questions": [
         {
           "id": "records.mulu_limestone",
@@ -626,7 +626,7 @@
       "topic": "Safe field observations",
       "ranger_id": "ranger.combat_medic",
       "perfect_clear_enhancement": "Emergency Treatment",
-      "final_perfect_chapter_funds": null,
+      "final_perfect_chapter_funds": 100000,
       "questions": [
         {
           "id": "records.nest_coordinates",
@@ -931,7 +931,7 @@
       "topic": "Native trees and restoration",
       "ranger_id": "ranger.woods_tracker",
       "perfect_clear_enhancement": "Improved HP and reduced redeployment cooldown",
-      "final_perfect_chapter_funds": null,
+      "final_perfect_chapter_funds": 125000,
       "questions": [
         {
           "id": "records.fig_start",

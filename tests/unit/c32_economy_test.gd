@@ -8,6 +8,7 @@ const ECOLOGY := HeadquartersCatalog.ECOLOGY
 const OUTREACH := HeadquartersCatalog.OUTREACH
 const RECORDS := HeadquartersCatalog.RECORDS
 const POST := &"facility.logistics_post"
+const FIREBREAK := &"facility.firebreak_beacon"
 const SCOUT_CHAPTER := "records_chapter.scout_sniper"
 const TIME := 1700000000
 
@@ -24,9 +25,12 @@ func _run() -> void:
 	_validate_data()
 	if _failures == 0:
 		_campaign_gates()
+		_all_perfect()
+		_firebreak()
 		_legacy_story()
 		_legacy_control()
 		_records()
+		_records_full_receipts()
 		_hq_and_activities()
 		_chaos_receipts()
 	for path in _files:
@@ -38,11 +42,11 @@ func _run() -> void:
 
 func _validate_data() -> void:
 	_check(_content.error.is_empty() and _content.operations.size() == 15, "All fifteen live operations load")
-	_check(_proposal.get("status") == "proposal_pending_owner_review" and _proposal.get("campaign", {}).size() == 15,
-		"Test-only proposal declares its pending status and exhaustive scope")
+	_check(_proposal.get("status") == "approved_for_playtest" and _proposal.get("campaign", {}).size() == 15,
+		"Approved schedule covers all fifteen missions")
 	if _failures > 0:
 		return
-	var pending := 0
+	var activated := 0
 	var first := 0
 	var typical_perfect := 0
 	var previous := [0, 0, 0]
@@ -62,20 +66,19 @@ func _validate_data() -> void:
 			if id == "C1-01" and field == "first_clear_funds":
 				_check(op.rewards[field] == 10000 and row[field] == 10000, "Approved First Contact amount stays at 10,000")
 			else:
-				_check(op.rewards.has(field) and op.rewards[field] == null, id + " keeps the live " + field + " pending")
-				pending += 1
+				_check(op.rewards.get(field) == row[field], id + " uses the exact approved " + field)
+				activated += 1
 		first += int(row.first_clear_funds)
 		if id in _proposal.reference_first_perfects:
 			typical_perfect += int(row.first_perfect_funds)
-	_check(pending == 45 and first + int(_proposal.campaign["C2-10"].story_completion_funds) + typical_perfect == 7420000,
-		"The 45 unapproved amounts leave the GDD partial-perfection scenario at 7.42M")
+	_check(activated == 45 and first + int(_proposal.campaign["C2-10"].story_completion_funds) + typical_perfect == 7420000,
+		"The 45 activated amounts keep the GDD partial-perfection scenario at 7.42M")
 	var education := EducationCatalog.load_installed()
 	var chapter_bonuses := 0
 	for id: String in EducationCatalog.CHAPTERS:
-		_check(education.chapters.has(id) and education.chapters[id].final_perfect_chapter_funds == null
-			and ProfileFile.whole_between(_proposal.records_perfect_chapter_funds[id], 1, FundsWallet.CAP), "Records chapter bonus stays a separate proposal " + id)
+		_check(education.chapters.has(id) and education.chapters[id].final_perfect_chapter_funds == _proposal.records_perfect_chapter_funds[id], "Records uses the exact bonus for " + id)
 		chapter_bonuses += int(_proposal.records_perfect_chapter_funds[id])
-	_check(chapter_bonuses == 350000 and education.first_correct_funds == 30000, "Four proposed bonuses total 350k, with current first-correct payouts intact")
+	_check(chapter_bonuses == 350000 and education.first_correct_funds == 30000, "Four active bonuses total 350k, with current first-correct payouts intact")
 
 func _campaign_gates() -> void:
 	var profile := _profile("ordinary")
@@ -98,7 +101,7 @@ func _campaign_gates() -> void:
 			var cell := resolved.stage.map.elevated[0]
 			_check(post in plan.choices and state.deploy(post, cell, 1).is_empty() and state.tokens == 0
 				and state.build_ticks_left(&"facility.logistics_post#1") == 0, "C1-02 opens with the actual free ordinary 2×1 Post")
-		var result := _settle(profile, _proposed(source), false)
+		var result := _settle(profile, source, false)
 		_check(result.first_clear and not result.first_perfect and result.credited > 0, "Only ordinary first-clear and eligible finale value credit")
 		ordinary_clear += int(result.credited)
 		for entry in source.clear_unlock_ids:
@@ -106,26 +109,121 @@ func _campaign_gates() -> void:
 		if source.stage.stage_id == &"C1-01":
 			_check(profile.funds() == 20000 and profile.purchase_room(MECHANICAL).is_empty() and profile.funds() == 0,
 				"The current approved clear plus the opening wallet pays the 20,000 Mechanical price exactly")
-	_check(ordinary_clear == 6600000 and profile.funds() == 5290000 and not profile.owns(&"facility.firebreak_beacon"),
-		"Zero-perfect path through Control Lv.5 costs 1.32M and completes without Beacon ownership")
+	_check(ordinary_clear == 6600000 and profile.funds() == 5290000 and profile.owns(&"facility.firebreak_beacon"),
+		"Zero-perfect path through Control Lv.5 costs 1.32M and recruits the Beacon")
 	var before := profile.funds()
 	var scout := _content.operation(&"C2-10")
-	var replay := _settle(profile, _proposed(scout), true)
+	var replay := _settle(profile, scout, true)
 	_check(replay.credited == 274000 and not replay.first_clear and replay.first_perfect
 		and not replay.awards.has("story_completion_funds"), "First perfect on a later finale clear credits 265,000 plus replay only")
-	_check(_settle(profile, _proposed(scout), true).credited == 9000 and profile.funds() == before + 283000, "Further perfect replays pay the 9,000 replay award alone")
+	_check(_settle(profile, scout, true).credited == 9000 and profile.funds() == before + 283000, "Further perfect replays pay the 9,000 replay award alone")
+
+func _all_perfect() -> void:
+	var player := _profile("all-perfect")
+	var earned := 0
+	var replays := 0
+	for operation: StoryOperation in _content.operations:
+		while player.room_level(CONTROL) < operation.min_control_level:
+			var bought := player.purchase_room(CONTROL).is_empty()
+			_check(bought, "Buy the next Control gate from settled rewards")
+			if not bought:
+				return
+		var receipt := _settle(player, operation, true)
+		_check(receipt.first_clear and receipt.first_perfect and receipt.pending_awards.is_empty(), "First perfect includes both first awards")
+		earned += int(receipt.credited)
+		var replay := _settle(player, operation, true)
+		_check(replay.awards == {"replay_funds": int(operation.rewards.replay_funds)}, "A further win earns only the approved replay")
+		replays += int(replay.credited)
+	_check(earned == 8450000 and replays == 64000, "All-perfect first clears total 8.45M and one replay of each adds 64,000")
+	var near_cap := player.snapshot()
+	near_cap.funds = FundsWallet.CAP - 400
+	var clipped := _profile("replay-cap", near_cap)
+	var replay := _settle(clipped, _content.operations.back(), true)
+	_check(replay.credited == 400 and replay.discarded == 8600 and clipped.funds() == FundsWallet.CAP
+		and clipped.complete(_content.operations.back(), true).is_empty(), "Wallet clipping consumes the result exactly once")
+
+func _firebreak() -> void:
+	var fixture := CampaignSave.fresh()
+	fixture.rooms[String(CONTROL)] = 4
+	fixture.rooms[String(MECHANICAL)] = 1
+	fixture.funds = 100000
+	fixture.records["C2-06"] = {"cleared": true, "perfect": false}
+	fixture.records["C2-07"] = {"cleared": true, "perfect": true}
+	var path := _seed("returning-firebreak", fixture)
+	var profile := CampaignProgress.new(path)
+	var stage := _content.operation(&"C2-07")
+	_check(not profile.owns(FIREBREAK) and profile.funds() == 100000, "A historical C2-07 perfect stays paid as recorded and ownership awaits a replay")
+	_check(profile.begin_attempt(stage) and profile.abandon_attempt() and not profile.owns(FIREBREAK), "Abandoning the replay grants no ownership")
+	_check(profile.begin_attempt(stage), "Begin a returning Beacon replay")
+	DirAccess.make_dir_absolute(path + ".tmp")
+	_check(profile.complete(stage, true).is_empty() and not profile.owns(FIREBREAK) and profile.funds() == 100000,
+		"Failed save leaves payout and permanent ownership uncommitted")
+	DirAccess.remove_absolute(path + ".tmp")
+	profile = CampaignProgress.new(path)
+	var receipt := profile.complete(stage, true)
+	_check(receipt.get("unlocked") == [FIREBREAK] and receipt.get("credited") == 6500
+		and profile.record_for(stage.stage.stage_id).perfect and profile.complete(stage, true).is_empty(),
+		"Successful replay awards the Beacon exactly once, pays replay only and preserves the perfect flag")
+	_check("C2-07" in HeadquartersRosterPage.lock_message(DeployableLevels.definition(FIREBREAK))
+		and profile.purchase_levels(FIREBREAK, 20).is_empty(), "Mechanical routes the recruit to the existing paid level track")
+	profile = CampaignProgress.new(path)
+	var selection: Array[StringName] = [POST, FIREBREAK, &"ranger.scout_sniper"]
+	var plan := OperationPlan.new(stage, [])
+	plan.configure_campaign(profile, selection)
+	var entries := _beacons(plan)
+	_check(entries.size() == 1 and entries[0].level == 1 and entries[0].max_hp == 220 and FIREBREAK not in plan.selected_ids,
+		"C2-07 uses one unchanged Lv.1 supply outside the ordinary slots after recruitment")
+	var next := _content.operation(&"C2-08")
+	plan = OperationPlan.new(next, [])
+	plan.configure_campaign(profile, selection)
+	_check(_deploy_beacon(plan) and is_equal_approx(next.stage.heat_gain_scale, 0.32),
+		"Owned Beacon consumes a regular Story slot with the existing Heat pacing")
+	var settings := ChaosConfiguration.new()
+	settings.select_route(&"T05")
+	settings.set_quantity(0, &"E14", 1)
+	var chaos := StoryOperation.new()
+	chaos.campaign_spec = true
+	chaos.roster = _content.roster
+	chaos.stage = settings.build_stage()
+	chaos.opening_rules = LogisticsRules.new()
+	plan = OperationPlan.new(chaos, [], true)
+	plan.configure_campaign(profile, selection)
+	_check(_deploy_beacon(plan), "Chaos selects and deploys the same saved Lv.20 Beacon")
+
+func _beacons(plan: OperationPlan) -> Array[DeploymentSpec]:
+	return plan.deployment_entries().filter(func(spec: DeploymentSpec) -> bool: return spec.id == FIREBREAK)
+
+func _deploy_beacon(plan: OperationPlan) -> bool:
+	var entries := _beacons(plan)
+	if not plan.can_start() or entries.size() != 1 or FIREBREAK not in plan.selected_ids or plan.selected_count(false) != 2:
+		return false
+	var spec := entries[0] as FacilitySpec
+	var setup := plan.resolved()
+	var clock := CombatClock.new()
+	var state := DeploymentState.new(setup.stage.map, clock, setup.tokens, setup.opening)
+	for cell: Vector2i in setup.stage.map.elevated:
+		if state.deploy(DeployableLevels.definition(POST), cell, 1).is_empty():
+			break
+	for frame in 4 * LogisticsRules.PAYOUT_TICKS:
+		clock.advance_frame()
+	for cell: Vector2i in setup.stage.map.elevated:
+		if state.deploy(spec, cell, 1).is_empty():
+			var unit := state.placed[FIREBREAK]
+			return spec.level == 20 and unit.hp == 231 and spec.heat_slow_percent == 42 and unit.paid_cost == 30 \
+				and state.build_ticks_left(FIREBREAK) == 360 and state.cooldown_ticks(FIREBREAK) == 2400
+	return false
 
 func _legacy_story() -> void:
 	var legacy := CampaignSave.fresh()
 	legacy.records["C1-01"] = {"cleared": true, "perfect": true}
 	var path := _seed("legacy-early", legacy)
 	var player := CampaignProgress.new(path)
-	var replay := _settle(player, _proposed(_content.operations[0]), true)
+	var replay := _settle(player, _content.operations[0], true)
 	_check(replay.credited == 500 and not replay.first_clear and not replay.first_perfect, "Historical First Contact flags prevent both first awards")
 	_check(not player.room_quote(MECHANICAL).error.is_empty(), "Legacy replay Funds still fall short by 9,500")
 	player.advance_finance(4750)
 	_check(player.finance_stored() == 9500 and player.claim_finance() and player.purchase_room(MECHANICAL).is_empty(),
-		"Repeatable Finance plus a proposed replay reaches Mechanical with historical flags consumed")
+		"Repeatable Finance plus a successful replay reaches Mechanical with historical flags consumed")
 	var no_replay := _profile("legacy-finance", legacy)
 	no_replay.advance_finance(5000)
 	_check(no_replay.finance_stored() == 10000 and no_replay.claim_finance() and no_replay.purchase_room(MECHANICAL).is_empty(),
@@ -133,16 +231,17 @@ func _legacy_story() -> void:
 	var late := CampaignSave.fresh()
 	late.rooms[String(CONTROL)] = 5
 	late.records["C2-09"] = {"cleared": true, "perfect": true}
+	late.records["C2-10"] = {"cleared": true, "perfect": false}
 	path = _seed("legacy-finale", late)
 	player = CampaignProgress.new(path)
 	var finale := _content.operation(&"C2-10")
-	_check(_settle(player, finale, false).credited == 0, "Historical unpriced finale records a clear without changing the wallet")
+	_check(player.funds() == 10000 and player.record_for(&"C2-10").cleared, "Loading a historical unpaid finale leaves the balance intact")
 	player = CampaignProgress.new(path)
-	var cash := _settle(player, _proposed(finale), true)
+	var cash := _settle(player, finale, true)
 	_check(cash.credited == 274000 and cash.first_perfect and not cash.first_clear, "Returning finale save may earn a genuinely new perfect")
-	_check(_settle(player, _proposed(finale), true).credited == 9000, "Returning finale save consumes first-clear, completion and perfect only once")
+	_check(_settle(player, finale, true).credited == 9000, "Returning finale save consumes first-clear, completion and perfect only once")
 	var before := player.funds()
-	_check(player.complete(_proposed(finale), true).is_empty() and player.funds() == before, "Duplicate settlement callback cannot pay without a new attempt")
+	_check(player.complete(finale, true).is_empty() and player.funds() == before, "Duplicate settlement callback cannot pay without a new attempt")
 
 func _legacy_control() -> void:
 	var data := CampaignSave.fresh()
@@ -185,10 +284,10 @@ func _records() -> void:
 	var old_path := _seed("records-old", data)
 	var player := CampaignProgress.new(path)
 	var old := CampaignProgress.new(old_path)
+	education.chapters[SCOUT_CHAPTER].final_perfect_chapter_funds = null
 	_check(_quiz(old, education, false).credited == 0 and SCOUT_CHAPTER in old.snapshot().encyclopaedia.perfect_chapters,
-		"Current unpriced chapter already saves the perfect flag and enhancement")
+		"Historical unpriced chapter already saves the perfect flag and enhancement")
 	var updated_education := EducationCatalog.load_installed()
-	updated_education.chapters[SCOUT_CHAPTER].final_perfect_chapter_funds = _proposal.records_perfect_chapter_funds[SCOUT_CHAPTER]
 	var partial := _quiz(player, updated_education, true)
 	_check(partial.credited == 0 and player.funds() == 280000 and player.records_enhancements().is_empty(),
 		"Nine first correct answers pay 270,000 without a perfect chapter")
@@ -200,9 +299,39 @@ func _records() -> void:
 	old = CampaignProgress.new(old_path)
 	_check(_quiz(old, updated_education, false).credited == 0 and old.funds() == 310000, "Returning perfect flag keeps the formerly unpriced chapter bonus consumed")
 
-func _quiz(profile: CampaignProgress, catalog: EducationCatalog, miss_last: bool) -> Dictionary:
+func _records_full_receipts() -> void:
+	var data := CampaignSave.fresh()
+	data.rooms[String(RECORDS)] = 5
+	var path := _seed("all-chapters", data)
+	var profile := CampaignProgress.new(path)
+	var catalog := EducationCatalog.load_installed()
+	for id: String in EducationCatalog.CHAPTERS:
+		var first := _quiz(profile, catalog, false, id)
+		_check(first.first_perfect and first.credited == _proposal.records_perfect_chapter_funds[id], "First perfect settles the installed bonus for " + id)
+		profile = CampaignProgress.new(path)
+		_check(_quiz(profile, catalog, false, id).credited == 0, "Cold replay cannot duplicate question or chapter Funds for " + id)
+	_check(profile.funds() == 1560000 and profile.snapshot().encyclopaedia.first_correct.size() == 40
+		and profile.records_enhancements().size() == 4, "All 40 first correct answers and four chapter bonuses total 1.55M")
+	var retry_path := _seed("records-write-retry", data)
+	profile = CampaignProgress.new(retry_path)
 	var quiz := RecordsQuiz.new(profile, catalog)
-	_check(quiz.begin(SCOUT_CHAPTER), "Actual chapter opens under Records Lv.2")
+	_check(quiz.begin(SCOUT_CHAPTER), "Begin an installed chapter for a write-failure case")
+	for index in quiz.question_count():
+		var question := quiz.question()
+		var correct: int = question.choices.find_custom(func(choice: Dictionary) -> bool: return choice.id == question.correct_choice_id)
+		_check(quiz.answer(correct), "Persist the correct answer")
+		if index + 1 < quiz.question_count():
+			_check(quiz.continue_after_feedback(), "Advance to the next question")
+	DirAccess.make_dir_absolute(retry_path + ".tmp")
+	_check(not quiz.continue_after_feedback() and profile.records_enhancements().is_empty() and profile.funds() == 310000,
+		"A failed chapter settlement preserves the committed answers and leaves the bonus available")
+	DirAccess.remove_absolute(retry_path + ".tmp")
+	_check(quiz.continue_after_feedback() and quiz.result.credited == 50000 and not quiz.continue_after_feedback(),
+		"Retry commits the chapter award and enhancement exactly once")
+
+func _quiz(profile: CampaignProgress, catalog: EducationCatalog, miss_last: bool, id := SCOUT_CHAPTER) -> Dictionary:
+	var quiz := RecordsQuiz.new(profile, catalog)
+	_check(quiz.begin(id), "Actual chapter opens under the owned Records tier")
 	for index in quiz.question_count():
 		var question := quiz.question()
 		var answer: int = question.choices.find_custom(func(choice: Dictionary) -> bool: return choice.id == question.correct_choice_id)
@@ -280,12 +409,6 @@ func _chaos_receipts() -> void:
 	var sensitivity := CHAOS.play(_profile("chaos-sensitivity", data), _content, [2, 1], 200)
 	_check(sensitivity.qualifies and sensitivity.score == 130 and sensitivity.credited == 2600 and sensitivity.unlocked.is_empty(),
 		"Proposed modifier allowance keeps a small reward without granting a threshold")
-
-func _proposed(source: StoryOperation) -> StoryOperation:
-	var operation := source.duplicate() as StoryOperation
-	operation.rewards = source.rewards.duplicate()
-	operation.rewards.merge(_proposal.campaign[String(source.stage.stage_id)], true)
-	return operation
 
 func _settle(profile: CampaignProgress, operation: StoryOperation, perfect: bool) -> Dictionary:
 	_check(profile.begin_attempt(operation), "Open the saved attempt for " + String(operation.stage.stage_id))

@@ -51,7 +51,7 @@ func _manifest(content: CampaignContent) -> void:
 		for modifier in operation.fixed_debuff_ids:
 			debuffs[modifier] = true
 		_check(operation.fixed_debuff_ids.size() == (1 if i < 5 else 2), "%s has the fixed Story slot count" % id)
-		_check(operation.rewards.has("first_clear_funds") and operation.rewards.first_clear_funds == (10000 if i == 0 else null) and operation.rewards.first_perfect_funds == null and operation.rewards.replay_funds == null, "%s only settles approved reward amounts" % id)
+		_check(["first_clear_funds", "first_perfect_funds", "replay_funds"].all(func(key: String) -> bool: return ProfileFile.whole_between(operation.rewards.get(key), 1, FundsWallet.CAP)), "%s only settles approved reward amounts" % id)
 		_check(operation.dialogue.all(func(beat: Dictionary) -> bool: return beat.status == "approved_c26_placeholder")
 			and operation.hints.all(func(hint: Dictionary) -> bool: return hint.status == "approved_c26_placeholder"), "%s uses the reviewed placeholder script" % id)
 		dialogue_count += operation.dialogue.size()
@@ -147,8 +147,8 @@ func _settlement(content: CampaignContent) -> void:
 	returning.begin_attempt(live_first)
 	var later_perfect := returning.complete(live_first, true)
 	returning = CampaignProgress.new(_path + ".legacy")
-	_check(not later_perfect.first_clear and later_perfect.first_perfect and later_perfect.credited == 0
-		and returning.funds() == 10000 and returning.record_for(&"C1-01").perfect, "Earlier first clear remains consumed while a later perfect still records")
+	_check(not later_perfect.first_clear and later_perfect.first_perfect and later_perfect.credited == 5500
+		and returning.funds() == 15500 and returning.record_for(&"C1-01").perfect, "Earlier first clear remains consumed while a later perfect still records")
 	var profile := CampaignProgress.new(_path + ".rewards")
 	var trial := content.operation(&"C1-01").duplicate() as StoryOperation
 	trial.rewards = {"first_clear_funds": 120, "first_perfect_funds": 30, "replay_funds": 7, "story_completion_reward_present": true, "story_completion_funds": 500}

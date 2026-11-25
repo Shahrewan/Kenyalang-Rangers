@@ -10,7 +10,7 @@ func _ready() -> void:
 	if report.get("campaign", false) and FirstContactSkin.illustrates_operation(report.stage_id) \
 			and not FirstContactSkin.is_pilot(report.stage_id):
 		theme = CampaignVisualAssets.THEME
-	StoryUI.header(self, "%s   %s" % [report.stage_id, report.title], func() -> void: story_requested.emit(), "%d Funds" % report.balance)
+	StoryUI.header(self, "%s   %s" % [report.stage_id, report.title], func() -> void: story_requested.emit(), "%s Funds" % StoryUI.funds(report.balance))
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var result := StoryUI.panel(StoryUI.scroll_column(body), true)
@@ -74,13 +74,13 @@ func _campaign_rewards(panel: VBoxContainer) -> void:
 	}
 	for key: String in categories:
 		if settlement.awards.has(key):
-			panel.add_child(StoryUI.label("%s   +%d" % [categories[key], settlement.awards[key]], 21))
+			panel.add_child(StoryUI.label("%s   +%s" % [categories[key], StoryUI.funds(settlement.awards[key])], 21))
 		elif key in settlement.pending_awards:
 			panel.add_child(StoryUI.label("%s · Funds pending review" % categories[key], 20, StoryUI.BEIGE))
 	if settlement.credited > 0 or settlement.discarded > 0:
-		panel.add_child(StoryUI.label("%d Funds credited" % settlement.credited, 22, StoryUI.AMBER))
+		panel.add_child(StoryUI.label("%s Funds credited" % StoryUI.funds(settlement.credited), 22, StoryUI.AMBER))
 	if settlement.discarded > 0:
-		panel.add_child(StoryUI.label("%d Funds discarded above the wallet cap." % settlement.discarded, 18, StoryUI.AMBER))
+		panel.add_child(StoryUI.label("%s Funds discarded above the wallet cap." % StoryUI.funds(settlement.discarded), 18, StoryUI.AMBER))
 	if not report.unlocked.is_empty():
 		panel.add_child(StoryUI.label("Unlocked", 23))
 		var assets := CampaignVisualAssets.new()

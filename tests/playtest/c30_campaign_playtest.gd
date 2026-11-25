@@ -129,10 +129,11 @@ func _plan(operation: StoryOperation, progressed: bool) -> OperationPlan:
 		if not _late_policy.is_empty():
 			profile.rooms["room.r_d_guard"] = 4
 			profile.rooms["room.r_d_combat"] = 5
-	if _earned_trial_firebreak and operation.stage.stage_id == &"C2-08":
-		profile.owned.append(String(FIREBREAK))
 	ProfileFile.replace(_path, profile, false)
 	var progress := CampaignProgress.new(_path)
+	return _select_plan(operation, progress, progressed)
+
+func _select_plan(operation: StoryOperation, progress: CampaignProgress, progressed: bool) -> OperationPlan:
 	var plan := OperationPlan.new(operation, [])
 	plan.configure_campaign(progress, [])
 	var lineup := LINEUP
@@ -153,6 +154,8 @@ func _plan(operation: StoryOperation, progressed: bool) -> OperationPlan:
 				MEDIC, SEER, TRACKER, PATROL, POST, SONIC, &"facility.electric_pulse_turret",
 				&"facility.reinforced_cover_station", &"facility.medic_cabin"]
 	for id in lineup:
+		if id == FIREBREAK and _late_policy == "heat" and not _earned_trial_firebreak:
+			continue
 		for spec: DeploymentSpec in plan.choices:
 			if spec.id == id:
 				plan.select_unit(spec, true)
@@ -184,10 +187,12 @@ func _plan(operation: StoryOperation, progressed: bool) -> OperationPlan:
 
 func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 	var plan := _plan(operation, progressed)
+	return _fight(operation, plan, CampaignProgress.new(_path), progressed)
+
+func _fight(operation: StoryOperation, plan: OperationPlan, progress: CampaignProgress, progressed: bool, opening: Array = []) -> Dictionary:
 	var resolved := plan.resolved()
 	var stage := _trial_stage(resolved.stage)
 	var sim := BattleSimulation.new(stage)
-	var progress := CampaignProgress.new(_path)
 	var entered := progress.begin_attempt(operation)
 	var funds_before := progress.funds()
 	sim.deployment = DeploymentState.new(resolved.stage.map, sim.clock, resolved.tokens,
@@ -207,12 +212,16 @@ func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 	var opening_peak := 0
 	var first_ranger := -1
 	var skills := 0
+	var scripted := not opening.is_empty()
 	var boss_phase_ticks: Array[int] = []
 	sim.boss_phase_changed.connect(func(_id: int, _phase: BossPhase) -> void: boss_phase_ticks.append(clock.tick))
 	for ignored in 90000:
 		if sim.clock.stopped:
 			break
-		if sim.clock.tick % 30 == 0:
+		if scripted:
+			if not opening.is_empty() and _place_scripted(sim, resolved.entries, opening) and first_ranger < 0 and _orders.back().ranger:
+				first_ranger = sim.clock.tick
+		elif sim.clock.tick % 30 == 0:
 			if _deploy(sim, resolved.entries) and first_ranger < 0 and _orders.back().ranger:
 				first_ranger = sim.clock.tick
 			skills += _skills(sim)
@@ -234,6 +243,8 @@ func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 		if order.at < stage.opening_delay_seconds * CombatClock.TICKS_PER_SECOND or order.id == FIREBREAK:
 			paid_cells.append(order)
 	var result := progress.complete(operation, sim.is_perfect()) if entered and sim.outcome == BattleSimulation.Outcome.WON else {}
+	if entered and sim.outcome != BattleSimulation.Outcome.WON:
+		progress.abandon_attempt()
 	var outcome := {"stage": operation.stage.stage_id, "profile": ("advanced" if _advanced else "progressed") if progressed else "low",
 		"legal_plan": resolved.can_start() and entered, "buffs": plan.modifier_selection(), "first_arrival": _spawned[0] if not _spawned.is_empty() else -1,
 		"first_ranger": first_ranger, "peak": peak, "wave_1_peak": opening_peak, "wave_1_escapes": first_wave_escapes,
@@ -256,8 +267,20 @@ func _play(operation: StoryOperation, progressed: bool) -> Dictionary:
 		outcome["purchased_ranger_levels"] = paid_levels
 	return outcome
 
+func _place_scripted(sim: BattleSimulation, entries: Array[DeploymentSpec], queue: Array) -> bool:
+	var order: Array = queue.front()
+	if sim.clock.tick < order[2]:
+		return false
+	for spec: DeploymentSpec in entries:
+		if spec.id == order[0] and sim.deployment.deploy(spec, order[1], -1).is_empty():
+			var cell: Vector2i = order[1]
+			_orders.append({"id": spec.id, "ranger": spec.is_ranger(), "cell": [cell.x, cell.y], "facing": -1, "at": sim.clock.tick})
+			queue.pop_front()
+			return true
+	return false
+
 func _earn_trial_firebreak() -> bool:
-	# Reuse the shipped C2-07 clear policy. Only the experimental award differs.
+	# Reuse the shipped C2-07 clear policy for an optional Beacon strategy.
 	var args := [_late_policy, _trial_heat, _trial_opening, _trial_intervals, _trial_buffs,
 		_tactical, _expanded, _balanced, _advanced, _frontline, _intervention, _guard_drills]
 	_late_policy = ""
@@ -273,9 +296,7 @@ func _earn_trial_firebreak() -> bool:
 	_intervention = false
 	_guard_drills = false
 	var prior := _content.operation(&"C2-07")
-	prior.clear_unlock_ids.append(FIREBREAK)
 	var result := _play(prior, true)
-	prior.clear_unlock_ids.pop_back()
 	_late_policy = args[0]
 	_trial_heat = args[1]
 	_trial_opening = args[2]

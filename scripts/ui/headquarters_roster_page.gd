@@ -50,6 +50,8 @@ static func lock_message(spec: DeploymentSpec) -> String:
 		if spec.chaos_threshold > 0:
 			return "Qualifying Chaos score of %s" % StoryUI.funds(spec.chaos_threshold)
 		if not spec.mission_supply_stage.is_empty():
+			if not spec.recruitment_stage.is_empty():
+				return "Clear %s to recruit. Supplied during %s." % [spec.recruitment_stage, spec.mission_supply_stage]
 			return "Mission supply in %s. Permanent availability pending." % spec.mission_supply_stage
 		if not spec.recruitment_stage.is_empty():
 			return "Clear %s" % spec.recruitment_stage

@@ -82,6 +82,8 @@ func _run() -> void:
 		_verify_facility_upgrade(mode)
 	if "--ranger-growth" in args:
 		_verify_ranger_upgrade(mode)
+	if "--economy-rewards" in args:
+		_verify_economy_rewards(mode, "--legacy-economy" in args)
 	app.free()
 	await process_frame
 	quit(1 if failures else 0)
@@ -131,6 +133,56 @@ func _verify_ranger_upgrade(mode: String) -> void:
 		"Returning profile retains the paid Ranger level with scaled outputs and the original Records gate")
 	if mode == "resume":
 		_check(returning.purchase_levels(SCOUT, 40).is_empty(), "Updated pack continues the same Ranger upgrade track")
+
+func _verify_economy_rewards(mode: String, legacy: bool) -> void:
+	const PATH := "user://c32-d-awards.json"
+	const FIREBREAK := &"facility.firebreak_beacon"
+	const CHAPTER := &"records_chapter.scout_sniper"
+	var stage := CampaignContent.new().operation(&"C2-07")
+	var expected := 310_000 if legacy else 1_160_000
+	if mode == "seed":
+		var fixture := CampaignSave.fresh()
+		fixture.leader_name = "Rimba"
+		fixture.rooms[String(HeadquartersCatalog.CONTROL)] = 4
+		fixture.rooms[String(HeadquartersCatalog.RECORDS)] = 2
+		fixture.rooms[String(HeadquartersCatalog.MECHANICAL)] = 1
+		fixture.records["C2-06"] = {"cleared": true, "perfect": false}
+		_check(ProfileFile.replace(PATH, fixture, false), "Seed a save with authored prerequisites")
+		var profile := CampaignProgress.new(PATH)
+		_check(profile.begin_attempt(stage), "Open the unlocked C2-07 attempt")
+		var first := profile.complete(stage, true)
+		_check(first.get("credited") == (0 if legacy else 800000), "Source APK settles its own Campaign award data")
+		var chapter := _perfect_chapter(profile, CHAPTER)
+		_check(chapter.get("credited") == (0 if legacy else 50000) and profile.funds() == expected,
+			"Source APK persists question, chapter and Campaign flags with the exact balance")
+		return
+	var returning := CampaignProgress.new(PATH)
+	if mode == "resume":
+		var record := returning.record_for(&"C2-07")
+		_check(returning.funds() == expected and record.get("perfect", false) and returning.owns(FIREBREAK) == (not legacy),
+			"Loading preserves historical milestones and wallet")
+		_check(_perfect_chapter(returning, CHAPTER).get("credited") == 0 and returning.funds() == expected,
+			"Repeating a historical perfect chapter pays neither question nor chapter awards")
+		_check(returning.begin_attempt(stage), "Open the replay with the new pack")
+		var replay := returning.complete(stage, true)
+		_check(replay.get("awards") == {"replay_funds": 6500} and replay.get("unlocked") == ([FIREBREAK] if legacy else []),
+			"Successful replay pays 6,500 and recruits only a previously missing Beacon")
+		_check(returning.purchase_levels(FIREBREAK, 20).is_empty(), "Returning player purchases the permanent Beacon milestone")
+	else:
+		_check(returning.funds() == expected + 6500 - 60096 and returning.deployable_level(FIREBREAK) == 20
+			and returning.owns(FIREBREAK) and StringName(CHAPTER) in returning.records_enhancements(),
+			"Cold start verifies the exact paid level, ownership, Records flag and Funds")
+
+func _perfect_chapter(profile: CampaignProgress, chapter: StringName) -> Dictionary:
+	var quiz := RecordsQuiz.new(profile, EducationCatalog.load_installed())
+	if not quiz.begin(chapter):
+		return {}
+	for index in quiz.question_count():
+		var question := quiz.question()
+		var correct: int = question.choices.find_custom(func(choice: Dictionary) -> bool: return choice.id == question.correct_choice_id)
+		if not quiz.answer(correct) or not quiz.continue_after_feedback():
+			return {}
+	return quiz.result
 
 func _open_room(app: Control, id: String) -> void:
 	app.show_menu()

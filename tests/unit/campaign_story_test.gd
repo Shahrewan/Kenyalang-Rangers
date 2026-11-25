@@ -46,7 +46,9 @@ func _run() -> void:
 		await _capture("story-selection")
 	var troops := await _play_first_contact(app, c1)
 	_check(troops.defeated == 14 and troops.escaped == 0 and troops.outcome == "Perfect clear", "C1-01 wins both W13 waves with touch deployment and automatic Ranger combat")
-	_check(troops.settlement.credited == 10000 and troops.settlement.pending_awards == ["first_perfect_funds"], "C1-01 pays the approved first clear and identifies the pending perfect award")
+	_check(troops.settlement.credited == 15000 and troops.settlement.awards == {"first_clear_funds": 10000, "first_perfect_funds": 5000}, "C1-01 pays both approved first awards")
+	if not _capture_dir.is_empty():
+		await _capture("c1-01-result")
 	app.show_story()
 	_check(not _node(app._screen, c2).disabled and _node(app._screen, c4).disabled, "Clearing the predecessor unlocks the next revealed operation only")
 	_node(app._screen, c2).pressed.emit()
@@ -54,18 +56,17 @@ func _run() -> void:
 	app._screen.find_child("OpenHeadquarters", true, false).pressed.emit()
 	app._screen.find_child("Room_mechanical", true, false).pressed.emit()
 	var mechanical := app._screen as HeadquartersRoomPage
-	_check(not mechanical._purchase.disabled and progress.funds() == 20000, "C1-01 earns exactly enough for Mechanical")
+	_check(not mechanical._purchase.disabled and progress.funds() == 25000, "The opening balance and C1-01 perfect fund Mechanical")
 	mechanical._purchase.pressed.emit()
 	mechanical._dialog.hide()
 	mechanical._dialog.confirmed.emit()
-	_check(progress.room_level(HeadquartersCatalog.MECHANICAL) == 1 and progress.funds() == 0, "Build Mechanical debits the approved Campaign earnings exactly")
+	_check(progress.room_level(HeadquartersCatalog.MECHANICAL) == 1 and progress.funds() == 5000, "Build Mechanical spends 20,000 and retains the perfect bonus")
 	mechanical.back_requested.emit()
 	(app._screen as HeadquartersOverview).back_requested.emit()
 	_check(app._screen.plan.can_start() and app._screen.plan.facility_limit == 2, "Returning from Access equips the newly legal Logistics Post")
 	await _funded_launch_resume(app, c2)
 	_play_second_operation(app._screen.plan)
-	# Simulated active accrual exercises the real storage cap, claim and upgrade
-	# purchases while W13's release payouts await approval.
+	# Simulated active accrual funds the visibility used by the narrative fixtures.
 	_fund_control(progress, 5)
 	_check(progress.is_visible(finale) and not progress.access_error(finale).is_empty(), "Max Control reveals the finale without bypassing its uncleared predecessor")
 	var spawned := 14
@@ -106,15 +107,25 @@ func _run() -> void:
 		if operation.stage.stage_id == &"C1-05":
 			_check(report.outcome == "Boss captured" and report.perfect and "dialogue.c1_05.boss_phase_1" in timeline.beats, "C1-05 captures the Captain and retires outstanding phase orders")
 		if operation == finale:
-			_check("dialogue.c2_10.boss_phase_2" in timeline.beats and timeline.beats.back() == "dialogue.c2_10.epilogue" and report.settlement.pending_awards.has("story_completion_funds"), "Finale resolves both phases and runners, then shows the first-clear epilogue")
+			_check("dialogue.c2_10.boss_phase_2" in timeline.beats and timeline.beats.back() == "dialogue.c2_10.epilogue" and report.settlement.awards.get("story_completion_funds") == 1100000, "Finale resolves both phases and runners, then shows the first-clear epilogue")
+			if not _capture_dir.is_empty():
+				await _capture("c2-10-first-receipt")
 		spawned += timeline.spawns.size()
 		tested_waves += operation.stage.waves.size()
 		_check(progress.record_for(operation.stage.stage_id).perfect and progress.snapshot().pending_attempt.is_empty(), "%s persists perfect and closes the attempt" % operation.stage.stage_id)
 		for id in operation.clear_unlock_ids:
 			_check(String(id) in progress.snapshot().owned, "Clear persists " + String(id))
+		if not _capture_dir.is_empty() and operation.stage.stage_id == &"C2-07":
+			await _capture("c2-07-result")
+			app._show_roster(CampaignProgress.HEADQUARTERS.room(HeadquartersCatalog.MECHANICAL))
+			app._screen.find_child("Unit_firebreak_beacon", true, false).pressed.emit()
+			app._screen.find_child("Milestone20", true, false).pressed.emit()
+			_check(not app._screen._buy.disabled and "42% less Heat" in app._screen._preview.text,
+				"The recruited Beacon opens its paid Lv.20 preview in Mechanical")
+			await _capture("firebreak-upgrade")
 	_check(progress.snapshot().records.size() == 15 and spawned == 1114 and tested_waves == 49, "All 15 operations clear sequentially across 49 waves and 1,114 actual arrivals")
 	_check(_portrait_keys.size() == 10, "All ten authored speaker and pose combinations resolve approved portrait art")
-	_check("facility.firebreak_beacon" not in progress.snapshot().owned, "Trial supplies expire after C2-07 settlement")
+	_check(progress.owns(&"facility.firebreak_beacon"), "The C2-07 result recruits the permanent Firebreak")
 	await _replay_and_losses(app, c1, finale)
 	if _capture_dir.is_empty():
 		await _all_result_paths(app, campaign)
@@ -320,7 +331,7 @@ func _replay_and_losses(app: Control, first: StoryOperation, finale: StoryOperat
 	field = _open(app, finale)
 	var read_boss := await _drive(field, true)
 	await process_frame
-	_check(not "dialogue.c2_10.epilogue" in read_boss.beats and app._screen.report.settlement.pending_awards == ["replay_funds"], "Finale replay excludes its first completion reward and epilogue")
+	_check(not "dialogue.c2_10.epilogue" in read_boss.beats and app._screen.report.settlement.awards == {"replay_funds": 9000}, "Finale replay excludes its first completion reward and epilogue")
 	field = _open(app, finale)
 	var skipped_boss := await _drive(field, false)
 	await process_frame

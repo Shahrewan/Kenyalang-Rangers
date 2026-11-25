@@ -83,11 +83,13 @@ func _run() -> void:
 	await _capture("records-question")
 	for index in 10:
 		_answer(app, quiz_page.quiz)
+		if index == 0:
+			await _capture("records-first-correct")
 		_press(app, "ContinueQuiz")
 	var after: int = app._campaign_progress.funds()
-	_check(after == 335000, "Ten first-correct responses receive the sourced 30,000 Funds each")
-	_check(_find(app, "QuizResult").text == "Perfect chapter" and _find(app, "QuizChapterFunds").text == "Perfect chapter bonus pending",
-		"Perfect chapter records its enhancement and exposes the pending bonus")
+	_check(after == 385000, "Ten first-correct responses and the first perfect earn 350,000 Funds")
+	_check(_find(app, "QuizResult").text == "Perfect chapter" and _find(app, "QuizChapterFunds").text.contains("50,000"),
+		"Perfect chapter records its enhancement and displays the 50,000 bonus")
 	_check(StringName(SCOUT) in app._campaign_progress.records_enhancements(), "The actual Campaign profile owns the earned Records enhancement")
 	await _capture("records-result")
 	_press(app, "CloseQuizResult")

@@ -105,7 +105,7 @@
     "perfect_clear": "successful_clear_and_zero_combat_escapes",
     "foreman_escape_trial": null
   },
-  "rewards": {"status": "tbd", "first_clear_funds": null, "first_perfect_funds": null, "replay_funds": null},
+  "rewards": {"status": "owner_approved_playtest", "first_clear_funds": 300000, "first_perfect_funds": 100000, "replay_funds": 3500},
   "tutorial_hints": [],
   "dialogue_sequences": [
     {
