@@ -21,19 +21,21 @@ func _ready() -> void:
 	if w29_presentation:
 		theme = CampaignVisualAssets.THEME
 	var title := operation.title if plan.chaos else "%s   %s" % [operation.stage.stage_id, operation.title]
-	StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(funds))
+	var back := StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(funds))
+	back.custom_minimum_size.y = 64
 	var content := StoryUI.row(self, 16)
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var tactics := StoryUI.scroll_column(content)
+	(tactics.get_parent() as ScrollContainer).size_flags_stretch_ratio = 1.45
+	if operation.campaign_spec:
+		_add_modifiers(tactics)
 	_loadout = LoadoutPicker.new()
 	_loadout.plan = plan
 	_loadout.selection_changed.connect(_refresh_plan)
 	_loadout.selection_blocked.connect(show_error)
 	_loadout.headquarters_requested.connect(func() -> void: access_requested.emit())
 	tactics.add_child(_loadout)
-	if operation.campaign_spec:
-		_add_modifiers(tactics)
-	else:
+	if not operation.campaign_spec:
 		_add_legacy_plan(tactics)
 
 	var incoming := StoryUI.scroll_column(content)
@@ -57,10 +59,20 @@ func _ready() -> void:
 	var footer := StoryUI.row(self, 16)
 	_feedback = StoryUI.label("", 18, StoryUI.BEIGE)
 	_feedback.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_feedback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	footer.add_child(_feedback)
+	if operation.campaign_spec:
+		var edit := StoryUI.action("Edit modifiers")
+		edit.name = "OpenModifiers"
+		edit.custom_minimum_size.y = 68
+		edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		edit.pressed.connect(func() -> void: modifiers_requested.emit())
+		footer.add_child(edit)
 	_start = StoryUI.action("Start trial" if plan.chaos else "Start operation", true)
 	_start.name = "StartOperation"
-	_start.custom_minimum_size.x = 192
+	_start.custom_minimum_size = Vector2(208, 76)
+	_start.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_start.size_flags_stretch_ratio = 1.5
 	_start.pressed.connect(_start_operation)
 	footer.add_child(_start)
 	_refresh_plan()
@@ -82,13 +94,8 @@ func _add_modifiers(parent: Control) -> void:
 			hints.toggled.connect(func(enabled: bool) -> void: plan.show_hints = enabled)
 			fixed.add_child(hints)
 
-	var effects := StoryUI.panel(parent)
 	_modifier_summary = StoryUI.label("", 18)
-	effects.add_child(_modifier_summary)
-	var edit := StoryUI.action("Edit modifiers")
-	edit.name = "OpenModifiers"
-	edit.pressed.connect(func() -> void: modifiers_requested.emit())
-	effects.add_child(edit)
+	parent.add_child(_modifier_summary)
 
 func _add_legacy_plan(parent: Control) -> void:
 	var fixed := StoryUI.panel(parent)

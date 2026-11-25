@@ -26,17 +26,21 @@ var _claim: Button
 var _art: HeadquartersOfficeArt
 var _dialog: ConfirmationDialog
 var _confirmed: Callable
+var _displayed_storage := -1
 
 func _ready() -> void:
 	theme = HeadquartersArt.THEME
 	add_theme_constant_override("separation", 12)
 	var back := StoryUI.header(self, definition.label, func() -> void: back_requested.emit(), "Funds")
+	back.custom_minimum_size.y = 64
 	_balance = back.get_parent().get_node("FundsSummary")
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var detail_scroll := StoryUI.scroll_column(body)
 	(detail_scroll.get_parent() as Control).size_flags_stretch_ratio = 1.45
 	var details := StoryUI.panel(detail_scroll, true)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 12)
 	_status = StoryUI.label("", 28, StoryUI.INK)
 	details.add_child(_status)
 	_art = HeadquartersOfficeArt.new()
@@ -53,14 +57,14 @@ func _ready() -> void:
 		_claim = StoryUI.action("Claim stored Funds")
 		_claim.name = "ClaimFinance"
 		_claim.pressed.connect(_request_claim)
-		details.add_child(_claim)
+		actions.add_child(_claim)
 	else:
 		var activity := _activity_title()
 		if not activity.is_empty():
 			_activity = StoryUI.action(activity)
 			_activity.name = "RoomActivity"
 			_activity.pressed.connect(func() -> void: activity_requested.emit(definition))
-			details.add_child(_activity)
+			actions.add_child(_activity)
 	var purchase_panel := StoryUI.panel(StoryUI.scroll_column(body))
 	_next = StoryUI.label("", 25, StoryUI.AMBER)
 	purchase_panel.add_child(_next)
@@ -69,11 +73,17 @@ func _ready() -> void:
 	_purchase = StoryUI.action("", true)
 	_purchase.name = "RoomPurchase"
 	_purchase.pressed.connect(_confirm_room_purchase)
-	purchase_panel.add_child(_purchase)
+	actions.add_child(_purchase)
+	for action: Button in actions.get_children():
+		action.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		action.custom_minimum_size.y = 76
+		action.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_notice = StoryUI.label("", 19, StoryUI.AMBER)
 	add_child(_notice)
-	_dialog = StoryUI.confirmation(self, "Confirm", "Confirm")
+	add_child(actions)
+	_dialog = HeadquartersArt.confirmation(self, "Confirm", "Confirm")
 	_dialog.confirmed.connect(func() -> void: _confirmed.call())
+	set_process(_storage != null)
 	_refresh()
 
 func _activity_title() -> String:
@@ -115,7 +125,9 @@ func _refresh() -> void:
 	else:
 		_next.text = "Maximum level"
 		_requirement.text = ""
-	_process(0.0)
+	_notice.visible = not _notice.text.is_empty()
+	if _storage != null:
+		_update_storage()
 
 func _benefits_at(level: int) -> String:
 	if level == 0:
@@ -152,14 +164,21 @@ func _unlock_summary(ids: PackedStringArray) -> String:
 	return "" if labels.is_empty() else "\n" + "\n".join(labels)
 
 func _process(_delta: float) -> void:
-	if _storage != null:
-		_storage.text = "%s stored Funds" % StoryUI.funds(progress.finance_stored())
-		_claim.disabled = progress.finance_stored() == 0
+	_update_storage()
+
+func _update_storage() -> void:
+	var amount := progress.finance_stored()
+	if _displayed_storage == amount:
+		return
+	_displayed_storage = amount
+	_storage.text = "%s stored Funds" % StoryUI.funds(amount)
+	_claim.disabled = amount == 0
 
 func _confirm_room_purchase() -> void:
 	var quote := progress.room_quote(definition.id)
 	if not quote.error.is_empty():
 		_notice.text = quote.error
+		_notice.show()
 		return
 	var detail := "%s · Level %d\nCost %s Funds\nBalance after purchase %s Funds" % [
 		definition.label, quote.target, StoryUI.funds(quote.cost), StoryUI.funds(quote.balance),
@@ -196,6 +215,7 @@ func _claim_funds(amount: int) -> void:
 func _ask(title: String, detail: String, caption: String, action: Callable) -> void:
 	_confirmed = action
 	_dialog.title = title
-	_dialog.dialog_text = detail
+	_dialog.dialog_text = "%s\n\n%s" % [title, detail]
 	_dialog.ok_button_text = caption
-	_dialog.popup_centered()
+	_dialog.popup_centered(Vector2i(590, 264))
+	_dialog.get_cancel_button().grab_focus()

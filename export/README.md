@@ -70,7 +70,7 @@ Install the signed C03 development build from a USB-connected PC:
 adb install -r build/android/kenyalang-rangers-c03-debug.apk
 ```
 
-Open **Sample battle** in airplane mode. Drag Patrolman off the board and onto an elevated tile. The budget and board should remain unchanged in both cases. Drop it on a ground tile, choosing a half of the tile to set its facing. Drag the two-cell Ranger into an overlap and then onto two empty ground cells. Verify only the valid placement charges Tokens.
+Open **Sample battle** in airplane mode. Drag Patrolman off the board and onto an elevated tile. The budget and board should remain unchanged in both cases. Drop it on a ground tile, choose a facing and tap **Deploy**. Drag the two-cell Ranger into an overlap and then onto two empty ground cells. Verify only a valid, confirmed placement charges Tokens.
 
 Quick-tap Scout Sniper to arm its skill. Drag across the board and release to check that this does not activate it. Tap a covered tile, then tap **Confirm skill**. Hold a Ranger until **Retreat** appears, use it, and check that its cooldown freezes when paused and allows redeployment afterward. Confirm that the tray, Retreat and confirmation controls fit inside the phone's safe area.
 
@@ -132,7 +132,7 @@ godot --headless --path . --export-debug "Android Debug" build/android/kenyalang
 adb install -r build/android/kenyalang-rangers-c10-offense-preview.apk
 ```
 
-1. Open **Kenyalang Rangers (Offense Sandbox)** in airplane mode. Drag Scout to `(2, 0)`, Crowd to `(2, 2)` and Guard to `(3, 1)` using zero-based coordinates. Release Guard on the left half of its tile to face the entry. Check the 54 Token balance after all three drops and confirm the tray and HUD clear the field and cutout.
+1. Open **Kenyalang Rangers (Offense Sandbox)** in airplane mode. Drag Scout to `(2, 0)`, Crowd to `(2, 2)` and Guard to `(3, 1)` using zero-based coordinates. Choose **Face left** for Guard and tap **Deploy**. Check the 54 Token balance after all three drops and confirm the tray and HUD clear the field and cutout.
 2. Tap Scout when a target is inside its square. Drag across the field once, then tap the target's tile and press **Confirm skill**. Damage and the immobilize ring should first appear at confirmation. The test sandbox supplies **Steady Aim**.
 3. Tap Crowd when enemies cluster in range. Observe the EMP drop in HP and the teal slowing field. Technological targets have a `T`. The ordinary EMP has the higher output against them. Check movement and recharge at 1× or 2× and across Pause or the dialogue preview.
 4. Tap Guard up to four times while ground enemies are within two tiles in front. Observe the damage, stun ring and remaining charges. A fifth tap during recharge should leave HP alone. Pause with charges missing, wait, resume, and verify only one returns after thirteen combat seconds. Test hold-to-Retreat and a legal redeploy after its countdown. The `A` targets in wave two should pass Guard and remain eligible for the elevated attackers.
@@ -333,3 +333,54 @@ With a locally configured editor/SDK, omit the `--godot` option. On each candida
 3. For save continuity, use the ordinary C23 development APK and a disposable player profile. In airplane mode plant and water a tree, background the app, run `adb shell am force-stop com.shahrewan.kenyalangrangers.dev`, and relaunch. Check the planted cycle and balance before and after one harvest. Repeat on a paused Chaos operation and verify that reopening restores the configuration. Capture any failure with package version and stage. Outreach answer continuity can be checked on phone once the approved bank is installed.
 
 The cloud run on 23 November 2026 returned an empty ADB device list. Linux timings, package verification and outstanding sign-off are recorded in the [C23 audit](../docs/qa/C23_SYSTEM_AUDIT.md).
+
+## C34 Android deployment and performance checks
+
+The Android Debug preset uses Godot `4.7.2.stable.official.ed1daf0bf` and the `4.7.2.stable` templates with Java 17, Platform 36 and Build-Tools 36.1.0. The app is ARM64, uses the Compatibility renderer and retains `com.shahrewan.kenyalangrangers.dev` and the existing debug signer. Export using the workspace profile when available.
+
+```sh
+mkdir -p build/android
+./.android/godot-android --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c34-debug.apk
+```
+
+On another machine use `godot` with the Java and SDK paths set in the editor. Before an update, use `apksigner verify --verbose --print-certs` to compare the candidate with the previously installed build's signing certificate, and record both APK hashes. If `adb install -r` reports an incompatible update, stop and keep the installed profile. Keep the default profile for update continuity and use a separate phone or Android user to test the new-Leader journey.
+
+### Capture the reported drag failure
+
+1. Attach and authorize a phone in USB debugging. Use `adb devices -l` to identify it locally. For multiple devices add `-s SERIAL` to each ADB command. Record the Android API, device model, GPU, RAM, native resolution, density, cutout and navigation mode, alongside the exact installed APK hash. Keep device serial numbers out of shared reports.
+2. Open Story Mode, start First Contact, close the briefing and reproduce the reported drag using a real finger. Record whether it occurs during contact, movement outside the tray, first valid-cell preview, release or animation startup. Record which Ranger or Facility was selected and whether it happened in both landscape orientations.
+3. On the PC, run the following from the repository root around the reproduction. The files stay local and the capture preserves the existing log buffers and save files.
+
+   ```sh
+   mkdir -p build/qa/c34/device
+   package=com.shahrewan.kenyalangrangers.dev
+   adb shell getprop ro.product.model
+   adb shell getprop ro.build.version.release
+   adb shell getprop ro.build.version.sdk
+   adb shell wm size
+   adb shell wm density
+   adb shell cat /proc/meminfo | head -1
+   adb shell dumpsys SurfaceFlinger | rg -m 1 'GLES:'
+   adb shell dumpsys window displays | rg 'DisplayCutout|InsetsState' > build/qa/c34/device/insets.txt
+   start=$(adb shell 'date "+%m-%d %H:%M:%S.000"' | tr -d '\r')
+   app_pid=$(adb shell pidof -s "$package" | tr -d '\r')
+
+   # Reproduce the drag now, before restarting the app.
+   adb logcat -b crash -d -v threadtime -T "$start" > build/qa/c34/device/crash.txt
+   if [ -n "$app_pid" ]; then
+     adb logcat -b main -b system --pid "$app_pid" -d -v threadtime -T "$start" > build/qa/c34/device/player-process.txt
+   fi
+   adb shell pidof -s "$package"
+   adb shell dumpsys activity exit-info "$package" > build/qa/c34/device/exit-info.txt
+   ```
+
+   Exit information is available from Android 11. Preserve the package-specific error, signal or ANR, PID, native backtrace and library Build ID when present. Extract only the game-related lines before sharing logs.
+4. Install the candidate on the same phone with `adb install -r build/android/kenyalang-rangers-c34-debug.apk`. Repeat the drag on the same mission and tile, including valid and invalid Post previews, swipe-to-scroll, melee facing changes, Confirm, Cancel and interrupting a drag by backgrounding. Check with a free Starter Post, a paid Facility, a ranged Ranger and a two-cell melee Ranger. Verify the preview and cost first, then the on-field result, actual Token delta, cooldown and save continuity.
+
+### Measure the running Android game
+
+Use the same phone, build identity, quality settings and scenario for before/after comparisons. Record the display refresh rate, thermal state and whether a screen recorder is active. Capture First Contact, dense Chapter 2, Imbak Canyon Heat, a boss and Final Interception, a dense Chaos run, a populated Headquarters and repeated menu/battle transitions. Continue a representative session long enough to see if total PSS or frame times rise over time.
+
+- Use Perfetto or the Android Studio System Trace with the game's SurfaceFlinger frame timeline on Android 12 or later. Measure sustained FPS and p50/p95/p99 frame intervals on the game surface. Android View hierarchy timings alone do not measure Godot rendering.
+- Use `adb shell dumpsys meminfo com.shahrewan.kenyalangrangers.dev` at the same point in each paired scenario to compare total PSS. Measure cold launch and transitions separately. Record any PID change, ANR or system exit reason after dragging.
+- After checking the production game, repeat the profile-continuity journey in airplane mode. Background, lock and reopen during a drag, facing selection and a paused operation, and verify the exact combat tick and saved progress when returning. Physical touches, emulator input and host gameplay tests are separate evidence.

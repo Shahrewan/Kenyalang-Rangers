@@ -1,0 +1,4 @@
+Performing Streamed Install
+Success
+11-25 17:16:48.491  2516  2562 I PackageManager: Update package com.shahrewan.kenyalangrangers.dev code path from /data/app/~~QaAuwXGxvjoHOULo0zatzQ==/com.shahrewan.kenyalangrangers.dev-JQjUDgSec_8F0KEF6XbdIA== to /data/app/~~0rJ3aQehrKZqWg3GRxGwJw==/com.shahrewan.kenyalangrangers.dev-m22-nwApEd2vd88n-sA5Hw==; Retain data and using new
+11-25 17:16:48.495  2516  2562 I PackageManager: Update package com.shahrewan.kenyalangrangers.dev resource path from /data/app/~~QaAuwXGxvjoHOULo0zatzQ==/com.shahrewan.kenyalangrangers.dev-JQjUDgSec_8F0KEF6XbdIA== to /data/app/~~0rJ3aQehrKZqWg3GRxGwJw==/com.shahrewan.kenyalangrangers.dev-m22-nwApEd2vd88n-sA5Hw==; Retain data and using new

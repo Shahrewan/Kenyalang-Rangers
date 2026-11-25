@@ -323,6 +323,10 @@ func _drop(field: CampaignBattle, id: StringName, cell: Vector2i) -> void:
 	motion.relative = target - point
 	root.push_input(motion, true)
 	_touch(target, false)
+	var facing := field.find_child("FaceLeft", true, false) as Button
+	if facing.is_visible_in_tree():
+		facing.pressed.emit()
+		field.find_child("ConfirmDeploy", true, false).pressed.emit()
 
 func _hold(field: CampaignBattle, cell: Vector2i) -> void:
 	var point := field._board.get_global_transform_with_canvas() * field._board.cell_center(cell)

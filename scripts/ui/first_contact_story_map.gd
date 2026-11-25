@@ -5,6 +5,7 @@ signal operation_requested(operation: StoryOperation)
 
 const BACKPLATE := preload("res://assets/imported/first_contact/story_node_backplate.svg")
 const ART_SIZE := Vector2(1280, 720)
+const NODE_SPACING := 8.0
 var content: CampaignContent
 var progress: CampaignProgress
 var skin: FirstContactSkin
@@ -12,6 +13,7 @@ var _nodes := {}
 var _labels := {}
 var _detail: Label
 var _map_rect: Rect2
+var _closest_missions := ART_SIZE.x
 
 func _ready() -> void:
 	var rows: Array = skin.registration().story.nodes
@@ -42,8 +44,8 @@ func _ready() -> void:
 		button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
 		button.expand_icon = true
 		button.set_meta("medallion", state)
-		button.add_theme_color_override("font_color", StoryUI.CREAM)
-		button.add_theme_color_override("font_disabled_color", StoryUI.INK)
+		for style in ["font_color", "font_hover_color", "font_focus_color", "font_disabled_color"]:
+			button.add_theme_color_override(style, StoryUI.INK)
 		var label: String = row.title if revealed else "Requires Control Lv.%d" % operation.min_control_level
 		var info: String = label + " · " + (access if not access.is_empty() and revealed else "")
 		if access.is_empty():
@@ -51,18 +53,32 @@ func _ready() -> void:
 			if focus == null or record.is_empty():
 				focus = button
 		button.tooltip_text = info.strip_edges().trim_suffix(" ·")
+		button.accessibility_name = "%s · %s" % [row.id, button.tooltip_text]
 		button.mouse_entered.connect(_show_detail.bind(button))
 		button.focus_entered.connect(_show_detail.bind(button))
 		button.focus_exited.connect(_restore_icon.bind(button))
 		button.pressed.connect(func() -> void: operation_requested.emit(operation))
 		add_child(button)
 		_nodes[row.id] = [button, FirstContactSkin.vector(row.ui_center_units)]
+		button.minimum_size_changed.connect(_fit_touch_targets)
 		if row.id.begins_with("C1"):
 			_caption(label, Vector2(row.ui_center_units[0], 292), 0.17)
 		elif int(String(row.id).get_slice("-", 1)) % 2 == 1:
 			_caption(operation.region if revealed else "Fogged operations",
 				FirstContactSkin.vector(row.ui_center_units) + Vector2(49, -79), 0.175)
+	var lanes := {}
+	for row: Array in _nodes.values():
+		var center: Vector2 = row[1]
+		if not lanes.has(center.y):
+			lanes[center.y] = []
+		lanes[center.y].append(center.x)
+	for lane: Array in lanes.values():
+		lane.sort()
+		for index in range(1, lane.size()):
+			_closest_missions = minf(_closest_missions, float(lane[index]) - float(lane[index - 1]))
 	resized.connect(_layout)
+	get_viewport().size_changed.connect(_fit_touch_targets)
+	_fit_touch_targets()
 	_layout()
 	if focus != null:
 		focus.grab_focus()
@@ -83,10 +99,22 @@ func _show_detail(button: Button) -> void:
 func _restore_icon(button: Button) -> void:
 	button.icon = skin.region("interface", button.get_meta("medallion"))
 
+func _touch_size() -> Vector2:
+	var touch := StoryUI.android_touch_minimum(self).max(Vector2(84, 84))
+	for row: Array in _nodes.values():
+		var button: Button = row[0]
+		touch = touch.max(button.get_combined_minimum_size())
+	return touch
+
+func _fit_touch_targets() -> void:
+	var touch := _touch_size()
+	custom_minimum_size = Vector2(ceilf((touch.x + NODE_SPACING) * ART_SIZE.x / _closest_missions), touch.y * 4.0)
+	_layout()
+
 func _layout() -> void:
 	var metrics := size / ART_SIZE
 	_map_rect = Rect2(Vector2.ZERO, size)
-	var touch := StoryUI.android_touch_minimum(self).max(Vector2.ONE * 76.0)
+	var touch := _touch_size()
 	for row: Array in _nodes.values():
 		var button: Button = row[0]
 		button.size = touch

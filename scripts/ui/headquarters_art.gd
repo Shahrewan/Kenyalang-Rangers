@@ -28,6 +28,19 @@ static func resource(file: String, type: String) -> Resource:
 	var path := file if file.begins_with("res://") else "res://" + file
 	return ResourceLoader.load(path, type) if not file.is_empty() and ResourceLoader.exists(path, type) else null
 
+static func confirmation(parent: Control, title: String, caption: String) -> ConfirmationDialog:
+	var dialog := StoryUI.confirmation(parent, title, caption)
+	var layout := THEME.duplicate() as Theme
+	var hit := StoryUI.android_touch_minimum(parent).max(Vector2(152, 68))
+	# AcceptDialog applies its theme minimum again when the embedded window opens.
+	layout.set_constant("buttons_min_width", "AcceptDialog", ceili(hit.x))
+	layout.set_constant("buttons_min_height", "AcceptDialog", ceili(hit.y))
+	dialog.theme = layout
+	dialog.borderless = true
+	dialog.dialog_autowrap = true
+	dialog.get_ok_button().theme_type_variation = &"PrimaryButton"
+	return dialog
+
 static func sprite(parent: Node, file: String, bounds: Rect2, layer: int, id: String) -> Sprite2D:
 	var texture := resource(file, "Texture2D") as Texture2D
 	if texture == null:

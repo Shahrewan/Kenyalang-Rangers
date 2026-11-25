@@ -12,7 +12,9 @@ var show_combat_hp := false
 var deployments: DeploymentState
 var preview_spec: DeploymentSpec
 var preview_cell := DeploymentState.NO_CELL
-var preview_facing := -1
+var preview_facing := 0
+var preview_badge: Texture2D
+var preview_locked := false
 var first_contact_field: FirstContactField
 var show_starter_guide := false
 
@@ -82,18 +84,16 @@ func grid_origin() -> Vector2:
 
 func cell_at(viewport_position: Vector2) -> Vector2i:
 	var cell_size := tile_size()
-	if cell_size <= 4.0:
+	var canvas := get_global_transform_with_canvas()
+	if cell_size <= 4.0 or not viewport_position.is_finite() or not canvas.is_finite() or is_zero_approx(canvas.determinant()):
 		return DeploymentState.NO_CELL
-	var local := get_global_transform_with_canvas().affine_inverse() * viewport_position
-	var cell := Vector2i(((local - grid_origin()) / cell_size).floor())
-	return cell if Rect2i(Vector2i.ZERO, battle_map.size).has_point(cell) else DeploymentState.NO_CELL
+	var relative := (canvas.affine_inverse() * viewport_position - grid_origin()) / cell_size
+	if not Rect2(Vector2.ZERO, Vector2(battle_map.size)).has_point(relative):
+		return DeploymentState.NO_CELL
+	return Vector2i(relative.floor())
 
 func cell_center(cell: Vector2i) -> Vector2:
 	return grid_origin() + (Vector2(cell) + Vector2(0.5, 0.5)) * tile_size()
-
-func facing_at(viewport_position: Vector2) -> int:
-	var local := get_global_transform_with_canvas().affine_inverse() * viewport_position
-	return -1 if local.x < cell_center(cell_at(viewport_position)).x else 1
 
 func _ready() -> void:
 	resized.connect(queue_redraw)
@@ -255,7 +255,7 @@ func _draw_deployments() -> void:
 		if deployments.placement_error(post, Vector2i(1, 0)).is_empty():
 			for cell: Vector2i in post.footprint(Vector2i(1, 0)):
 				first_contact_field.terrain("KRT_51", _tile_rect(cell))
-	if preview_spec != null:
+	if preview_spec != null and not preview_locked:
 		var candidates := battle_map.ground if preview_spec.uses_ground() else battle_map.elevated
 		for cell in candidates:
 			if deployments.placement_error(preview_spec, cell).is_empty():
@@ -263,7 +263,7 @@ func _draw_deployments() -> void:
 	if preview_spec != null and preview_cell != DeploymentState.NO_CELL:
 		var valid := deployments.placement_error(preview_spec, preview_cell).is_empty()
 		var border := Color("#F3D586") if valid else Color("#FFAC91")
-		for cell in deployments.coverage(preview_spec, preview_cell, preview_facing):
+		for cell in preview_coverage():
 			if first_contact_field != null:
 				first_contact_field.terrain("KRT_53", _tile_rect(cell))
 			else:
@@ -284,8 +284,8 @@ func _draw_deployments() -> void:
 					draw_line(Vector2(mark.end.x, mark.position.y), Vector2(mark.position.x, mark.end.y), border, 3.0)
 		if first_contact_field != null and not preview_spec.is_ranger() and valid:
 			first_contact_field.draw_facility_preview(preview_spec, preview_cell)
-		if preview_spec.is_melee():
-			_draw_direction(preview_cell, preview_facing, border)
+		if preview_spec.is_melee() and preview_facing != 0:
+			_draw_facing_preview(border)
 	var armed: DeploymentState.Placement = deployments.placed.get(deployments.armed)
 	if armed != null:
 		for cell in deployments.coverage(armed.spec, armed.anchor, armed.facing, armed.id):
@@ -357,6 +357,32 @@ func _draw_health(center: Vector2, width: float, hp: int, maximum: int) -> void:
 
 func _tile_rect(cell: Vector2i) -> Rect2:
 	return Rect2(grid_origin() + Vector2(cell) * tile_size(), Vector2.ONE * tile_size()).grow(-3.0)
+
+func preview_coverage() -> Array[Vector2i]:
+	if preview_spec == null or preview_cell == DeploymentState.NO_CELL or (preview_spec.is_melee() and preview_facing == 0):
+		return []
+	return deployments.coverage(preview_spec, preview_cell, preview_facing)
+
+func _draw_facing_preview(color: Color) -> void:
+	var side := tile_size()
+	var center := cell_center(preview_cell)
+	center.x += side * 0.5 * (preview_spec.footprint(preview_cell).size() - 1)
+	if preview_badge != null:
+		var radius := side * 0.39
+		var pivot := center - Vector2(0, side * 0.10)
+		draw_set_transform(pivot, 0.0, Vector2(preview_facing, 1))
+		draw_texture_rect(preview_badge, Rect2(-Vector2.ONE * radius, Vector2.ONE * radius * 2), false, Color(1, 1, 1, 0.8))
+		draw_set_transform(Vector2.ZERO)
+	var start := center + Vector2(0, side * 0.31)
+	var tip := start + Vector2(preview_facing * side * 0.59, 0)
+	tip.x = clampf(tip.x, 6.0, size.x - 6.0)
+	var wing := Vector2(preview_facing * side * 0.16, side * 0.11)
+	var width := maxf(3.5, side * 0.065)
+	for stroke in [width + 3.0, width]:
+		var paint := Color("#1c2b22") if stroke > width else color
+		draw_line(start, tip, paint, stroke, true)
+		draw_line(tip, tip - wing, paint, stroke, true)
+		draw_line(tip, tip - Vector2(wing.x, -wing.y), paint, stroke, true)
 
 func _draw_direction(cell: Vector2i, facing: int, color: Color) -> void:
 	var center := cell_center(cell)

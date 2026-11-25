@@ -37,8 +37,10 @@ func _ready() -> void:
 	for spec in plan.choices:
 		var panel := rangers if spec.is_ranger() else facilities
 		var choice := CheckBox.new()
+		choice.mouse_filter = Control.MOUSE_FILTER_PASS
 		choice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		choice.add_theme_font_size_override("font_size", 16)
+		choice.custom_minimum_size.y = 68
+		choice.add_theme_font_size_override("font_size", 17)
 		choice.add_theme_color_override("font_color", StoryUI.INK)
 		choice.add_theme_color_override("font_hover_color", StoryUI.INK)
 		choice.add_theme_color_override("font_pressed_color", StoryUI.INK)

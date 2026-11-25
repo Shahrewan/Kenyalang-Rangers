@@ -24,6 +24,8 @@ func _ready() -> void:
 	var body := StoryUI.row(self, 14)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var archive := StoryUI.scroll_column(body)
+	archive.get_parent().size_flags_stretch_ratio = 0.92
+	archive.get_parent().scroll_deadzone = 12
 	archive.add_child(StoryUI.label("Facts archive", 25))
 	if catalog.facts.is_empty():
 		archive.add_child(StoryUI.label("The archive is awaiting approved facts.", 20, StoryUI.BEIGE))
@@ -31,16 +33,21 @@ func _ready() -> void:
 	for id: String in catalog.facts:
 		var fact: Dictionary = catalog.facts[id]
 		var card := StoryUI.panel(archive, true)
+		card.get_parent().mouse_filter = Control.MOUSE_FILTER_PASS
 		card.add_child(StoryUI.label(fact.title, 22, StoryUI.INK))
 		if id in discoveries:
 			card.add_child(StoryUI.label("Discovered", 17, StoryUI.INK))
 		card.add_child(StoryUI.label(fact.text, 20, StoryUI.INK))
 		EducationUI.credit_sources(card, catalog, fact.source_ids, StoryUI.INK)
-		var read := StoryUI.action("Read article")
+		var read := EducationUI.large_action(StoryUI.action("Read article"))
+		read.mouse_filter = Control.MOUSE_FILTER_PASS
 		read.name = "Article_" + id.get_slice(".", 1)
+		read.accessibility_name = "Read article · %s" % fact.title
 		read.pressed.connect(func() -> void: article_requested.emit(id))
 		card.add_child(read)
 	var chapters := StoryUI.scroll_column(body)
+	chapters.get_parent().size_flags_stretch_ratio = 1.08
+	chapters.get_parent().scroll_deadzone = 12
 	var heading := StoryUI.label("Quiz chapters", 25)
 	chapters.add_child(heading)
 	if catalog.chapters.is_empty():
@@ -52,6 +59,7 @@ func _ready() -> void:
 		var mapping: Array = EducationCatalog.CHAPTERS[id]
 		var chapter: Dictionary = catalog.chapters.get(id, {})
 		var card := StoryUI.panel(chapters)
+		card.get_parent().mouse_filter = Control.MOUSE_FILTER_PASS
 		var title: String = mapping[0]
 		if not chapter.is_empty():
 			title += " · " + chapter.topic
@@ -68,8 +76,12 @@ func _ready() -> void:
 		if not chapter.is_empty():
 			card.add_child(StoryUI.label("%d questions · 15 s each" % chapter.questions.size(), 17, StoryUI.BEIGE))
 		var unlocked := id in available
-		var open := StoryUI.action("Resume chapter" if existing.can_resume() and existing.chapter_id() == id else "Start chapter")
+		var open := EducationUI.large_action(StoryUI.action(
+			"Resume chapter" if existing.can_resume() and existing.chapter_id() == id else "Start chapter", true
+		))
+		open.mouse_filter = Control.MOUSE_FILTER_PASS
 		open.name = "Chapter_" + id.get_slice(".", 1)
+		open.accessibility_name = "%s · %s" % [open.text, title]
 		open.disabled = not unlocked or chapter.is_empty()
 		open.pressed.connect(_open.bind(id))
 		card.add_child(open)
@@ -83,6 +95,8 @@ func _ready() -> void:
 	add_child(_notice)
 	_replace = StoryUI.confirmation(self, "Replace saved quiz?", "Start chapter")
 	_replace.dialog_text = "The current quiz will close. Earned Funds and enhancements stay in your profile."
+	EducationUI.large_action(_replace.get_ok_button())
+	EducationUI.large_action(_replace.get_cancel_button())
 	_replace.confirmed.connect(_start_replacement)
 
 func _open(id: String) -> void:

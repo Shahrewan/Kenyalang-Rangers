@@ -364,3 +364,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - D-011 and D-017. Chaos uses the shared W29 board registrations and the Headquarters trophy artwork. Projected score and trophy, actual receipts and the earned record use the existing C32-E calculations. Eligibility and wallet clipping remain based on the settled run. [Native gameplay and receipt evidence](../qa/C33_PRODUCTION_PRESENTATION.md)
 - C1-02 and C1-03 now use the full W29 field catalogue on legal replay loadouts. First Contact keeps its original supply presentation. Outreach consumes the four approved grade expressions and Records uses the existing chapter and article assets. These bindings use the current save and battle state. [Presentation audit](../qa/C33_PRODUCTION_PRESENTATION.md#audit-and-implementation)
+
+### C34 Android interaction and layout · 2026-11-25
+
+- The anchor tile is selected by a validated drag. Direction-dependent Rangers require explicit left/right selection and Deploy. The existing placement transaction owns cost, cooldown, footprints and locked direction. Pending input clears on restart, combat interruption, focus loss or Android Back. The combat clock continues during the choice. [C34 issue register and test evidence](../qa/C34_ANDROID_STABILIZATION.md)
+- Android browsing uses larger, scrollable touch surfaces and fixed high-priority actions. Short moves inside a scroll deadzone can still register taps. Existing W29 art, Campaign/Chaos rules and the local save schema stay in use. Physical handset crash acceptance requires a reproducible trace and a repeated drag test. [Android verification procedure](../../export/README.md#c34-android-deployment-and-performance-checks)

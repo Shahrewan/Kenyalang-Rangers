@@ -5,6 +5,9 @@ signal back_requested
 signal configure_requested
 signal trial_requested
 
+const ROUTE_COLUMN_WEIGHT := 0.58
+const ACTION_HEIGHT := 72.0
+
 var configuration: ChaosConfiguration
 var progress: CampaignProgress
 var _board: BattleBoard
@@ -20,44 +23,48 @@ func _ready() -> void:
 	var body := StoryUI.row(self, 14)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var list := StoryUI.scroll_column(body)
-	list.get_parent().custom_minimum_size.x = 268
+	list.get_parent().size_flags_stretch_ratio = ROUTE_COLUMN_WEIGHT
+	list.get_parent().scroll_deadzone = 12
 	for route_id: StringName in ChaosConfiguration.ROUTES:
 		var route := StoryUI.action(ChaosConfiguration.ROUTES[route_id])
 		route.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		route.custom_minimum_size.y = 64.0
 		route.name = "Route_" + String(route_id)
 		route.toggle_mode = true
 		route.button_group = _choice
 		route.pressed.connect(_select_route.bind(route_id))
 		_buttons[route_id] = route
 		list.add_child(route)
-	var map := StoryUI.panel(body)
-	map.get_parent().size_flags_stretch_ratio = 2.15
+	var overview := StoryUI.scroll_column(body)
+	overview.get_parent().scroll_deadzone = 12
+	var map := StoryUI.panel(overview)
 	_route_info = StoryUI.label("", 20, StoryUI.AMBER)
 	map.add_child(_route_info)
 	_preview = AspectRatioContainer.new()
-	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_preview.resized.connect(_resize_preview)
 	map.add_child(_preview)
 	_board = BattleBoard.new()
 	_board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_preview.add_child(_board)
-	var records := StoryUI.scroll_column(body)
-	records.get_parent().custom_minimum_size.x = 300
-	var record := StoryUI.panel(records)
+	var record := StoryUI.panel(overview)
 	var trophy := ChaosTrophy.new()
 	trophy.personal_best = progress.chaos_personal_best()
 	trophy.show_thresholds = true
+	trophy.compact_thresholds = true
 	record.add_child(trophy)
 
-	var actions := StoryUI.row(self)
+	var actions := StoryUI.row(self, 14)
 	var trial := StoryUI.action("Modifier trial")
 	trial.name = "OpenModifierTrial"
+	trial.custom_minimum_size.y = ACTION_HEIGHT
+	trial.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	trial.size_flags_stretch_ratio = ROUTE_COLUMN_WEIGHT
 	trial.pressed.connect(func() -> void: trial_requested.emit())
 	actions.add_child(trial)
-	var gap := Control.new()
-	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	actions.add_child(gap)
 	var configure := StoryUI.action("Configure run", true)
 	configure.name = "ConfigureChaos"
+	configure.custom_minimum_size.y = ACTION_HEIGHT
+	configure.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	configure.pressed.connect(func() -> void: configure_requested.emit())
 	actions.add_child(configure)
 	_select_route(configuration.route_id)
@@ -68,8 +75,13 @@ func _select_route(id: StringName) -> void:
 		_buttons[key].set_pressed_no_signal(key == id)
 	var preview := configuration.build_stage()
 	_preview.ratio = float(preview.map.size.x) / preview.map.size.y
+	# In a scrolling column the preview needs its height to count toward the scroll extent.
+	_resize_preview()
 	_board.show_landscape(preview, _skin)
 	var entries := "1 entry" if preview.routes.size() == 1 else "%d entries" % preview.routes.size()
 	_route_info.text = entries + (" · Heat enabled" if preview.heat_capacity > 0.0 else "")
 	if _board.first_contact_field == null:
 		_route_info.text += " · Map illustration unavailable"
+
+func _resize_preview() -> void:
+	_preview.custom_minimum_size.y = minf(360.0, _preview.size.x / _preview.ratio)

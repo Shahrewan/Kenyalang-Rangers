@@ -15,21 +15,26 @@ var _cancel: Button
 var _abandon: Button
 var _confirm_message: Label
 var _options: HBoxContainer
+var _inset: MarginContainer
 
 func _ready() -> void:
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(center)
-	var box := StoryUI.panel(center)
-	box.custom_minimum_size.x = 560
+	_inset = MarginContainer.new()
+	_inset.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_inset)
+	resized.connect(_resize_panel)
+	_resize_panel()
+	var box := StoryUI.panel(_inset)
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_pause_view = StoryUI.column(box)
+	_pause_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_pause_view.add_child(StoryUI.label("Operation paused", 32))
 	_active = StoryUI.label("", 18, StoryUI.BEIGE)
 	_pause_view.add_child(_active)
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.custom_minimum_size.y = 236
+	scroll.custom_minimum_size.y = 84
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_pause_view.add_child(scroll)
 	_intel = WaveIntel.new()
 	_intel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -69,6 +74,19 @@ func _ready() -> void:
 	leave.pressed.connect(func() -> void: abandon_requested.emit())
 	confirm_controls.add_child(leave)
 	_confirm_view.hide()
+	for button: Button in [_resume, _abandon, help, settings, _cancel, leave]:
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.custom_minimum_size.y = 62
+	_resume.size_flags_stretch_ratio = 1.45
+	_cancel.size_flags_stretch_ratio = 1.45
+
+func _resize_panel() -> void:
+	var horizontal := roundi(size.x * 0.17)
+	var vertical := roundi(size.y * 0.10)
+	for side: String in ["left", "right"]:
+		_inset.add_theme_constant_override("margin_" + side, horizontal)
+	for side: String in ["top", "bottom"]:
+		_inset.add_theme_constant_override("margin_" + side, vertical)
 
 func show_battle(stage: BattleStage, battle: BattleSimulation, can_abandon: bool, can_open_options: bool) -> void:
 	_intel.show_stage(stage, battle)

@@ -27,6 +27,9 @@ var _funds: Label
 var _meter: ProgressBar
 var _timer: Label
 var _notice: Label
+var _primary: HBoxContainer
+var _side: PanelContainer
+var _nav: HBoxContainer
 
 func _ready() -> void:
 	set_process(false)
@@ -44,13 +47,15 @@ func _ready() -> void:
 	_board = GardenBoard.new()
 	_board.name = "GardenBoard"
 	_board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_board.size_flags_stretch_ratio = 1.4
 	_board.plot_selected.connect(_select_plot)
 	layout.add_child(_board)
 
-	var side := PanelContainer.new()
-	side.custom_minimum_size.x = 356
-	layout.add_child(side)
-	var info := StoryUI.column(side, 8)
+	_side = PanelContainer.new()
+	_side.custom_minimum_size.x = 390
+	_side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	layout.add_child(_side)
+	var info := StoryUI.column(_side, 10)
 	_status = StoryUI.label("", 22, StoryUI.AMBER)
 	info.add_child(_status)
 	_meter = ProgressBar.new()
@@ -58,12 +63,14 @@ func _ready() -> void:
 	_meter.custom_minimum_size.y = 14
 	_meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info.add_child(_meter)
-	var actions := StoryUI.row(info, 6)
-	_add_button(actions, "Guide", "GardenGuide", _open_guide)
-	_add_button(actions, "Milestones", "GardenMilestones", _show_view.bind(View.MILESTONES))
-	_add_button(actions, "Ecology", "GardenEcology", func() -> void: ecology_requested.emit())
+	_nav = StoryUI.row(info, 6)
+	_add_button(_nav, "Guide", "GardenGuide", _open_guide)
+	_add_button(_nav, "Milestones", "GardenMilestones", _show_view.bind(View.MILESTONES))
+	_add_button(_nav, "Ecology", "GardenEcology", func() -> void: ecology_requested.emit())
 	_details = StoryUI.scroll_column(info)
 	_scroll = _details.get_parent()
+	_scroll.scroll_deadzone = 12
+	_primary = StoryUI.row(info)
 	_notice = StoryUI.label("", 19, StoryUI.AMBER)
 	_notice.hide()
 	add_child(_notice)
@@ -135,13 +142,20 @@ func _show_view(view: View) -> void:
 func _render_details() -> void:
 	_timer = null
 	EducationUI.clear(_details)
+	EducationUI.clear(_primary)
 	_scroll.scroll_vertical = 0
+	var picking_seed := _view == View.SEEDS
+	_nav.visible = not picking_seed
+	_board.set_plot_controls_visible(not picking_seed)
+	_board.size_flags_stretch_ratio = 0.88 if picking_seed else 1.4
+	_side.size_flags_stretch_ratio = 1.42 if picking_seed else 0.92
 	match _view:
 		View.PLOT: _render_plot()
 		View.SEEDS: _render_seeds()
 		View.GUIDE: _render_guide()
 		View.MILESTONES: _render_milestones()
 		View.COLLECTION: _render_collection()
+	_primary.visible = _primary.get_child_count() > 0
 	StoryUI.size_buttons(self)
 
 func _render_plot() -> void:
@@ -158,7 +172,7 @@ func _render_plot() -> void:
 			_details.add_child(StoryUI.label("%s is part of the garden. This plot is ready to replant." % retained.label, 20))
 		else:
 			_details.add_child(StoryUI.label("This plot is ready for a seed.", 21))
-		_add_button(_details, "Choose a seed", "ChooseSeed", _show_view.bind(View.SEEDS), true)
+		_add_button(_primary, "Choose a seed", "ChooseSeed", _show_view.bind(View.SEEDS), true)
 		return
 	var species: Dictionary = RestorationRules.SPECIES[plot.species]
 	var stage := RestorationRules.stage(plot, _last_time)
@@ -166,10 +180,10 @@ func _render_plot() -> void:
 	_details.add_child(StoryUI.label("Mature" if stage == RestorationRules.Stage.MATURE else ("Sapling" if stage == RestorationRules.Stage.SAPLING else "Seed"), 20, StoryUI.BEIGE))
 	if RestorationRules.needs_water(plot, _last_time):
 		_details.add_child(StoryUI.label("Growth paused at halfway. Water to resume.", 20))
-		_add_button(_details, "Water", "WaterPlot", _water.bind(_slot, plot.cycle_id), true)
+		_add_button(_primary, "Water", "WaterPlot", _water.bind(_slot, plot.cycle_id), true)
 	elif stage == RestorationRules.Stage.MATURE:
 		_details.add_child(StoryUI.label("Collect %s Funds for this cycle." % StoryUI.funds(species.funds), 20))
-		_add_button(_details, "Collect", "CollectPlot", _collect.bind(_slot, plot.cycle_id), true)
+		_add_button(_primary, "Collect", "CollectPlot", _collect.bind(_slot, plot.cycle_id), true)
 	else:
 		_timer = StoryUI.label(_time_caption(plot), 20, StoryUI.AMBER)
 		_details.add_child(_timer)
@@ -177,11 +191,21 @@ func _render_plot() -> void:
 func _render_seeds() -> void:
 	_details.add_child(StoryUI.label("Choose a seed for Plot %d" % (_slot + 1), 24, StoryUI.AMBER))
 	_details.add_child(StoryUI.label("Planting is free. These are in-game growth times.", 18, StoryUI.BEIGE))
+	var rows := StoryUI.column(_details, 8)
+	var row: HBoxContainer
+	var index := 0
 	for id: String in RestorationRules.SPECIES:
+		if index % 2 == 0:
+			row = StoryUI.row(rows, 8)
+		index += 1
 		var species: Dictionary = RestorationRules.SPECIES[id]
-		var button := _add_button(_details, "%s\n%dh · %s Funds per cycle" % [species.label, species.hours, StoryUI.funds(species.funds)], "Plant_" + id.get_slice(".", 1), _plant.bind(_slot, id))
+		var label := "%s\n%dh · %s Funds" % [species.label, species.hours, StoryUI.funds(species.funds)]
+		var button := _add_button(row, label, "Plant_" + id.get_slice(".", 1), _plant.bind(_slot, id))
 		button.icon = _board._texture("trees/%s/seed.png" % id.get_slice(".", 1))
 		button.add_theme_constant_override("icon_max_width", 44)
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.y = 116
+	_add_button(_primary, "Cancel seed selection", "CancelSeed", _show_view.bind(View.PLOT))
 
 func _render_guide() -> void:
 	_details.add_child(StoryUI.label("Rhinoceros Hornbill guide", 25, StoryUI.AMBER))
@@ -192,6 +216,7 @@ func _render_guide() -> void:
 	if _state.nest_box_seen:
 		facts.append(RestorationRules.NEST_FACT)
 	_show_facts(facts)
+	_add_button(_primary, "Back to plot", "GardenCloseGuide", _show_view.bind(View.PLOT))
 
 func _render_milestones() -> void:
 	_details.add_child(StoryUI.label("Restoration milestones", 25, StoryUI.AMBER))
@@ -202,6 +227,7 @@ func _render_milestones() -> void:
 		if not reached and percent <= progress.restoration_percent():
 			marker = "Reached"
 		_details.add_child(StoryUI.label("%d%% · %s Funds · %s" % [percent, StoryUI.funds(RestorationRules.MILESTONES[percent]), marker], 19, StoryUI.BEIGE))
+	_add_button(_primary, "Back to plot", "GardenCloseMilestones", _show_view.bind(View.PLOT))
 
 func _render_collection() -> void:
 	_details.add_child(StoryUI.label("%s collected" % RestorationRules.SPECIES[_collected_species].label, 25, StoryUI.AMBER))
@@ -215,7 +241,7 @@ func _render_collection() -> void:
 	if not String(_receipt.fact).is_empty():
 		facts.append(_receipt.fact)
 	_show_facts(facts)
-	_add_button(_details, "Replant", "ChooseSeed", _show_view.bind(View.SEEDS), true)
+	_add_button(_primary, "Replant", "ChooseSeed", _show_view.bind(View.SEEDS), true)
 
 func _show_facts(ids: PackedStringArray) -> void:
 	var pending := false
@@ -281,8 +307,9 @@ func _time_caption(plot: Dictionary) -> String:
 	return ("Ready to water in %s" if plot.watered_at == 0 else "Ready to collect in %s") % duration
 
 static func _add_button(parent: Container, caption: String, node_name: String, callback: Callable, primary := false) -> Button:
-	var button := StoryUI.action(caption, primary)
+	var button := EducationUI.large_action(StoryUI.action(caption, primary), 74.0 if primary else 64.0)
 	button.name = node_name
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button

@@ -19,6 +19,7 @@ var operation_plan: OperationPlan
 var save_path := FirstContactProgress.DEFAULT_PATH
 var _progress: FirstContactProgress
 var _reported := false
+var _rendered_outcome := BattleSimulation.Outcome.RUNNING
 var _tips := true
 var _boss_briefing := false
 var _alert_deadlines: Dictionary[String, int] = {}
@@ -97,12 +98,17 @@ func _change_opening(index: int) -> void:
 func _physics_process(_delta: float) -> void:
 	if battle == null:
 		return
-	battle.clock.advance_frame()
+	if battle.clock.is_running():
+		battle.clock.advance_frame()
+	elif battle.outcome == _rendered_outcome:
+		return
+	# Input can end the battle between physics ticks. Publish that outcome once.
 	_refresh()
 
 func open_dialogue() -> void:
 	if battle == null or battle.clock.stopped:
 		return
+	%DeploymentController.cancel_interaction()
 	battle.clock.dialogue_open = true
 	_refresh()
 	%Continue.grab_focus()
@@ -210,6 +216,7 @@ func _toggle_pause() -> void:
 		_resume()
 	else:
 		battle.clock.paused = true
+		%DeploymentController.cancel_interaction()
 		if _uses_combat_presentation():
 			_pause_overlay.show_battle(stage, battle, operation_plan != null, settings_requested.has_connections())
 		_refresh()
@@ -217,11 +224,18 @@ func _toggle_pause() -> void:
 func request_back() -> void:
 	if battle == null:
 		return
+	if %DeploymentController.cancel_pending_placement():
+		return
 	if battle.clock.dialogue_open:
 		_skip_dialogue()
 	elif _pause_overlay.visible:
 		_pause_overlay.request_back()
 	else:
+		_toggle_pause()
+
+func suspend_interaction() -> void:
+	%DeploymentController.cancel_interaction()
+	if battle != null and battle.clock.is_running():
 		_toggle_pause()
 
 func _resume() -> void:
@@ -276,6 +290,7 @@ func _practice_hit() -> void:
 		battle.damage_enemy(id, enemy.hp - goal + enemy.active_shield(battle.clock.tick))
 
 func _refresh() -> void:
+	_rendered_outcome = battle.outcome
 	var placement: DeploymentState = %DeploymentController.state
 	_hud.render(battle, battle.expected_enemy_count, placement.tokens)
 	if %HeatRow.visible:

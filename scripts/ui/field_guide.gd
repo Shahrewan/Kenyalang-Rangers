@@ -9,7 +9,7 @@ const CONTROLS := "Battle controls"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
 const TOPICS := {
-	DEPLOY_TOPIC: "Swipe across the tray to browse your loadout. Drag a card to a highlighted tile. After its cooldown, use the same card to deploy another copy on a free footprint. For melee Rangers, release on the left or right half to lock facing. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
+	DEPLOY_TOPIC: "Swipe across the tray to browse your loadout. Drag a card to a highlighted tile. After dropping a Ranger that needs a facing direction, choose Face left or Face right to preview its coverage. Tap Deploy to confirm or Cancel to return to the battle. After its cooldown, use the same card to place another copy on a free footprint. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
 	ESCAPE_TOPIC: "Combat enemies that reach the tree-veiled tunnel reduce Operational Integrity. At zero Integrity the operation ends in defeat. Pause to inspect the waves and active enemies.",
 	"Where do I earn and spend Funds?": "Claim stored Funds in Finance. Operations and side activities can pay Funds. Use them for Headquarters rooms and deployable upgrades. Logistic Tokens pay for deployment during a battle.",
 	"How does the garden grow offline?": "Build Ecology to open two plots. Water halfway through the in-game growth time. Collect the mature tree to free the plot. The tree stays in the garden.",
@@ -27,6 +27,7 @@ var _body: VBoxContainer
 func _ready() -> void:
 	StoryUI.header(self, "Field guide", back)
 	_body = StoryUI.scroll_column(self)
+	_body.get_parent().scroll_deadzone = 12
 	_open(initial_page if not initial_page.is_empty() else "FAQ")
 
 func _open(id: String) -> void:
@@ -43,11 +44,18 @@ func back() -> void:
 func _render(id: String) -> void:
 	EducationUI.clear(_body)
 	(_body.get_parent() as ScrollContainer).scroll_vertical = 0
+	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL if id == "FAQ" else Control.SIZE_FILL
 	if id == "FAQ":
 		_body.add_child(StoryUI.label("Frequently asked questions", 28))
+		var tiles := GridContainer.new()
+		tiles.columns = 2
+		tiles.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		tiles.add_theme_constant_override("h_separation", 16)
+		tiles.add_theme_constant_override("v_separation", 14)
+		_body.add_child(tiles)
 		for topic: String in TOPICS:
-			_link(topic, topic)
-		_link("References", "References")
+			_link(topic, topic, tiles)
+		_link("References", "References", tiles)
 	elif id == "References":
 		_show_references()
 	elif id == CREDITS:
@@ -98,8 +106,12 @@ func _show_references() -> void:
 	for fact_id: String in catalog.facts:
 		_link(catalog.facts[fact_id].title, fact_id)
 
-func _link(caption: String, id: String) -> void:
-	var button := StoryUI.action(caption)
-	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+func _link(caption: String, id: String, parent: Container = null) -> void:
+	var button := EducationUI.large_action(StoryUI.action(caption), 72)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	if parent != null:
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.pressed.connect(_open.bind(id))
-	_body.add_child(button)
+	var links := _body if parent == null else parent
+	links.add_child(button)

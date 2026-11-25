@@ -5,7 +5,7 @@ signal back_requested
 signal room_requested(room: HeadquartersRoom)
 signal chaos_requested
 
-const CHAOS_RECT := Rect2(167, 620, 280, 70)
+const CHAOS_RECT := Rect2(167, 620, 280, 76)
 const SCORE_RECT := Rect2(957, 618, 167, 64)
 
 var progress: CampaignProgress
@@ -22,7 +22,8 @@ var _lobby: Node2D
 func _ready() -> void:
 	theme = HeadquartersArt.THEME
 	add_theme_constant_override("separation", 6)
-	StoryUI.header(self, "Headquarters", func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
+	var back := StoryUI.header(self, "Headquarters", func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
+	back.custom_minimum_size.y = 64
 	_catalog = HeadquartersArt.new()
 	if _catalog.rooms.size() != CampaignProgress.HEADQUARTERS.rooms.size():
 		_show_room_list()
