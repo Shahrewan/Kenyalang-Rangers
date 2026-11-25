@@ -1,6 +1,6 @@
 # C32 · Rewards and economy proposal
 
-**Owner review pending.** C1-01 first clear remains the approved 10,000 Funds award. The other 45 Campaign amounts and four Records bonuses below are proposals. The test harness reads them from a review file and settles them on disposable profiles. [Machine-readable proposal](c32/rewards_proposal.json) · [Economy and progression evidence](../qa/C32_ECONOMY_AND_PROGRESSION.md)
+**Approved for live playtesting in C32-D.** The exact Campaign schedule and four Records bonuses below are installed. C1-01 retains its 10,000 Funds ordinary first clear. The Outreach and Chaos guardrails remain comparison scenarios for separate owner review. [Machine-readable schedule](c32/rewards_proposal.json) · [C32-D verification](../qa/C32_D_ECONOMY_REWARDS.md)
 
 ## Campaign schedule
 
@@ -45,14 +45,14 @@ The ascending split follows GDD pp. 26–27 M.9, which budgets 350,000 across fo
 
 | Decision | Recommendation | Implementation status |
 | --- | --- | --- |
-| Campaign and Records amounts | Approve the exact schedule for a controlled playtest together with recurring-income guardrails. Review the complete mixed-income budget before release. | All pending fields remain pending in the game. The current C1-01 award and the Records first-correct trial value remain in place. |
-| Returning profiles | Keep existing first-clear, first-perfect, completion-derived eligibility and ownership records. A returning player can earn a newly eligible perfect, replay value or ordinary recurring income. | Current behavior verified. A legacy adjustment needs its own approval and storage design. |
-| Firebreak Beacon | Keep C2-07 mission supply as the recommended policy. C31-C demonstrated a viable C2-08 opening with ordinary owned equipment. | Permanent acquisition remains open. [C31-C comparison](../qa/C31_C_LATE_CAMPAIGN.md#c2-08-breaking-the-line) |
+| Campaign and Records amounts | Use the exact schedule for live playtesting and review the mixed-income budget before release. | C32-D activates all 45 remaining Campaign values and four Records chapter bonuses. |
+| Returning profiles | Keep existing first-clear, first-perfect, completion-derived eligibility and ownership records. A returning player can earn a newly eligible perfect, replay value or ordinary recurring income. | Flags and claimed Funds carry forward. Legacy compensation needs separate approval. |
+| Firebreak Beacon | Recruit on a successful C2-07 clear or replay. Keep its separate Lv.1 mission supply and C2-08's local Heat tuning. | C32-D installs permanent acquisition and verifies the paid upgrade path. |
 | Prototype wallet cap | Retain 9,999,999 and the existing permanent discard rule during further tuning. Re-evaluate repeated overflows after the repeatable sources are calibrated. | Current cap and settlement checks remain in force. |
 | Chaos repeated payouts | Trial positive modifier credit capped at the greater of 200 or enemy base points. Preserve tier thresholds, loadout and buff deductions, payout curve and requirements to qualify. | Isolated sensitivity only. Previously earned Facility ownership would stay with the save. |
 | Outreach repeated payouts | Trial Best-grade tables of 25k, 60k, 75k, 90k and 110k using current grade relationships and cadence. Recalibrate the final high tiers against measured participation. | Isolated sensitivity only. The current 25k/60k/110k/180k/300k schedule remains active. |
 | Habitat Restoration | Use measured repeat income and revisit the 5.30M budget target before adding new income. Keep participation and existing growth values for the next playtest. | The 4.71M theoretical ceiling and modeled receipts support owner review of the allocation. Any separate first-species award requires its own budget. |
-| Rangers and Facilities | Approve meaningful stat-growth endpoints as a separate progression pass. Price correctness alone does not validate value for money. | Existing costs, kits and Logistics Post yield progression are unchanged. |
+| Rangers and Facilities | Review the new trial growth and affordability during live play. | C32-B and C32-C added the linear stat endpoints using the same level prices. |
 
 ## Legacy allowance comparison
 
