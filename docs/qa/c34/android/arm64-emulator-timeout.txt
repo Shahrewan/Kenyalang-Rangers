@@ -1,0 +1,5 @@
+11-25 17:13:05.481  2516  3729 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.shahrewan.kenyalangrangers.dev/com.godot.game.GodotAppLauncher} from uid 2000
+11-25 17:13:14.175 16162 16162 I ndk_translation: Initialized NDK translation (aarch64), version 0.2.2
+11-25 17:13:27.442  2516  2546 W ActivityManager: Process ProcessRecord{924712d 16162:com.shahrewan.kenyalangrangers.dev/u0a167} failed to attach
+11-25 17:13:27.475  2516  2546 I ActivityManager: Killing 16162:com.shahrewan.kenyalangrangers.dev/u0a167 (adj -10000): start timeout
+11-25 17:13:27.895  2444  2444 I Zygote  : Process 16162 exited due to signal 9 (Killed)

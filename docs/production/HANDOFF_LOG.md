@@ -347,3 +347,8 @@
 
 - Chaos previews and live fields share the same six route registrations, including T02's two entries and the woodland layers. The W29 enemy, loadout, modifier, trophy, boss and receipt assets follow the existing effective score and settlement. Early Story replays use the exact W29 rigs for their unlocked loadouts.
 - The 130% layout audit fixed trophy wrapping and truncated route titles. Approved Outreach response, Records, Settings and HUD artwork is bound to existing state. Four native review configurations, three real Chaos outcomes, the prior Story fixture and the signed APK are documented. Physical phone acceptance remains open. [QA, native screenshots and device procedure](../qa/C33_PRODUCTION_PRESENTATION.md)
+
+### C34 · Android stabilization and mobile controls · 2026-11-25
+
+- Deployment now owns one physical touch and its generated mouse sequence. A valid melee drop exposes an explicit side choice and transactional Deploy, with the same clock, resource rules and W29 previews. The six directional Rangers, 13 Facilities and six other Rangers were exercised in the touch-event fixture.
+- Home, Story, Headquarters, Chaos, learning, Garden, Settings and combat layouts use larger actions and improved swipe behavior. The report distinguishes synthetic host input, APK payload, emulator and physical-device evidence. [Issue register and release checks](../qa/C34_ANDROID_STABILIZATION.md)

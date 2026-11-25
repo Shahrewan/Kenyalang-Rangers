@@ -1,0 +1,11 @@
+Starting: Intent { cmp=com.shahrewan.kenyalangrangers.dev/com.godot.game.GodotAppLauncher }
+Status: timeout
+LaunchState: UNKNOWN (-1)
+Activity: com.shahrewan.kenyalangrangers.dev/com.godot.game.GodotAppLauncher
+WaitTime: 19283
+Complete
+host_status=0
+11-25 17:17:50.255 16341 16341 I ndk_translation: Initialized NDK translation (aarch64), version 0.2.2
+11-25 17:18:11.439 16341 16341 V Godot   : Godot native layer initialization completed: true
+11-25 17:19:34.943 16341 16394 I godot   : Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+11-25 17:17:50.255 16341 16341 I ndk_translation: Initialized NDK translation (aarch64), version 0.2.2
