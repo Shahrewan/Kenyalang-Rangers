@@ -1,6 +1,6 @@
 # C34 Android stabilization and mobile controls
 
-The work starts from `0546dbd` on `main`, including PR #46. The player build uses Godot `4.7.2.stable.official.ed1daf0bf`, the matching Android export template and the Compatibility renderer. The fixes run through the existing combat clock, deployment state, reward settlement and local saves.
+The work starts from `0546dbd` on `main`, including PR #46. The player build uses Godot `4.7.2.stable.official.ed1daf0bf`, the matching Android export template and the Compatibility renderer. The fixes run through the existing combat clock, deployment state, reward settlement and local saves. [PR #47](https://github.com/Shahrewan/Kenyalang-Rangers/pull/47)
 
 ## Deployment crash investigation
 
