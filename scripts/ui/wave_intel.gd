@@ -6,7 +6,8 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 		remove_child(group)
 		group.queue_free()
 	var badges: Dictionary[StringName, Texture2D] = {}
-	if FirstContactSkin.illustrates_operation(stage.stage_id) and not FirstContactSkin.is_pilot(stage.stage_id):
+	var campaign_art := FirstContactSkin.illustrates_operation(stage.stage_id) and not FirstContactSkin.is_pilot(stage.stage_id)
+	if stage.stage_id in ChaosConfiguration.ROUTES or campaign_art:
 		var assets := CampaignVisualAssets.new()
 		for wave in stage.waves:
 			for group in wave.groups:
@@ -18,6 +19,8 @@ func show_stage(stage: BattleStage, live: BattleSimulation = null) -> void:
 				var id: StringName = enemy.definition.enemy_id
 				if not badges.has(id):
 					badges[id] = assets.badge(id)
+	if FirstContactSkin.is_pilot(stage.stage_id):
+		badges[&"E01"] = FirstContactSkin.w29_badge(&"E01")
 	if stage.stage_id in [&"C1-02", FirstContactSkin.NARROW_ESCAPE] and stage.map.map_id == &"T01":
 		badges[FirstContactSkin.POACHER] = FirstContactSkin.w29_badge(FirstContactSkin.POACHER)
 		if stage.stage_id == FirstContactSkin.NARROW_ESCAPE:

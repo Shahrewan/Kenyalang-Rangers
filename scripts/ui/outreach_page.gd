@@ -4,6 +4,13 @@ extends VBoxContainer
 signal sound_requested(id: String)
 signal back_requested
 
+const REACTIONS := {
+	"best": preload("res://assets/imported/portraits/manager/outreach_best.png"),
+	"acceptable": preload("res://assets/imported/portraits/manager/outreach_acceptable.png"),
+	"poor": preload("res://assets/imported/portraits/manager/outreach_poor.png"),
+	"harmful": preload("res://assets/imported/portraits/manager/outreach_harmful.png"),
+}
+
 var progress: CampaignProgress
 var catalog: EducationCatalog
 var _session: OutreachSession
@@ -81,13 +88,22 @@ func _render() -> void:
 		choice.pressed.connect(_select.bind(id))
 		_tabs.add_child(choice)
 	var question: Dictionary = catalog.outreach[_selected]
+	var response: Dictionary = batch.responses.get(_selected, {})
 	var card := StoryUI.panel(_body, true)
-	card.add_child(StoryUI.label("Operations Manager", 18, StoryUI.INK))
+	var row := StoryUI.row(card, 8)
+	var portrait: Texture2D = REACTIONS.get(response.get("grade", ""), StoryPortrait.FIRST_CONTACT["portrait.manager"]["briefing"])
+	var manager := StoryUI.artwork(portrait, Vector2(62, 62))
+	manager.name = "OutreachManagerPortrait"
+	manager.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(manager)
+	var copy := StoryUI.column(row, 4)
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.add_child(StoryUI.label("Operations Manager", 18, StoryUI.INK))
 	var prompt := StoryUI.label(question.prompt, 24, StoryUI.INK)
 	prompt.name = "OutreachPrompt"
-	card.add_child(prompt)
-	if batch.responses.has(_selected):
-		_review(card, question, batch.responses[_selected])
+	copy.add_child(prompt)
+	if not response.is_empty():
+		_review(card, question, response)
 	else:
 		var order: Array = batch.choice_order[_selected]
 		for index in order.size():

@@ -4,6 +4,7 @@ extends VBoxContainer
 signal closed
 
 const CREDITS := "Credits and engine license"
+const ARTICLE_FRAME := preload("res://assets/imported/education/records/article_frame.png")
 const CONTROLS := "Battle controls"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
@@ -66,9 +67,17 @@ func _render(id: String) -> void:
 		_body.add_child(StoryUI.label(TOPICS[id], 22))
 	elif catalog.facts.has(id):
 		var fact: Dictionary = catalog.facts[id]
-		_body.add_child(StoryUI.label(fact.title, 26))
-		_body.add_child(StoryUI.label(fact.text, 22))
-		EducationUI.credit_sources(_body, catalog, fact.source_ids, StoryUI.BEIGE)
+		var article := StoryUI.panel(_body, true)
+		var frame := StyleBoxTexture.new()
+		frame.texture = ARTICLE_FRAME
+		for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+			var vertical: bool = side in [SIDE_TOP, SIDE_BOTTOM]
+			frame.set_texture_margin(side, 59.0 if vertical else 44.0)
+			frame.set_content_margin(side, 67.0 if vertical else 50.0)
+		article.get_parent().add_theme_stylebox_override("panel", frame)
+		article.add_child(StoryUI.label(fact.title, 26, StoryUI.INK))
+		article.add_child(StoryUI.label(fact.text, 22, StoryUI.INK))
+		EducationUI.credit_sources(article, catalog, fact.source_ids, StoryUI.INK)
 
 func _show_references() -> void:
 	_body.add_child(StoryUI.label("Offline references", 28))

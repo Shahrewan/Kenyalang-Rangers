@@ -24,6 +24,17 @@ func illustrate_first_contact(skin: FirstContactSkin, stage_id: StringName) -> v
 	first_contact_field.bind(self, battle, skin, stage_id)
 	queue_redraw()
 
+func show_landscape(stage: BattleStage, skin: FirstContactSkin) -> void:
+	battle_map = stage.map
+	routes = stage.routes
+	if first_contact_field == null:
+		first_contact_field = FirstContactField.new()
+		add_child(first_contact_field)
+	if not first_contact_field.bind_landscape(self, skin):
+		first_contact_field.free()
+		first_contact_field = null
+	queue_redraw()
+
 func bind_damage_feedback(sim: BattleSimulation) -> void:
 	_melee_hits.clear()
 	sim.melee_hit_presented.connect(_present_melee_hit)
@@ -99,6 +110,9 @@ func _draw() -> void:
 		return
 	if first_contact_field != null:
 		first_contact_field.draw_ground()
+		if battle == null:
+			first_contact_field.draw_foreground()
+			return
 		_draw_slow_fields()
 		_draw_deployments()
 		first_contact_field.draw_turrets()

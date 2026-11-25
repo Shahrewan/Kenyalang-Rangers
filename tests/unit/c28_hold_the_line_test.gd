@@ -263,16 +263,19 @@ func _construction_replay(app: Control) -> void:
 	_advance_until(field, func() -> bool: return state.tokens >= state.cost_for(medic))
 	_drop(field, MEDIC, Vector2i(6, 2))
 	var medic_id := state.interaction_id(Vector2i(6, 2))
+	var assets := CampaignVisualAssets.new()
 	_check(not medic_id.is_empty() and state.placed[medic_id].spec.id == MEDIC
-		and not art.rangers.has(medic_id), "Unlocked Combat Medic deploys via the labeled fallback")
+		and art.rangers.has(medic_id) and art.rangers[medic_id].rig.scene_file_path == assets.actor(MEDIC).rig,
+		"Unlocked Combat Medic deploys with its exact W29 rig on replay")
 	var turret: DeploymentSpec = field.get_node("%DeploymentController")._offered[TURRET]
 	_advance_until(field, func() -> bool: return state.tokens >= state.cost_for(turret))
 	_drop(field, TURRET, Vector2i(8, 0))
 	var turret_id := state.interaction_id(Vector2i(8, 0))
 	_advance_until(field, func() -> bool: return state.build_ticks_left(turret_id) == 0)
-	_check(not turret_id.is_empty() and state.placed[turret_id].spec.id == TURRET and state.build_ticks_left(turret_id) == 0,
-		"Unlocked Sonic Turret completes via the labeled Facility fallback")
-	await _capture("loadout-fallback", field)
+	_check(not turret_id.is_empty() and state.placed[turret_id].spec.id == TURRET and state.build_ticks_left(turret_id) == 0
+		and art.turrets.has(turret_id) and art.turrets[turret_id].rig.scene_file_path == assets.facility(TURRET).rig,
+		"Unlocked Sonic Turret completes with its exact W29 rig on replay")
+	await _capture("illustrated-replay-loadout", field)
 	var poacher_exits := 0
 	for frame in 12000:
 		clock.advance_frame()

@@ -20,6 +20,8 @@ var _loadout_tab: Button
 var _score: Label
 var _payout: Label
 var _tier: Label
+var _trophy_row: HBoxContainer
+var _trophies: Array[Control] = []
 var _breakdown: Label
 var _feedback: Label
 var _start: Button
@@ -63,9 +65,18 @@ func _ready() -> void:
 	_payout = StoryUI.label("", 20, StoryUI.INK)
 	_payout.name = "ChaosPayout"
 	card.add_child(_payout)
+	_trophy_row = StoryUI.row(card, 5)
+	for tier in range(4):
+		var emblem := ChaosTrophy.artwork(tier, 48)
+		emblem.name = "ProjectedTrophyArt%d" % tier
+		emblem.hide()
+		_trophy_row.add_child(emblem)
+		_trophies.append(emblem)
 	_tier = StoryUI.label("", 17, StoryUI.INK)
 	_tier.name = "ProjectedTrophy"
-	card.add_child(_tier)
+	_tier.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_tier.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_trophy_row.add_child(_tier)
 	_breakdown = StoryUI.label("", 16, StoryUI.INK)
 	_breakdown.name = "ScoreBreakdown"
 	card.add_child(_breakdown)
@@ -110,6 +121,7 @@ func _refresh() -> void:
 	_loadout.refresh(resolved)
 	_start.disabled = not resolved.can_start()
 	var configs := plan.operation.stage.waves.size()
+	_trophy_row.visible = not _start.disabled
 	if _start.disabled:
 		_score.text = "—"
 		_payout.text = "Funds on qualifying victory"
@@ -133,6 +145,8 @@ func _refresh() -> void:
 	if wallet.discarded > 0:
 		_payout.text += "\n%s Funds credited · %s permanently discarded" % [StoryUI.funds(wallet.credited), StoryUI.funds(wallet.discarded)]
 	var projected := ChaosScore.tier(maxi(points, progress.chaos_personal_best()))
+	for tier in _trophies.size():
+		_trophies[tier].visible = tier == projected
 	_tier.text = "Trophy tier after victory · %d" % projected if projected > 0 else "Trophy · Unranked"
 	var enemy_label := "enemy" if score.configured_enemies == 1 else "enemies"
 	var wave_label := "wave" if configs == 1 else "waves"

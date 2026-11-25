@@ -33,17 +33,8 @@ func _prepare_campaign() -> void:
 			var gauge := _visual_assets.load_art(_visual_assets.catalog.get("heat_meter", ""), "PackedScene") as PackedScene
 			CampaignHeatDisplay.apply(%HeatRow, %HeatGauge, gauge)
 		_hud.illustrate(_skin)
-		%DeploymentController.illustrate(_skin, stage.stage_id)
-		_skin.button(%Continue, "button_primary")
-		_skin.button(%Skip, "button_secondary")
-		%DialogueTitle.add_theme_color_override("font_color", StoryUI.INK)
-		%DialogueText.add_theme_color_override("font_color", StoryUI.INK)
-		var frame := Panel.new()
-		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		frame.add_theme_stylebox_override("panel", _skin.panel("dialogue_panel"))
-		_dialogue.add_child(frame)
-		_dialogue.move_child(frame, 0)
+		%DeploymentController.illustrate(_skin)
+		_illustrate_dialogue(_skin)
 	_portrait.illustrated = _illustrated
 	_portrait.assets = _visual_assets
 	_pose = StoryUI.label("", 17, StoryUI.INK if _illustrated else StoryUI.BEIGE)

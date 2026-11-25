@@ -11,6 +11,9 @@ var _list: VBoxContainer
 var _summary: Label
 var _rows: Dictionary[StringName, CheckBox] = {}
 var _reasons: Dictionary[StringName, Label] = {}
+var _assets := CampaignVisualAssets.new()
+var _buffs: Button
+var _debuffs: Button
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
@@ -20,14 +23,18 @@ func _ready() -> void:
 		back.text = "Cancel"
 	if plan.chaos:
 		var tabs := StoryUI.row(self)
-		var buffs := StoryUI.action("R&D buffs")
-		buffs.name = "ShowBuffs"
-		buffs.pressed.connect(_show_catalog.bind(true))
-		tabs.add_child(buffs)
-		var debuffs := StoryUI.action("Debuffs")
-		debuffs.name = "ShowDebuffs"
-		debuffs.pressed.connect(_show_catalog.bind(false))
-		tabs.add_child(debuffs)
+		var group := ButtonGroup.new()
+		_buffs = StoryUI.action("R&D buffs")
+		_buffs.name = "ShowBuffs"
+		_buffs.pressed.connect(_show_catalog.bind(true))
+		tabs.add_child(_buffs)
+		_debuffs = StoryUI.action("Debuffs")
+		_debuffs.name = "ShowDebuffs"
+		_debuffs.pressed.connect(_show_catalog.bind(false))
+		tabs.add_child(_debuffs)
+		for tab in [_buffs, _debuffs]:
+			tab.toggle_mode = true
+			tab.button_group = group
 	_summary = StoryUI.label("", 20, StoryUI.AMBER)
 	_summary.name = "ModifierSummary"
 	add_child(_summary)
@@ -43,14 +50,24 @@ func _ready() -> void:
 
 func _show_catalog(buffs: bool) -> void:
 	_show_buffs = buffs
+	if _buffs != null:
+		_buffs.set_pressed_no_signal(buffs)
+		_debuffs.set_pressed_no_signal(not buffs)
 	for item in _list.get_children():
 		_list.remove_child(item)
 		item.queue_free()
 	_rows.clear()
 	_reasons.clear()
+	(_list.get_parent() as ScrollContainer).scroll_vertical = 0
 	for modifier in plan.modifier_choices(buffs):
 		var card := StoryUI.panel(_list, true)
+		var row := StoryUI.row(card, 6)
+		var icon := StoryUI.artwork(_assets.modifier_glyph(modifier.id), Vector2(26, 26))
+		icon.name = "ModifierGlyph_" + String(modifier.id)
+		row.add_child(icon)
 		var check := CheckBox.new()
+		check.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		check.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		check.name = "Modifier_" + String(modifier.id)
 		check.text = "%s · %s" % [modifier.id, modifier.display_name]
 		if plan.chaos:
@@ -60,7 +77,7 @@ func _show_catalog(buffs: bool) -> void:
 		check.add_theme_color_override("font_pressed_color", StoryUI.INK)
 		check.add_theme_color_override("font_disabled_color", StoryUI.BEIGE)
 		check.toggled.connect(_toggle.bind(modifier))
-		card.add_child(check)
+		row.add_child(check)
 		card.add_child(StoryUI.label(modifier.description, 18, StoryUI.INK))
 		var reason := StoryUI.label("", 17, Color("#6d4928"))
 		card.add_child(reason)

@@ -90,25 +90,17 @@ var _layout: Dictionary
 var _patrolman_sockets := {}
 var _board: Control
 var _skin: FirstContactSkin
-var _poacher_rig: PackedScene
-var _runner_rig: PackedScene
-var _medic_rig: PackedScene
-var _turret_rig: PackedScene
 var _assets: CampaignVisualAssets
 var _regional: CampaignRegionArt
 var full_pack := false
+var _pilot := false
 
 func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stage_id: StringName) -> void:
-	_board = board
+	bind_landscape(board, skin)
 	_battle = battle
-	_skin = skin
-	_layout = skin.registration()
-	_patrolman_sockets = skin.patrolman_sockets()
-	full_pack = not FirstContactSkin.is_pilot(stage_id)
-	_assets = CampaignVisualAssets.new()
+	_pilot = FirstContactSkin.is_pilot(stage_id)
+	full_pack = stage_id != &"C1-01"
 	if full_pack:
-		if not _assets.region(board.battle_map.map_id).is_empty():
-			_regional = CampaignRegionArt.new(board, skin, _assets)
 		battle.ranger_combat.healing_presented.connect(_heal_presented.bind(&"Attack"))
 		battle.facility_combat.sonic_attack_presented.connect(_turret_attack)
 		battle.facility_combat.action_presented.connect(_facility_action)
@@ -118,15 +110,6 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 		battle.boss_captured.connect(_captured)
 		battle.heat_overflow.connect(_heat_overflow)
 		battle.deployment.skill_fired.connect(_skill)
-	elif stage_id != &"C1-01":
-		_poacher_rig = _w29_rig(FirstContactSkin.POACHER)
-	if stage_id == FirstContactSkin.NARROW_ESCAPE:
-		_runner_rig = _w29_rig(FirstContactSkin.RUNNER)
-		_medic_rig = _w29_rig(FirstContactSkin.MEDIC)
-		_turret_rig = _w29_rig(FirstContactSkin.SONIC)
-		battle.ranger_combat.healing_presented.connect(_heal_presented.bind(&"Attack"))
-		battle.facility_combat.sonic_attack_presented.connect(_turret_attack)
-		battle.deployment.skill_fired.connect(_active_treatment)
 	battle.clock.stepped.connect(_step)
 	battle.enemy_spawned.connect(_spawned)
 	battle.enemy_resolved.connect(_resolved)
@@ -139,11 +122,14 @@ func bind(board: Control, battle: BattleSimulation, skin: FirstContactSkin, stag
 	battle.deployment.unit_hit.connect(_ranger_hit)
 	battle.deployment.post_paid.connect(_post_paid)
 
-func _w29_rig(id: StringName) -> PackedScene:
-	var art := FirstContactSkin.w29_art(id)
-	if art.has("animation") and not FileAccess.file_exists(art.animation):
-		return null
-	return FirstContactSkin.optional_art(art.get("rig", ""), "PackedScene") as PackedScene
+func bind_landscape(board: Control, skin: FirstContactSkin) -> bool:
+	_board = board
+	_skin = skin
+	_layout = skin.registration()
+	_patrolman_sockets = skin.patrolman_sockets()
+	_assets = CampaignVisualAssets.new()
+	_regional = CampaignRegionArt.new(board, skin, _assets) if not _assets.region(board.battle_map.map_id).is_empty() else null
+	return _regional != null or (board.battle_map.map_id == &"T01" and _layout.has("battle"))
 
 func _make_actor(scene: PackedScene) -> Actor:
 	var actor := Actor.new()
@@ -231,15 +217,8 @@ func _attach_companion(actor: Actor, registration: Dictionary) -> void:
 
 func _spawned(id: int, kind: StringName) -> void:
 	var scene: PackedScene = RIGS.get(kind)
-	if full_pack:
-		if scene == null:
-			scene = _assets.rig(_assets.actor(kind))
-	else:
-		match kind:
-			FirstContactSkin.POACHER:
-				scene = _poacher_rig
-			FirstContactSkin.RUNNER:
-				scene = _runner_rig
+	if scene == null and full_pack:
+		scene = _assets.rig(_assets.actor(kind))
 	if scene == null:
 		return
 	var actor := _make_actor(scene)
@@ -258,10 +237,8 @@ func _deployed(unit: DeploymentState.Placement) -> void:
 	elif unit.spec.logistics_post:
 		if _battle.deployment.build_ticks_left(unit.id) == 0:
 			_post_paid(unit)
-	elif unit.spec.id == FirstContactSkin.SONIC and _turret_rig != null:
-		_deploy_turret(unit, _turret_rig)
 	else:
-		var scene: PackedScene = _medic_rig if unit.spec.id == FirstContactSkin.MEDIC else RIGS.get(unit.spec.id)
+		var scene: PackedScene = RIGS.get(unit.spec.id)
 		var registration := _assets.actor(unit.spec.id)
 		if scene == null and (full_pack or (unit.ranger != null and unit.ranger.has_expanded_field_kit())):
 			scene = _assets.rig(registration)
@@ -317,17 +294,17 @@ func _enemy_attack(enemy: BattleEnemy) -> void:
 	var actor: Actor = enemies.get(_battle.active.find_key(enemy))
 	if actor != null:
 		_play(actor, &"Attack")
-		if full_pack:
+		if _pilot and enemy.definition.enemy_id in [FirstContactSkin.POACHER, FirstContactSkin.RUNNER]:
+			var effect := _effect("poacher_strike", enemy.grid_position(), 12)
+			effect.actor = actor
+			effect.socket = &"hand_near"
+			effect.socket_offset = ENEMY_FIST_OFFSET
+		elif full_pack:
 			var profile := enemy.definition.attack_profile
 			var cue := "enemy_hit"
 			if profile != null and profile.kind != EnemyAttackProfile.Kind.MELEE:
 				cue = "siege" if profile.kind == EnemyAttackProfile.Kind.SIEGE else "enemy_shot"
 			_socket_effect(actor, cue, enemy.grid_position(), "attack_fx", 13)
-		elif enemy.definition.enemy_id in [FirstContactSkin.POACHER, FirstContactSkin.RUNNER]:
-			var effect := _effect("poacher_strike", enemy.grid_position(), 12)
-			effect.actor = actor
-			effect.socket = &"hand_near"
-			effect.socket_offset = ENEMY_FIST_OFFSET
 
 func _ranger_attack(unit: DeploymentState.Placement, target_id: int, clip: StringName) -> void:
 	var actor: Actor = rangers.get(unit.id)
@@ -800,6 +777,9 @@ func draw_actors() -> void:
 	_draw_effects()
 	_board.draw_skill_orbs()
 	_board.draw_melee_hits()
+	draw_foreground()
+
+func draw_foreground() -> void:
 	if _regional != null:
 		_regional.draw_foreground()
 	else:

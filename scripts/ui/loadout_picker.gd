@@ -13,7 +13,8 @@ var _assets: CampaignVisualAssets
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 10)
-	if not plan.chaos and FirstContactSkin.illustrates_operation(plan.operation.stage.stage_id) 			and not FirstContactSkin.is_pilot(plan.operation.stage.stage_id):
+	var stage_id := plan.operation.stage.stage_id
+	if plan.chaos or FirstContactSkin.illustrates_operation(stage_id):
 		_assets = CampaignVisualAssets.new()
 	var rangers := StoryUI.panel(self, true)
 	var facilities := StoryUI.panel(self, true)
@@ -36,6 +37,7 @@ func _ready() -> void:
 	for spec in plan.choices:
 		var panel := rangers if spec.is_ranger() else facilities
 		var choice := CheckBox.new()
+		choice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		choice.add_theme_font_size_override("font_size", 16)
 		choice.add_theme_color_override("font_color", StoryUI.INK)
 		choice.add_theme_color_override("font_hover_color", StoryUI.INK)
@@ -58,12 +60,8 @@ func _add_choice(panel: Container, spec: DeploymentSpec, control: Control) -> vo
 		panel.add_child(control)
 		return
 	var row := StoryUI.row(panel, 4)
-	var art := TextureRect.new()
-	art.texture = badge
-	art.custom_minimum_size = Vector2(29, 29)
-	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var art := StoryUI.artwork(badge, Vector2(34, 34))
+	art.name = "Badge_" + String(spec.id).replace(".", "_")
 	row.add_child(art)
 	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(control)

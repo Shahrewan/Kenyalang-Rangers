@@ -116,6 +116,7 @@ def bundle(check):
         "portrait_receipts": ref(SOURCE / "portraits/manifest.json"),
         "support_receipts": ref(SOURCE / "support-w29/manifest.json"),
         "menu_receipts": ref(SOURCE / "ui/w29/manifest.json"),
+        "modifier_glyphs": read(SOURCE / "ui/w29/manifest.json")["modifier_id_glyphs"],
         "heat_meter": ref(IMPORT / "effects/w29/heat_meter.tscn"),
         "menu_theme": ref(ROOT / "resources/presentation/w29_ui_theme.tres"),
     }

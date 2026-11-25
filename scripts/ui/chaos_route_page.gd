@@ -9,8 +9,10 @@ var configuration: ChaosConfiguration
 var progress: CampaignProgress
 var _board: BattleBoard
 var _route_info: Label
+var _preview: AspectRatioContainer
 var _choice := ButtonGroup.new()
 var _buttons: Dictionary[StringName, Button] = {}
+var _skin := FirstContactSkin.new()
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 14)
@@ -18,9 +20,10 @@ func _ready() -> void:
 	var body := StoryUI.row(self, 14)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var list := StoryUI.scroll_column(body)
-	list.custom_minimum_size.x = 260
+	list.get_parent().custom_minimum_size.x = 268
 	for route_id: StringName in ChaosConfiguration.ROUTES:
 		var route := StoryUI.action(ChaosConfiguration.ROUTES[route_id])
+		route.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		route.name = "Route_" + String(route_id)
 		route.toggle_mode = true
 		route.button_group = _choice
@@ -28,17 +31,18 @@ func _ready() -> void:
 		_buttons[route_id] = route
 		list.add_child(route)
 	var map := StoryUI.panel(body)
-	map.get_parent().size_flags_stretch_ratio = 1.7
+	map.get_parent().size_flags_stretch_ratio = 2.15
 	_route_info = StoryUI.label("", 20, StoryUI.AMBER)
 	map.add_child(_route_info)
+	_preview = AspectRatioContainer.new()
+	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	map.add_child(_preview)
 	_board = BattleBoard.new()
-	_board.custom_minimum_size = Vector2(180, 175)
-	_board.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_board.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	map.add_child(_board)
-	map.add_child(StoryUI.label("Placeholder route art", 16, StoryUI.BEIGE))
-	var record := StoryUI.panel(StoryUI.scroll_column(body))
-	record.custom_minimum_size.x = 275
+	_preview.add_child(_board)
+	var records := StoryUI.scroll_column(body)
+	records.get_parent().custom_minimum_size.x = 300
+	var record := StoryUI.panel(records)
 	var trophy := ChaosTrophy.new()
 	trophy.personal_best = progress.chaos_personal_best()
 	trophy.show_thresholds = true
@@ -60,10 +64,12 @@ func _ready() -> void:
 
 func _select_route(id: StringName) -> void:
 	configuration.select_route(id)
-	_buttons[id].set_pressed_no_signal(true)
+	for key: StringName in _buttons:
+		_buttons[key].set_pressed_no_signal(key == id)
 	var preview := configuration.build_stage()
-	_board.battle_map = preview.map
-	_board.routes = preview.routes
+	_preview.ratio = float(preview.map.size.x) / preview.map.size.y
+	_board.show_landscape(preview, _skin)
 	var entries := "1 entry" if preview.routes.size() == 1 else "%d entries" % preview.routes.size()
 	_route_info.text = entries + (" · Heat enabled" if preview.heat_capacity > 0.0 else "")
-	_board.queue_redraw()
+	if _board.first_contact_field == null:
+		_route_info.text += " · Map illustration unavailable"

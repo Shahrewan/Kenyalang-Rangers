@@ -1,6 +1,9 @@
 class_name ProfileSettingsPage
 extends VBoxContainer
 
+const SOUND := preload("res://assets/imported/ui/w29/icons/light/sound.svg")
+const MUTE := preload("res://assets/imported/ui/w29/icons/light/mute.svg")
+
 signal back_requested
 signal reset_requested
 signal text_changed
@@ -117,6 +120,9 @@ func _update_funds_balance() -> void:
 func _add_slider(card: Container, key: String) -> void:
 	var title := "Sound effects" if key == "sfx" else key.capitalize()
 	var row := StoryUI.row(card)
+	var icon := StoryUI.artwork(MUTE if preferences.values[key] == 0 else SOUND, Vector2(26, 26))
+	icon.name = key.capitalize() + "VolumeIcon"
+	row.add_child(icon)
 	var label := StoryUI.label(title, 20)
 	label.custom_minimum_size.x = 196
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -138,6 +144,7 @@ func _add_slider(card: Container, key: String) -> void:
 			return
 		_feedback.text = ""
 		value.text = "%d%%" % preferences.values[key]
+		icon.texture = MUTE if preferences.values[key] == 0 else SOUND
 		if key != "music":
 			preferences.cue("confirm")
 	)

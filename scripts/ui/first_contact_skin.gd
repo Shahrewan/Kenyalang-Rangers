@@ -51,7 +51,7 @@ func registration() -> Dictionary:
 	return _data.get("layout", {})
 
 func patrolman_sockets() -> Dictionary:
-	return _data.patrolman_sockets
+	return _data.get("patrolman_sockets", {})
 
 static func vector(pair: Array) -> Vector2:
 	return Vector2(pair[0], pair[1])

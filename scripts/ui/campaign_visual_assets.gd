@@ -3,6 +3,7 @@ extends RefCounted
 
 const THEME := preload("res://resources/presentation/w29_ui_theme.tres")
 const DATA := "res://data/presentation/w29/campaign_visuals.json"
+const DARK_GLYPHS := "res://assets/imported/ui/w29/icons/dark/"
 
 var catalog := FirstContactSkin.read_json(FirstContactSkin.W29_CATALOG)
 var registration := FirstContactSkin.read_json(DATA)
@@ -33,6 +34,10 @@ func rig(data: Dictionary) -> PackedScene:
 func badge(id: StringName) -> Texture2D:
 	var record := facility(id) if String(id).begins_with("facility.") else actor(id)
 	return texture(record.get("badge", ""))
+
+func modifier_glyph(id: StringName) -> Texture2D:
+	var key: String = catalog.get("modifier_glyphs", {}).get(id, "")
+	return texture(DARK_GLYPHS + key + ".svg") if not key.is_empty() else null
 
 func region(id: StringName) -> Dictionary:
 	return registration.get("maps", {}).get(id, {})
