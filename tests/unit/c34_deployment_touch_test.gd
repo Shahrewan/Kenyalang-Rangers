@@ -36,7 +36,8 @@ func _run() -> void:
 	_app.free()
 	await _all_deployables()
 	var cold := CampaignProgress.new(_save)
-	_check(cold.record_for(&"C1-01").get("cleared", false) and cold.funds() >= 20000, "The first real clear survives a cold profile load")
+	_check(cold.record_for(&"C1-01").get("perfect", false) and cold.funds() == 25000,
+		"The 15,000 Funds perfect-clear receipt survives a cold load on a fresh 10,000 Funds profile")
 	for stem in [_save, _save + ".settings"]:
 		for suffix in ["", ".bak", ".tmp", ".bak.tmp"]:
 			if FileAccess.file_exists(stem + suffix):
@@ -63,7 +64,8 @@ func _first_contact() -> void:
 	await _capture("briefing")
 	await _tap(field.get_node("%Skip"))
 	var controller := field.get_node("%DeploymentController")
-	var state := field.battle.deployment
+	var sim := field.battle
+	var state := sim.deployment
 	_check(field._board.cell_at(Vector2(INF, 30)) == DeploymentState.NO_CELL
 		and field._board.cell_at(Vector2(-1.0e24, 30)) == DeploymentState.NO_CELL,
 		"Invalid and extreme pointer coordinates stay outside the integer grid")
@@ -140,8 +142,9 @@ func _first_contact() -> void:
 	if state.clock.dialogue_open:
 		field.get_node("%Skip").pressed.emit()
 	await _layout()
-	_check(_app._route == &"results" and _app._campaign_progress.record_for(&"C1-01").get("cleared", false),
-		"Real First Contact play reaches and settles the Campaign results")
+	_check(_app._route == &"results" and sim.defeated == 14 and sim.escaped == 0
+		and sim.integrity == 100 and _app._campaign_progress.funds() == 25000,
+		"Real First Contact play reaches the perfect-clear result and credits 15,000 Funds")
 	await _capture("first-contact-result")
 
 func _all_deployables() -> void:

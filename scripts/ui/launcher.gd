@@ -77,21 +77,21 @@ func _profile() -> Dictionary:
 	return _progress.snapshot() if first_contact_trial else _campaign_progress.snapshot()
 
 func _process(delta: float) -> void:
-	if _screen is BattleScene and _screen.battle != null:
-		presentation.hold(not _screen.battle.clock.is_running())
-	elif _screen is RecordsQuizPage:
-		presentation.hold(_screen.quiz.paused)
-	if _campaign_progress == null or not _focused or _suspended or _route in [&"name", &"recovery"]:
-		return
-	if _screen is BattleScene and (_screen.battle == null or not _screen.battle.clock.is_running()):
-		return
-	if _screen is RecordsQuizPage and _screen.quiz.paused:
+	var held := _activity_held()
+	if presentation._held != held:
+		presentation.hold(held)
+	if _campaign_progress == null or not _focused or _suspended or held or _route in [&"name", &"recovery"]:
 		return
 	_campaign_progress.advance_finance(delta)
 	_finance_elapsed += delta
 	if _finance_elapsed >= 10.0:
 		_finance_elapsed = 0.0
 		_campaign_progress.flush_finance()
+
+func _activity_held() -> bool:
+	if _screen is BattleScene:
+		return _screen.battle == null or not _screen.battle.clock.is_running()
+	return _screen is RecordsQuizPage and _screen.quiz.paused
 
 func _exit_tree() -> void:
 	if _campaign_progress != null:
@@ -445,17 +445,23 @@ func _show_garden(back: Callable, from_ecology := false) -> void:
 	_present(page, &"hq_garden", back)
 
 func _show_recovery() -> void:
-	var page := VBoxContainer.new()
-	var card := StoryUI.panel(page)
+	var page := CenterContainer.new()
+	var frame := MarginContainer.new()
+	page.resized.connect(func() -> void: frame.custom_minimum_size.x = minf(page.size.x, 660.0))
+	page.add_child(frame)
+	var card := StoryUI.panel(frame)
 	card.add_child(StoryUI.label("Local save", 30))
 	card.add_child(StoryUI.label(_campaign_progress.load_notice, 22, StoryUI.AMBER))
 	if _campaign_progress.can_play():
 		var resume := StoryUI.action("Continue", true)
+		resume.name = "RecoveryContinue"
+		resume.custom_minimum_size.y = 66
 		resume.pressed.connect(_continue_profile)
 		card.add_child(resume)
 	else:
 		var settings := StoryUI.action("Open Settings", true)
 		settings.name = "RecoverySettings"
+		settings.custom_minimum_size.y = 66
 		settings.pressed.connect(func() -> void: _show_settings(_show_recovery))
 		card.add_child(settings)
 	_present(page, &"recovery")
@@ -637,7 +643,7 @@ func _style_control(reference: WeakRef) -> void:
 	var control := reference.get_ref() as Control
 	if not is_instance_valid(control) or not control.is_inside_tree():
 		return
-	if control is BaseButton or control is Slider:
+	if control is BaseButton or control is Slider or control is LineEdit:
 		control.custom_minimum_size = control.custom_minimum_size.max(StoryUI.android_touch_minimum(control))
 	if control is Button and not control.pressed.is_connected(_click_sound):
 		control.pressed.connect(_click_sound)
@@ -655,28 +661,36 @@ func _resize_controls() -> void:
 		StoryUI.size_buttons(page)
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_node_ready():
-		_go_back()
-	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
-		_focused = true
-	elif what == NOTIFICATION_APPLICATION_RESUMED:
-		_suspended = false
-	elif what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
-		if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST:
+			if is_node_ready() and _focused and not _suspended:
+				_go_back()
+			return
+		NOTIFICATION_APPLICATION_FOCUS_IN:
+			_focused = true
+		NOTIFICATION_APPLICATION_RESUMED:
+			_suspended = false
+		NOTIFICATION_APPLICATION_FOCUS_OUT:
 			_focused = false
-		else:
+		NOTIFICATION_APPLICATION_PAUSED:
 			_suspended = true
-		if _screen is BattleScene and _screen.battle != null and _screen.battle.clock.is_running():
-			_screen.request_back()
+		_:
+			return
+	var away := not _focused or _suspended
+	if away:
+		if _screen is BattleScene:
+			_screen.suspend_interaction()
 		if _campaign_progress != null:
 			_campaign_progress.flush_finance()
 
-	if is_instance_valid(presentation) and presentation.is_node_ready() and what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_IN, NOTIFICATION_APPLICATION_RESUMED]:
-		presentation.background(not _focused or _suspended)
+	if is_instance_valid(presentation) and presentation.is_node_ready():
+		presentation.hold(_activity_held())
+		presentation.background(away)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		_go_back()
+		if _focused and not _suspended:
+			_go_back()
 		get_viewport().set_input_as_handled()
 
 func _go_back() -> void:

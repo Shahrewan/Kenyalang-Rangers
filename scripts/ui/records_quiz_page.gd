@@ -11,7 +11,9 @@ var _clock: Label
 var _time_bar: ProgressBar
 var _pause: Button
 var _wallet: Label
+var _context: VBoxContainer
 var _body: VBoxContainer
+var _footer: HBoxContainer
 var _notice: Label
 
 func _ready() -> void:
@@ -23,8 +25,9 @@ func _ready() -> void:
 	_clock.name = "QuizTimer"
 	_clock.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.add_child(_clock)
-	_pause = StoryUI.action("Pause quiz")
+	_pause = EducationUI.large_action(StoryUI.action("Pause quiz"))
 	_pause.name = "PauseQuiz"
+	_pause.custom_minimum_size.x = 176
 	_pause.pressed.connect(_toggle_pause)
 	status.add_child(_pause)
 	_time_bar = ProgressBar.new()
@@ -34,10 +37,13 @@ func _ready() -> void:
 	_time_bar.max_value = CampaignActivities.QUIZ_TICKS
 	_time_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_time_bar)
-	_body = StoryUI.scroll_column(self)
+	var columns := EducationUI.activity_body(self)
+	_context = columns[0]
+	_body = columns[1]
 	_notice = StoryUI.label("", 18, StoryUI.AMBER)
 	_notice.name = "QuizNotice"
 	add_child(_notice)
+	_footer = StoryUI.row(self)
 	quiz.view_changed.connect(_render)
 	_render()
 
@@ -78,6 +84,12 @@ func _update_clock() -> void:
 
 func _render() -> void:
 	EducationUI.clear(_body)
+	EducationUI.clear(_context)
+	EducationUI.clear(_footer)
+	_body.get_parent().scroll_vertical = 0
+	_context.get_parent().scroll_vertical = 0
+	_context.get_parent().visible = not quiz.paused and quiz.result.is_empty()
+	_footer.visible = quiz.reviewing() or not quiz.result.is_empty()
 	_wallet.text = "%s Funds" % StoryUI.funds(progress.funds())
 	_notice.text = quiz.notice
 	_notice.visible = not quiz.notice.is_empty()
@@ -87,7 +99,7 @@ func _render() -> void:
 	if not quiz.result.is_empty():
 		_result()
 	elif quiz.paused:
-		_body.add_child(StoryUI.label("Quiz paused", 26))
+		StoryUI.panel(_body).add_child(StoryUI.label("Quiz paused", 26))
 	elif quiz.reviewing():
 		_review()
 	else:
@@ -98,7 +110,10 @@ func _ask() -> void:
 	var item := quiz.question()
 	var prompt := StoryUI.label(item.prompt, 25)
 	prompt.name = "QuizPrompt"
-	_body.add_child(prompt)
+	var context := StoryUI.panel(_context)
+	var chapter_id := quiz.chapter_id().get_slice(".", 1)
+	context.add_child(StoryUI.artwork(RecordsArchivePage.CHAPTER_ART.get(chapter_id), Vector2(120, 110)))
+	context.add_child(prompt)
 	for index in item.choices.size():
 		_body.add_child(EducationUI.answer_button(item.choices[index].text, "QuizAnswer%d" % index, _answer.bind(index)))
 
@@ -114,7 +129,7 @@ func _review() -> void:
 	var heading := StoryUI.label(state, 26, StoryUI.INK)
 	heading.name = "QuizFeedback"
 	card.add_child(heading)
-	card.add_child(StoryUI.label(item.prompt, 20, StoryUI.INK))
+	StoryUI.panel(_context).add_child(StoryUI.label(item.prompt, 24))
 	for choice: Dictionary in item.choices:
 		if choice.id == item.correct_choice_id:
 			card.add_child(StoryUI.label("Correct answer · " + choice.text, 20, StoryUI.INK))
@@ -124,10 +139,11 @@ func _review() -> void:
 	funds.name = "QuizQuestionFunds"
 	card.add_child(funds)
 	EducationUI.credit_sources(card, catalog, item.source_ids, StoryUI.INK)
-	var next := StoryUI.action("Finish chapter" if quiz.question_number() == quiz.question_count() else "Next question", true)
+	var next := EducationUI.large_action(StoryUI.action("Finish chapter" if quiz.question_number() == quiz.question_count() else "Next question", true))
 	next.name = "ContinueQuiz"
 	next.pressed.connect(func() -> void: quiz.continue_after_feedback())
-	_body.add_child(next)
+	next.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_footer.add_child(next)
 
 func _result() -> void:
 	var outcome := quiz.result
@@ -143,7 +159,8 @@ func _result() -> void:
 	if outcome.first_perfect:
 		var enhance: Array = EducationCatalog.CHAPTERS[outcome.chapter]
 		card.add_child(StoryUI.label("%s · %s earned" % enhance, 20, StoryUI.INK))
-	var done := StoryUI.action("Back to Records", true)
+	var done := EducationUI.large_action(StoryUI.action("Back to Records", true))
 	done.name = "CloseQuizResult"
 	done.pressed.connect(request_back)
-	_body.add_child(done)
+	done.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_footer.add_child(done)

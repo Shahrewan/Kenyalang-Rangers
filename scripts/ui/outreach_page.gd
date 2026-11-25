@@ -19,9 +19,12 @@ var _timer: Label
 var _progress_label: Label
 var _refresh: Button
 var _tabs: HBoxContainer
+var _context: VBoxContainer
 var _body: VBoxContainer
 var _wallet: Label
 var _notice: Label
+var _next: Button
+var _next_prompt := ""
 var _last_checked := -1
 
 func _ready() -> void:
@@ -33,15 +36,25 @@ func _ready() -> void:
 	_timer.name = "OutreachTimer"
 	_timer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.add_child(_timer)
-	_refresh = StoryUI.action("Refresh batch")
+	_refresh = EducationUI.large_action(StoryUI.action("Refresh batch"))
 	_refresh.name = "RefreshOutreach"
 	_refresh.pressed.connect(_open_batch)
 	status.add_child(_refresh)
 	_tabs = StoryUI.row(self)
-	_body = StoryUI.scroll_column(self)
+	var columns := EducationUI.activity_body(self)
+	_context = columns[0]
+	_body = columns[1]
+	var footer := StoryUI.row(self, 12)
 	_progress_label = StoryUI.label("", 18, StoryUI.BEIGE)
 	_progress_label.name = "OutreachParticipation"
-	add_child(_progress_label)
+	_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	footer.add_child(_progress_label)
+	_next = EducationUI.large_action(StoryUI.action("Next unanswered", true))
+	_next.name = "NextOutreachPrompt"
+	_next.custom_minimum_size.x = 240
+	_next.pressed.connect(func() -> void: _select(_next_prompt))
+	footer.add_child(_next)
 	_notice = StoryUI.label("", 18, StoryUI.AMBER)
 	add_child(_notice)
 	_session = OutreachSession.new(progress, catalog)
@@ -60,7 +73,13 @@ func _render() -> void:
 	_wallet.text = "%s Funds" % StoryUI.funds(progress.funds())
 	_progress_label.text = "%d Best or Acceptable responses · 5 needed for Outreach Lv.5" % progress.outreach_successes()
 	EducationUI.clear(_tabs)
+	EducationUI.clear(_context)
 	EducationUI.clear(_body)
+	_context.get_parent().scroll_vertical = 0
+	_body.get_parent().scroll_vertical = 0
+	_context.get_parent().hide()
+	_next.hide()
+	_next_prompt = ""
 	if catalog.outreach.is_empty():
 		_timer.text = ""
 		_refresh.hide()
@@ -82,28 +101,32 @@ func _render() -> void:
 	for index in batch.batch.size():
 		var id: String = batch.batch[index]
 		var answered: bool = batch.responses.has(id)
-		var choice := StoryUI.action("%d%s" % [index + 1, " ✓" if answered else ""], id == _selected)
+		var choice := EducationUI.large_action(StoryUI.action("%d%s" % [index + 1, " ✓" if answered else ""], id == _selected))
 		choice.tooltip_text = "Scenario %d · %s" % [index + 1, "Answered" if answered else "Pending"]
+		choice.accessibility_name = choice.tooltip_text
 		choice.name = "OutreachPrompt%d" % (index + 1)
+		choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		choice.pressed.connect(_select.bind(id))
 		_tabs.add_child(choice)
 	var question: Dictionary = catalog.outreach[_selected]
 	var response: Dictionary = batch.responses.get(_selected, {})
-	var card := StoryUI.panel(_body, true)
-	var row := StoryUI.row(card, 8)
+	_context.get_parent().show()
+	var card := StoryUI.panel(_context, true)
 	var portrait: Texture2D = REACTIONS.get(response.get("grade", ""), StoryPortrait.FIRST_CONTACT["portrait.manager"]["briefing"])
-	var manager := StoryUI.artwork(portrait, Vector2(62, 62))
+	var manager := StoryUI.artwork(portrait, Vector2(104, 104))
 	manager.name = "OutreachManagerPortrait"
-	manager.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	row.add_child(manager)
-	var copy := StoryUI.column(row, 4)
-	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	copy.add_child(StoryUI.label("Operations Manager", 18, StoryUI.INK))
+	card.add_child(manager)
+	card.add_child(StoryUI.label("Operations Manager", 18, StoryUI.INK))
 	var prompt := StoryUI.label(question.prompt, 24, StoryUI.INK)
 	prompt.name = "OutreachPrompt"
-	copy.add_child(prompt)
+	card.add_child(prompt)
 	if not response.is_empty():
-		_review(card, question, response)
+		_review(StoryUI.panel(_body, true), question, response)
+		for id: String in batch.batch:
+			if not batch.responses.has(id):
+				_next_prompt = id
+				_next.show()
+				break
 	else:
 		var order: Array = batch.choice_order[_selected]
 		for index in order.size():

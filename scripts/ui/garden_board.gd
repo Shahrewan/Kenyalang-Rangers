@@ -12,10 +12,13 @@ const EFFECT_FRAMES := {"water": [0.09, 0.09, 0.10, 0.14], "collect": [0.10, 0.1
 const VISITOR_SECONDS := 1.65
 
 var _buttons: Array[Button] = []
+var _captions: Array[Label] = []
 var _textures: Dictionary[String, Texture2D] = {}
 var _state: Dictionary
 var _now: int
 var _capacity: int
+var _selected_plot: int
+var _plot_controls_visible := true
 var _scale := 1.0
 var _origin := Vector2.ZERO
 var _active_effect := ""
@@ -25,19 +28,37 @@ var _effect_tween: Tween
 var _visitor_elapsed := VISITOR_SECONDS
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(535, 380)
+	custom_minimum_size = Vector2(390, 316)
 	clip_contents = true
 	var group := ButtonGroup.new()
 	for slot in PLOTS.size():
 		var button := StoryUI.action("")
 		button.name = "Plot%d" % (slot + 1)
 		button.add_theme_font_size_override("font_size", 18)
+		button.clip_text = true
+		for state: String in ["font_color", "font_focus_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color"]:
+			button.add_theme_color_override(state, Color.TRANSPARENT)
+		button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		button.add_theme_stylebox_override("hover", _plot_outline(Color("#d6c8ad")))
+		button.add_theme_stylebox_override("pressed", _plot_outline(StoryUI.AMBER))
+		button.add_theme_stylebox_override("hover_pressed", _plot_outline(StoryUI.AMBER))
 		button.toggle_mode = true
 		button.button_group = group
 		button.pressed.connect(func() -> void: plot_selected.emit(slot))
 		button.minimum_size_changed.connect(_layout_buttons)
 		add_child(button)
 		_buttons.append(button)
+		var plate := PanelContainer.new()
+		plate.theme_type_variation = &"LightPanel"
+		plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(plate)
+		plate.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+		plate.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		var caption := StoryUI.label("", 17, StoryUI.INK)
+		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		plate.add_child(caption)
+		_captions.append(caption)
 	resized.connect(_layout_buttons)
 	_layout_buttons()
 
@@ -45,6 +66,7 @@ func present(state: Dictionary, now: int, capacity: int, selected: int) -> void:
 	_state = state
 	_now = now
 	_capacity = capacity
+	_selected_plot = selected
 	for slot in _buttons.size():
 		var plot: Dictionary = state.plots.get(RestorationRules.plot_id(slot), {})
 		var caption := "Growing"
@@ -58,8 +80,16 @@ func present(state: Dictionary, now: int, capacity: int, selected: int) -> void:
 			caption = "Collect"
 		_buttons[slot].text = "%d · %s" % [slot + 1, caption]
 		_buttons[slot].tooltip_text = "Plot %d · %s" % [slot + 1, caption]
+		_buttons[slot].accessibility_name = _buttons[slot].tooltip_text
+		_captions[slot].text = _buttons[slot].text
 		_buttons[slot].set_pressed_no_signal(slot == selected)
 	_layout_buttons()
+
+func set_plot_controls_visible(controls_visible: bool) -> void:
+	_plot_controls_visible = controls_visible
+	for button in _buttons:
+		button.visible = controls_visible
+	queue_redraw()
 
 func play_effect(effect: String, slot: int, visitor := false) -> void:
 	if _effect_tween != null:
@@ -93,9 +123,18 @@ func _layout_buttons() -> void:
 	_origin = (size - ART_SIZE * _scale) * 0.5
 	for slot in _buttons.size():
 		var button := _buttons[slot]
-		button.size = button.get_combined_minimum_size()
-		button.position = _origin + (PLOTS[slot] + Vector2(0.0, 85.0)) * _scale - button.size * 0.5
+		var extent := (Vector2(252, 175) * _scale).max(button.get_combined_minimum_size())
+		button.size = extent
+		button.position = _origin + (PLOTS[slot] + Vector2(0.0, 10.0)) * _scale - extent * 0.5
 	queue_redraw()
+
+static func _plot_outline(color: Color) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(0.13, 0.21, 0.14, 0.14)
+	box.border_color = color
+	box.set_border_width_all(2)
+	box.set_corner_radius_all(6)
+	return box
 
 func _draw() -> void:
 	if _state.is_empty():
@@ -114,6 +153,9 @@ func _draw() -> void:
 			_draw_tree(_state.scenery[id], &"mature", anchor + beside, factor * (0.68 if not plot.is_empty() else 1.0))
 		if not plot.is_empty():
 			_draw_tree(plot.species, STAGE_NAMES[RestorationRules.stage(plot, _now)], anchor, factor)
+	if not _plot_controls_visible:
+		var plot_bounds := Rect2(PLOTS[_selected_plot] - Vector2(126, 85), Vector2(252, 175))
+		draw_rect(plot_bounds, StoryUI.AMBER, false, 5.0, true)
 	_draw_art("hornbill_guide.png", Vector2(1116, 746), Vector2(132, 192), Vector2(256, 256), 0.48, "Guide")
 	if _state.nest_box_seen:
 		_draw_art("nest_box.png", Vector2(1154, 164), Vector2(83, 81), Vector2(160, 160), 0.72, "Nest box")

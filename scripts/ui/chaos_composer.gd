@@ -35,6 +35,9 @@ func _ready() -> void:
 	_loadout_tab = _tab(tabs, "Loadout", "EditLoadout", choice, true)
 	var effects := StoryUI.action("Edit modifiers")
 	effects.name = "OpenModifiers"
+	effects.custom_minimum_size.y = 56.0
+	effects.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	effects.size_flags_stretch_ratio = 1.3
 	effects.pressed.connect(func() -> void: modifiers_requested.emit())
 	tabs.add_child(effects)
 
@@ -48,6 +51,7 @@ func _ready() -> void:
 	panes.add_child(wave_editor)
 	var inside := StoryUI.scroll_column(panes)
 	_units = inside.get_parent()
+	(_units as ScrollContainer).scroll_deadzone = 12
 	_loadout = LoadoutPicker.new()
 	_loadout.plan = plan
 	_loadout.selection_changed.connect(_refresh)
@@ -55,8 +59,10 @@ func _ready() -> void:
 	_loadout.headquarters_requested.connect(func() -> void: headquarters_requested.emit())
 	inside.add_child(_loadout)
 	var right := StoryUI.scroll_column(panes)
-	right.get_parent().size_flags_stretch_ratio = 0.51
-	right.custom_minimum_size.x = 270
+	var score_pane := right.get_parent() as ScrollContainer
+	score_pane.size_flags_stretch_ratio = 0.48
+	score_pane.custom_minimum_size.x = 265.0
+	score_pane.scroll_deadzone = 12
 	var card := StoryUI.panel(right, true)
 	card.add_child(StoryUI.label("Medal Score", 21, StoryUI.INK))
 	_score = StoryUI.label("", 40, StoryUI.INK)
@@ -85,9 +91,13 @@ func _ready() -> void:
 	_feedback = StoryUI.label("", 18, StoryUI.BEIGE)
 	_feedback.name = "ChaosFeedback"
 	_feedback.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_feedback.size_flags_stretch_ratio = 1.7
+	_feedback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	actions.add_child(_feedback)
 	_start = StoryUI.action("Start challenge", true)
 	_start.name = "StartChaos"
+	_start.custom_minimum_size.y = 72.0
+	_start.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_start.pressed.connect(func() -> void:
 		if plan.can_start():
 			start_requested.emit()
@@ -99,6 +109,8 @@ func _ready() -> void:
 func _tab(parent: Control, text: String, id: String, choice: ButtonGroup, show_units: bool) -> Button:
 	var button := StoryUI.action(text)
 	button.name = id
+	button.custom_minimum_size.y = 56.0
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.toggle_mode = true
 	button.button_group = choice
 	button.pressed.connect(_display_tab.bind(show_units))

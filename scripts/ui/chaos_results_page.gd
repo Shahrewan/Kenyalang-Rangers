@@ -57,8 +57,7 @@ func _ready() -> void:
 	trophy.personal_best = progress.chaos_personal_best()
 	rewards.add_child(trophy)
 
-	var actions := StoryUI.row(self)
-	actions.alignment = BoxContainer.ALIGNMENT_END
+	var actions := StoryUI.row(self, 14)
 	if settlement.is_empty():
 		_discard = StoryUI.confirmation(self, "Return without saving this result?", "Discard result")
 		_discard.confirmed.connect(func() -> void: routes_requested.emit())
@@ -87,5 +86,9 @@ func _title() -> String:
 func _action(actions: Container, text: String, id: String, callback: Callable, primary := false) -> void:
 	var button := StoryUI.action(text, primary)
 	button.name = id
+	button.custom_minimum_size.y = 72.0
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.size_flags_stretch_ratio = 1.45 if primary else 1.0
 	button.pressed.connect(callback)
 	actions.add_child(button)

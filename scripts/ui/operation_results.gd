@@ -54,12 +54,17 @@ func _ready() -> void:
 		rewards.add_child(StoryUI.label("No Funds awarded for defeat.", 21))
 
 	var footer := StoryUI.row(self, 12)
-	footer.alignment = BoxContainer.ALIGNMENT_END
 	var story := StoryUI.action("Back to Story")
+	story.name = "BackToStory"
+	story.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	story.custom_minimum_size.y = 72
 	story.pressed.connect(func() -> void: story_requested.emit())
 	footer.add_child(story)
 	var retry := StoryUI.action("Review plan", true)
 	retry.name = "ReviewPlan"
+	retry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	retry.size_flags_stretch_ratio = 1.2
+	retry.custom_minimum_size.y = 76
 	retry.pressed.connect(func() -> void: planning_requested.emit())
 	footer.add_child(retry)
 	retry.grab_focus()

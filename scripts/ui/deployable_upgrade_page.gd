@@ -21,12 +21,46 @@ var _dialog: ConfirmationDialog
 var _target := 1
 
 func _ready() -> void:
+	theme = HeadquartersArt.THEME
 	add_theme_constant_override("separation", 12)
 	var back := StoryUI.header(self, definition.label, func() -> void: back_requested.emit(), "Funds")
+	back.custom_minimum_size.y = 64
 	_balance = back.get_parent().get_node("FundsSummary")
+
+	var levels := StoryUI.panel(self)
+	var selector := StoryUI.row(levels, 10)
+	_down = StoryUI.action("−")
+	_down.name = "LowerTarget"
+	_down.accessibility_name = "Lower target level"
+	_down.custom_minimum_size = Vector2(104, 64)
+	_down.pressed.connect(func() -> void: _set_target(_target - 1))
+	selector.add_child(_down)
+	_target_level = StoryUI.label("", 22)
+	_target_level.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_target_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_target_level.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	selector.add_child(_target_level)
+	_up = StoryUI.action("+")
+	_up.name = "RaiseTarget"
+	_up.accessibility_name = "Raise target level"
+	_up.custom_minimum_size = _down.custom_minimum_size
+	_up.pressed.connect(func() -> void: _set_target(_target + 1))
+	selector.add_child(_up)
+	var steps := StoryUI.row(levels, 10)
+	for level: int in DeployableLevels.MILESTONES:
+		var milestone := StoryUI.action(str(level))
+		milestone.name = "Milestone%d" % level
+		milestone.accessibility_name = "Target level %d" % level
+		milestone.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		milestone.custom_minimum_size.y = 64
+		milestone.toggle_mode = true
+		milestone.pressed.connect(func() -> void: _set_target(level))
+		steps.add_child(milestone)
+		_milestones[level] = milestone
+
 	var body := StoryUI.row(self, 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var current := StoryUI.panel(StoryUI.scroll_column(body), true)
+	var current := StoryUI.scroll_column(StoryUI.panel(body, true))
 	var heading := StoryUI.row(current, 10)
 	var icon := PORTRAIT.new()
 	icon.spec = definition
@@ -47,39 +81,24 @@ func _ready() -> void:
 	if not progress.owns(definition.id):
 		current.add_child(StoryUI.label(HeadquartersRosterPage.lock_message(definition), 19, StoryUI.INK))
 
-	var selection := StoryUI.panel(StoryUI.scroll_column(body))
-	var selector := StoryUI.row(selection, 8)
-	_down = StoryUI.action("−")
-	_down.name = "LowerTarget"
-	_down.pressed.connect(func() -> void: _set_target(_target - 1))
-	selector.add_child(_down)
-	_target_level = StoryUI.label("", 22)
-	_target_level.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_target_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	selector.add_child(_target_level)
-	_up = StoryUI.action("+")
-	_up.name = "RaiseTarget"
-	_up.pressed.connect(func() -> void: _set_target(_target + 1))
-	selector.add_child(_up)
-	var steps := StoryUI.row(selection, 6)
-	for level: int in DeployableLevels.MILESTONES:
-		var milestone := StoryUI.action(str(level))
-		milestone.name = "Milestone%d" % level
-		milestone.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		milestone.pressed.connect(func() -> void: _set_target(level))
-		steps.add_child(milestone)
-		_milestones[level] = milestone
+	var selection := StoryUI.scroll_column(StoryUI.panel(body))
+	selection.add_child(StoryUI.label("After upgrade", 26))
 	_preview = StoryUI.label("", 22)
 	selection.add_child(_preview)
-	_price = StoryUI.label("", 20, StoryUI.BEIGE)
-	selection.add_child(_price)
-	_buy = StoryUI.action("Buy levels", true)
-	_buy.name = "BuyLevels"
-	_buy.pressed.connect(_ask)
-	selection.add_child(_buy)
 	_notice = StoryUI.label("", 18, StoryUI.AMBER)
 	add_child(_notice)
-	_dialog = StoryUI.confirmation(self, "Confirm level purchase", "Confirm upgrade")
+	var footer := StoryUI.row(self, 16)
+	_price = StoryUI.label("", 20, StoryUI.BEIGE)
+	_price.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	footer.add_child(_price)
+	_buy = StoryUI.action("Buy levels", true)
+	_buy.name = "BuyLevels"
+	_buy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_buy.custom_minimum_size.y = 76
+	_buy.pressed.connect(_ask)
+	footer.add_child(_buy)
+	_dialog = HeadquartersArt.confirmation(self, "Confirm level purchase", "Confirm upgrade")
 	_dialog.confirmed.connect(_purchase)
 	_set_target(progress.deployable_level(definition.id) + 1)
 
@@ -98,6 +117,7 @@ func _set_target(level: int) -> void:
 	_up.disabled = _target >= DeployableLevels.MAX_LEVEL
 	for step in _milestones:
 		_milestones[step].disabled = step <= current
+		_milestones[step].set_pressed_no_signal(step == _target)
 	var quote := progress.level_quote(definition.id, _target)
 	_buy.disabled = not quote.error.is_empty()
 	if current >= DeployableLevels.MAX_LEVEL:
@@ -108,6 +128,7 @@ func _set_target(level: int) -> void:
 			_price.text += "\nAfter purchase %s Funds" % StoryUI.funds(quote.balance)
 		if not quote.error.is_empty():
 			_price.text += "\n" + quote.error
+	_notice.visible = not _notice.text.is_empty()
 
 func _stat_summary(level: int) -> String:
 	var spec := DeployableLevels.effective(definition, level)
@@ -197,11 +218,13 @@ func _ask() -> void:
 	var quote := progress.level_quote(definition.id, _target)
 	if not quote.error.is_empty():
 		_notice.text = quote.error
+		_notice.show()
 		return
-	_dialog.dialog_text = "%s · Level %d → %d\nCost %s Funds\nBalance after purchase %s Funds" % [
+	_dialog.dialog_text = "Confirm level purchase\n\n%s · Level %d → %d\nCost %s Funds\nBalance after purchase %s Funds" % [
 		definition.label, quote.current, quote.target, StoryUI.funds(quote.cost), StoryUI.funds(quote.balance),
 	]
-	_dialog.popup_centered()
+	_dialog.popup_centered(Vector2i(590, 264))
+	_dialog.get_cancel_button().grab_focus()
 
 func _purchase() -> void:
 	var error := progress.purchase_levels(definition.id, _target)

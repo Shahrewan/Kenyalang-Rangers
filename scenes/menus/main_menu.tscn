@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Theme" path="res://resources/presentation/w29_ui_theme.tres" id="Theme"]
 
@@ -9,12 +9,6 @@
 [ext_resource type="Texture2D" path="res://assets/imported/environments/t02/backdrop.jpg" id="Mulu"]
 
 [ext_resource type="Texture2D" path="res://assets/imported/ui/w29/brand/hornbill.svg" id="Brand"]
-
-[ext_resource type="Texture2D" path="res://assets/imported/ui/w29/icons/dark/headquarters.svg" id="HQ"]
-
-[ext_resource type="Texture2D" path="res://assets/imported/ui/w29/icons/dark/campaign.svg" id="Story"]
-
-[ext_resource type="Texture2D" path="res://assets/imported/ui/w29/icons/light/chaos.svg" id="Chaos"]
 
 [ext_resource type="Texture2D" path="res://assets/imported/ui/w29/icons/dark/restoration.svg" id="Garden"]
 
@@ -100,94 +94,122 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 14
 
-[node name="HQCard" type="PanelContainer" parent="Inset/Content/ModeScroll/Modes"]
+[node name="OpenHeadquarters" type="Button" parent="Inset/Content/ModeScroll/Modes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.2
-theme_type_variation = &"LightPanel"
+theme_type_variation = &"PrimaryButton"
+accessibility_name = "Headquarters"
 
-[node name="Office" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/HQCard"]
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Office" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/OpenHeadquarters"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = -11.0
+theme_override_constants/separation = 7
+mouse_filter = 2
 
-[node name="HQArt" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/HQCard/Office"]
+[node name="HQArt" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/OpenHeadquarters/Office"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 94)
 size_flags_vertical = 3
 texture = ExtResource("Headquarters")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 mouse_filter = 2
 
-[node name="HQTitle" type="Label" parent="Inset/Content/ModeScroll/Modes/HQCard/Office"]
+[node name="HQTitle" type="Label" parent="Inset/Content/ModeScroll/Modes/OpenHeadquarters/Office"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 51)
 theme_type_variation = &"PaperTitle"
 text = "Headquarters"
-
-[node name="OpenHeadquarters" type="Button" parent="Inset/Content/ModeScroll/Modes/HQCard/Office"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
-theme_type_variation = &"PrimaryButton"
-text = "Open Headquarters"
-icon = ExtResource("HQ")
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
 
 [node name="Operations" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
-[node name="Story" type="PanelContainer" parent="Inset/Content/ModeScroll/Modes/Operations"]
+[node name="OpenCampaign" type="Button" parent="Inset/Content/ModeScroll/Modes/Operations"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 105)
 layout_mode = 2
 size_flags_vertical = 3
-theme_type_variation = &"FieldPanel"
+theme_type_variation = &"PrimaryButton"
+accessibility_name = "Story Mode"
 
-[node name="Card" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/Operations/Story"]
-layout_mode = 2
+[node name="Card" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/Operations/OpenCampaign"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
 theme_override_constants/separation = 4
+mouse_filter = 2
 
-[node name="View" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/Operations/Story/Card"]
+[node name="View" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/Operations/OpenCampaign/Card"]
 layout_mode = 2
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 38)
 texture = ExtResource("Forest")
 expand_mode = 1
 stretch_mode = 6
 mouse_filter = 2
 
-[node name="OpenCampaign" type="Button" parent="Inset/Content/ModeScroll/Modes/Operations/Story/Card"]
-unique_name_in_owner = true
+[node name="Title" type="Label" parent="Inset/Content/ModeScroll/Modes/Operations/OpenCampaign/Card"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
-theme_type_variation = &"PrimaryButton"
+custom_minimum_size = Vector2(0, 44)
+theme_type_variation = &"PaperStrong"
 text = "Story Mode"
-icon = ExtResource("Story")
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
 
-[node name="Rainforest" type="PanelContainer" parent="Inset/Content/ModeScroll/Modes/Operations"]
+[node name="OpenChaos" type="Button" parent="Inset/Content/ModeScroll/Modes/Operations"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 105)
 layout_mode = 2
 size_flags_vertical = 3
-theme_type_variation = &"FieldPanel"
+theme_type_variation = &"NavButton"
+accessibility_name = "Rainforest Chaos"
 
-[node name="Card" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/Operations/Rainforest"]
-layout_mode = 2
+[node name="Card" type="VBoxContainer" parent="Inset/Content/ModeScroll/Modes/Operations/OpenChaos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
 theme_override_constants/separation = 4
+mouse_filter = 2
 
-[node name="View" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/Operations/Rainforest/Card"]
+[node name="View" type="TextureRect" parent="Inset/Content/ModeScroll/Modes/Operations/OpenChaos/Card"]
 layout_mode = 2
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 38)
 texture = ExtResource("Mulu")
 expand_mode = 1
 stretch_mode = 6
 mouse_filter = 2
 
-[node name="OpenChaos" type="Button" parent="Inset/Content/ModeScroll/Modes/Operations/Rainforest/Card"]
-unique_name_in_owner = true
+[node name="Title" type="Label" parent="Inset/Content/ModeScroll/Modes/Operations/OpenChaos/Card"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
-theme_type_variation = &"NavButton"
+custom_minimum_size = Vector2(0, 44)
+theme_type_variation = &"FieldStrong"
 text = "Rainforest Chaos"
-icon = ExtResource("Chaos")
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
 
 [node name="Footer" type="HBoxContainer" parent="Inset/Content"]
 unique_name_in_owner = true
@@ -197,23 +219,26 @@ theme_override_constants/separation = 10
 [node name="Garden" type="Button" parent="Inset/Content/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 64)
 text = "Reforestation"
 icon = ExtResource("Garden")
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.45
 
 [node name="OpenSettings" type="Button" parent="Inset/Content/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 64)
 text = "Settings"
 icon = ExtResource("Settings")
+size_flags_horizontal = 3
 theme_type_variation = &"NavButton"
 
 [node name="OpenFAQ" type="Button" parent="Inset/Content/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 64)
 text = "Field Guide"
 icon = ExtResource("Guide")
+size_flags_horizontal = 3
 theme_type_variation = &"NavButton"

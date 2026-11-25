@@ -18,6 +18,8 @@ static func label(text: String, font_size := 20, color := CREAM) -> Label:
 static func action(text: String, primary := false) -> Button:
 	var button := Button.new()
 	button.text = text
+	# Allow enclosing scrollers to take over when a finger moves beyond the deadzone.
+	button.mouse_filter = Control.MOUSE_FILTER_PASS
 	button.custom_minimum_size = TOUCH_MINIMUM
 	if primary:
 		button.theme_type_variation = &"PrimaryButton"
@@ -46,6 +48,7 @@ static func row(parent: Node, gap := 12) -> HBoxContainer:
 
 static func panel(parent: Node, light := false) -> VBoxContainer:
 	var frame := PanelContainer.new()
+	frame.mouse_filter = Control.MOUSE_FILTER_PASS
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if light:
 		frame.theme_type_variation = &"LightPanel"
@@ -55,6 +58,7 @@ static func panel(parent: Node, light := false) -> VBoxContainer:
 static func scroll_column(parent: Node) -> VBoxContainer:
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.scroll_deadzone = 12
 	scroll.follow_focus = true
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

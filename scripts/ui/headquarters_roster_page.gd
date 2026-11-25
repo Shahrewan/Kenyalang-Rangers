@@ -4,16 +4,16 @@ extends VBoxContainer
 signal back_requested
 signal unit_requested(spec: DeploymentSpec)
 
-const PORTRAIT := preload("res://scripts/ui/deployment_portrait.gd")
-
 var rangers := true
 var progress: CampaignProgress
 var _art := CampaignVisualAssets.new()
 
 func _ready() -> void:
+	theme = HeadquartersArt.THEME
 	add_theme_constant_override("separation", 12)
 	var title := "Ranger upgrades" if rangers else "Facility upgrades"
-	StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
+	var back := StoryUI.header(self, title, func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
+	back.custom_minimum_size.y = 64
 	var body := StoryUI.scroll_column(self)
 	var grid := GridContainer.new()
 	grid.columns = 2
@@ -25,25 +25,23 @@ func _ready() -> void:
 
 func _add_unit(grid: GridContainer, spec: DeploymentSpec) -> void:
 	var owned := progress.owns(spec.id)
-	var tile := StoryUI.panel(grid, true)
-	var status := StoryUI.row(tile, 10)
-	var icon := PORTRAIT.new()
-	icon.spec = spec
-	icon.badge = _art.badge(spec.id)
-	icon.custom_minimum_size = Vector2(44, 44)
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status.add_child(icon)
 	var level := "Level %d" % progress.deployable_level(spec.id) if owned else "Locked"
-	var title := StoryUI.label("%s · %s" % [spec.label, level], 20, StoryUI.INK)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	status.add_child(title)
-	var detail := lock_message(spec) if not owned else ""
-	if not detail.is_empty():
-		tile.add_child(StoryUI.label(detail, 17, StoryUI.INK))
-	var open := StoryUI.action("Review levels" if owned else "View details")
+	var text := "%s\n%s" % [spec.label, level]
+	if not owned:
+		text += " · " + lock_message(spec)
+	var open := StoryUI.action(text)
 	open.name = "Unit_" + String(spec.id).get_slice(".", 1)
+	open.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	open.custom_minimum_size.y = 108
+	open.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	open.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	open.icon = _art.badge(spec.id)
+	open.expand_icon = true
+	open.add_theme_constant_override("icon_max_width", 62)
+	open.add_theme_constant_override("h_separation", 14)
+	open.accessibility_description = "Review levels" if owned else "Review unlock requirements"
 	open.pressed.connect(func() -> void: unit_requested.emit(spec))
-	tile.add_child(open)
+	grid.add_child(open)
 
 static func lock_message(spec: DeploymentSpec) -> String:
 	if spec is FacilitySpec:

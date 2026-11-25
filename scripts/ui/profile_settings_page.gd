@@ -20,21 +20,29 @@ var _funds_balance: Label
 var _funds_feedback: Label
 
 func _ready() -> void:
-	add_theme_constant_override("separation", 12)
+	add_theme_constant_override("separation", 14)
 	StoryUI.header(self, "Settings", request_back)
-	var card := StoryUI.panel(StoryUI.scroll_column(self))
+	var panels := StoryUI.row(StoryUI.scroll_column(self), 18)
+	var audio := StoryUI.panel(panels)
+	audio.get_parent().size_flags_stretch_ratio = 1.1
+	audio.add_child(StoryUI.label("Audio", 26, StoryUI.AMBER))
 	for key: String in ["master", "music", "sfx"]:
-		_add_slider(card, key)
-	_add_text_sizes(card)
+		_add_slider(audio, key)
+	_add_text_sizes(audio)
+
+	var options := StoryUI.column(panels, 16)
+	options.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var help_card := StoryUI.panel(options)
 	var help := StoryUI.action("Help and references")
+	help.custom_minimum_size.y = 66
 	help.pressed.connect(func() -> void: help_requested.emit())
-	card.add_child(help)
-	if progress != null:
-		_add_progress_controls(card)
-	_feedback = StoryUI.label("", 19, StoryUI.AMBER)
-	card.add_child(_feedback)
+	help_card.add_child(help)
 	if developer_progress != null and developer_progress.can_play():
-		_add_developer_controls(card)
+		_add_developer_controls(StoryUI.panel(options))
+	if progress != null:
+		_add_progress_controls(StoryUI.panel(options))
+	_feedback = StoryUI.label("", 19, StoryUI.AMBER)
+	add_child(_feedback)
 
 func _add_text_sizes(card: Container) -> void:
 	card.add_child(StoryUI.label("Text size", 20))
@@ -47,6 +55,7 @@ func _add_text_sizes(card: Container) -> void:
 		button.toggle_mode = true
 		button.button_group = group
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.custom_minimum_size.y = 66
 		button.set_pressed_no_signal(percent == preferences.values.text)
 		button.pressed.connect(_set_text_size.bind(percent))
 		_text_buttons[percent] = button
@@ -68,9 +77,12 @@ func _add_progress_controls(card: Container) -> void:
 	card.add_child(StoryUI.label(details, 21))
 	var reset := StoryUI.action("Reset local progress")
 	reset.name = "ResetProgress"
+	reset.custom_minimum_size.y = 60
 	reset.pressed.connect(_request_reset)
 	card.add_child(reset)
 	_dialog = StoryUI.confirmation(self, "Reset local progress", "Delete progress")
+	for button: Button in [_dialog.get_ok_button(), _dialog.get_cancel_button()]:
+		button.custom_minimum_size = button.custom_minimum_size.max(Vector2(150, 60))
 	_dialog.confirmed.connect(func() -> void: reset_requested.emit())
 
 func _add_developer_controls(card: Container) -> void:
@@ -78,21 +90,24 @@ func _add_developer_controls(card: Container) -> void:
 	_funds_balance = StoryUI.label("", 20)
 	card.add_child(_funds_balance)
 	_update_funds_balance()
-	var controls := StoryUI.row(card, 8)
 	_funds_amount = LineEdit.new()
 	_funds_amount.name = "DeveloperFundsAmount"
 	_funds_amount.placeholder_text = "Amount"
 	_funds_amount.accessibility_name = "Funds adjustment amount"
 	_funds_amount.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
-	_funds_amount.custom_minimum_size = StoryUI.android_touch_minimum(self)
-	_funds_amount.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	controls.add_child(_funds_amount)
+	_funds_amount.custom_minimum_size = StoryUI.android_touch_minimum(self).max(Vector2(0, 60))
+	card.add_child(_funds_amount)
+	var controls := StoryUI.row(card, 10)
 	var add := StoryUI.action("Add Funds")
 	add.name = "DeveloperAddFunds"
+	add.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add.custom_minimum_size.y = 60
 	add.pressed.connect(_adjust_funds.bind(1))
 	controls.add_child(add)
 	var remove := StoryUI.action("Remove Funds")
 	remove.name = "DeveloperRemoveFunds"
+	remove.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	remove.custom_minimum_size.y = 60
 	remove.pressed.connect(_adjust_funds.bind(-1))
 	controls.add_child(remove)
 	_funds_feedback = StoryUI.label("", 18, StoryUI.AMBER)
@@ -119,22 +134,22 @@ func _update_funds_balance() -> void:
 
 func _add_slider(card: Container, key: String) -> void:
 	var title := "Sound effects" if key == "sfx" else key.capitalize()
-	var row := StoryUI.row(card)
+	var group := StoryUI.column(card, 2)
+	var row := StoryUI.row(group)
 	var icon := StoryUI.artwork(MUTE if preferences.values[key] == 0 else SOUND, Vector2(26, 26))
 	icon.name = key.capitalize() + "VolumeIcon"
 	row.add_child(icon)
 	var label := StoryUI.label(title, 20)
-	label.custom_minimum_size.x = 196
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	row.add_child(label)
 	var value := StoryUI.label("%d%%" % preferences.values[key], 20)
-	value.custom_minimum_size.x = 82
 	value.autowrap_mode = TextServer.AUTOWRAP_OFF
 	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	var slider := HSlider.new()
 	slider.name = key.capitalize() + "Volume"
 	slider.accessibility_name = title
-	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.custom_minimum_size.y = 60
 	slider.step = 5
 	slider.value = preferences.values[key]
 	slider.value_changed.connect(func(amount: float) -> void:
@@ -148,12 +163,15 @@ func _add_slider(card: Container, key: String) -> void:
 		if key != "music":
 			preferences.cue("confirm")
 	)
-	row.add_child(slider)
 	row.add_child(value)
+	group.add_child(slider)
 
 func _request_reset() -> void:
 	_dialog.dialog_text = "Delete the Leader name, local progress, and its previous backup?"
+	_dialog.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_dialog.get_label().custom_minimum_size.x = 380
 	_dialog.popup_centered()
+	_dialog.get_cancel_button().grab_focus()
 
 func show_error() -> void:
 	_feedback.text = "Could not finish the reset. Check local storage and retry."
@@ -161,5 +179,9 @@ func show_error() -> void:
 func request_back() -> void:
 	if _dialog != null and _dialog.visible:
 		_dialog.hide()
+	elif get_viewport().gui_get_focus_owner() == _funds_amount and is_instance_valid(_funds_amount) \
+			and DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD) and DisplayServer.virtual_keyboard_get_height() > 0:
+		_funds_amount.release_focus()
+		DisplayServer.virtual_keyboard_hide()
 	else:
 		back_requested.emit()
