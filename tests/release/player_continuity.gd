@@ -84,6 +84,8 @@ func _run() -> void:
 		_verify_ranger_upgrade(mode)
 	if "--economy-rewards" in args:
 		_verify_economy_rewards(mode, "--legacy-economy" in args)
+	if "--chaos-cap" in args:
+		_verify_chaos_cap(mode, "--legacy-chaos" in args)
 	app.free()
 	await process_frame
 	quit(1 if failures else 0)
@@ -183,6 +185,59 @@ func _perfect_chapter(profile: CampaignProgress, chapter: StringName) -> Diction
 		if not quiz.answer(correct) or not quiz.continue_after_feedback():
 			return {}
 	return quiz.result
+
+func _verify_chaos_cap(mode: String, legacy: bool) -> void:
+	const PATH := "user://c32-e-chaos-cutover.json"
+	const PATROL := &"ranger.patrolman"
+	const POST := &"facility.logistics_post"
+	const RELAY := &"facility.skill_relay_station"
+	const DEBUFFS: Array[StringName] = [&"D02", &"D03", &"D05", &"D07", &"D08", &"D12", &"D13", &"D15"]
+	if mode == "seed":
+		var fixture := CampaignSave.fresh()
+		fixture.leader_name = "Rimba"
+		fixture.rooms[String(HeadquartersCatalog.MECHANICAL)] = 1
+		_check(ProfileFile.replace(PATH, fixture, false), "Prepare an independent Chaos profile with Mechanical")
+	var profile := CampaignProgress.new(PATH)
+	var expected_best := 1030 if legacy else 130
+	var after_seed := 51200 if legacy else 12600
+	var expected_tiers := ["chaos_tier.1000"] if legacy else []
+	if mode == "verify":
+		_check(profile.funds() == after_seed + 2600 and profile.chaos_personal_best() == expected_best
+			and profile.owns(RELAY) == legacy and profile.snapshot().chaos.earned_thresholds == expected_tiers
+			and profile.pending_chaos_configuration().is_empty(), "Cold launch preserves the capped replay plus all previously earned trophies")
+		return
+	if mode == "resume":
+		_check(profile.funds() == after_seed and profile.chaos_personal_best() == expected_best
+			and profile.owns(RELAY) == legacy and profile.snapshot().chaos.earned_thresholds == expected_tiers,
+			"Update retains the exact earned best, trophy, Facility and wallet")
+	var config := ChaosConfiguration.new()
+	config.select_route(&"T01")
+	config.set_quantity(0, &"E01", 2)
+	config.set_quantity(1, &"E01", 1)
+	var setup := ModifierSetup.new()
+	setup.chaos = true
+	setup.stage = config.build_stage()
+	setup.loadout = [DeployableLevels.definition(PATROL), DeployableLevels.definition(POST)]
+	var resolution := setup.resolve([], DEBUFFS)
+	var run := profile.begin_chaos(config, resolution, [PATROL, POST], DEBUFFS)
+	var old_scoring := legacy and mode == "seed"
+	if run == null:
+		_check(false, "The source package resolves the Chaos setup")
+		return
+	_check(run.score.points() == (1030 if old_scoring else 130), "The package uses its own effective score")
+	var battle := BattleSimulation.new(resolution.stage)
+	battle.deployment = DeploymentState.new(resolution.stage.map, battle.clock, resolution.tokens, resolution.opening, [], battle.effects)
+	var patrol := resolution.entries[0]
+	_check(patrol.id == PATROL and battle.deployment.deploy(patrol, Vector2i(2, 1), -1).is_empty(), "Use the effective Ranger and ordinary placement rules")
+	for frame in 10000:
+		if battle.clock.stopped:
+			break
+		battle.clock.advance_frame()
+	_check(run.record_outcome(battle) and run.qualifies(), "Real combat earns a qualifying victory")
+	var receipt := profile.settle_chaos(run)
+	_check(receipt.get("credited") == (41200 if old_scoring else 2600)
+		and profile.owns(RELAY) == legacy and profile.chaos_personal_best() == expected_best,
+		"The receipt uses the package formula and preserves previously earned ownership")
 
 func _open_room(app: Control, id: String) -> void:
 	app.show_menu()

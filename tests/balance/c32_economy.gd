@@ -29,6 +29,15 @@ const PROFILES := {
 	"hq_first": MODERATE,
 	"unit_first": MODERATE,
 }
+const MODERATE_OUTREACH := [25000, 60000, 90000, 125000, 175000]
+const SCENARIOS := {
+	"c32_d": {"cap": false, "outreach": "installed"},
+	"chaos_only": {"cap": true, "outreach": "installed"},
+	"outreach_moderate": {"cap": false, "outreach": "moderate"},
+	"outreach_proposed": {"cap": false, "outreach": "proposed"},
+	"combined_moderate": {"cap": true, "outreach": "moderate"},
+	"combined_proposed": {"cap": true, "outreach": "proposed"},
+}
 
 var _proposal := ProfileFile.read(PROPOSAL_PATH)
 var _content := CampaignContent.new()
@@ -72,9 +81,11 @@ func _run() -> void:
 	if _failures == 0:
 		_reference()
 		if _long_chaos_spacing > 0:
-			_simulate("guardrails", "chaos_regular")
+			_simulate("combined_moderate", "chaos_regular")
 		else:
-			for variant in ["pre_activation", "installed", "guardrails"]:
+			for variant: String in SCENARIOS:
+				if not args.has("--variant=" + variant) and Array(args).any(func(arg: String) -> bool: return arg.begins_with("--variant=")):
+					continue
 				for key: String in PROFILES:
 					if args.has("--profile=" + key) or not Array(args).any(func(arg: String) -> bool: return arg.begins_with("--profile=")):
 						_simulate(variant, key)
@@ -111,11 +122,11 @@ func _simulate(variant: String, key: String) -> void:
 		_discarded[source] = 0
 	var outreach_room: HeadquartersRoom = CampaignSave.HEADQUARTERS.room(OUTREACH)
 	var original_grades := outreach_room.best_response.duplicate()
-	if variant == "pre_activation":
-		for id: String in _education.chapters:
-			_education.chapters[id].final_perfect_chapter_funds = null
-	if variant == "guardrails":
-		outreach_room.best_response = PackedInt32Array(_proposal.sensitivity_only.outreach_best_by_level)
+	match SCENARIOS[variant].outreach:
+		"moderate":
+			outreach_room.best_response = PackedInt32Array(MODERATE_OUTREACH)
+		"proposed":
+			outreach_room.best_response = PackedInt32Array(_proposal.sensitivity_only.outreach_best_by_level)
 	for day in range(1, DAYS + 1):
 		_day = day
 		_remaining = int(_policy.seconds)
@@ -211,16 +222,7 @@ func _play_story(source: StoryOperation, perfect: bool, wins: bool) -> bool:
 		_check(_wallet.abandon_attempt(), "Clear failed-attempt marker")
 		_count("story_defeats")
 		return true
-	var operation := source
-	if _variant == "pre_activation":
-		operation = source.duplicate() as StoryOperation
-		operation.rewards = source.rewards.duplicate()
-		for field: String in _proposal.campaign[id]:
-			if id != "C1-01" or field != "first_clear_funds":
-				operation.rewards[field] = null
-		if id == "C2-07":
-			operation.clear_unlock_ids = []
-	var receipt := _wallet.complete(operation, perfect)
+	var receipt := _wallet.complete(source, perfect)
 	_check(not receipt.is_empty(), "Story settlement " + id)
 	if receipt.is_empty():
 		return false
@@ -320,8 +322,7 @@ func _chaos() -> void:
 	var reserve := 720 if larger else 150
 	if _remaining < reserve:
 		return
-	var floor_credit := int(_proposal.sensitivity_only.chaos_positive_modifier_allowance_floor) if _variant == "guardrails" else -1
-	var receipt := CHAOS.play(_wallet, _content, [50, 50, 50, 50, 50] if larger else [2, 1], floor_credit)
+	var receipt := CHAOS.play(_wallet, _content, [50, 50, 50, 50, 50] if larger else [2, 1], SCENARIOS[_variant].cap)
 	_check(not receipt.has("error") and not receipt.is_empty(), "Legal Chaos setup and result")
 	if receipt.has("error") or receipt.is_empty():
 		return

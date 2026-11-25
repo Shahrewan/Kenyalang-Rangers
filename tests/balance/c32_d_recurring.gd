@@ -27,8 +27,8 @@ func _run() -> void:
 		_check(live == 5 * original[level - 1] and guardrail == 5 * int(proposal.sensitivity_only.outreach_best_by_level[level - 1]), "Five graded Best responses reconcile")
 		print("OUTREACH ", JSON.stringify(result))
 	for schedule: Array in [[2, 1], [50, 50, 50, 50, 50]]:
-		var live := CHAOS.play(_profile(), content, schedule)
-		var guardrail := CHAOS.play(_profile(), content, schedule, proposal.sensitivity_only.chaos_positive_modifier_allowance_floor)
+		var live := CHAOS.play(_profile(), content, schedule, false)
+		var guardrail := CHAOS.play(_profile(), content, schedule)
 		_check(live.get("qualifies", false) and guardrail.get("qualifies", false) and live.get("ticks") == guardrail.get("ticks")
 			and live.get("defeated") == guardrail.get("defeated") and live.get("escapes") == 0,
 			"Max-level Rangers defeat every configured enemy in both score calculations")

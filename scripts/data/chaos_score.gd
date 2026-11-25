@@ -2,6 +2,7 @@ class_name ChaosScore
 extends RefCounted
 
 const SLOT_COST := 100
+const MIN_DEBUFF_CAP := 200
 const THRESHOLDS := [1000, 2000, 3000]
 
 var configured_enemies := 0
@@ -28,8 +29,14 @@ func _init(plan: ModifierResolution) -> void:
 func slot_points() -> int:
 	return -(ranger_slots + facility_slots) * SLOT_COST
 
+func debuff_cap() -> int:
+	return maxi(MIN_DEBUFF_CAP, enemy_points)
+
+func credited_debuff_points() -> int:
+	return mini(debuff_points, debuff_cap())
+
 func points() -> int:
-	return enemy_points + debuff_points + buff_points + slot_points()
+	return enemy_points + credited_debuff_points() + buff_points + slot_points()
 
 static func payout(score: int) -> int:
 	if score >= 3000:

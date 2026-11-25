@@ -148,9 +148,18 @@ static func score_breakdown(score: ChaosScore) -> String:
 	var parts := PackedStringArray([
 		"Enemies  +%s" % StoryUI.funds(score.enemy_points),
 		"%d Ranger / %d Facility slots  %s" % [score.ranger_slots, score.facility_slots, StoryUI.funds(score.slot_points())],
+		debuff_credit_summary(score),
 	])
+	if not score.modifiers.is_empty():
+		parts.append("Selected modifiers")
 	for id: StringName in score.modifiers:
 		var title := BattleModifiers.CATALOG.definition(id).display_name
 		var amount := score.modifiers[id]
 		parts.append("%s  %s%s" % [title, "+" if amount > 0 else "", StoryUI.funds(amount)])
 	return "\n".join(parts)
+
+static func debuff_credit_summary(score: ChaosScore) -> String:
+	var credit := score.credited_debuff_points()
+	if credit < score.debuff_points:
+		return "Debuff credit  +%s of +%s (capped)" % [StoryUI.funds(credit), StoryUI.funds(score.debuff_points)]
+	return "Debuff credit  +%s (cap %s)" % [StoryUI.funds(credit), StoryUI.funds(score.debuff_cap())]

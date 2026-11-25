@@ -63,11 +63,17 @@ def reconcile(days, checkpoints):
         checkpoint = checkpoint_by_day.get((*key, flat["day"]))
         if checkpoint and any(checkpoint[k] != v for k, v in totals.items()):
             raise SystemExit(f"Cumulative checkpoint differs from daily data for {key} on day {flat['day']}")
-    before = "pre_activation" if "pre_activation" in {variant for variant, _ in expected_days} else "rewards"
-    groups = {(variant, profile) for variant in ("installed", before, "guardrails")
+    actual_variants = {variant for variant, _ in expected_days}
+    if "c32_d" in actual_variants:
+        variants = ("c32_d", "chaos_only", "outreach_moderate", "outreach_proposed",
+                    "combined_moderate", "combined_proposed")
+    else:
+        before = "pre_activation" if "pre_activation" in actual_variants else "rewards"
+        variants = ("installed", before, "guardrails")
+    groups = {(variant, profile) for variant in variants
               for profile in ("casual", "moderate", "chaos_regular", "rare_perfect", "hq_first", "unit_first")}
     if set(expected_days) != groups or any(day != 60 for day in expected_days.values()):
-        raise SystemExit("Expected 60 consecutive days for all 18 scenario and profile pairs")
+        raise SystemExit(f"Expected 60 consecutive days for all {len(groups)} scenario and profile pairs")
     if set(checkpoint_by_day) != {(*group, day) for group in groups for day in (7, 30, 60)}:
         raise SystemExit("Expected 7-, 30- and 60-day checkpoints for all pairs")
 
