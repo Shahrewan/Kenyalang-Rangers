@@ -342,3 +342,8 @@
 
 - The Chaos debuff cap applies in the modifier editor, composer and result settlement. Verified genuine short, medium and long runs on T01, T02 and T05 and continuity of earlier trophies and Facility unlocks.
 - The six-scenario 7-/30-/60-day comparison evaluates each Outreach schedule with and without the Chaos cap. The intermediate table and Garden budget recommendations are available for owner review. [QA, exact ledgers and device procedure](../qa/C32_E_RECURRING_ECONOMY.md)
+
+### C33 · Production presentation · 2026-11-25
+
+- Chaos previews and live fields share the same six route registrations, including T02's two entries and the woodland layers. The W29 enemy, loadout, modifier, trophy, boss and receipt assets follow the existing effective score and settlement. Early Story replays use the exact W29 rigs for their unlocked loadouts.
+- The 130% layout audit fixed trophy wrapping and truncated route titles. Approved Outreach response, Records, Settings and HUD artwork is bound to existing state. Four native review configurations, three real Chaos outcomes, the prior Story fixture and the signed APK are documented. Physical phone acceptance remains open. [QA, native screenshots and device procedure](../qa/C33_PRODUCTION_PRESENTATION.md)

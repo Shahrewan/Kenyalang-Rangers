@@ -23,6 +23,15 @@ static func action(text: String, primary := false) -> Button:
 		button.theme_type_variation = &"PrimaryButton"
 	return button
 
+static func artwork(texture: Texture2D, extent: Vector2) -> TextureRect:
+	var image := TextureRect.new()
+	image.texture = texture
+	image.custom_minimum_size = extent
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return image
+
 static func column(parent: Node, gap := 12) -> VBoxContainer:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", gap)

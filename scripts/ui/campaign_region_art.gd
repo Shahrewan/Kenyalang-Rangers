@@ -42,7 +42,9 @@ func draw_ground() -> void:
 			_board.draw_texture_rect(_skin.region("terrain", row.region), rect, false)
 			for edge: String in row.exposed_edge_art:
 				_board.draw_texture_rect(_skin.region("terrain", edge), rect, false)
-	var forecast := _board.battle.recon_entries()
+	var forecast: Array[Vector2i] = []
+	if _board.battle != null:
+		forecast = _board.battle.recon_entries()
 	for gate: Dictionary in layout.entries:
 		var at := Vector2i(FirstContactSkin.vector(gate.cell))
 		if at not in map.spawns:

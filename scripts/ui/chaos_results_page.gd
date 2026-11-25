@@ -19,7 +19,15 @@ func _ready() -> void:
 	var results := StoryUI.panel(StoryUI.scroll_column(panes), true)
 	var heading := StoryUI.label(_title(), 32, StoryUI.INK)
 	heading.name = "ChaosResultTitle"
-	results.add_child(heading)
+	var banner := StoryUI.row(results)
+	var key := "result_clear" if run.qualifies() else "result_defeat"
+	var skin := FirstContactSkin.new()
+	var emblem := StoryUI.artwork(skin.try_region("interface", key), Vector2(60, 60))
+	emblem.name = "ChaosResultEmblem"
+	banner.add_child(emblem)
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	banner.add_child(heading)
 	results.add_child(StoryUI.label("Integrity %d · Defeated %d/%d · Escaped %d" % [
 		run.integrity, run.configured_defeated, run.score.configured_enemies, run.escaped,
 	], 19, StoryUI.INK))
@@ -40,8 +48,11 @@ func _ready() -> void:
 			rewards.add_child(StoryUI.label("New personal best", 19))
 		if not settlement.unlocked.is_empty():
 			rewards.add_child(StoryUI.label("Facility unlocks", 21))
+			var assets := CampaignVisualAssets.new()
 			for id: StringName in settlement.unlocked:
-				rewards.add_child(StoryUI.label(DeployableLevels.definition(id).label, 18, StoryUI.BEIGE))
+				var row := StoryUI.row(rewards, 6)
+				row.add_child(StoryUI.artwork(assets.badge(id), Vector2(32, 32)))
+				row.add_child(StoryUI.label(DeployableLevels.definition(id).label, 18, StoryUI.BEIGE))
 	var trophy := ChaosTrophy.new()
 	trophy.personal_best = progress.chaos_personal_best()
 	rewards.add_child(trophy)

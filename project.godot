@@ -13,7 +13,7 @@ config_version=5
 config/name="Kenyalang Rangers"
 run/main_scene="res://scenes/menus/launcher.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://assets/placeholders/dev_icon.png"
+config/icon="res://assets/imported/ui/w29/brand/app_icon.svg"
 
 [display]
 

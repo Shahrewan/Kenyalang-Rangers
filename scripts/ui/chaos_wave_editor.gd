@@ -12,6 +12,7 @@ var _sliders: Dictionary[StringName, HSlider] = {}
 var _quantities: Dictionary[StringName, Label] = {}
 var _down: Dictionary[StringName, Button] = {}
 var _up: Dictionary[StringName, Button] = {}
+var _assets := CampaignVisualAssets.new()
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 9)
@@ -37,6 +38,9 @@ func _add_enemy(enemy: BattleEnemyDefinition) -> void:
 	var id := enemy.enemy_id
 	var panel := StoryUI.panel(_entries)
 	var row := StoryUI.row(panel, 8)
+	var art := StoryUI.artwork(_assets.badge(id), Vector2(40, 40))
+	art.name = "EnemyBadge_" + String(id).replace(".", "_")
+	row.add_child(art)
 	var copy := StoryUI.column(row, 3)
 	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	copy.size_flags_stretch_ratio = 1.6
@@ -45,8 +49,9 @@ func _add_enemy(enemy: BattleEnemyDefinition) -> void:
 	var slider := HSlider.new()
 	slider.name = "Quantity_" + String(id).replace(".", "_")
 	var touch := StoryUI.android_touch_minimum(self)
-	slider.custom_minimum_size = Vector2(90, touch.y)
+	slider.custom_minimum_size = touch
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.accessibility_name = "%s quantity" % enemy.display_name
 	slider.tooltip_text = enemy.display_name
 	slider.step = 1.0
 	slider.value_changed.connect(_set_count.bind(id))
@@ -64,6 +69,7 @@ func _add_enemy(enemy: BattleEnemyDefinition) -> void:
 func _step_button(row: HBoxContainer, text: String, prefix: String, id: StringName, by: int) -> Button:
 	var button := StoryUI.action(text)
 	button.name = prefix + String(id).replace(".", "_")
+	button.accessibility_name = "%s %s quantity" % [prefix.trim_suffix("_"), id]
 	button.pressed.connect(func() -> void: _set_count(configuration.quantity(slot, id) + by, id))
 	row.add_child(button)
 	return button

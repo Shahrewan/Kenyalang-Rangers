@@ -112,6 +112,18 @@ func _open_preview_dialogue() -> void:
 	%DialogueText.text = "The messenger withdraws off the battlefield."
 	open_dialogue()
 
+func _illustrate_dialogue(skin: FirstContactSkin) -> void:
+	skin.button(%Continue, "button_primary")
+	skin.button(%Skip, "button_secondary")
+	%DialogueTitle.add_theme_color_override("font_color", StoryUI.INK)
+	%DialogueText.add_theme_color_override("font_color", StoryUI.INK)
+	var frame := Panel.new()
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	frame.add_theme_stylebox_override("panel", skin.panel("dialogue_panel"))
+	_dialogue.add_child(frame)
+	_dialogue.move_child(frame, 0)
+
 func _open_boss_intro(_id: int, boss: BossSpec) -> void:
 	_open_boss_briefing(boss.display_name, boss.introduction)
 

@@ -89,7 +89,7 @@ func _ready() -> void:
 	_resize_cards()
 	get_viewport().size_changed.connect(_resize_cards)
 
-func illustrate(skin: FirstContactSkin, stage_id: StringName) -> void:
+func illustrate(skin: FirstContactSkin) -> void:
 	for state_name in ["tray_starter", "tray_ready", "tray_wait"]:
 		_illustrated_cards[state_name] = skin.panel(state_name, 15)
 	for i in _cards.size():
@@ -97,9 +97,7 @@ func illustrate(skin: FirstContactSkin, stage_id: StringName) -> void:
 		var badge: Texture2D
 		if skin.registration().thumbnails.regions.has(String(_entries[i].id)):
 			badge = skin.region("badge", String(id))
-		elif (_entries[i] is RangerSpec and _entries[i].has_expanded_field_kit()) \
-				or not FirstContactSkin.is_pilot(stage_id) or (stage_id == FirstContactSkin.NARROW_ESCAPE
-				and id in [FirstContactSkin.MEDIC, FirstContactSkin.SONIC]):
+		else:
 			badge = FirstContactSkin.w29_badge(id)
 		if badge != null:
 			var portrait = _cards[i].get_child(0).get_child(0)

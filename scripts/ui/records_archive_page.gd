@@ -5,6 +5,13 @@ signal article_requested(id: String)
 signal back_requested
 signal quiz_requested(quiz: RecordsQuiz)
 
+const CHAPTER_ART := {
+	"scout_sniper": preload("res://assets/imported/education/records/scout_sniper.png"),
+	"patrolman": preload("res://assets/imported/education/records/patrolman.png"),
+	"combat_medic": preload("res://assets/imported/education/records/combat_medic.png"),
+	"woods_tracker": preload("res://assets/imported/education/records/woods_tracker.png"),
+}
+
 var progress: CampaignProgress
 var catalog: EducationCatalog
 var _notice: Label
@@ -48,8 +55,16 @@ func _ready() -> void:
 		var title: String = mapping[0]
 		if not chapter.is_empty():
 			title += " · " + chapter.topic
-		card.add_child(StoryUI.label(title, 22, StoryUI.AMBER))
-		card.add_child(StoryUI.label(mapping[1], 18))
+		var ranger := StoryUI.row(card, 8)
+		var ranger_id := id.get_slice(".", 1)
+		var badge := StoryUI.artwork(CHAPTER_ART.get(ranger_id), Vector2(84, 54))
+		badge.name = "RecordsChapterArt_" + ranger_id
+		badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		ranger.add_child(badge)
+		var description := StoryUI.column(ranger, 4)
+		description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		description.add_child(StoryUI.label(title, 22, StoryUI.AMBER))
+		description.add_child(StoryUI.label(mapping[1], 18))
 		if not chapter.is_empty():
 			card.add_child(StoryUI.label("%d questions · 15 s each" % chapter.questions.size(), 17, StoryUI.BEIGE))
 		var unlocked := id in available

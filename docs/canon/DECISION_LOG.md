@@ -359,3 +359,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - D-011 and D-017. Cap positive eligible debuff score credit at the greater of 200 points or the configured enemy base score. Apply the same effective total to configuration, modifier previews, battle settlement and the receipt. Slot and buff deductions use their original values. Existing personal bests, trophy tiers and Facility ownership carry forward. [Chaos evidence](../qa/C32_E_RECURRING_ECONOMY.md#chaos-scoring)
 - D-005, D-010 and D-016. The existing Outreach schedule, Garden rules, 9,999,999 Funds cap and approved Campaign and Records awards remain installed. Both Outreach alternatives and a revised Garden planning target are recommendations for separate owner approval. [Model and recommendations](../qa/C32_E_RECURRING_ECONOMY.md#outreach-and-the-60-day-budget)
+
+### C33 production presentation · 2026-11-25
+
+- D-011 and D-017. Chaos uses the shared W29 board registrations and the Headquarters trophy artwork. Projected score and trophy, actual receipts and the earned record use the existing C32-E calculations. Eligibility and wallet clipping remain based on the settled run. [Native gameplay and receipt evidence](../qa/C33_PRODUCTION_PRESENTATION.md)
+- C1-02 and C1-03 now use the full W29 field catalogue on legal replay loadouts. First Contact keeps its original supply presentation. Outreach consumes the four approved grade expressions and Records uses the existing chapter and article assets. These bindings use the current save and battle state. [Presentation audit](../qa/C33_PRODUCTION_PRESENTATION.md#audit-and-implementation)

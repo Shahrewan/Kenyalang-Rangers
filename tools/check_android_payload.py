@@ -42,6 +42,8 @@ def main():
     parser.add_argument("--economy-rewards", action="store_true", help="Rehearse Campaign and Records payout cutover and Beacon recruitment")
     parser.add_argument("--previous-economy-active", action="store_true", help="The previous APK already includes the C32-D Campaign and Records rewards")
     parser.add_argument("--chaos-cap", action="store_true", help="Verify the capped Chaos preview, combat payout and old trophy continuity")
+    parser.add_argument("--previous-chaos-capped", action="store_true", help="The previous APK already includes the Chaos debuff-credit cap")
+    parser.add_argument("--production-presentation", action="store_true", help="Check all Chaos route art, badges and live presentation from the APK")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -93,6 +95,8 @@ def main():
             runners += ("c32_c_ranger_growth_test",)
         if args.chaos_cap:
             runners += ("c32_e_chaos_cap_test",)
+        if args.production_presentation:
+            runners += ("c33_production_presentation_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}
@@ -116,7 +120,7 @@ def main():
                         flags.append("--legacy-economy")
                 if args.chaos_cap:
                     flags.append("--chaos-cap")
-                    if profile == "update":
+                    if profile == "update" and not args.previous_chaos_capped:
                         flags.append("--legacy-chaos")
                 run(f"{profile}-{phase}", profile, seed if phase == "seed" else pack, flags)
 

@@ -82,6 +82,14 @@ def resources(catalog, data):
         art.update(poses.values())
     art.update(data["effects"].values())
     art.update([data["finale"], catalog["heat_meter"]])
+    menu = read(catalog["menu_receipts"])
+    art.update(menu["glyphs"][key]["dark"] for key in catalog["modifier_glyphs"].values())
+    art.update(menu["glyphs"][key]["light"] for key in ("list", "defense", "finance", "sound", "mute"))
+    art.add(menu["brand"]["app_icon"])
+    manager = read(catalog["portrait_receipts"])["portraits"]["manager"]
+    art.update(record["texture"]["path"] for key, record in manager.items() if key.startswith("outreach_"))
+    support = read(catalog["support_receipts"])["exports"]
+    art.update(record["path"] for key, record in support.items() if key.startswith("education/records."))
     return art, data_files
 
 
