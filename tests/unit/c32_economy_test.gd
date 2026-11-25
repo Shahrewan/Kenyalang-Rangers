@@ -401,14 +401,22 @@ func _chaos_receipts() -> void:
 	var data := CampaignSave.fresh()
 	data.rooms[String(MECHANICAL)] = 1
 	var profile := _profile("chaos", data)
-	var easy := CHAOS.play(profile, _content, [2, 1])
-	_check(easy.qualifies and easy.score == 1030 and easy.credited == 41200 and easy.defeated == 3
-		and &"facility.skill_relay_station" in easy.unlocked, "Current three-enemy route earns 41,200 and the first threshold exactly once")
-	var repeat := CHAOS.play(profile, _content, [2, 1])
-	_check(repeat.credited == 41200 and repeat.unlocked.is_empty(), "Repeat earns Funds while the threshold ownership remains one-time")
-	var sensitivity := CHAOS.play(_profile("chaos-sensitivity", data), _content, [2, 1], 200)
-	_check(sensitivity.qualifies and sensitivity.score == 130 and sensitivity.credited == 2600 and sensitivity.unlocked.is_empty(),
-		"Proposed modifier allowance keeps a small reward without granting a threshold")
+	var short := CHAOS.play(profile, _content, [2, 1])
+	_check(short.qualifies and short.score == 130 and short.credited == 2600 and short.defeated == 3
+		and short.unlocked.is_empty() and profile.chaos_personal_best() == 130,
+		"The capped three-enemy clear earns a small payout and no trophy threshold")
+	var old_path := _seed("chaos-pre-cap", data)
+	var legacy := CampaignProgress.new(old_path)
+	var old_result := CHAOS.play(legacy, _content, [2, 1], false)
+	_check(old_result.qualifies and old_result.score == 1030 and old_result.credited == 41200
+		and &"facility.skill_relay_station" in old_result.unlocked, "C32-D's previously earned tier and ownership are recorded")
+	legacy = CampaignProgress.new(old_path)
+	var flags: Array = legacy.snapshot().chaos.earned_thresholds
+	var repeat := CHAOS.play(legacy, _content, [2, 1])
+	_check(repeat.credited == 2600 and repeat.unlocked.is_empty() and not repeat.new_best
+		and legacy.owns(&"facility.skill_relay_station") and legacy.chaos_personal_best() == 1030
+		and legacy.snapshot().chaos.earned_thresholds == flags and legacy.funds() == 53800,
+		"The capped replay preserves the cold-loaded wallet history, best, trophy and Facility")
 
 func _settle(profile: CampaignProgress, operation: StoryOperation, perfect: bool) -> Dictionary:
 	_check(profile.begin_attempt(operation), "Open the saved attempt for " + String(operation.stage.stage_id))

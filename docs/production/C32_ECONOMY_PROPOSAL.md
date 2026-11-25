@@ -1,6 +1,6 @@
 # C32 · Rewards and economy proposal
 
-**Approved for live playtesting in C32-D.** The exact Campaign schedule and four Records bonuses below are installed. C1-01 retains its 10,000 Funds ordinary first clear. The Outreach and Chaos guardrails remain comparison scenarios for separate owner review. [Machine-readable schedule](c32/rewards_proposal.json) · [C32-D verification](../qa/C32_D_ECONOMY_REWARDS.md)
+**Approved for live playtesting in C32-D.** The exact Campaign schedule and four Records bonuses below are installed. C1-01 retains its 10,000 Funds ordinary first clear. C32-E activates the Chaos safeguard and compares Outreach schedules for owner review. [Machine-readable schedule](c32/rewards_proposal.json) · [C32-D verification](../qa/C32_D_ECONOMY_REWARDS.md) · [C32-E verification](../qa/C32_E_RECURRING_ECONOMY.md)
 
 ## Campaign schedule
 
@@ -49,8 +49,8 @@ The ascending split follows GDD pp. 26–27 M.9, which budgets 350,000 across fo
 | Returning profiles | Keep existing first-clear, first-perfect, completion-derived eligibility and ownership records. A returning player can earn a newly eligible perfect, replay value or ordinary recurring income. | Flags and claimed Funds carry forward. Legacy compensation needs separate approval. |
 | Firebreak Beacon | Recruit on a successful C2-07 clear or replay. Keep its separate Lv.1 mission supply and C2-08's local Heat tuning. | C32-D installs permanent acquisition and verifies the paid upgrade path. |
 | Prototype wallet cap | Retain 9,999,999 and the existing permanent discard rule during further tuning. Re-evaluate repeated overflows after the repeatable sources are calibrated. | Current cap and settlement checks remain in force. |
-| Chaos repeated payouts | Trial positive modifier credit capped at the greater of 200 or enemy base points. Preserve tier thresholds, loadout and buff deductions, payout curve and requirements to qualify. | Isolated sensitivity only. Previously earned Facility ownership would stay with the save. |
-| Outreach repeated payouts | Trial Best-grade tables of 25k, 60k, 75k, 90k and 110k using current grade relationships and cadence. Recalibrate the final high tiers against measured participation. | Isolated sensitivity only. The current 25k/60k/110k/180k/300k schedule remains active. |
+| Chaos repeated payouts | Cap positive debuff credit at the greater of 200 or enemy base points. Preserve tier thresholds, slot and buff deductions, payout curve and qualification. | C32-E activates the cap for new runs. Previously earned trophies, records and Facilities carry forward. |
+| Outreach repeated payouts | Evaluate 25k/60k/90k/125k/175k as an intermediate trial, alongside the original 25k/60k/75k/90k/110k proposal. | Both are comparison schedules for owner review. The installed Best values are 25k/60k/110k/180k/300k. |
 | Habitat Restoration | Use measured repeat income and revisit the 5.30M budget target before adding new income. Keep participation and existing growth values for the next playtest. | The 4.71M theoretical ceiling and modeled receipts support owner review of the allocation. Any separate first-species award requires its own budget. |
 | Rangers and Facilities | Review the new trial growth and affordability during live play. | C32-B and C32-C added the linear stat endpoints using the same level prices. |
 

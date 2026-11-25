@@ -82,8 +82,11 @@ func _refresh() -> void:
 		_summary.text += "   ·   " + current.selection_error
 	elif plan.chaos and current.can_start():
 		if confirm_changes:
-			var score := ChaosScore.new(current).points()
-			_summary.text += "   ·   %s Medal Score   ·   %s Funds on qualifying victory" % [StoryUI.funds(score), StoryUI.funds(ChaosScore.payout(score))]
+			var score := ChaosScore.new(current)
+			var points := score.points()
+			_summary.text += "   ·   %s Medal Score   ·   %s Funds on qualifying victory" % [StoryUI.funds(points), StoryUI.funds(ChaosScore.payout(points))]
+			if score.credited_debuff_points() < score.debuff_points:
+				_summary.text += "\n" + ChaosComposer.debuff_credit_summary(score)
 		else:
 			_summary.text += "   ·   Modifier points %+d" % current.modifier_points()
 	for id: StringName in _rows:

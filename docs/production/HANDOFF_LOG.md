@@ -337,3 +337,8 @@
 
 - Activated the exact Campaign and Records schedule. A single genuine fresh combat progression cleared all 15 operations and bought Control, Mechanical, Ranger and Facility levels using only earned Campaign Funds. A true C2-07 replay granted the missing permanent Beacon. Its Lv.1 mission supply remains separate.
 - Verified historical flags, exact one-time and replay receipts, wallet clipping, the 7-/30-/60-day model, max-level income comparisons, native receipts and the signed package. Physical phone validation, legacy compensation and recurring-income proposals remain separate owner items. [QA and device procedure](../qa/C32_D_ECONOMY_REWARDS.md)
+
+### C32-E · Recurring economy · 2026-11-25
+
+- The Chaos debuff cap applies in the modifier editor, composer and result settlement. Verified genuine short, medium and long runs on T01, T02 and T05 and continuity of earlier trophies and Facility unlocks.
+- The six-scenario 7-/30-/60-day comparison evaluates each Outreach schedule with and without the Chaos cap. The intermediate table and Garden budget recommendations are available for owner review. [QA, exact ledgers and device procedure](../qa/C32_E_RECURRING_ECONOMY.md)

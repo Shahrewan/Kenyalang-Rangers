@@ -40,6 +40,8 @@ def main():
     parser.add_argument("--facility-growth", action="store_true", help="Verify the packaged Facility levels and their live combat effects")
     parser.add_argument("--ranger-growth", action="store_true", help="Verify the packaged Ranger levels and their live combat effects")
     parser.add_argument("--economy-rewards", action="store_true", help="Rehearse Campaign and Records payout cutover and Beacon recruitment")
+    parser.add_argument("--previous-economy-active", action="store_true", help="The previous APK already includes the C32-D Campaign and Records rewards")
+    parser.add_argument("--chaos-cap", action="store_true", help="Verify the capped Chaos preview, combat payout and old trophy continuity")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -89,6 +91,8 @@ def main():
             runners += ("c32_b_facility_growth_test",)
         if args.ranger_growth:
             runners += ("c32_c_ranger_growth_test",)
+        if args.chaos_cap:
+            runners += ("c32_e_chaos_cap_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}
@@ -108,8 +112,12 @@ def main():
                     flags.append("--ranger-growth")
                 if args.economy_rewards:
                     flags.append("--economy-rewards")
-                    if profile == "update":
+                    if profile == "update" and not args.previous_economy_active:
                         flags.append("--legacy-economy")
+                if args.chaos_cap:
+                    flags.append("--chaos-cap")
+                    if profile == "update":
+                        flags.append("--legacy-chaos")
                 run(f"{profile}-{phase}", profile, seed if phase == "seed" else pack, flags)
 
 
