@@ -1,0 +1,1460 @@
+{
+  "groups": {
+    "ui_confirm": {
+      "priority": 30,
+      "gain_db": -6,
+      "category": "ui",
+      "cooldown_ms": 65,
+      "limit": 1,
+      "fallback": "confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_confirm_01.wav"
+      ]
+    },
+    "ui_navigate": {
+      "priority": 32,
+      "gain_db": -7,
+      "category": "ui",
+      "cooldown_ms": 120,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_navigate_01.wav"
+      ]
+    },
+    "ui_back": {
+      "priority": 32,
+      "gain_db": -7,
+      "category": "ui",
+      "cooldown_ms": 100,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_back_01.wav"
+      ]
+    },
+    "ui_toggle": {
+      "priority": 26,
+      "gain_db": -9,
+      "category": "ui",
+      "cooldown_ms": 100,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_toggle_01.wav"
+      ]
+    },
+    "ui_cancel": {
+      "priority": 40,
+      "gain_db": -7,
+      "category": "ui",
+      "cooldown_ms": 130,
+      "limit": 1,
+      "fallback": "ui_back",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_cancel_01.wav"
+      ]
+    },
+    "ui_invalid": {
+      "priority": 66,
+      "gain_db": -5,
+      "category": "ui",
+      "cooldown_ms": 260,
+      "limit": 1,
+      "fallback": "invalid",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_invalid_01.wav"
+      ]
+    },
+    "ui_save_problem": {
+      "priority": 81,
+      "gain_db": -4,
+      "category": "ui",
+      "cooldown_ms": 1100,
+      "limit": 1,
+      "fallback": "ui_invalid",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_save_problem_01.wav"
+      ]
+    },
+    "ui_notice": {
+      "priority": 34,
+      "gain_db": -10,
+      "category": "ui",
+      "cooldown_ms": 750,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_notice_01.wav"
+      ]
+    },
+    "ui_radio_continue": {
+      "priority": 25,
+      "gain_db": -10,
+      "category": "ui",
+      "cooldown_ms": 105,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_radio_continue_01.wav"
+      ]
+    },
+    "ui_battle_pause": {
+      "priority": 40,
+      "gain_db": -8,
+      "category": "ui",
+      "cooldown_ms": 120,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_battle_pause_01.wav"
+      ]
+    },
+    "ui_chaos_quantity_commit": {
+      "priority": 22,
+      "gain_db": -10,
+      "category": "ui",
+      "cooldown_ms": 130,
+      "limit": 1,
+      "fallback": "ui_toggle",
+      "paths": [
+        "res://assets/audio/sfx/ui/ui_chaos_quantity_commit_01.wav"
+      ]
+    },
+    "progression_hq_room_built": {
+      "priority": 73,
+      "gain_db": -4,
+      "category": "progression",
+      "cooldown_ms": 700,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_hq_room_built_01.wav"
+      ]
+    },
+    "progression_hq_room_upgraded": {
+      "priority": 70,
+      "gain_db": -5,
+      "category": "progression",
+      "cooldown_ms": 640,
+      "limit": 1,
+      "fallback": "progression_hq_room_built",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_hq_room_upgraded_01.wav"
+      ]
+    },
+    "progression_level_purchase": {
+      "priority": 60,
+      "gain_db": -6,
+      "category": "progression",
+      "cooldown_ms": 420,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_level_purchase_01.wav"
+      ]
+    },
+    "progression_level_milestone": {
+      "priority": 76,
+      "gain_db": -4,
+      "category": "progression",
+      "cooldown_ms": 1000,
+      "limit": 1,
+      "fallback": "progression_level_purchase",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_level_milestone_01.wav"
+      ]
+    },
+    "progression_funds_claim": {
+      "priority": 65,
+      "gain_db": -6,
+      "category": "progression",
+      "cooldown_ms": 500,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_funds_claim_01.wav"
+      ]
+    },
+    "progression_funds_discard": {
+      "priority": 52,
+      "gain_db": -8,
+      "category": "progression",
+      "cooldown_ms": 600,
+      "limit": 1,
+      "fallback": "ui_notice",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_funds_discard_01.wav"
+      ]
+    },
+    "progression_recruit": {
+      "priority": 79,
+      "gain_db": -4,
+      "category": "progression",
+      "cooldown_ms": 1200,
+      "limit": 1,
+      "fallback": "progression_level_milestone",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_recruit_01.wav"
+      ]
+    },
+    "progression_story_unlock": {
+      "priority": 53,
+      "gain_db": -8,
+      "category": "progression",
+      "cooldown_ms": 1100,
+      "limit": 1,
+      "fallback": "ui_notice",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_story_unlock_01.wav"
+      ]
+    },
+    "progression_profile_saved": {
+      "priority": 62,
+      "gain_db": -6,
+      "category": "progression",
+      "cooldown_ms": 500,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/progression/progression_profile_saved_01.wav"
+      ]
+    },
+    "result_victory": {
+      "priority": 95,
+      "gain_db": -4,
+      "category": "results",
+      "cooldown_ms": 2200,
+      "limit": 1,
+      "fallback": "victory",
+      "paths": [
+        "res://assets/audio/sfx/results/result_victory_01.wav"
+      ]
+    },
+    "result_defeat": {
+      "priority": 98,
+      "gain_db": -5,
+      "category": "results",
+      "cooldown_ms": 2000,
+      "limit": 1,
+      "fallback": "defeat",
+      "paths": [
+        "res://assets/audio/sfx/results/result_defeat_01.wav"
+      ]
+    },
+    "result_perfect_clear": {
+      "priority": 97,
+      "gain_db": -4,
+      "category": "results",
+      "cooldown_ms": 2900,
+      "limit": 1,
+      "fallback": "result_victory",
+      "paths": [
+        "res://assets/audio/sfx/results/result_perfect_clear_01.wav"
+      ]
+    },
+    "result_chaos_trophy": {
+      "priority": 89,
+      "gain_db": -4,
+      "category": "results",
+      "cooldown_ms": 1800,
+      "limit": 1,
+      "fallback": "progression_recruit",
+      "paths": [
+        "res://assets/audio/sfx/results/result_chaos_trophy_01.wav"
+      ]
+    },
+    "result_chaos_personal_best": {
+      "priority": 74,
+      "gain_db": -6,
+      "category": "results",
+      "cooldown_ms": 1000,
+      "limit": 1,
+      "fallback": "ui_notice",
+      "paths": [
+        "res://assets/audio/sfx/results/result_chaos_personal_best_01.wav"
+      ]
+    },
+    "result_campaign_complete": {
+      "priority": 99,
+      "gain_db": -4,
+      "category": "results",
+      "cooldown_ms": 3200,
+      "limit": 1,
+      "fallback": "result_victory",
+      "paths": [
+        "res://assets/audio/sfx/results/result_campaign_complete_01.wav"
+      ]
+    },
+    "education_response": {
+      "priority": 54,
+      "gain_db": -7,
+      "category": "education",
+      "cooldown_ms": 240,
+      "limit": 1,
+      "fallback": "education",
+      "paths": [
+        "res://assets/audio/sfx/education/education_response_01.wav"
+      ]
+    },
+    "outreach_response_positive": {
+      "priority": 57,
+      "gain_db": -7,
+      "category": "education",
+      "cooldown_ms": 260,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/outreach_response_positive_01.wav"
+      ]
+    },
+    "outreach_response_reflect": {
+      "priority": 55,
+      "gain_db": -8,
+      "category": "education",
+      "cooldown_ms": 260,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/outreach_response_reflect_01.wav"
+      ]
+    },
+    "outreach_batch_refresh": {
+      "priority": 48,
+      "gain_db": -8,
+      "category": "education",
+      "cooldown_ms": 600,
+      "limit": 1,
+      "fallback": "ui_navigate",
+      "paths": [
+        "res://assets/audio/sfx/education/outreach_batch_refresh_01.wav"
+      ]
+    },
+    "records_correct": {
+      "priority": 58,
+      "gain_db": -7,
+      "category": "education",
+      "cooldown_ms": 240,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/records_correct_01.wav"
+      ]
+    },
+    "records_incorrect": {
+      "priority": 52,
+      "gain_db": -8,
+      "category": "education",
+      "cooldown_ms": 240,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/records_incorrect_01.wav"
+      ]
+    },
+    "records_time_expired": {
+      "priority": 63,
+      "gain_db": -6,
+      "category": "education",
+      "cooldown_ms": 430,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/records_time_expired_01.wav"
+      ]
+    },
+    "records_chapter_complete": {
+      "priority": 63,
+      "gain_db": -6,
+      "category": "education",
+      "cooldown_ms": 900,
+      "limit": 1,
+      "fallback": "education_response",
+      "paths": [
+        "res://assets/audio/sfx/education/records_chapter_complete_01.wav"
+      ]
+    },
+    "records_first_perfect": {
+      "priority": 80,
+      "gain_db": -5,
+      "category": "education",
+      "cooldown_ms": 1600,
+      "limit": 1,
+      "fallback": "records_chapter_complete",
+      "paths": [
+        "res://assets/audio/sfx/education/records_first_perfect_01.wav"
+      ]
+    },
+    "restoration_plant": {
+      "priority": 60,
+      "gain_db": -6,
+      "category": "restoration",
+      "cooldown_ms": 440,
+      "limit": 1,
+      "fallback": "ui_confirm",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_plant_01.wav"
+      ]
+    },
+    "restoration_water": {
+      "priority": 64,
+      "gain_db": -6,
+      "category": "restoration",
+      "cooldown_ms": 480,
+      "limit": 1,
+      "fallback": "water",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_water_01.wav"
+      ]
+    },
+    "restoration_growth_ready": {
+      "priority": 52,
+      "gain_db": -8,
+      "category": "restoration",
+      "cooldown_ms": 2200,
+      "limit": 1,
+      "fallback": "ui_notice",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_growth_ready_01.wav"
+      ]
+    },
+    "restoration_collect": {
+      "priority": 68,
+      "gain_db": -5,
+      "category": "restoration",
+      "cooldown_ms": 800,
+      "limit": 1,
+      "fallback": "collect",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_collect_01.wav"
+      ]
+    },
+    "restoration_visitor": {
+      "priority": 84,
+      "gain_db": -5,
+      "category": "restoration",
+      "cooldown_ms": 1450,
+      "limit": 1,
+      "fallback": "visitor",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_visitor_01.wav"
+      ]
+    },
+    "restoration_milestone": {
+      "priority": 70,
+      "gain_db": -7,
+      "category": "restoration",
+      "cooldown_ms": 1200,
+      "limit": 1,
+      "fallback": "restoration_collect",
+      "paths": [
+        "res://assets/audio/sfx/restoration/restoration_milestone_01.wav"
+      ]
+    },
+    "combat_deploy": {
+      "priority": 59,
+      "gain_db": -6,
+      "category": "combat",
+      "cooldown_ms": 130,
+      "limit": 2,
+      "fallback": "deploy",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_deploy_01.wav"
+      ]
+    },
+    "combat_facing_select": {
+      "priority": 35,
+      "gain_db": -9,
+      "category": "combat",
+      "cooldown_ms": 135,
+      "limit": 1,
+      "fallback": "ui_toggle",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_facing_select_01.wav"
+      ]
+    },
+    "combat_retreat": {
+      "priority": 65,
+      "gain_db": -6,
+      "category": "combat",
+      "cooldown_ms": 150,
+      "limit": 2,
+      "fallback": "ui_cancel",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_retreat_01.wav"
+      ]
+    },
+    "combat_ranger_down": {
+      "priority": 74,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 260,
+      "limit": 2,
+      "fallback": "combat_retreat",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_ranger_down_01.wav"
+      ]
+    },
+    "combat_facility_destroyed": {
+      "priority": 76,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 260,
+      "limit": 2,
+      "fallback": "combat_ranger_down",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_facility_destroyed_01.wav"
+      ]
+    },
+    "combat_block_contact": {
+      "priority": 27,
+      "gain_db": -11,
+      "category": "combat",
+      "cooldown_ms": 450,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_block_contact_01.wav"
+      ]
+    },
+    "combat_impact_light": {
+      "priority": 29,
+      "gain_db": -12,
+      "category": "combat",
+      "cooldown_ms": 170,
+      "limit": 2,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_impact_light_01.wav"
+      ]
+    },
+    "combat_enemy_resolved": {
+      "priority": 35,
+      "gain_db": -10,
+      "category": "combat",
+      "cooldown_ms": 400,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_enemy_resolved_01.wav"
+      ]
+    },
+    "combat_support": {
+      "priority": 50,
+      "gain_db": -8,
+      "category": "combat",
+      "cooldown_ms": 310,
+      "limit": 2,
+      "fallback": "support",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_support_01.wav"
+      ]
+    },
+    "combat_skill": {
+      "priority": 60,
+      "gain_db": -6,
+      "category": "combat",
+      "cooldown_ms": 210,
+      "limit": 2,
+      "fallback": "skill",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_skill_01.wav"
+      ]
+    },
+    "combat_skill_ready": {
+      "priority": 52,
+      "gain_db": -9,
+      "category": "combat",
+      "cooldown_ms": 650,
+      "limit": 1,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_skill_ready_01.wav"
+      ]
+    },
+    "combat_tokens": {
+      "priority": 61,
+      "gain_db": -7,
+      "category": "combat",
+      "cooldown_ms": 650,
+      "limit": 1,
+      "fallback": "tokens",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_tokens_01.wav"
+      ]
+    },
+    "combat_wave_start": {
+      "priority": 72,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 700,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_wave_start_01.wav"
+      ]
+    },
+    "combat_wave_rest": {
+      "priority": 55,
+      "gain_db": -7,
+      "category": "combat",
+      "cooldown_ms": 850,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_wave_rest_01.wav"
+      ]
+    },
+    "combat_recon": {
+      "priority": 77,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 1000,
+      "limit": 1,
+      "fallback": "recon",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_recon_01.wav"
+      ]
+    },
+    "combat_siege_warning": {
+      "priority": 84,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 800,
+      "limit": 1,
+      "fallback": "siege",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_siege_warning_01.wav"
+      ]
+    },
+    "combat_heat_overflow": {
+      "priority": 88,
+      "gain_db": -4,
+      "category": "combat",
+      "cooldown_ms": 900,
+      "limit": 1,
+      "fallback": "heat",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_heat_overflow_01.wav"
+      ]
+    },
+    "combat_integrity_loss": {
+      "priority": 86,
+      "gain_db": -5,
+      "category": "combat",
+      "cooldown_ms": 600,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_integrity_loss_01.wav"
+      ]
+    },
+    "combat_fatal_escape": {
+      "priority": 96,
+      "gain_db": -4,
+      "category": "combat",
+      "cooldown_ms": 1000,
+      "limit": 1,
+      "fallback": "combat_integrity_loss",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_fatal_escape_01.wav"
+      ]
+    },
+    "combat_boss_alert": {
+      "priority": 92,
+      "gain_db": -4,
+      "category": "combat",
+      "cooldown_ms": 1050,
+      "limit": 1,
+      "fallback": "boss",
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_boss_alert_01.wav"
+      ]
+    },
+    "combat_messenger_withdrawal": {
+      "priority": 38,
+      "gain_db": -9,
+      "category": "combat",
+      "cooldown_ms": 850,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_messenger_withdrawal_01.wav"
+      ]
+    },
+    "combat_siege_telegraph": {
+      "priority": 74,
+      "gain_db": -8,
+      "category": "combat",
+      "cooldown_ms": 500,
+      "limit": 1,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/combat/combat_siege_telegraph_01.wav"
+      ]
+    },
+    "ranger_melee_attack": {
+      "priority": 43,
+      "gain_db": -10,
+      "category": "rangers",
+      "cooldown_ms": 135,
+      "limit": 3,
+      "fallback": "combat_impact_light",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_melee_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_melee_attack_02.wav",
+        "res://assets/audio/sfx/rangers/ranger_melee_attack_03.wav"
+      ]
+    },
+    "ranger_guard_attack": {
+      "priority": 46,
+      "gain_db": -9,
+      "category": "rangers",
+      "cooldown_ms": 160,
+      "limit": 2,
+      "fallback": "ranger_melee_attack",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_guard_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_guard_attack_02.wav",
+        "res://assets/audio/sfx/rangers/ranger_guard_attack_03.wav"
+      ]
+    },
+    "ranger_scout_sniper_attack": {
+      "priority": 49,
+      "gain_db": -9,
+      "category": "rangers",
+      "cooldown_ms": 145,
+      "limit": 3,
+      "fallback": "combat_impact_light",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_scout_sniper_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_scout_sniper_attack_02.wav",
+        "res://assets/audio/sfx/rangers/ranger_scout_sniper_attack_03.wav"
+      ]
+    },
+    "ranger_scout_sniper_focus": {
+      "priority": 66,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 280,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_scout_sniper_focus_01.wav"
+      ]
+    },
+    "ranger_combat_medic_heal": {
+      "priority": 50,
+      "gain_db": -9,
+      "category": "rangers",
+      "cooldown_ms": 300,
+      "limit": 2,
+      "fallback": "combat_support",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_combat_medic_heal_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_combat_medic_heal_02.wav",
+        "res://assets/audio/sfx/rangers/ranger_combat_medic_heal_03.wav"
+      ]
+    },
+    "ranger_combat_medic_treatment": {
+      "priority": 68,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 420,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_combat_medic_treatment_01.wav"
+      ]
+    },
+    "ranger_guard_veteran_stun_prod": {
+      "priority": 66,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 360,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_guard_veteran_stun_prod_01.wav"
+      ]
+    },
+    "ranger_woods_tracker_net": {
+      "priority": 67,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 370,
+      "limit": 2,
+      "fallback": "combat_deploy",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_woods_tracker_net_01.wav"
+      ]
+    },
+    "ranger_k9_ranger_attack": {
+      "priority": 46,
+      "gain_db": -9,
+      "category": "rangers",
+      "cooldown_ms": 160,
+      "limit": 2,
+      "fallback": "ranger_scout_sniper_attack",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_k9_ranger_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_k9_ranger_attack_02.wav"
+      ]
+    },
+    "ranger_k9_ranger_howl": {
+      "priority": 69,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 490,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_k9_ranger_howl_01.wav"
+      ]
+    },
+    "ranger_outpost_mechanic_attack": {
+      "priority": 43,
+      "gain_db": -10,
+      "category": "rangers",
+      "cooldown_ms": 150,
+      "limit": 2,
+      "fallback": "ranger_scout_sniper_attack",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_outpost_mechanic_attack_01.wav"
+      ]
+    },
+    "ranger_outpost_mechanic_repair": {
+      "priority": 58,
+      "gain_db": -8,
+      "category": "rangers",
+      "cooldown_ms": 380,
+      "limit": 2,
+      "fallback": "combat_support",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_outpost_mechanic_repair_01.wav"
+      ]
+    },
+    "ranger_kenyalang_seer_attack": {
+      "priority": 48,
+      "gain_db": -9,
+      "category": "rangers",
+      "cooldown_ms": 180,
+      "limit": 2,
+      "fallback": "ranger_scout_sniper_attack",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_kenyalang_seer_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_kenyalang_seer_attack_02.wav"
+      ]
+    },
+    "ranger_kenyalang_seer_scan": {
+      "priority": 67,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 400,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_kenyalang_seer_scan_01.wav"
+      ]
+    },
+    "ranger_crowd_controller_attack": {
+      "priority": 49,
+      "gain_db": -10,
+      "category": "rangers",
+      "cooldown_ms": 170,
+      "limit": 2,
+      "fallback": "ranger_scout_sniper_attack",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_crowd_controller_attack_01.wav",
+        "res://assets/audio/sfx/rangers/ranger_crowd_controller_attack_02.wav"
+      ]
+    },
+    "ranger_crowd_controller_emp": {
+      "priority": 68,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 460,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_crowd_controller_emp_01.wav"
+      ]
+    },
+    "ranger_saboteurist_emp_retreat": {
+      "priority": 69,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 400,
+      "limit": 2,
+      "fallback": "combat_retreat",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_saboteurist_emp_retreat_01.wav"
+      ]
+    },
+    "ranger_strike_team_arrival": {
+      "priority": 71,
+      "gain_db": -6,
+      "category": "rangers",
+      "cooldown_ms": 400,
+      "limit": 2,
+      "fallback": "combat_deploy",
+      "paths": [
+        "res://assets/audio/sfx/rangers/ranger_strike_team_arrival_01.wav"
+      ]
+    },
+    "facility_construction_start": {
+      "priority": 54,
+      "gain_db": -7,
+      "category": "facilities",
+      "cooldown_ms": 170,
+      "limit": 2,
+      "fallback": "combat_deploy",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_construction_start_01.wav"
+      ]
+    },
+    "facility_construction_ready": {
+      "priority": 64,
+      "gain_db": -6,
+      "category": "facilities",
+      "cooldown_ms": 380,
+      "limit": 2,
+      "fallback": "combat_deploy",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_construction_ready_01.wav"
+      ]
+    },
+    "facility_construction_cancel": {
+      "priority": 58,
+      "gain_db": -7,
+      "category": "facilities",
+      "cooldown_ms": 300,
+      "limit": 1,
+      "fallback": "ui_cancel",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_construction_cancel_01.wav"
+      ]
+    },
+    "facility_medic_cabin_kit": {
+      "priority": 62,
+      "gain_db": -7,
+      "category": "facilities",
+      "cooldown_ms": 420,
+      "limit": 2,
+      "fallback": "combat_support",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_medic_cabin_kit_01.wav"
+      ]
+    },
+    "facility_sentry_tower_mount": {
+      "priority": 55,
+      "gain_db": -7,
+      "category": "facilities",
+      "cooldown_ms": 270,
+      "limit": 2,
+      "fallback": "combat_deploy",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_sentry_tower_mount_01.wav"
+      ]
+    },
+    "facility_sonic_turret_attack": {
+      "priority": 48,
+      "gain_db": -9,
+      "category": "facilities",
+      "cooldown_ms": 155,
+      "limit": 2,
+      "fallback": "combat_impact_light",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_sonic_turret_attack_01.wav",
+        "res://assets/audio/sfx/facilities/facility_sonic_turret_attack_02.wav"
+      ]
+    },
+    "facility_electric_pulse_turret_attack": {
+      "priority": 50,
+      "gain_db": -9,
+      "category": "facilities",
+      "cooldown_ms": 200,
+      "limit": 2,
+      "fallback": "facility_sonic_turret_attack",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_electric_pulse_turret_attack_01.wav",
+        "res://assets/audio/sfx/facilities/facility_electric_pulse_turret_attack_02.wav"
+      ]
+    },
+    "facility_canopy_defense_launcher_attack": {
+      "priority": 53,
+      "gain_db": -8,
+      "category": "facilities",
+      "cooldown_ms": 200,
+      "limit": 2,
+      "fallback": "combat_impact_light",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_canopy_defense_launcher_attack_01.wav",
+        "res://assets/audio/sfx/facilities/facility_canopy_defense_launcher_attack_02.wav"
+      ]
+    },
+    "facility_specialist_calltower_claim": {
+      "priority": 63,
+      "gain_db": -7,
+      "category": "facilities",
+      "cooldown_ms": 430,
+      "limit": 2,
+      "fallback": "combat_skill",
+      "paths": [
+        "res://assets/audio/sfx/facilities/facility_specialist_calltower_claim_01.wav"
+      ]
+    },
+    "enemy_melee_light": {
+      "priority": 37,
+      "gain_db": -12,
+      "category": "enemies",
+      "cooldown_ms": 150,
+      "limit": 3,
+      "fallback": "combat_impact_light",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_melee_light_01.wav",
+        "res://assets/audio/sfx/enemies/enemy_melee_light_02.wav",
+        "res://assets/audio/sfx/enemies/enemy_melee_light_03.wav"
+      ]
+    },
+    "enemy_melee_heavy": {
+      "priority": 47,
+      "gain_db": -10,
+      "category": "enemies",
+      "cooldown_ms": 170,
+      "limit": 2,
+      "fallback": "enemy_melee_light",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_melee_heavy_01.wav",
+        "res://assets/audio/sfx/enemies/enemy_melee_heavy_02.wav"
+      ]
+    },
+    "enemy_ranged_light": {
+      "priority": 40,
+      "gain_db": -12,
+      "category": "enemies",
+      "cooldown_ms": 165,
+      "limit": 3,
+      "fallback": "enemy_melee_light",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_ranged_light_01.wav",
+        "res://assets/audio/sfx/enemies/enemy_ranged_light_02.wav",
+        "res://assets/audio/sfx/enemies/enemy_ranged_light_03.wav"
+      ]
+    },
+    "enemy_e03_sprint": {
+      "priority": 54,
+      "gain_db": -9,
+      "category": "enemies",
+      "cooldown_ms": 550,
+      "limit": 2,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e03_sprint_01.wav"
+      ]
+    },
+    "enemy_e05_attack": {
+      "priority": 47,
+      "gain_db": -10,
+      "category": "enemies",
+      "cooldown_ms": 170,
+      "limit": 2,
+      "fallback": "enemy_ranged_light",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e05_attack_01.wav"
+      ]
+    },
+    "enemy_e06_smoke": {
+      "priority": 60,
+      "gain_db": -8,
+      "category": "enemies",
+      "cooldown_ms": 510,
+      "limit": 2,
+      "fallback": null,
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e06_smoke_01.wav"
+      ]
+    },
+    "enemy_e07_jam": {
+      "priority": 72,
+      "gain_db": -6,
+      "category": "enemies",
+      "cooldown_ms": 650,
+      "limit": 1,
+      "fallback": "ui_invalid",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e07_jam_01.wav"
+      ]
+    },
+    "enemy_e08_attack": {
+      "priority": 43,
+      "gain_db": -11,
+      "category": "enemies",
+      "cooldown_ms": 180,
+      "limit": 2,
+      "fallback": "enemy_ranged_light",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e08_attack_01.wav"
+      ]
+    },
+    "enemy_e09_track": {
+      "priority": 61,
+      "gain_db": -8,
+      "category": "enemies",
+      "cooldown_ms": 610,
+      "limit": 1,
+      "fallback": "ui_notice",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e09_track_01.wav"
+      ]
+    },
+    "enemy_e10_net": {
+      "priority": 67,
+      "gain_db": -7,
+      "category": "enemies",
+      "cooldown_ms": 540,
+      "limit": 2,
+      "fallback": "ranger_woods_tracker_net",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e10_net_01.wav"
+      ]
+    },
+    "enemy_e11_siege": {
+      "priority": 84,
+      "gain_db": -9,
+      "category": "enemies",
+      "cooldown_ms": 400,
+      "limit": 1,
+      "fallback": "combat_siege_warning",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e11_siege_01.wav"
+      ]
+    },
+    "enemy_e12_siege": {
+      "priority": 84,
+      "gain_db": -8,
+      "category": "enemies",
+      "cooldown_ms": 500,
+      "limit": 1,
+      "fallback": "combat_siege_warning",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e12_siege_01.wav"
+      ]
+    },
+    "enemy_e13_breach": {
+      "priority": 73,
+      "gain_db": -6,
+      "category": "enemies",
+      "cooldown_ms": 570,
+      "limit": 1,
+      "fallback": "enemy_melee_heavy",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e13_breach_01.wav"
+      ]
+    },
+    "enemy_e15_priority_warning": {
+      "priority": 83,
+      "gain_db": -5,
+      "category": "enemies",
+      "cooldown_ms": 1300,
+      "limit": 1,
+      "fallback": "combat_recon",
+      "paths": [
+        "res://assets/audio/sfx/enemies/enemy_e15_priority_warning_01.wav"
+      ]
+    },
+    "boss_diversion_captain_intro": {
+      "priority": 91,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1000,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_diversion_captain_intro_01.wav"
+      ]
+    },
+    "boss_diversion_captain_phase": {
+      "priority": 92,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1200,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_diversion_captain_phase_01.wav"
+      ]
+    },
+    "boss_diversion_captain_capture": {
+      "priority": 86,
+      "gain_db": -5,
+      "category": "bosses",
+      "cooldown_ms": 900,
+      "limit": 1,
+      "fallback": "result_victory",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_diversion_captain_capture_01.wav"
+      ]
+    },
+    "boss_illegal_logging_foreman_intro": {
+      "priority": 91,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1150,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_illegal_logging_foreman_intro_01.wav"
+      ]
+    },
+    "boss_illegal_logging_foreman_phase": {
+      "priority": 93,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1250,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_illegal_logging_foreman_phase_01.wav"
+      ]
+    },
+    "boss_illegal_logging_foreman_attack": {
+      "priority": 52,
+      "gain_db": -8,
+      "category": "bosses",
+      "cooldown_ms": 240,
+      "limit": 2,
+      "fallback": "enemy_melee_heavy",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_illegal_logging_foreman_attack_01.wav"
+      ]
+    },
+    "boss_poacher_leader_intro": {
+      "priority": 93,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1250,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_poacher_leader_intro_01.wav"
+      ]
+    },
+    "boss_poacher_leader_phase_call": {
+      "priority": 92,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1120,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_poacher_leader_phase_call_01.wav"
+      ]
+    },
+    "boss_poacher_leader_phase_surge": {
+      "priority": 94,
+      "gain_db": -4,
+      "category": "bosses",
+      "cooldown_ms": 1200,
+      "limit": 1,
+      "fallback": "combat_boss_alert",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_poacher_leader_phase_surge_01.wav"
+      ]
+    },
+    "boss_poacher_leader_defeated": {
+      "priority": 82,
+      "gain_db": -6,
+      "category": "bosses",
+      "cooldown_ms": 950,
+      "limit": 1,
+      "fallback": "combat_enemy_resolved",
+      "paths": [
+        "res://assets/audio/sfx/bosses/boss_poacher_leader_defeated_01.wav"
+      ]
+    }
+  },
+  "aliases": {
+    "confirm": "ui_confirm",
+    "deploy": "combat_deploy",
+    "invalid": "ui_invalid",
+    "support": "combat_support",
+    "tokens": "combat_tokens",
+    "skill": "combat_skill",
+    "victory": "result_victory",
+    "defeat": "result_defeat",
+    "recon": "combat_recon",
+    "siege": "combat_siege_warning",
+    "heat": "combat_heat_overflow",
+    "boss": "combat_boss_alert",
+    "water": "restoration_water",
+    "collect": "restoration_collect",
+    "visitor": "restoration_visitor",
+    "education": "education_response"
+  },
+  "entities": {
+    "ranger.scout_sniper": {
+      "basic": "ranger_scout_sniper_attack",
+      "Focus": "ranger_scout_sniper_focus"
+    },
+    "ranger.patrolman": {
+      "basic": "ranger_melee_attack",
+      "first block (optional)": "combat_block_contact"
+    },
+    "ranger.combat_medic": {
+      "automatic heal": "ranger_combat_medic_heal",
+      "Emergency Treatment": "ranger_combat_medic_treatment"
+    },
+    "ranger.guard_veteran": {
+      "frontal basic": "ranger_guard_attack",
+      "Stun prod": "ranger_guard_veteran_stun_prod"
+    },
+    "ranger.woods_tracker": {
+      "basic": "ranger_melee_attack",
+      "successful deploy net": "ranger_woods_tracker_net",
+      "retreat and refund": "combat_retreat"
+    },
+    "ranger.barricade_ops": {
+      "frontal basic": "ranger_guard_attack",
+      "first block (optional)": "combat_block_contact"
+    },
+    "ranger.k9_ranger": {
+      "tranquilizer shot": "ranger_k9_ranger_attack",
+      "companion active Howl": "ranger_k9_ranger_howl"
+    },
+    "ranger.outpost_mechanic": {
+      "basic": "ranger_outpost_mechanic_attack",
+      "positive repair": "ranger_outpost_mechanic_repair"
+    },
+    "ranger.kenyalang_seer": {
+      "boomerang throw": "ranger_kenyalang_seer_attack",
+      "Scan": "ranger_kenyalang_seer_scan"
+    },
+    "ranger.crowd_controller": {
+      "basic splash": "ranger_crowd_controller_attack",
+      "Empowered EMP": "ranger_crowd_controller_emp"
+    },
+    "ranger.saboteurist": {
+      "basic": "ranger_melee_attack",
+      "retreat EMP": "ranger_saboteurist_emp_retreat"
+    },
+    "ranger.strike_team": {
+      "basic": "ranger_melee_attack",
+      "timer landing": "ranger_strike_team_arrival",
+      "voluntary retreat": "combat_retreat"
+    },
+    "companion.k9_ranger.dog": {
+      "successful companion Howl": "ranger_k9_ranger_howl"
+    },
+    "facility.logistics_post": {
+      "first instant Post": "combat_deploy",
+      "positive Post income": "combat_tokens"
+    },
+    "facility.medic_cabin": {
+      "stock first usable": "combat_skill_ready",
+      "kit used": "facility_medic_cabin_kit"
+    },
+    "facility.skill_relay_station": {
+      "actual new actionable ally charge": "combat_skill_ready"
+    },
+    "facility.dispatch_relay": {},
+    "facility.sonic_turret": {
+      "pulse attack": "facility_sonic_turret_attack"
+    },
+    "facility.electric_pulse_turret": {
+      "first accepted shot in burst": "facility_electric_pulse_turret_attack"
+    },
+    "facility.canopy_defense_launcher": {
+      "launch": "facility_canopy_defense_launcher_attack"
+    },
+    "facility.sentry_tower": {
+      "actual Ranger mounted (optional)": "facility_sentry_tower_mount"
+    },
+    "facility.firebreak_beacon": {},
+    "facility.specialist_calltower": {
+      "stock first usable": "combat_skill_ready",
+      "claim discount": "facility_specialist_calltower_claim"
+    },
+    "facility.ranger_coordination_hub": {},
+    "facility.reinforced_cover_station": {},
+    "facility.disruption_beacon": {},
+    "E01": {
+      "blocked basic": "enemy_melee_light"
+    },
+    "E02": {
+      "blocked basic": "enemy_melee_light"
+    },
+    "E03": {
+      "blocked basic": "enemy_melee_light",
+      "Sprint onset": "enemy_e03_sprint"
+    },
+    "E04": {
+      "blocked basic": "enemy_melee_heavy"
+    },
+    "E05": {
+      "ranged attack": "enemy_e05_attack"
+    },
+    "E06": {
+      "blocked basic": "enemy_melee_light",
+      "Smoke": "enemy_e06_smoke"
+    },
+    "E07": {
+      "ranged basic": "enemy_ranged_light",
+      "JAM resolve": "enemy_e07_jam"
+    },
+    "E08": {
+      "aerial ranged attack": "enemy_e08_attack"
+    },
+    "E09": {
+      "ranged basic": "enemy_ranged_light",
+      "attack slow resolves": "enemy_e09_track"
+    },
+    "E10": {
+      "ranged basic": "enemy_ranged_light",
+      "entangle lands": "enemy_e10_net"
+    },
+    "E11": {
+      "valid Siege impact": "enemy_e11_siege",
+      "committed windup optional": "combat_siege_telegraph"
+    },
+    "E12": {
+      "valid Siege impact": "enemy_e12_siege",
+      "committed windup optional": "combat_siege_telegraph"
+    },
+    "E13": {
+      "blocked basic": "enemy_melee_heavy",
+      "confirmed knockdown": "enemy_e13_breach"
+    },
+    "E14": {
+      "blocked basic": "enemy_melee_light",
+      "global overflow": "combat_heat_overflow"
+    },
+    "E15": {
+      "blocked basic": "enemy_melee_heavy",
+      "first in wave": "enemy_e15_priority_warning",
+      "fatal exit": "combat_fatal_escape"
+    },
+    "boss.diversion_captain": {
+      "intro": "boss_diversion_captain_intro",
+      "basic": "enemy_melee_heavy",
+      "70% and Poacher call": "boss_diversion_captain_phase",
+      "Story capture": "boss_diversion_captain_capture",
+      "fatal C1-05 exit": "combat_fatal_escape"
+    },
+    "boss.illegal_logging_foreman": {
+      "intro": "boss_illegal_logging_foreman_intro",
+      "basic": "boss_illegal_logging_foreman_attack",
+      "65% protection and Heat": "boss_illegal_logging_foreman_phase",
+      "alternate escape loss": "combat_integrity_loss",
+      "actual overflow": "combat_heat_overflow"
+    },
+    "boss.poacher_leader": {
+      "intro": "boss_poacher_leader_intro",
+      "basic": "enemy_melee_heavy",
+      "70% call": "boss_poacher_leader_phase_call",
+      "35% surge": "boss_poacher_leader_phase_surge",
+      "combat defeat": "boss_poacher_leader_defeated",
+      "fatal escape": "combat_fatal_escape"
+    }
+  }
+}
