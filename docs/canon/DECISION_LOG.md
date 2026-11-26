@@ -369,3 +369,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - The anchor tile is selected by a validated drag. Direction-dependent Rangers require explicit left/right selection and Deploy. The existing placement transaction owns cost, cooldown, footprints and locked direction. Pending input clears on restart, combat interruption, focus loss or Android Back. The combat clock continues during the choice. [C34 issue register and test evidence](../qa/C34_ANDROID_STABILIZATION.md)
 - Android browsing uses larger, scrollable touch surfaces and fixed high-priority actions. Short moves inside a scroll deadzone can still register taps. Existing W29 art, Campaign/Chaos rules and the local save schema stay in use. Physical handset crash acceptance requires a reproducible trace and a repeated drag test. [Android verification procedure](../../export/README.md#c34-android-deployment-and-performance-checks)
+
+### C35 Chapter 1 and Headquarters onboarding · 2026-11-26
+
+- Chapter 1 uses five operation-specific planning lessons and default-on in-battle coaching. The player may turn off live prompts per plan and reread the current lesson from Pause → Controls. Tutorial cues share the existing combat clock and impose no placement or progression gates. Headquarters uses a repeatable tutorial with room links and the usual purchase confirmations. These choices require no save migration.
+- Chapter 1 positive inter-wave breaks change from 25 to 18 seconds in C1-01 through C1-03 and from 22 to 16 in C1-04 and C1-05. Opening preparation and each enemy's within-wave spawn interval keep their existing values. [Measured Campaign comparison](../qa/C35_PLAYER_ONBOARDING.md#pacing-and-actual-combat)
