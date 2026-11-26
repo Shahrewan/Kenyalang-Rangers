@@ -100,7 +100,7 @@ func _play_fixture(app: Control) -> void:
 	var board := field._board
 	var art := board.first_contact_field
 	var state := battle.deployment
-	_check(art != null and field._portrait.illustrated and not board.show_starter_guide
+	_check(art != null and field._portrait.illustrated
 		and not state.rules.starter_only and state.rules.yield_percent == 100 and battle.effects.amount(&"enemy_speed_percent") == 10.0,
 		"C1-02 uses illustrated T01, an ordinary Post and D02 enemy speed")
 	_check(field._portrait.identity == "portrait.leader" or field._portrait.identity == "portrait.manager", "Opening uses a shared radio portrait")
@@ -190,7 +190,7 @@ func _play_fixture(app: Control) -> void:
 		and states.has(&"Defeat") and vertical_facing and faction_facing.has(1.0) and near_fist,
 		"E02 walks, holds its facing through the turn, blocks, strikes from the fist, takes hits and falls")
 	_check(queue.is_empty() and battle.integrity == 90 and battle.defeated == 17 and battle.escaped == 1
-		and battle.clock.tick == 8169 and battle.outcome == BattleSimulation.Outcome.WON and not battle.is_perfect(),
+		and battle.clock.tick == 7749 and battle.outcome == BattleSimulation.Outcome.WON and not battle.is_perfect(),
 		"Fixture resolves at tick %d with %d defeated, %d escaped and %d Integrity" % [battle.clock.tick, battle.defeated, battle.escaped, battle.integrity])
 	_check(terminal.size() == 18 and not terminal.values().has(false) and tested_occlusion,
 		"All 18 enemies receive exactly one matching terminal visual")

@@ -16,7 +16,7 @@ var preview_facing := 0
 var preview_badge: Texture2D
 var preview_locked := false
 var first_contact_field: FirstContactField
-var show_starter_guide := false
+var tutorial_cells: Array[Vector2i] = []
 
 func illustrate_first_contact(skin: FirstContactSkin, stage_id: StringName) -> void:
 	if is_instance_valid(first_contact_field):
@@ -250,11 +250,12 @@ func _draw_gate(at: Vector2, cell: float, label: String, color: Color) -> void:
 
 
 func _draw_deployments() -> void:
-	if first_contact_field != null and show_starter_guide and preview_spec == null and deployments.posts_deployed == 0 and battle.clock.is_running():
-		var post := DeployableLevels.definition(&"facility.logistics_post")
-		if deployments.placement_error(post, Vector2i(1, 0)).is_empty():
-			for cell: Vector2i in post.footprint(Vector2i(1, 0)):
-				first_contact_field.terrain("KRT_51", _tile_rect(cell))
+	if not preview_locked and battle != null and battle.clock.is_running():
+		for cell in tutorial_cells:
+			var bounds := _tile_rect(cell)
+			if first_contact_field != null:
+				first_contact_field.terrain("KRT_51", bounds)
+			draw_rect(bounds.grow(-1.0), Color("#ffe195"), false, 4.0)
 	if preview_spec != null and not preview_locked:
 		var candidates := battle_map.ground if preview_spec.uses_ground() else battle_map.elevated
 		for cell in candidates:

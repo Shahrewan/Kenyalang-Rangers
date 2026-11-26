@@ -2,8 +2,10 @@ extends VBoxContainer
 
 signal planning_requested
 signal story_requested
+signal training_room_requested(id: StringName)
 
 var report: Dictionary
+var training_room: StringName
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 16)
@@ -52,6 +54,12 @@ func _ready() -> void:
 		rewards.add_child(StoryUI.label("Provisional credit   +%d Funds" % (report.clear_funds + report.perfect_funds), 21, StoryUI.AMBER))
 	else:
 		rewards.add_child(StoryUI.label("No Funds awarded for defeat.", 21))
+	if not training_room.is_empty():
+		_add_training_room(rewards)
+	elif not successful and OnboardingGuide.MISSIONS.has(report.stage_id):
+		var pages: Array = OnboardingGuide.MISSIONS[report.stage_id]
+		rewards.add_child(StoryUI.label("Try again", 23, StoryUI.AMBER))
+		rewards.add_child(StoryUI.label(pages[0][1], 20))
 
 	var footer := StoryUI.row(self, 12)
 	var story := StoryUI.action("Back to Story")
@@ -68,6 +76,18 @@ func _ready() -> void:
 	retry.pressed.connect(func() -> void: planning_requested.emit())
 	footer.add_child(retry)
 	retry.grab_focus()
+
+func _add_training_room(panel: VBoxContainer) -> void:
+	var mechanical := training_room == HeadquartersCatalog.MECHANICAL
+	var instruction := "Build Mechanical with Funds, then equip Logistics Post in Hold the Line."
+	if not mechanical:
+		instruction = "Upgrade Control Room to Level 2 to open Watch the Ridge."
+	panel.add_child(StoryUI.label(instruction, 20, StoryUI.AMBER))
+	var next := StoryUI.action("Open Mechanical" if mechanical else "Open Control Room", true)
+	next.name = "OpenTrainingRoom"
+	next.custom_minimum_size.y = 64
+	next.pressed.connect(func() -> void: training_room_requested.emit(training_room))
+	panel.add_child(next)
 
 func _campaign_rewards(panel: VBoxContainer) -> void:
 	var settlement: Dictionary = report.settlement

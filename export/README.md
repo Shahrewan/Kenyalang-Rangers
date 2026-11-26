@@ -384,3 +384,20 @@ Use the same phone, build identity, quality settings and scenario for before/aft
 - Use Perfetto or the Android Studio System Trace with the game's SurfaceFlinger frame timeline on Android 12 or later. Measure sustained FPS and p50/p95/p99 frame intervals on the game surface. Android View hierarchy timings alone do not measure Godot rendering.
 - Use `adb shell dumpsys meminfo com.shahrewan.kenyalangrangers.dev` at the same point in each paired scenario to compare total PSS. Measure cold launch and transitions separately. Record any PID change, ANR or system exit reason after dragging.
 - After checking the production game, repeat the profile-continuity journey in airplane mode. Background, lock and reopen during a drag, facing selection and a paused operation, and verify the exact combat tick and saved progress when returning. Physical touches, emulator input and host gameplay tests are separate evidence.
+
+## C35 Chapter 1 and Headquarters onboarding
+
+From the repository root, use the same pinned toolchain and debug signing identity as C34. Compare signing certificates before updating a returning phone. Use a separate Android user or test device for the new-Leader journey so the returning profile stays available.
+
+```sh
+./.android/godot-android --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c35-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c35-debug.apk
+```
+
+1. In airplane mode, open First Contact from Story. Read the planning steps and either Continue or Skip the briefing. Drag the card marked **Free** across the two gold tiles. Watch the Token cue advance to Scout and then Patrolman. Drop Patrolman on the marked path tile, use **Face left**, and tap **Deploy**. Check pause, resume and the 18-second break. Repeat the lesson from **Pause → Controls**.
+2. Clear First Contact and use **Open Mechanical**. On a fresh test profile, check the balance and confirm the build. Return to Hold the Line and equip Logistics Post. Repeat a battle on a returning profile with **Show in-battle coaching** off to verify the replay and existing save.
+3. Follow Narrow Escape's Medic, skill and Retreat lessons, and check the Control Room link on the result if the room is below Level 2. Verify the 16-second breaks in C1-04 and C1-05 and the Fixed Stockpile opening in C1-05.
+4. Open **HQ tutorial**, tap through the five steps, open a department and return normally. Repeat at 130% text. Record the phone, APK SHA-256, touch results and any step that a new player could not complete without help.
+
+The C35 APK was checked off-device. Physical installation and first-time usability for this candidate remain open. [C35 QA report](../docs/qa/C35_PLAYER_ONBOARDING.md)

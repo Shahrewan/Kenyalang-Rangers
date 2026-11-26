@@ -47,8 +47,8 @@
       "kind": "standard",
       "source_count": 6,
       "queued_count": 6,
-      "base_rest_after_seconds": 25,
-      "effective_rest_after_seconds_for_qa": 25,
+      "base_rest_after_seconds": 18,
+      "effective_rest_after_seconds_for_qa": 18,
       "effective_interval_seconds_for_qa": 3.5,
       "groups": [{"enemy_id": "E01", "count": 6, "route_index": 0, "base_interval_seconds": 3.5}]
     },

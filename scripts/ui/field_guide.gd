@@ -2,10 +2,12 @@ class_name FieldGuide
 extends VBoxContainer
 
 signal closed
+signal room_requested(id: StringName)
 
 const CREDITS := "Credits and engine license"
 const ARTICLE_FRAME := preload("res://assets/imported/education/records/article_frame.png")
 const CONTROLS := "Battle controls"
+const HEADQUARTERS_TUTORIAL := "Headquarters tutorial"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
 const TOPICS := {
@@ -21,11 +23,12 @@ const REFERENCES := {
 }
 var catalog: EducationCatalog
 var initial_page := ""
+var training_id: StringName
 var _pages: Array[String] = []
 var _body: VBoxContainer
 
 func _ready() -> void:
-	StoryUI.header(self, "Field guide", back)
+	StoryUI.header(self, HEADQUARTERS_TUTORIAL if initial_page == HEADQUARTERS_TUTORIAL else "Field guide", back)
 	_body = StoryUI.scroll_column(self)
 	_body.get_parent().scroll_deadzone = 12
 	_open(initial_page if not initial_page.is_empty() else "FAQ")
@@ -66,10 +69,20 @@ func _render(id: String) -> void:
 		_body.add_child(StoryUI.label(Engine.get_license_text(), 18))
 		_body.add_child(StoryUI.label("Engine and third-party notices: https://godotengine.org/license/", 18))
 	elif id == CONTROLS:
+		var pages: Array = OnboardingGuide.MISSIONS.get(training_id, [])
+		if not pages.is_empty():
+			var lesson := OnboardingGuide.new()
+			lesson.pages = pages
+			_body.add_child(lesson)
 		_body.add_child(StoryUI.label(CONTROLS, 28))
 		_body.add_child(StoryUI.label(TOPICS[DEPLOY_TOPIC], 22))
 		_body.add_child(StoryUI.label(TOPICS[ESCAPE_TOPIC], 22))
 		_body.add_child(StoryUI.label("Resume continues the same operation. Use 1× or 2× to change combat speed.", 22))
+	elif id == HEADQUARTERS_TUTORIAL:
+		var tour := OnboardingGuide.new()
+		tour.pages = OnboardingGuide.HEADQUARTERS
+		tour.room_requested.connect(func(room_id: StringName) -> void: room_requested.emit(room_id))
+		_body.add_child(tour)
 	elif TOPICS.has(id):
 		_body.add_child(StoryUI.label(id, 26))
 		_body.add_child(StoryUI.label(TOPICS[id], 22))

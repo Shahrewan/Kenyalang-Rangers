@@ -352,3 +352,8 @@
 
 - Deployment now owns one physical touch and its generated mouse sequence. A valid melee drop exposes an explicit side choice and transactional Deploy, with the same clock, resource rules and W29 previews. The six directional Rangers, 13 Facilities and six other Rangers were exercised in the touch-event fixture.
 - Home, Story, Headquarters, Chaos, learning, Garden, Settings and combat layouts use larger actions and improved swipe behavior. The report distinguishes synthetic host input, APK payload, emulator and physical-device evidence. [Issue register and release checks](../qa/C34_ANDROID_STABILIZATION.md)
+
+### C35 · Chapter 1 and Headquarters onboarding · 2026-11-26
+
+- The five Story tutorials pair planning lessons with live field cues. First Contact marks the opening formation. Later lessons explain ordinary Posts, coverage, skills, Retreat, fixed effects and boss outcomes. First Contact and Narrow Escape results guide new players to their next required room. The HQ tutorial opens existing departments without making a purchase.
+- Opening delay and intra-wave spawn timing stay at the C34 values. Breaks are 18 seconds for C1-01 through C1-03 and 16 for C1-04 and C1-05. The fresh Campaign reproduced all 15 clears and the same wallet. [Tests, Android procedure and screenshots](../qa/C35_PLAYER_ONBOARDING.md)

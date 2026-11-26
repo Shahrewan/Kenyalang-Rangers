@@ -16,6 +16,7 @@ var _portrait := StoryPortrait.new()
 var _pose: Label
 var _visual_assets: CampaignVisualAssets
 var _epilogue_art: TextureRect
+var _coach: ChapterOneCoach
 
 func _prepare_campaign() -> void:
 	%MissionTitle.text = "%s · %s" % [stage.stage_id, operation_plan.operation.title]
@@ -69,10 +70,14 @@ func _open_operation() -> void:
 	_report.clear()
 	_seen_enemies.clear()
 	_placed_ranger = false
+	if OnboardingGuide.MISSIONS.has(stage.stage_id):
+		_coach = ChapterOneCoach.new(battle, stage, operation_plan.deployment_entries())
 	battle.before_wave_first_spawn.connect(func(wave: int) -> void:
 		_play_event({"event": "before_wave_first_spawn", "wave": wave})
 	)
 	battle.wave_resolved.connect(func(wave: int) -> void:
+		if _coach != null:
+			_coach.rest_started(wave)
 		_play_event({"event": "wave_resolved", "wave": wave})
 	)
 	battle.enemy_spawned.connect(func(_serial: int, id: StringName) -> void: _seen_enemies[id] = true)
@@ -149,6 +154,9 @@ func _render_line() -> void:
 		_epilogue_art.visible = _epilogue_art.texture != null and _active_beat.trigger.event == "after_victory_dialogue"
 	var status := "" if _active_beat.get("status") == "approved_c26_placeholder" else "Draft dialogue · "
 	_pose.text = "Story paused" if _illustrated else "Story paused · %sPortrait placeholder · %s" % [status, String(line.pose_key).capitalize()]
+	if _coach != null and operation_plan.show_hints and _active_beat.trigger.event == "operation_opening":
+		var pages: Array = OnboardingGuide.MISSIONS[stage.stage_id]
+		_pose.text = "Story paused · Training · %s\nThe battlefield clock starts when the briefing closes." % pages[0][0]
 	%DialogueText.get_parent().scroll_vertical = 0
 	%DialogueText.text = line.text
 
@@ -171,7 +179,9 @@ func _update_campaign_tip() -> void:
 			_reported = true
 			_publish_result()
 		return
-	_board.show_starter_guide = stage.stage_id == &"C1-01" and _illustrated and operation_plan.show_hints
+	if _coach != null:
+		_update_training_tip()
+		return
 	if not operation_plan.show_hints or operation_plan.operation.hints.is_empty() or battle.clock.dialogue_open:
 		_tip.text = ""
 		return
@@ -202,6 +212,15 @@ func _update_campaign_tip() -> void:
 			_tip.text = hint.text
 			return
 	_tip.text = ""
+
+func _update_training_tip() -> void:
+	if not operation_plan.show_hints or not battle.clock.is_running():
+		_tip.text = ""
+		_board.tutorial_cells = []
+		return
+	var controller := %DeploymentController as Node
+	_tip.text = _coach.prompt(controller.selected_card(), controller.is_choosing_facing())
+	_board.tutorial_cells = _coach.cells
 
 func _publish_result() -> void:
 	var operation := operation_plan.operation

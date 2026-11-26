@@ -67,6 +67,13 @@ func _run() -> void:
 		and normal.settlement.first_clear and normal.settlement.awards == {"first_clear_funds": 60000}
 		and normal.settlement.credited == 60000 and normal.settlement.unlocked == [&"ranger.guard_veteran", &"facility.medic_cabin"],
 		"Ordinary clear settles both unlocks and its 60,000 award")
+	var control_link := app._screen.find_child("OpenTrainingRoom", true, false) as Button
+	_check(control_link != null and control_link.text == "Open Control Room", "Narrow Escape points to the next existing Control Room gate")
+	if control_link != null:
+		control_link.pressed.emit()
+		var room := app._screen as HeadquartersRoomPage
+		_check(room != null and room.definition.id == HeadquartersCatalog.CONTROL and progress.funds() == normal.balance,
+			"Control Room link opens the purchase screen without spending Funds")
 	_check(progress.adjust_developer_funds(DeployableLevels.TOTAL_COST) and progress.purchase_levels(POST, 100).is_empty(),
 		"The perfect replay uses the existing level-100 Logistics Post")
 	app.show_story()
