@@ -60,6 +60,8 @@ func _outreach() -> void:
 	await _room("outreach")
 	await _capture("outreach")
 	var page := _app._screen as OutreachPage
+	var sounds: Array[String] = []
+	page.sound_requested.connect(sounds.append)
 	_record_size("RefreshOutreach")
 	_record_size("OutreachAnswer0")
 	_record_size("OutreachPrompt1")
@@ -77,6 +79,7 @@ func _outreach() -> void:
 		_check(_button("RefreshOutreach").size.y < 100.0, "Outreach refresh fits its status row without wrapping")
 	var before: int = _app._campaign_progress.funds()
 	await _tap("OutreachAnswer%d" % best)
+	_check(sounds == ["outreach_response_positive"], "Accepted Best answer plays one grade cue")
 	_check(_app._campaign_progress.funds() == before + 60000 and _label("OutreachGrade") == "Best"
 		and _label("OutreachFundsChange") == "60,000 Funds credited", "Outreach touch settles the correct graded response")
 	_check(_button("RefreshOutreach").disabled and page._session.seconds_until_refresh(int(batch.refreshed_at)) == 20 * 3600
@@ -103,6 +106,8 @@ func _records() -> void:
 	_app._go_back()
 	await _tap("Chapter_scout_sniper")
 	var page := _app._screen as RecordsQuizPage
+	var sounds: Array[String] = []
+	page.sound_requested.connect(sounds.append)
 	page.set_process(false)
 	if not _baseline:
 		_check_answer_bounds("QuizAnswer", "Records")
@@ -136,6 +141,8 @@ func _records() -> void:
 		await _tap("ContinueQuiz")
 	_check(_label("QuizResult") == "Perfect chapter" and _label("QuizChapterFunds") == "50,000 Funds credited"
 		and _app._campaign_progress.funds() == before + 30000 * answer_count + 50000, "Records settles the perfect chapter and all correct answers")
+	_check(sounds.count("records_correct") == answer_count and sounds.count("records_first_perfect") == 1,
+		"Each accepted answer and the persisted first perfect emit one cue")
 	await _capture("records-result")
 	await _tap("CloseQuizResult")
 	_check(_app._screen is RecordsArchivePage, "Results return to Records")
@@ -144,6 +151,8 @@ func _garden() -> void:
 	_app.show_menu()
 	await _tap("Garden")
 	var page := _app._screen as HeadquartersGarden
+	var sounds: Array[String] = []
+	page.sound_requested.connect(sounds.append)
 	await _capture("garden")
 	_record_size("Plot2")
 	_record_size("ChooseSeed")
@@ -169,8 +178,10 @@ func _garden() -> void:
 	var before: int = _app._campaign_progress.funds()
 	await _tap("Plant_strangler_fig")
 	_check(page._plot().species == FIG and _app._campaign_progress.funds() == before, "Planting a seed from the large card is free")
+	page.notification(Node.NOTIFICATION_APPLICATION_PAUSED)
 	_now += RestorationRules.midpoint(FIG)
 	await _settle_layout()
+	_check(not sounds.has("restoration_growth_ready"), "Catching up growth after suspension stays quiet")
 	await _capture("garden-water")
 	_record_size("WaterPlot")
 	var water := page._plot().duplicate()
@@ -182,6 +193,9 @@ func _garden() -> void:
 	await _tap("CollectPlot")
 	_check(page._plot().is_empty() and _app._campaign_progress.restoration_percent() == 20
 		and _app._campaign_progress.funds() == before + 53000, "Collect settles the cycle and milestone exactly once")
+	_check(sounds.count("restoration_plant") == 1 and sounds.count("water") == 1
+		and sounds.count("restoration_milestone") == 1 and not sounds.has("restoration_collect"),
+		"Garden settlement dispatches plant, water and milestone without a stacked collection")
 	await _capture("garden-receipt")
 
 func _guide() -> void:

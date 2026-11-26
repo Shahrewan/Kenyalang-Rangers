@@ -362,3 +362,8 @@
 
 - The canonical JSON and its CSV mirror specify 133 WAV files, 79 required, targeting 3.37 MB of mono PCM at the planned lengths. The Work batch lists and the entity audit document shared cues, fallback routing, silent mechanics and unmet integration hooks. [Production brief](audio/C36_SFX_PRODUCTION_BRIEF.md)
 - Preserving the known-good Android build is the primary requirement going forward. The manifest remains planning data outside the Android preset, and the baseline's game and audio source are retained.
+
+### C36-D · Audio acceptance and mobile integration · 2026-11-27
+
+- Both revision 2 batches passed independent WAV, hash and provenance checks. All 133 files are accepted, and the canonical manifest records measured properties and import modes. The runtime registry is the only SFX manifest shipped in the player.
+- Production signals drive a bounded SFX pool with semantic placement, tactical warnings and settled receipts. The C35 Campaign fixture results stayed identical. The signed candidate and device checks are in the report. [C36-D verification](../qa/C36_AUDIO_INTEGRATION.md)

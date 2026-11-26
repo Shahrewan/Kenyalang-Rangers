@@ -1,6 +1,7 @@
 class_name ModifierPicker
 extends VBoxContainer
 
+signal sound_requested(id: String)
 signal back_requested
 signal apply_requested
 
@@ -126,7 +127,7 @@ func _add_modifier(modifier: BattleModifier) -> void:
 	_reasons[modifier.id] = reason
 
 func _toggle(enabled: bool, modifier: BattleModifier) -> void:
-	plan.set_modifier(modifier, enabled)
+	sound_requested.emit("ui_toggle" if plan.set_modifier(modifier, enabled) else "ui_invalid")
 	_refresh()
 
 func _refresh() -> void:

@@ -401,3 +401,19 @@ adb install -r build/android/kenyalang-rangers-c35-debug.apk
 4. Open **HQ tutorial**, tap through the five steps, open a department and return normally. Repeat at 130% text. Record the phone, APK SHA-256, touch results and any step that a new player could not complete without help.
 
 The C35 APK was checked off-device. Physical installation and first-time usability for this candidate remain open. [C35 QA report](../docs/qa/C35_PLAYER_ONBOARDING.md)
+
+## C36-D sound effects candidate
+
+The C36-D build uses the existing ARM64 package identity and debug signer. Keep a known-good APK available before testing the update. After verifying certificates and authorizing USB debugging, use the existing development install and preserve its data.
+
+```sh
+./.android/godot-android --headless --path . --export-debug "Android Debug" build/android/kenyalang-rangers-c36d-debug.apk
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c36d-debug.apk
+```
+
+1. Check that the C35 profile opens, launch First Contact offline, and compare a successful placement, invalid drop, changed facing and Cancel. Close and resume the game during an active wave. Check that prior combat sounds do not return.
+2. Use device speakers and headphones at ordinary and high volume. Check the Music, SFX and Master controls independently. Listen through a dense 2× wave, Siege, Heat overflow and boss phases. Record overlap, clipping, unclear signals, the device model, Android version and the tested APK hash.
+3. Check Story and Chaos receipts, HQ purchases, Outreach grades, Records timeout and Restoration collection. Verify volume and progress after a cold restart. The same name and signer allow testing with an existing profile without resetting it.
+
+[C36-D audit and benchmarks](../docs/qa/C36_AUDIO_INTEGRATION.md)

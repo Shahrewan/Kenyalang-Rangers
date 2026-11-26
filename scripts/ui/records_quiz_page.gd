@@ -6,6 +6,8 @@ signal back_requested
 
 var progress: CampaignProgress
 var catalog: EducationCatalog
+var _heard_result := false
+var _heard_question := 0
 var quiz: RecordsQuiz
 var _clock: Label
 var _time_bar: ProgressBar
@@ -44,6 +46,8 @@ func _ready() -> void:
 	_notice.name = "QuizNotice"
 	add_child(_notice)
 	_footer = StoryUI.row(self)
+	if quiz.reviewing():
+		_heard_question = quiz.question_number()
 	quiz.view_changed.connect(_render)
 	_render()
 
@@ -58,10 +62,7 @@ func _toggle_pause() -> void:
 		quiz.pause()
 
 func _process(delta: float) -> void:
-	var was_reviewing := quiz.reviewing()
 	quiz.advance(delta)
-	if not was_reviewing and quiz.reviewing():
-		sound_requested.emit("education")
 	_update_clock()
 
 func _exit_tree() -> void:
@@ -118,12 +119,15 @@ func _ask() -> void:
 		_body.add_child(EducationUI.answer_button(item.choices[index].text, "QuizAnswer%d" % index, _answer.bind(index)))
 
 func _answer(index: int) -> void:
-	if quiz.answer(index):
-		sound_requested.emit("education")
+	quiz.answer(index)
 
 func _review() -> void:
 	var item := quiz.question()
 	var outcome := quiz.feedback()
+	if _heard_question != quiz.question_number():
+		_heard_question = quiz.question_number()
+		var cue := "records_time_expired" if outcome.choice < 0 else ("records_correct" if outcome.correct else "records_incorrect")
+		sound_requested.emit(cue)
 	var card := StoryUI.panel(_body, true)
 	var state := "Time expired" if outcome.choice < 0 else "Correct" if outcome.correct else "Incorrect"
 	var heading := StoryUI.label(state, 26, StoryUI.INK)
@@ -147,6 +151,9 @@ func _review() -> void:
 
 func _result() -> void:
 	var outcome := quiz.result
+	if not _heard_result:
+		_heard_result = true
+		sound_requested.emit("records_first_perfect" if outcome.first_perfect else "records_chapter_complete")
 	var card := StoryUI.panel(_body, true)
 	var heading := StoryUI.label("Perfect chapter" if outcome.correct == outcome.total else "Chapter complete", 28, StoryUI.INK)
 	heading.name = "QuizResult"

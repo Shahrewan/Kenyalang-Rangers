@@ -3,6 +3,9 @@ extends RefCounted
 
 signal enemy_spawned(id: int, definition_id: StringName)
 signal enemy_resolved(id: int, escaped: bool)
+signal enemy_outcome_presented(enemy: BattleEnemy, escaped: bool, integrity_lost: bool)
+signal block_contact_presented
+signal siege_windup_presented
 signal enemy_attack_presented(enemy: BattleEnemy)
 signal enemy_hit_presented(id: int)
 signal melee_hit_presented(id: int, from_cell: Vector2, hp_lost: int)
@@ -68,6 +71,7 @@ func _init(stage: BattleStage) -> void:
 	facility_combat = FacilityCombat.new(active)
 	facility_combat.hit.connect(damage_enemy)
 	_enemy_combat.hit.connect(_receive_enemy_hit)
+	_enemy_combat.siege_windup_presented.connect(siege_windup_presented.emit)
 	for wave in stage.waves:
 		if wave.groups.any(func(group: BattleSpawnGroup) -> bool: return group.count > 0):
 			_waves.append(wave)
@@ -93,6 +97,7 @@ func defeat_enemy(id: int) -> bool:
 		expected_enemy_count = defeated + escaped
 		_finish(Outcome.WON)
 	enemy_resolved.emit(id, false)
+	enemy_outcome_presented.emit(enemy, false, false)
 	if captured:
 		boss_captured.emit(id)
 		return true
@@ -210,8 +215,10 @@ func _step(tick: int, seconds: float) -> void:
 				escaped_boss_id = enemy.definition.enemy_id
 			if fatal:
 				fatal_escape_id = enemy.definition.enemy_id
+			var prior_integrity := integrity
 			lose_integrity(integrity if fatal else enemy.definition.escape_penalty)
 			enemy_resolved.emit(id, true)
+			enemy_outcome_presented.emit(enemy, true, integrity < prior_integrity)
 			if not clock.is_running():
 				return
 	if _group_index < _groups.size() and tick >= _next_spawn_tick:
@@ -304,6 +311,8 @@ func _advance_enemy(enemy: BattleEnemy, tick: int, seconds: float, block_counts:
 	if blocker != enemy.blocked_by:
 		enemy.blocked_by = blocker
 		enemy.next_attack_tick = tick + CombatClock.ticks_for(enemy.definition.attack_seconds)
+		if not blocker.is_empty():
+			block_contact_presented.emit()
 	if not blocker.is_empty():
 		block_counts[blocker] = int(block_counts.get(blocker, 0)) + 1
 		deployment.placed[blocker].blocking_count = block_counts[blocker]

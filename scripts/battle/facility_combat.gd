@@ -43,11 +43,16 @@ func _resource_pulse(unit: DeploymentState.Placement, deployment: DeploymentStat
 				if unit.stock > before:
 					unit.skill_ready_since = tick
 					action_presented.emit(unit, Vector2(unit.anchor), "heal" if spec.role == FacilitySpec.Role.MEDIC_CABIN else "wallet_credit")
+					if before == 0:
+						deployment.present_skill_readiness(unit)
 		FacilitySpec.Role.SKILL_RELAY:
 			for ally: DeploymentState.Placement in deployment.placed.values():
 				if ally.skill_recharge_tick > tick and _in_reach(unit.anchor, spec.attack_range, ally):
+					var was_empty := ally.skill_charges == 0
 					ally.skill_recharge_tick = maxi(tick, ally.skill_recharge_tick - reduction)
 					ally.recharge_skill(tick)
+					if was_empty and ally.skill_charges > 0:
+						deployment.present_skill_readiness(ally)
 					action_presented.emit(unit, Vector2(ally.anchor), "wallet_credit")
 		FacilitySpec.Role.DISPATCH_RELAY:
 			deployment.reduce_deployment_cooldowns(reduction)

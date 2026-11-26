@@ -46,6 +46,8 @@ func _run() -> void:
 	quit(0 if _failures == 0 else 1)
 
 func _first_contact() -> void:
+	var receipts: Array[String] = []
+	_app.presentation.cue_dispatched.connect(func(group: String, _path: String) -> void: receipts.append(group))
 	var naming: Control = _app._screen
 	var edit := naming.find_children("*", "LineEdit", true, false).front() as LineEdit
 	edit.text = "Rimba"
@@ -66,6 +68,8 @@ func _first_contact() -> void:
 	var controller := field.get_node("%DeploymentController")
 	var sim := field.battle
 	var state := sim.deployment
+	var audio: Array[String] = []
+	field.sound_requested.connect(audio.append)
 	_check(field._board.cell_at(Vector2(INF, 30)) == DeploymentState.NO_CELL
 		and field._board.cell_at(Vector2(-1.0e24, 30)) == DeploymentState.NO_CELL,
 		"Invalid and extreme pointer coordinates stay outside the integer grid")
@@ -95,7 +99,9 @@ func _first_contact() -> void:
 	_advance(field, 1800)
 	var before := state.tokens
 	var anchor := Vector2i(6, 3)
+	audio.clear()
 	await _drop(field, PATROL, anchor, 0.29)
+	_check(not audio.has("combat_deploy"), "Pending melee touch never cues deployment")
 	_check(controller._facing_picker.visible and controller._deploy_button.disabled and controller._pending_facing == 0
 		and field._board.preview_coverage().is_empty(), "Right-half drop asks for an explicit choice with no ghost direction selected")
 	_check(state.tokens == before and state.cooldown_ticks(PATROL) == 0 and not state.occupancy.has(anchor),
@@ -108,11 +114,13 @@ func _first_contact() -> void:
 		and controller._face_right.button_pressed, "Right option mirrors the ghost and highlights the right attack tile")
 	await _capture("face-right")
 	await _tap(controller._face_left)
+	_check(audio.count("combat_facing_select") == 2 and not audio.has("combat_deploy"), "Each changed direction cues a detent only")
 	_check(field._board.preview_coverage() == [anchor + Vector2i.LEFT] and field._board.preview_facing == -1
 		and controller._face_left.button_pressed and not controller._face_right.button_pressed,
 		"Left option changes preview and selected button before confirmation")
 	await _capture("face-left")
 	await _tap(controller._dismiss_facing)
+	_check(audio.has("ui_cancel") and not audio.has("combat_deploy"), "Cancel gives feedback without a committed cue")
 	_check(not controller._facing_picker.visible and state.tokens == before and not state.occupancy.has(anchor),
 		"Cancel clears the ghost without a charge")
 	await _drop(field, PATROL, anchor)
@@ -128,6 +136,7 @@ func _first_contact() -> void:
 	await _drop(field, PATROL, anchor)
 	await _tap(controller._face_left)
 	await _tap(controller._deploy_button)
+	_check(audio.count("combat_deploy") == 1, "Real facing confirmation emits exactly one committed cue")
 	_check(state.placed.has(PATROL) and state.placed[PATROL].facing == -1
 		and state.tokens == before - state.placed[PATROL].paid_cost and state.cooldown_ticks(PATROL) > 0,
 		"Confirm spends exactly once and locks the explicitly selected facing")
@@ -145,6 +154,9 @@ func _first_contact() -> void:
 	_check(_app._route == &"results" and sim.defeated == 14 and sim.escaped == 0
 		and sim.integrity == 100 and _app._campaign_progress.funds() == 25000,
 		"Real First Contact play reaches the perfect-clear result and credits 15,000 Funds")
+	_app.presentation._process(0.0)
+	_check(receipts.count("result_perfect_clear") == 1 and not receipts.has("result_victory"),
+		"Story perfect clear dispatches its own receipt once")
 	await _capture("first-contact-result")
 
 func _all_deployables() -> void:

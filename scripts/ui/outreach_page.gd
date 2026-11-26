@@ -38,7 +38,7 @@ func _ready() -> void:
 	status.add_child(_timer)
 	_refresh = EducationUI.large_action(StoryUI.action("Refresh batch"))
 	_refresh.name = "RefreshOutreach"
-	_refresh.pressed.connect(_open_batch)
+	_refresh.pressed.connect(_open_batch.bind(true))
 	status.add_child(_refresh)
 	_tabs = StoryUI.row(self)
 	var columns := EducationUI.activity_body(self)
@@ -60,13 +60,15 @@ func _ready() -> void:
 	_session = OutreachSession.new(progress, catalog)
 	_open_batch()
 
-func _open_batch() -> void:
+func _open_batch(explicit := false) -> void:
 	_show_notice("")
 	var before: int = int(_session.batch().refreshed_at)
 	if not catalog.outreach.is_empty() and not _session.refresh(_now()):
 		_show_notice("Could not open the batch. Check local storage and retry.")
 	if int(_session.batch().refreshed_at) != before:
 		_selected = ""
+		if explicit:
+			sound_requested.emit("outreach_batch_refresh")
 	_render()
 
 func _render() -> void:
@@ -147,10 +149,12 @@ func _submit(question: String, option: int) -> void:
 		_open_batch()
 		_show_notice("That batch ended. Choose a response in the new batch.")
 		return
-	if _session.submit(question, option, now).is_empty():
+	var response := _session.submit(question, option, now)
+	if response.is_empty():
+		sound_requested.emit("ui_save_problem")
 		_show_notice("Could not save this response. Check local storage and retry.")
 	else:
-		sound_requested.emit("education")
+		sound_requested.emit("outreach_response_positive" if response.grade in ["best", "acceptable"] else "outreach_response_reflect")
 		_show_notice("")
 		_render()
 

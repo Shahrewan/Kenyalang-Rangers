@@ -1,6 +1,8 @@
 class_name DeployableUpgradePage
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal back_requested
 
 const PORTRAIT := preload("res://scripts/ui/deployment_portrait.gd")
@@ -217,6 +219,7 @@ func _footprint() -> String:
 func _ask() -> void:
 	var quote := progress.level_quote(definition.id, _target)
 	if not quote.error.is_empty():
+		sound_requested.emit("ui_invalid")
 		_notice.text = quote.error
 		_notice.show()
 		return
@@ -227,6 +230,12 @@ func _ask() -> void:
 	_dialog.get_cancel_button().grab_focus()
 
 func _purchase() -> void:
+	var previous := progress.deployable_level(definition.id)
 	var error := progress.purchase_levels(definition.id, _target)
+	if error.is_empty():
+		var milestone := floori(_target / 20.0) > floori(previous / 20.0)
+		sound_requested.emit("progression_level_milestone" if milestone else "progression_level_purchase")
+	else:
+		sound_requested.emit("ui_invalid")
 	_notice.text = "Reached Level %d." % _target if error.is_empty() else error
 	_set_target(progress.deployable_level(definition.id) + 1 if error.is_empty() else _target)

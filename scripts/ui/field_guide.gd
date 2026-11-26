@@ -1,6 +1,8 @@
 class_name FieldGuide
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal closed
 signal room_requested(id: StringName)
 
@@ -73,6 +75,7 @@ func _render(id: String) -> void:
 		if not pages.is_empty():
 			var lesson := OnboardingGuide.new()
 			lesson.pages = pages
+			lesson.step_changed.connect(sound_requested.emit.bind("ui_notice"))
 			_body.add_child(lesson)
 		_body.add_child(StoryUI.label(CONTROLS, 28))
 		_body.add_child(StoryUI.label(TOPICS[DEPLOY_TOPIC], 22))
@@ -81,6 +84,7 @@ func _render(id: String) -> void:
 	elif id == HEADQUARTERS_TUTORIAL:
 		var tour := OnboardingGuide.new()
 		tour.pages = OnboardingGuide.HEADQUARTERS
+		tour.step_changed.connect(sound_requested.emit.bind("ui_notice"))
 		tour.room_requested.connect(func(room_id: StringName) -> void: room_requested.emit(room_id))
 		_body.add_child(tour)
 	elif TOPICS.has(id):
