@@ -165,6 +165,11 @@ func _render_campaign_plan() -> void:
 	var operation := _draft.operation
 	var access := func() -> void: _open_headquarters(_show_campaign_plan.bind(operation))
 	_present_playable_plan(_draft, show_story, access, _start_campaign, _render_campaign_plan)
+	_screen.training_room_requested.connect(_open_training_room.bind(_show_campaign_plan.bind(operation)))
+
+func _open_training_room(id: StringName, back: Callable) -> void:
+	_headquarters_return = back
+	_show_hq_room(CampaignProgress.HEADQUARTERS.room(id))
 
 func _show_trial_plan() -> void:
 	if _trial_plan == null:
@@ -360,6 +365,7 @@ func _show_headquarters() -> void:
 	page.progress = _campaign_progress
 	page.back_requested.connect(_headquarters_return)
 	page.room_requested.connect(_show_hq_room)
+	page.tutorial_requested.connect(_open_guide.bind(FieldGuide.HEADQUARTERS_TUTORIAL))
 	page.chaos_requested.connect(show_chaos.bind(_open_headquarters.bind(_headquarters_return)))
 	_present(page, &"headquarters", _headquarters_return)
 
@@ -567,6 +573,12 @@ func _show_results(report: Dictionary) -> void:
 		page.planning_requested.connect(show_planning)
 	else:
 		page.planning_requested.connect(_show_campaign_plan.bind(_draft.operation))
+		if report.outcome != "Defeat" and not report.save_failed:
+			if report.stage_id == &"C1-01" and _campaign_progress.room_level(HeadquartersCatalog.MECHANICAL) == 0:
+				page.training_room = HeadquartersCatalog.MECHANICAL
+			elif report.stage_id == &"C1-03" and _campaign_progress.room_level(HeadquartersCatalog.CONTROL) < 2:
+				page.training_room = HeadquartersCatalog.CONTROL
+		page.training_room_requested.connect(_open_training_room.bind(show_story))
 	page.story_requested.connect(show_story)
 	_present(page, &"results")
 	presentation.cue("defeat" if report.outcome == "Defeat" else "victory")
@@ -602,8 +614,16 @@ func _open_guide(initial_page: String) -> void:
 	_guide = FieldGuide.new()
 	_guide.catalog = _education()
 	_guide.initial_page = initial_page
+	if _screen is CampaignBattle:
+		_guide.training_id = _screen.stage.stage_id
 	_guide.closed.connect(_close_guide)
+	if _screen is HeadquartersOverview:
+		_guide.room_requested.connect(_open_room_from_tour)
 	_open_overlay(_guide)
+
+func _open_room_from_tour(id: StringName) -> void:
+	_close_guide()
+	_show_hq_room(CampaignProgress.HEADQUARTERS.room(id))
 
 func _close_guide() -> void:
 	_close_overlay(_guide)

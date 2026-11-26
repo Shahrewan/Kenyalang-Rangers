@@ -4,6 +4,7 @@ extends VBoxContainer
 signal back_requested
 signal room_requested(room: HeadquartersRoom)
 signal chaos_requested
+signal tutorial_requested
 
 const CHAOS_RECT := Rect2(167, 620, 280, 76)
 const SCORE_RECT := Rect2(957, 618, 167, 64)
@@ -24,6 +25,13 @@ func _ready() -> void:
 	add_theme_constant_override("separation", 6)
 	var back := StoryUI.header(self, "Headquarters", func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
 	back.custom_minimum_size.y = 64
+	var tutorial := StoryUI.action("HQ tutorial", true)
+	tutorial.name = "OpenHeadquartersTutorial"
+	tutorial.custom_minimum_size.y = 64
+	tutorial.pressed.connect(func() -> void: tutorial_requested.emit())
+	var header := back.get_parent()
+	header.add_child(tutorial)
+	header.move_child(tutorial, header.get_child_count() - 2)
 	_catalog = HeadquartersArt.new()
 	if _catalog.rooms.size() != CampaignProgress.HEADQUARTERS.rooms.size():
 		_show_room_list()

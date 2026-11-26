@@ -4,6 +4,7 @@ signal back_requested
 signal start_requested
 signal access_requested
 signal modifiers_requested
+signal training_room_requested(id: StringName)
 
 var plan: OperationPlan
 var funds := 0
@@ -27,6 +28,18 @@ func _ready() -> void:
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var tactics := StoryUI.scroll_column(content)
 	(tactics.get_parent() as ScrollContainer).size_flags_stretch_ratio = 1.45
+	var pages: Array = OnboardingGuide.MISSIONS.get(operation.stage.stage_id, [])
+	if operation.campaign_spec and not plan.chaos and not pages.is_empty():
+		var training := OnboardingGuide.new()
+		training.name = "MissionLesson"
+		training.pages = pages
+		tactics.add_child(training)
+		if operation.stage.stage_id == &"C1-02" and plan.facility_limit == 0:
+			var mechanical := StoryUI.action("Open Mechanical", true)
+			mechanical.name = "TutorialMechanical"
+			mechanical.custom_minimum_size.y = 64
+			mechanical.pressed.connect(func() -> void: training_room_requested.emit(HeadquartersCatalog.MECHANICAL))
+			tactics.add_child(mechanical)
 	if operation.campaign_spec:
 		_add_modifiers(tactics)
 	_loadout = LoadoutPicker.new()
@@ -89,7 +102,7 @@ func _add_modifiers(parent: Control) -> void:
 			_fixed_labels[id] = details
 		if not operation.hints.is_empty():
 			var hints := CheckBox.new()
-			hints.text = "Show tutorial hints"
+			hints.text = "Show in-battle coaching"
 			hints.button_pressed = plan.show_hints
 			hints.toggled.connect(func(enabled: bool) -> void: plan.show_hints = enabled)
 			fixed.add_child(hints)

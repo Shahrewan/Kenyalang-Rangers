@@ -203,6 +203,9 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 func selected_card() -> DeploymentSpec:
 	return _gesture.dragging
 
+func is_choosing_facing() -> bool:
+	return _pending_spec != null
+
 func can_afford_ranger() -> bool:
 	for spec: DeploymentSpec in _offered.values():
 		if spec.is_ranger() and state.cost_for(spec) <= state.tokens and state.cooldown_ticks(spec.id) == 0:

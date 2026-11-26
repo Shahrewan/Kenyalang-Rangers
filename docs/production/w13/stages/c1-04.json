@@ -34,8 +34,8 @@
       "kind": "standard",
       "source_count": 10,
       "queued_count": 10,
-      "base_rest_after_seconds": 22,
-      "effective_rest_after_seconds_for_qa": 22,
+      "base_rest_after_seconds": 16,
+      "effective_rest_after_seconds_for_qa": 16,
       "effective_interval_seconds_for_qa": 2.5,
       "groups": [
         {"enemy_id": "E02", "count": 4, "route_index": 0, "base_interval_seconds": 2.5},
@@ -49,8 +49,8 @@
       "kind": "standard",
       "source_count": 12,
       "queued_count": 12,
-      "base_rest_after_seconds": 22,
-      "effective_rest_after_seconds_for_qa": 22,
+      "base_rest_after_seconds": 16,
+      "effective_rest_after_seconds_for_qa": 16,
       "effective_interval_seconds_for_qa": 2.5,
       "groups": [
         {"enemy_id": "E02", "count": 3, "route_index": 0, "base_interval_seconds": 2.5},
@@ -97,7 +97,7 @@
     {
       "id": "hint.c1_04.facing",
       "condition": "first_ground_ranger_selected",
-      "text": "Choose left or right before dropping a melee Ranger. That direction stays locked.",
+      "text": "Drop a melee Ranger on a legal tile, choose Face left or Face right, then tap Deploy. That direction stays locked.",
       "status": "approved_c26_placeholder"
     },
     {
