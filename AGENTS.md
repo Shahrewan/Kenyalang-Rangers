@@ -3,6 +3,9 @@
 ## Mission
 Build the complete Kenyalang Rangers single-player, offline, Android-landscape game in Godot 4 with GDScript. Work incrementally through the approved milestone prompts and keep the project launchable after every change.
 
+## Stable Android baseline
+Preserving the currently stable Android build is the first priority for every milestone. Keep the last known-good signed APK available and check candidates against it for startup, touch, lifecycle, gameplay and save continuity where relevant. Keep the existing package and signing identity for compatible updates. Record host, exported-resource and actual handset evidence separately. A candidate with a demonstrated regression stays out of the stable build until the affected behavior passes again.
+
 ## Sources and precedence
 1. User-approved explicit decisions recorded in `docs/canon/DECISION_LOG.md`.
 2. Approved canonical rules in `docs/canon/GAME_RULES.md` and associated data contracts.

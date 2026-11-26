@@ -374,3 +374,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - Chapter 1 uses five operation-specific planning lessons and default-on in-battle coaching. The player may turn off live prompts per plan and reread the current lesson from Pause → Controls. Tutorial cues share the existing combat clock and impose no placement or progression gates. Headquarters uses a repeatable tutorial with room links and the usual purchase confirmations. These choices require no save migration.
 - Chapter 1 positive inter-wave breaks change from 25 to 18 seconds in C1-01 through C1-03 and from 22 to 16 in C1-04 and C1-05. Opening preparation and each enemy's within-wave spawn interval keep their existing values. [Measured Campaign comparison](../qa/C35_PLAYER_ONBOARDING.md#pacing-and-actual-combat)
+
+### Stable Android baseline and C36-A SFX preparation · 2026-11-26
+
+- The owner makes preservation of the current stable Android build the primary constraint for all remaining milestones. Keep a known-good compatible APK available and verify candidates against it. Record handset evidence separately from host and payload checks. [Repository operating rules](../../AGENTS.md)
+- C36-A specifies future one-shot SFX and preserves all 16 legacy cue IDs through direct replacement and procedural fallback. Batch A is interface, progression and activity feedback. Batch B is combat. The production manifest is outside the shipping preset. Asset production, instrumentation, and device approval belong to subsequent integration. [Brief and runtime hook audit](../production/audio/C36_SFX_PRODUCTION_BRIEF.md)
