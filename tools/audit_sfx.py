@@ -6,6 +6,7 @@ import io
 import json
 import math
 from pathlib import Path
+import re
 import shutil
 import struct
 import subprocess
@@ -19,6 +20,7 @@ SCALE = 32768
 QUIET_DB = -56
 QUIET = SCALE * 10 ** (QUIET_DB / 20)
 SOURCES = {"https://opengameart.org/node/86682", "https://kenney.nl/assets/impact-sounds"}
+FREESOUND_RECORDING = re.compile(r"https://freesound\.org/people/[A-Za-z0-9_.-]+/sounds/[0-9]+/?")
 
 
 def digest(data):
@@ -72,13 +74,18 @@ def measure(path, specification, ffmpeg=None):
         raise ValueError(f"{duration:.3f} ms exceeds the canonical duration maximum")
     leading = round(1000 * active[0] / rate, 6)
     trailing = round(1000 * (frames - active[-1] - 1) / rate, 6)
-    if leading > 30 or trailing > min(110, duration * 0.55):
+    file_hash = digest(raw)
+    trailing_limit = min(110, duration * 0.55)
+    exception = specification.get("acceptance_exception", {})
+    if exception.get("sha256") == file_hash:
+        trailing_limit = exception["max_trailing_quiet_ms"]
+    if leading > 30 or trailing > trailing_limit:
         raise ValueError(f"excessive quiet edges ({leading:.1f} / {trailing:.1f} ms)")
     return {
         "encoding": "pcm_s16le", "sample_rate_hz": rate, "channel_count": channels,
         "bit_depth": depth, "sample_frames": frames, "actual_duration_ms": round(duration, 6),
         "target_delta_ms": round(duration - specification["target_duration_ms"], 6),
-        "size_bytes": len(raw), "sha256": digest(raw), "pcm_sha256": digest(pcm),
+        "size_bytes": len(raw), "sha256": file_hash, "pcm_sha256": digest(pcm),
         "sample_peak_dbfs": db(peak), "rms_dbfs": db(math.sqrt(sum(s * s for s in samples) / frames)),
         "clipped_samples": clipped, "quiet_threshold_dbfs": QUIET_DB,
         "leading_below_threshold_ms": leading, "trailing_below_threshold_ms": trailing,
@@ -90,22 +97,30 @@ def verify_delivery(folder, canonical, used, receipts):
     actual_path, = folder.glob("*_actual_manifest.json")
     actual = json.loads(actual_path.read_text())
     delivered = set()
-    bank_path = folder / "synthesis_source/foley_bank"
+    bank_path = folder / "synthesis_source/bank"
+    if not bank_path.is_dir():
+        bank_path = folder / "synthesis_source/foley_bank"
     bank = json.loads((bank_path / "bank_provenance.json").read_text())
     source_names = {}
     for sample in bank:
         name = sample["file"]
-        if (Path(name).name != name or sample["source"] not in SOURCES or sample["license"] != "CC0-1.0"
+        source = sample["source"]
+        known_source = source in SOURCES or FREESOUND_RECORDING.fullmatch(source)
+        key = sample["name"]
+        if (Path(name).name != name or not known_source or sample["license"] != "CC0-1.0"
                 or digest((bank_path / name).read_bytes()) != sample["bank_sha256"]
                 or not 0 <= sample["crop_start_s"] < sample["crop_end_s"]):
             raise ValueError(f"unverified source receipt {name}")
-        source_names[sample["name"]] = sample
+        if key in source_names or (key in receipts and receipts[key] != sample):
+            raise ValueError(f"duplicate or conflicting source receipt {key}")
+        source_names[key] = sample
     for item in actual["assets"]:
         key = item["cue_id"]
         spec = canonical[key]
         if key in used or actual["batch"].upper() != spec["batch"]:
             raise ValueError(f"duplicate cue or invalid batch for {key}")
-        compared = set(spec) - {"production_status", "measured_audio_properties", "provenance", "integration_status", "import_compression", "runtime_priority"}
+        compared = set(spec) - {"production_status", "measured_audio_properties", "provenance",
+                                "integration_status", "import_compression", "runtime_priority", "acceptance_exception"}
         if any(spec[k] != item.get(k) for k in compared):
             raise ValueError(f"canonical designation mismatch: {key}")
         record = item["measured_audio_properties"]
@@ -115,7 +130,7 @@ def verify_delivery(folder, canonical, used, receipts):
         path = folder / item["relative_filename"]
         delivered.add(path)
         used[key] = (path, record, {
-            "production": "Kenyalang Rangers original arrangement and procedural processing",
+            "production": item["provenance"],
             "revision": actual["revision"],
             "foley": names,
             "ledger": "docs/production/audio/C36_SFX_PROVENANCE.json",
@@ -221,13 +236,14 @@ def main():
             spec.update(production_status="accepted", measured_audio_properties=measured[cue], provenance=provenance)
         MANIFEST.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
         with MIRROR.open("w", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=list(manifest["assets"][0]), lineterminator="\n")
+            fields = list(dict.fromkeys(key for row in manifest["assets"] for key in row))
+            writer = csv.DictWriter(file, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             for row in manifest["assets"]:
                 writer.writerow({k: json.dumps(v, ensure_ascii=False) if isinstance(v, dict) else v for k, v in row.items()})
         ledger = MIRROR.with_name("C36_SFX_PROVENANCE.json")
         ledger.write_text(json.dumps(list(receipts.values()), indent=2, ensure_ascii=False) + "\n")
-        CATALOG.write_text(json.dumps(registry(manifest), separators=(",", ":")) + "\n")
+        CATALOG.write_text(json.dumps(registry(manifest), indent=2, ensure_ascii=False) + "\n")
     return 0
 
 

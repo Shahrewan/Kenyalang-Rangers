@@ -384,3 +384,7 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - Both revision 2 deliveries are accepted for the debug candidate. The 133 clips preserve their manifest identities and original mono PCM16 sources. Use PCM import for 121 clips and QOA for twelve longer boss/result clips. Keep the sixteen procedural fallback IDs and the existing background music. [Acceptance and storage evidence](../qa/C36_AUDIO_INTEGRATION.md)
 - Eight Android SFX voices, two reserved for critical feedback, use per-group retrigger rules, gain and a bounded stream cache. Presentation consumes existing combat and committed-save events. C35 remains the rollback baseline pending physical speaker and update testing. [Candidate procedure](../../export/README.md#c36-d-sound-effects-candidate)
+
+### C36 revision 3 SFX replacement · 2026-11-27
+
+- Both revision 3 deliveries are accepted for the Android candidate at their existing cue identities and import settings. The 110 ms Continue/Skip click retains its supplied PCM and has a hash-specific 69 ms quiet-tail limit. The stable APKs remain available pending handset review. [Revision 3 acceptance evidence](../qa/C36_SFX_REVISION_3.md)
