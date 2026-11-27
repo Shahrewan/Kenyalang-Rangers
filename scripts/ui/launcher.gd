@@ -103,7 +103,9 @@ func show_naming() -> void:
 		var saved := _progress.set_leader_name(value) if first_contact_trial else _campaign_progress.set_leader_name(value)
 		if saved:
 			show_menu()
+			presentation.cue("progression_profile_saved")
 		elif not value.strip_edges().is_empty():
+			presentation.cue("ui_save_problem")
 			page.feedback.text = "Could not save the Leader name. Check local storage."
 	)
 	_present(page, &"name")
@@ -337,6 +339,8 @@ func _start_chaos(review: Callable) -> void:
 	_present(page, &"chaos_battle")
 
 func _render_chaos_result(run: ChaosRun, review: Callable) -> void:
+	var retry: bool = _screen is ChaosResultsPage and _screen.run == run
+	var prior_thresholds: int = _campaign_progress.snapshot().chaos.earned_thresholds.size()
 	var page := ChaosResultsPage.new()
 	page.run = run
 	page.progress = _campaign_progress
@@ -354,7 +358,17 @@ func _render_chaos_result(run: ChaosRun, review: Callable) -> void:
 		review.call()
 	)
 	_present(page, &"chaos_results", page.request_back)
-	presentation.cue("victory" if run.qualifies() else "defeat")
+	if page.settlement.is_empty():
+		presentation.cue("ui_save_problem")
+	elif not run.qualifies():
+		if not retry:
+			presentation.cue("result_defeat")
+	elif _campaign_progress.snapshot().chaos.earned_thresholds.size() > prior_thresholds:
+		presentation.cue("result_chaos_trophy")
+	elif page.settlement.new_best:
+		presentation.cue("result_chaos_personal_best")
+	else:
+		presentation.cue("result_victory")
 
 func _open_headquarters(back: Callable) -> void:
 	_headquarters_return = back
@@ -471,6 +485,8 @@ func _show_recovery() -> void:
 		settings.pressed.connect(func() -> void: _show_settings(_show_recovery))
 		card.add_child(settings)
 	_present(page, &"recovery")
+	if not _campaign_progress.can_play():
+		presentation.cue("ui_save_problem")
 
 func _show_settings(back: Callable) -> void:
 	var page := _settings_page()
@@ -579,11 +595,36 @@ func _show_results(report: Dictionary) -> void:
 			elif report.stage_id == &"C1-03" and _campaign_progress.room_level(HeadquartersCatalog.CONTROL) < 2:
 				page.training_room = HeadquartersCatalog.CONTROL
 		page.training_room_requested.connect(_open_training_room.bind(show_story))
-	page.story_requested.connect(show_story)
+	var settlement: Dictionary = report.get("settlement", {})
+	var new_operation := _next_operation_available(report.stage_id, settlement)
+	page.story_requested.connect(func() -> void:
+		show_story()
+		if new_operation:
+			presentation.cue("progression_story_unlock")
+	)
 	_present(page, &"results")
-	presentation.cue("defeat" if report.outcome == "Defeat" else "victory")
+	if report.get("save_failed", false):
+		presentation.cue("ui_save_problem")
+	elif report.outcome == "Defeat":
+		presentation.cue("result_defeat")
+	elif settlement.get("awards", {}).has("story_completion_funds"):
+		presentation.cue("result_campaign_complete")
+	elif report.get("perfect", false):
+		presentation.cue("result_perfect_clear")
+	elif not settlement.get("unlocked", []).is_empty():
+		presentation.cue("progression_recruit")
+	else:
+		presentation.cue("result_victory")
+
+func _next_operation_available(stage_id: StringName, settlement: Dictionary) -> bool:
+	if _campaign == null or not settlement.get("first_clear", false):
+		return false
+	var index := _campaign.operations.find(_campaign.operation(stage_id))
+	return index >= 0 and index + 1 < _campaign.operations.size() \
+		and _campaign_progress.access_error(_campaign.operations[index + 1]).is_empty()
 
 func _present(page: Control, route: StringName, back := Callable()) -> void:
+	var route_changed := is_instance_valid(_screen) and route != _route
 	while _content.get_child_count() > 1:
 		var overlay := _content.get_child(-1)
 		_content.remove_child(overlay)
@@ -599,7 +640,7 @@ func _present(page: Control, route: StringName, back := Callable()) -> void:
 	if page.has_signal("article_requested"):
 		page.connect("article_requested", _open_guide)
 	if page.has_signal("sound_requested"):
-		page.connect("sound_requested", presentation.cue)
+		page.connect("sound_requested", _page_sound)
 	if page is BattleScene:
 		page.settings_requested.connect(_open_battle_settings)
 		page.controls_requested.connect(_open_guide.bind(FieldGuide.CONTROLS))
@@ -607,6 +648,8 @@ func _present(page: Control, route: StringName, back := Callable()) -> void:
 	_content.add_child(page)
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_resize_controls()
+	if route_changed and route not in [&"battle", &"chaos_battle", &"results", &"chaos_results"]:
+		presentation.cue("ui_navigate")
 
 func _open_guide(initial_page: String) -> void:
 	if is_instance_valid(_guide):
@@ -634,7 +677,10 @@ func _open_overlay(page: Control) -> void:
 	if is_instance_valid(focus):
 		page.set_meta("return_focus", weakref(focus))
 	var previous := _content.get_child(-1) as Control
+	if page.has_signal("sound_requested"):
+		page.connect("sound_requested", _page_sound)
 	previous.hide()
+	presentation.cue("ui_navigate")
 	_content.add_child(page)
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	StoryUI.size_buttons(page)
@@ -646,6 +692,7 @@ func _close_overlay(page: Control) -> void:
 	page.queue_free()
 	var previous := _content.get_child(-1) as Control
 	previous.show()
+	presentation.cue("ui_back")
 	if reference != null:
 		var focus := reference.get_ref() as Control
 		if is_instance_valid(focus) and focus.is_visible_in_tree():
@@ -672,9 +719,13 @@ func _style_control(reference: WeakRef) -> void:
 			control.set_meta("base_font_size", control.get_theme_font_size("font_size"))
 		control.add_theme_font_size_override("font_size", roundi(float(control.get_meta("base_font_size")) * presentation.values.text / 100.0))
 
+func _page_sound(id: String) -> void:
+	if _screen is BattleScene:
+		presentation.hold(_activity_held())
+	presentation.cue(id)
+
 func _click_sound() -> void:
-	if not presentation.effects.playing:
-		presentation.cue("confirm")
+	presentation.cue("confirm")
 
 func _resize_controls() -> void:
 	for page: Control in _content.get_children():
@@ -714,6 +765,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _go_back() -> void:
+	var prior := _screen
+	_perform_back()
+	if prior != _screen:
+		presentation.cue("ui_back")
+
+func _perform_back() -> void:
 	if is_instance_valid(_guide):
 		_guide.back()
 		return

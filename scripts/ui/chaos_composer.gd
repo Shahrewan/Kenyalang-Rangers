@@ -1,6 +1,8 @@
 class_name ChaosComposer
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal back_requested
 signal modifiers_requested
 signal headquarters_requested
@@ -44,6 +46,7 @@ func _ready() -> void:
 	var panes := StoryUI.row(self, 14)
 	panes.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	wave_editor = ChaosWaveEditor.new()
+	wave_editor.sound_requested.connect(sound_requested.emit)
 	wave_editor.configuration = configuration
 	wave_editor.slot = initial_slot
 	wave_editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL

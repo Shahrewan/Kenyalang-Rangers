@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal back_requested
 signal start_requested
 signal access_requested
@@ -33,6 +35,7 @@ func _ready() -> void:
 		var training := OnboardingGuide.new()
 		training.name = "MissionLesson"
 		training.pages = pages
+		training.step_changed.connect(sound_requested.emit.bind("ui_notice"))
 		tactics.add_child(training)
 		if operation.stage.stage_id == &"C1-02" and plan.facility_limit == 0:
 			var mechanical := StoryUI.action("Open Mechanical", true)

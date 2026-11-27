@@ -106,16 +106,22 @@ func _run() -> void:
 	field = app._screen as ChaosBattle
 	field.set_physics_process(false)
 	_check(field.battle.integrity == 100 and field.battle.clock.tick == 0 and field.battle.configured_defeated == 0, "Starting again after a cold relaunch uses fresh battle state")
+	var cues: Array[String] = []
+	app.presentation.cue_dispatched.connect(func(group: String, _path: String) -> void: cues.append(group))
 	DirAccess.make_dir_absolute(_path + ".tmp")
 	_play(field)
 	await process_frame
 	_check(app._screen is ChaosResultsPage and _button(app, "RetryChaosSave") != null and app._campaign_progress.funds() == 10000, "A failed result write exposes Retry without paying")
+	app.presentation._process(0.0)
+	_check(cues.has("ui_save_problem") and not cues.has("result_chaos_trophy"), "Failed settlement emits a save warning without a trophy sound")
 	app._screen.routes_requested.emit()
 	_check(app._screen is ChaosResultsPage and "Could not discard" in app._screen._error.text, "Failed discard preserves the result and Retry action")
 	DirAccess.remove_absolute(_path + ".tmp")
 	_press(app, "RetryChaosSave")
 	_check(_label(app, "ChaosResultTitle") == "Qualifying clear" and _label(app, "ChaosCreditedFunds") == "54,000 Funds credited", "Retry shows the live qualifying result and exact payout")
 	_check(_label(app, "ChaosPersonalBest") == "Personal best · 1,350" and app._campaign_progress.owns(&"facility.skill_relay_station"), "The live result unlocks the first Facility and trophy")
+	app.presentation._process(0.0)
+	_check(cues.count("result_chaos_trophy") == 1, "Successful retry delivers exactly one newly earned trophy cue")
 
 	_press(app, "ReviewChaos")
 	_check(_label(app, "MedalScore") == "1,350" and (app._screen as ChaosComposer).wave_editor.slot == 1, "Review preserves route, waves, modifiers and loadout")
@@ -125,6 +131,8 @@ func _run() -> void:
 	_play(field, true)
 	await process_frame
 	_check(_label(app, "ChaosResultTitle") == "Escape · No payout" and _label(app, "ChaosCreditedFunds") == "0 Funds credited" and app._campaign_progress.funds() == 64000, "Surviving with one escape produces the unqualified report and no reward")
+	app.presentation._process(0.0)
+	_check(cues.count("result_defeat") == 1 and cues.count("result_chaos_trophy") == 1, "A nonqualifying clear cues defeat without another trophy")
 
 	_press(app, "ReviewChaos")
 	_press(app, "StartChaos")

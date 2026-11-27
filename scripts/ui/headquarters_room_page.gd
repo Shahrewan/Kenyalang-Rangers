@@ -1,6 +1,8 @@
 class_name HeadquartersRoomPage
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal back_requested
 signal activity_requested(room: HeadquartersRoom)
 
@@ -177,6 +179,7 @@ func _update_storage() -> void:
 func _confirm_room_purchase() -> void:
 	var quote := progress.room_quote(definition.id)
 	if not quote.error.is_empty():
+		sound_requested.emit("ui_invalid")
 		_notice.text = quote.error
 		_notice.show()
 		return
@@ -184,7 +187,12 @@ func _confirm_room_purchase() -> void:
 		definition.label, quote.target, StoryUI.funds(quote.cost), StoryUI.funds(quote.balance),
 	]
 	_ask("Confirm room purchase", detail, "Confirm purchase", func() -> void:
+		var previous := progress.room_level(definition.id)
 		var error := progress.purchase_room(definition.id)
+		if error.is_empty():
+			sound_requested.emit("progression_hq_room_built" if previous == 0 else "progression_hq_room_upgraded")
+		else:
+			sound_requested.emit("ui_invalid")
 		_notice.text = "Room is now Level %d." % quote.target if error.is_empty() else error
 		_refresh()
 	)
@@ -205,10 +213,12 @@ func _request_claim() -> void:
 func _claim_funds(amount: int) -> void:
 	var result := progress.finance_preview(amount)
 	if progress.claim_finance(amount):
+		sound_requested.emit("progression_funds_discard" if result.discarded > 0 else "progression_funds_claim")
 		_notice.text = "Credited %s Funds." % StoryUI.funds(result.credited)
 		if result.discarded > 0:
 			_notice.text += " Discarded %s above the wallet cap." % StoryUI.funds(result.discarded)
 	else:
+		sound_requested.emit("ui_save_problem")
 		_notice.text = "Could not save the claim. Check local storage."
 	_refresh()
 

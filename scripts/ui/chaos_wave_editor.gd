@@ -1,6 +1,8 @@
 class_name ChaosWaveEditor
 extends VBoxContainer
 
+signal sound_requested(id: String)
+
 signal changed
 
 var configuration: ChaosConfiguration
@@ -8,6 +10,7 @@ var slot := 0
 var _tabs: Array[Button] = []
 var _title: Label
 var _entries: VBoxContainer
+var _drag_start: Dictionary[StringName, int] = {}
 var _sliders: Dictionary[StringName, HSlider] = {}
 var _quantities: Dictionary[StringName, Label] = {}
 var _down: Dictionary[StringName, Button] = {}
@@ -60,6 +63,12 @@ func _add_enemy(enemy: BattleEnemyDefinition) -> void:
 	slider.tooltip_text = enemy.display_name
 	slider.step = 1.0
 	slider.value_changed.connect(_set_count.bind(id))
+	slider.drag_started.connect(func() -> void: _drag_start[id] = configuration.quantity(slot, id))
+	slider.drag_ended.connect(func(_changed: bool) -> void:
+		if _drag_start.has(id) and _drag_start[id] != configuration.quantity(slot, id):
+			sound_requested.emit("ui_chaos_quantity_commit")
+		_drag_start.erase(id)
+	)
 	row.add_child(slider)
 	_sliders[id] = slider
 	_down[id] = _step_button(row, "−", "Decrease_", enemy, -1)
@@ -83,6 +92,9 @@ func _step_button(row: HBoxContainer, text: String, prefix: String, enemy: Battl
 	return button
 
 func _select_slot(index: int) -> void:
+	if slot != index:
+		sound_requested.emit("ui_toggle")
+	_drag_start.clear()
 	slot = index
 	_tabs[slot].set_pressed_no_signal(true)
 	(_entries.get_parent() as ScrollContainer).scroll_vertical = 0
@@ -94,6 +106,8 @@ func _set_count(requested: float, id: StringName) -> void:
 	_refresh()
 	if before != count:
 		changed.emit()
+		if not _drag_start.has(id):
+			sound_requested.emit("ui_chaos_quantity_commit")
 
 func _refresh() -> void:
 	for index in _tabs.size():

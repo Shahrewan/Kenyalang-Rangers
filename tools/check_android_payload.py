@@ -46,6 +46,7 @@ def main():
     parser.add_argument("--production-presentation", action="store_true", help="Check all Chaos route art, badges and live presentation from the APK")
     parser.add_argument("--android-stabilization", action="store_true", help="Replay C34 deployment, activity, navigation and lifecycle checks from the APK")
     parser.add_argument("--onboarding", action="store_true", help="Check the Chapter 1 coaching and Headquarters tour from the APK")
+    parser.add_argument("--audio", action="store_true", help="Resolve and mix exported SFX and check the production audio bindings")
     parser.add_argument("--logs", type=Path, default=ROOT / "build/qa/c24/payload")
     args = parser.parse_args()
     args.logs.mkdir(parents=True, exist_ok=True)
@@ -103,6 +104,8 @@ def main():
             runners += tuple(path.stem for path in sorted((ROOT / "tests/unit").glob("c34_*_test.gd")))
         if args.onboarding:
             runners += ("c35_onboarding_test",)
+        if args.audio:
+            runners += ("c36_audio_integration_test",)
         for name in runners:
             run(name, name, pack, ["--script", ROOT / f"tests/unit/{name}.gd"])
         seed_packs = {"fresh": pack}

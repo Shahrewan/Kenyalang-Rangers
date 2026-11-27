@@ -2,6 +2,7 @@ class_name EnemyCombat
 extends RefCounted
 
 signal hit(enemy: BattleEnemy, target: StringName, kind: EnemyAttackProfile.Kind)
+signal siege_windup_presented
 
 func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: FacilityCombat, tick: int) -> void:
 	var profile := enemy.definition.attack_profile
@@ -34,6 +35,8 @@ func advance(enemy: BattleEnemy, deployment: DeploymentState, facilities: Facili
 		enemy.aim_target = best
 		enemy.aim_placement = deployment.placed[best]
 		enemy.fire_tick = tick + windup
+		if profile.kind == EnemyAttackProfile.Kind.SIEGE:
+			siege_windup_presented.emit()
 	else:
 		_hit(enemy, best, tick)
 

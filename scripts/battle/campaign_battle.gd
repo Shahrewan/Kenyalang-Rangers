@@ -163,6 +163,7 @@ func _render_line() -> void:
 func close_dialogue() -> void:
 	if not battle.clock.dialogue_open:
 		return
+	sound_requested.emit("ui_radio_continue")
 	_line_index += 1
 	if _line_index < _active_beat.lines.size():
 		_render_line()
@@ -171,6 +172,7 @@ func close_dialogue() -> void:
 
 func _skip_dialogue() -> void:
 	if battle.clock.dialogue_open:
+		sound_requested.emit("ui_radio_continue")
 		_next_beat()
 
 func _update_campaign_tip() -> void:

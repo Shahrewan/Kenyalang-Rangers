@@ -1,6 +1,8 @@
 class_name PresentationAudio
 extends Node
 
+signal cue_dispatched(group: String, source: String)
+
 const DEFAULTS := {"master": 80, "music": 45, "sfx": 75, "text": 100}
 const TEXT_SIZES := [100, 115, 130]
 const TRACKS := {
@@ -15,6 +17,19 @@ const CUES := {
 	"recon": [523, 523], "siege": [147, 196, 147], "heat": [294, 349, 392], "boss": [196, 196, 247],
 	"water": [587, 494], "collect": [523, 659], "visitor": [784, 659, 880], "education": [392, 523],
 }
+const CATALOG_PATH := "res://data/presentation/sfx_catalog.json"
+const CACHE_LIMIT := 40
+const BATTLE_CATEGORIES := ["combat", "rangers", "facilities", "enemies", "bosses"]
+const LEGACY_ALERTS := ["recon", "siege", "heat", "boss", "victory", "defeat", "visitor"]
+
+class Voice:
+	var player: AudioStreamPlayer
+	var group := ""
+	var category := ""
+	var priority := 0
+	var gain_db := 0.0
+
+static var _registry: Dictionary
 static var _streams: Dictionary[String, AudioStreamWAV] = {}
 var path := "user://presentation.json"
 var values := DEFAULTS.duplicate()
@@ -24,6 +39,14 @@ var alerts := AudioStreamPlayer.new()
 var _track := ""
 var _away := false
 var _held := false
+var _voices: Array[Voice] = []
+var _pending: Dictionary[String, Dictionary] = {}
+var _last_played: Dictionary[String, int] = {}
+var _next_variant: Dictionary[String, int] = {}
+var _cache: Dictionary[String, AudioStreamWAV] = {}
+var _cache_order: Array[String] = []
+var _failed_paths: Dictionary[String, bool] = {}
+var _variant_rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	var saved := ProfileFile.read(path)
@@ -31,9 +54,15 @@ func _ready() -> void:
 		var value: Variant = saved.get(key)
 		if valid_setting(key, value):
 			values[key] = int(value)
-	for player in [music, effects, alerts]:
-		add_child(player)
+	add_child(music)
+	var voice_count := 8 if OS.has_feature("android") else 12
+	for index in voice_count:
+		var voice := Voice.new()
+		voice.player = effects if index == 0 else (alerts if index == 1 else AudioStreamPlayer.new())
+		add_child(voice.player)
+		_voices.append(voice)
 	_mix()
+	set_process(false)
 
 func valid_setting(key: String, value: Variant) -> bool:
 	if key == "text":
@@ -51,13 +80,31 @@ func change(key: String, value: int) -> bool:
 	_mix()
 	return true
 
+static func catalog() -> Dictionary:
+	if _registry.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CATALOG_PATH)) if FileAccess.file_exists(CATALOG_PATH) else null
+		_registry = parsed if parsed is Dictionary else {"groups": {}, "aliases": {}, "entities": {}}
+	return _registry
+
+static func entity_cue(id: StringName, action: String, fallback := "") -> String:
+	var entities: Dictionary = catalog().get("entities", {})
+	return str(entities.get(String(id), {}).get(action, fallback))
+
 func _mix() -> void:
 	var master := float(values.master) / 100
 	music.volume_db = linear_to_db(master * float(values.music) / 100)
-	effects.volume_db = linear_to_db(master * float(values.sfx) / 100)
-	alerts.volume_db = effects.volume_db
+	for voice in _voices:
+		_mix_voice(voice)
+	if values.master == 0 or values.sfx == 0:
+		_clear_effects()
+
+func _mix_voice(voice: Voice) -> void:
+	var gain := float(values.master * values.sfx) / 10000.0
+	voice.player.volume_db = linear_to_db(gain) + voice.gain_db
 
 func set_route(route: StringName) -> void:
+	_clear_effects()
+	_last_played.clear()
 	var track := "office"
 	if route in [&"battle", &"sample"]:
 		track = "story"
@@ -72,25 +119,169 @@ func set_route(route: StringName) -> void:
 	hold(false)
 
 func hold(paused: bool) -> void:
+	if paused and not _held:
+		for group: String in _pending.keys():
+			if _routine(group, _pending[group]):
+				_pending.erase(group)
+		for voice in _voices:
+			if voice.group != "combat_messenger_withdrawal" and voice.priority < 75 and voice.category in BATTLE_CATEGORIES:
+				_stop_voice(voice)
 	_held = paused
 	music.stream_paused = _held or _away
 
 func background(away: bool) -> void:
 	_away = away
 	if away:
-		effects.stop()
-		alerts.stop()
+		_clear_effects()
+		_last_played.clear()
 	hold(_held)
 
 func cue(id: String) -> void:
-	if _away or values.master == 0 or values.sfx == 0 or not CUES.has(id):
+	if _away or values.master == 0 or values.sfx == 0 or id.is_empty():
 		return
-	var player := alerts if id in ["recon", "siege", "heat", "boss", "victory", "defeat", "visitor"] else effects
-	var stream := _sound(id, CUES[id], false)
-	if player.playing and player.stream == stream:
+	var registry := catalog()
+	var group: String = registry.get("aliases", {}).get(id, id)
+	var spec: Dictionary = registry.get("groups", {}).get(group, {})
+	if spec.is_empty():
+		if not CUES.has(id):
+			return
+		spec = {"priority": 80 if id in LEGACY_ALERTS else 30, "gain_db": 0.0,
+			"category": "legacy", "cooldown_ms": 120, "limit": 1, "paths": [], "fallback": id}
+	if (_held and _routine(group, spec)) or _pending.has(group):
 		return
-	player.stream = stream
-	_start_player(player)
+	var now := Time.get_ticks_msec()
+	if now - int(_last_played.get(group, -100000)) < int(spec.cooldown_ms):
+		return
+	_pending[group] = spec
+	set_process(true)
+
+func _routine(group: String, spec: Dictionary) -> bool:
+	return group != "combat_messenger_withdrawal" and int(spec.priority) < 75 and spec.category in BATTLE_CATEGORIES
+
+func _process(_delta: float) -> void:
+	if _pending.is_empty():
+		set_process(false)
+		return
+	# Commit one request per group per frame, with warnings ahead of common attacks.
+	var requested := _pending.duplicate()
+	_pending.clear()
+	var ordered: Array = requested.keys()
+	ordered.sort_custom(func(a: String, b: String) -> bool: return int(requested[a].priority) > int(requested[b].priority))
+	if ordered.size() > 1:
+		ordered.erase("ui_confirm")
+	if requested.has("ui_back") or int(requested[ordered.front()].priority) > 45:
+		ordered.erase("ui_navigate")
+	if requested.has("combat_fatal_escape"):
+		ordered.erase("combat_integrity_loss")
+	for group: String in ordered:
+		_dispatch(group, requested[group])
+
+func _dispatch(group: String, spec: Dictionary) -> void:
+	var voice := _available_voice(group, spec)
+	if voice == null:
+		return
+	var source := _resolve(group, spec)
+	if source.is_empty():
+		return
+	voice.player.stop()
+	voice.group = group
+	voice.category = spec.category
+	voice.priority = int(spec.priority)
+	voice.gain_db = float(spec.gain_db)
+	voice.player.stream = source.stream
+	_mix_voice(voice)
+	_last_played[group] = Time.get_ticks_msec()
+	_start_player(voice.player)
+	cue_dispatched.emit(group, source.path)
+
+func _available_voice(group: String, spec: Dictionary) -> Voice:
+	var idle: Voice
+	var weakest: Voice
+	var weakest_lane: Voice
+	var group_count := 0
+	var lane_count := 0
+	var count := 0
+	var lane := _lane(spec.category, int(spec.priority))
+	var lane_limit := (_voices.size() >> 1) if lane == 0 else (_voices.size() - 2 if lane == 1 else 4)
+	for voice in _voices:
+		if not voice.player.playing:
+			if idle == null:
+				idle = voice
+			continue
+		count += 1
+		if voice.group == group:
+			group_count += 1
+		if weakest == null or voice.priority < weakest.priority:
+			weakest = voice
+		if _lane(voice.category, voice.priority) == lane:
+			lane_count += 1
+			if weakest_lane == null or voice.priority < weakest_lane.priority:
+				weakest_lane = voice
+	if group_count >= int(spec.limit):
+		return null
+	if lane_count >= lane_limit:
+		return weakest_lane if weakest_lane != null and weakest_lane.priority < int(spec.priority) else null
+	if count < _voices.size() - 2 or lane == 2:
+		if idle != null:
+			return idle
+	return weakest if weakest != null and weakest.priority < int(spec.priority) else null
+
+func _lane(category: String, priority: int) -> int:
+	if priority >= 75:
+		return 2
+	return 0 if category in BATTLE_CATEGORIES else 1
+
+func _resolve(group: String, spec: Dictionary) -> Dictionary:
+	var groups: Dictionary = catalog().get("groups", {})
+	var cursor := group
+	var row := spec
+	for depth in 8:
+		var paths: Array = row.paths
+		if not paths.is_empty():
+			var index: int = _next_variant[cursor] if _next_variant.has(cursor) else _variant_rng.randi_range(0, paths.size() - 1)
+			for offset in paths.size():
+				var index_at := (index + offset) % paths.size()
+				var path_at: String = paths[index_at]
+				var stream := _resource(path_at)
+				if stream != null:
+					_next_variant[cursor] = (index_at + 1) % paths.size()
+					return {"stream": stream, "path": path_at}
+		var fallback := str(row.fallback) if row.fallback != null else ""
+		if CUES.has(fallback):
+			return {"stream": _sound(fallback, CUES[fallback], false), "path": "procedural:" + fallback}
+		if not groups.has(fallback):
+			return {}
+		cursor = fallback
+		row = groups[cursor]
+	return {}
+
+func _resource(path_at: String) -> AudioStreamWAV:
+	if _cache.has(path_at):
+		_cache_order.erase(path_at)
+		_cache_order.append(path_at)
+		return _cache[path_at]
+	if _failed_paths.has(path_at):
+		return null
+	var stream: AudioStreamWAV
+	if ResourceLoader.exists(path_at, "AudioStreamWAV"):
+		stream = ResourceLoader.load(path_at, "AudioStreamWAV") as AudioStreamWAV
+	if stream == null:
+		_failed_paths[path_at] = true
+		return null
+	if _cache.size() >= CACHE_LIMIT:
+		_cache.erase(_cache_order.pop_front())
+	_cache[path_at] = stream
+	_cache_order.append(path_at)
+	return stream
+
+func _stop_voice(voice: Voice) -> void:
+	voice.player.stop()
+	voice.player.stream = null
+
+func _clear_effects() -> void:
+	_pending.clear()
+	for voice in _voices:
+		_stop_voice(voice)
 
 func _start_player(player: AudioStreamPlayer) -> void:
 	# A window can also be running without an audio output. Movie capture supplies its own mixer.
@@ -98,9 +289,9 @@ func _start_player(player: AudioStreamPlayer) -> void:
 		player.play()
 
 func _exit_tree() -> void:
-	for player in [music, effects, alerts]:
-		player.stop()
-		player.stream = null
+	_clear_effects()
+	music.stop()
+	music.stream = null
 
 # Original procedural development audio. Each note starts and ends at silence.
 static func _sound(id: String, notes: Array, loop: bool) -> AudioStreamWAV:

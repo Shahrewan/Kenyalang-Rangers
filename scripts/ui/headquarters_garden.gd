@@ -15,6 +15,7 @@ var _capacity: int
 var _state: Dictionary
 var _stages: Array[int] = []
 var _last_time: int
+var _quiet_growth_refresh := false
 var _slot := 0
 var _view := View.PLOT
 var _receipt: Dictionary
@@ -87,13 +88,17 @@ func _process(_delta: float) -> void:
 	var stages := _growth_stages()
 	if stages != _stages:
 		var selected_changed := _slot < _capacity and stages[_slot] != _stages[_slot]
+		if not _quiet_growth_refresh and selected_changed and _view == View.PLOT and stages[_slot] in [RestorationRules.Stage.SAPLING, RestorationRules.Stage.MATURE]:
+			sound_requested.emit("restoration_growth_ready")
 		_save_clock()
 		_refresh(selected_changed and _view == View.PLOT)
 	elif is_instance_valid(_timer):
 		_timer.text = _time_caption(_plot())
+	_quiet_growth_refresh = false
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT) and is_node_ready() and _capacity > 0:
+		_quiet_growth_refresh = true
 		_save_clock()
 
 func _exit_tree() -> void:
@@ -270,6 +275,7 @@ func _plant(slot: int, species: String) -> void:
 	_view = View.PLOT
 	_notice.hide()
 	_refresh()
+	sound_requested.emit("restoration_plant")
 
 func _water(slot: int, cycle: String) -> void:
 	if not progress.water_garden(slot, cycle, _now()):
@@ -291,7 +297,10 @@ func _collect(slot: int, cycle: String) -> void:
 	_view = View.COLLECTION
 	_notice.hide()
 	_refresh()
-	sound_requested.emit("visitor" if settlement.visitor else "collect")
+	var cue := "restoration_visitor" if settlement.visitor else "restoration_collect"
+	if not settlement.visitor and settlement.milestone_funds > 0:
+		cue = "restoration_milestone"
+	sound_requested.emit(cue)
 	_board.play_effect("collect", slot, settlement.visitor)
 
 func _plot() -> Dictionary:

@@ -38,6 +38,7 @@ var _alert_deadlines: Dictionary[String, int] = {}
 @onready var _opening: OptionButton = %Opening
 @onready var _dialogue: ColorRect = %Dialogue
 
+var _audio_events: BattleAudioEvents
 var battle: BattleSimulation
 
 func _ready() -> void:
@@ -174,11 +175,9 @@ func _restart() -> void:
 		_retry.disabled = true
 		return
 	battle = BattleSimulation.new(stage)
-	battle.boss_intro.connect(func(_serial: int, _boss: BossSpec) -> void: sound_requested.emit("boss"))
-	battle.boss_phase_changed.connect(func(_serial: int, _phase: BossPhase) -> void: sound_requested.emit("boss"))
 	_alert_deadlines.clear()
 	battle.heat_overflow.connect(_critical_notice.bind("heat", "Heat overflow · Integrity lost"))
-	battle.siege_hit.connect(_critical_notice.bind("siege", "Siege hit · Facility struck"))
+	battle.siege_hit.connect(_critical_notice.bind("", "Siege hit · Facility struck"))
 	battle.boss_intro.connect(_open_boss_intro)
 	battle.boss_phase_changed.connect(_open_boss_phase)
 	_boss_briefing = false
@@ -198,18 +197,20 @@ func _restart() -> void:
 	if _uses_combat_presentation():
 		battle.deployment = %DeploymentController.state
 		_board.show_combat_hp = true
+	_audio_events = BattleAudioEvents.new(battle, %DeploymentController.state, sound_requested.emit)
 	if campaign:
 		_open_operation()
 	_refresh()
 
 func _critical_notice(cue: String, message: String) -> void:
 	_alert_deadlines[message] = battle.clock.tick + CombatClock.TICKS_PER_SECOND * 2
-	sound_requested.emit(cue)
+	if not cue.is_empty():
+		sound_requested.emit(cue)
 
 func _open_operation() -> void:
 	open_dialogue()
 
-func _toggle_pause() -> void:
+func _toggle_pause(user_initiated := true) -> void:
 	if battle == null or battle.clock.stopped or battle.clock.dialogue_open:
 		return
 	if battle.clock.paused:
@@ -220,6 +221,8 @@ func _toggle_pause() -> void:
 		if _uses_combat_presentation():
 			_pause_overlay.show_battle(stage, battle, operation_plan != null, settings_requested.has_connections())
 		_refresh()
+		if user_initiated:
+			sound_requested.emit("ui_battle_pause")
 
 func request_back() -> void:
 	if battle == null:
@@ -236,13 +239,14 @@ func request_back() -> void:
 func suspend_interaction() -> void:
 	%DeploymentController.cancel_interaction()
 	if battle != null and battle.clock.is_running():
-		_toggle_pause()
+		_toggle_pause(false)
 
 func _resume() -> void:
 	battle.clock.paused = false
 	_pause_overlay.hide()
 	_refresh()
 	_pause.grab_focus()
+	sound_requested.emit("ui_battle_pause")
 
 func _abandon() -> void:
 	if battle.clock.paused and operation_plan != null:
@@ -257,6 +261,7 @@ func abandon_save_failed() -> void:
 func _toggle_speed() -> void:
 	battle.clock.set_speed(3 - battle.clock.get_speed())
 	_refresh()
+	sound_requested.emit("ui_battle_pause")
 
 func _defeat_first() -> void:
 	if sandbox_practice_hits:

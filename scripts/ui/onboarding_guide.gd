@@ -1,6 +1,7 @@
 class_name OnboardingGuide
 extends VBoxContainer
 
+signal step_changed
 signal room_requested(id: StringName)
 
 const MISSIONS := {
@@ -81,8 +82,11 @@ func _button(row: Container, caption: String, id: String, callback: Callable, pr
 	return button
 
 func _move(by: int) -> void:
+	var previous := _index
 	_index = clampi(_index + by, 0, pages.size() - 1)
 	_render()
+	if _index != previous:
+		step_changed.emit()
 
 func _render() -> void:
 	var topic: Array = pages[_index]

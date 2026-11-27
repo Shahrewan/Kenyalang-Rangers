@@ -182,9 +182,6 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	var opening_budget := plan.resolved().tokens if plan != null else maxi(0, preview_budget)
 	state = DeploymentState.new(map, simulation.clock, opening_budget, rules, records_enhancements, simulation.effects)
 	state.skill_fired.connect(_skill_fired)
-	state.hp_restored.connect(func() -> void: sound_requested.emit("support"))
-	state.tokens_produced.connect(func() -> void: sound_requested.emit("tokens"))
-	state.skill_recharged.connect(func() -> void: sound_requested.emit("skill"))
 	_board.deployments = state
 	_scroll.scroll_horizontal = 0
 	cancel_interaction()
@@ -391,6 +388,8 @@ func _release(at: Vector2) -> void:
 func _select_facing(direction: int) -> void:
 	if _pending_spec == null or not state.clock.is_running():
 		return
+	if _pending_facing != direction:
+		sound_requested.emit("combat_facing_select")
 	_pending_facing = direction
 	_board.preview_spec = _pending_spec
 	_board.preview_cell = _pending_cell
@@ -414,7 +413,6 @@ func _confirm_deployment() -> void:
 func _deploy(spec: DeploymentSpec, cell: Vector2i, facing: int, at: Vector2) -> void:
 	var error := state.deploy(spec, cell, facing)
 	if error.is_empty():
-		sound_requested.emit("deploy")
 		_hint.text = "%s deployed." % spec.label
 	else:
 		_placement_failed(error, at)
@@ -427,6 +425,7 @@ func cancel_pending_placement() -> bool:
 	if _pending_spec == null:
 		return false
 	_clear_pending()
+	sound_requested.emit("ui_cancel")
 	_hint.text = "Placement cancelled · no Tokens spent."
 	_refresh()
 	return true
@@ -441,7 +440,8 @@ func cancel_interaction() -> void:
 	if state == null:
 		return
 	if _pending_spec != null or _gesture.dragging != null:
-		_hint.text = "Placement cancelled · no Tokens spent."
+		sound_requested.emit("ui_cancel")
+	_hint.text = "Placement cancelled · no Tokens spent."
 	_cancel_pointer()
 	_clear_pending()
 	_hide_retreat()
@@ -543,11 +543,11 @@ func _confirm_skill() -> void:
 
 func _cancel_skill() -> void:
 	state.cancel_skill()
+	sound_requested.emit("ui_cancel")
 	_hint.text = "Skill targeting cancelled."
 	_refresh()
 
 func _skill_fired(id: StringName, target: Vector2i) -> void:
-	sound_requested.emit("skill")
 	var unit: DeploymentState.Placement = state.placed.get(id)
 	if unit == null:
 		return

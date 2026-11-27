@@ -4,6 +4,9 @@ extends RefCounted
 signal hp_restored
 signal tokens_produced
 signal skill_recharged
+signal skill_ready_presented
+signal construction_ready_presented
+signal construction_cancelled_presented
 signal skill_fired(unit_id: StringName, target: Vector2i)
 
 # Presentation observers receive completed state transitions.
@@ -176,10 +179,14 @@ func _advance(tick: int, _seconds: float) -> void:
 	if not clock.is_running():
 		return
 	for unit: Placement in placed.values():
+		if unit.facility != null and tick == unit.build_deadline:
+			construction_ready_presented.emit()
 		var charges := unit.skill_charges
 		unit.recharge_skill(tick)
 		if unit.skill_charges > charges:
 			skill_recharged.emit()
+			if charges == 0:
+				present_skill_readiness(unit)
 		if not unit.spec.logistics_post or tick < unit.next_payout_tick:
 			continue
 		var amount := unit.yield_remainder + rules.post_yield_numerator(unit.spec.level)
@@ -190,6 +197,10 @@ func _advance(tick: int, _seconds: float) -> void:
 			post_paid.emit(unit)
 		unit.yield_remainder = amount % LogisticsRules.YIELD_DENOMINATOR
 		unit.next_payout_tick += LogisticsRules.PAYOUT_TICKS
+
+func present_skill_readiness(unit: Placement) -> void:
+	if skill_block_reason(unit).is_empty():
+		skill_ready_presented.emit()
 
 func cooldown_ticks(id: StringName) -> int:
 	return maxi(0, _ready_tick.get(id, 0) - clock.tick)
@@ -306,6 +317,7 @@ func cancel_construction(id: StringName) -> bool:
 	var unit := placed[id]
 	tokens += unit.paid_cost
 	_release_cells(id, unit)
+	construction_cancelled_presented.emit()
 	return true
 
 func _release_cells(id: StringName, unit: Placement) -> void:
