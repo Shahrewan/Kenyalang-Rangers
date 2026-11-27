@@ -66,7 +66,8 @@ func _render(id: String) -> void:
 	elif id == CREDITS:
 		_body.add_child(StoryUI.label(CREDITS, 28))
 		_body.add_child(StoryUI.label("Game design and storyboard · Group SimSimi", 22))
-		_body.add_child(StoryUI.label("The Scout cutout and restoration trees use original project artwork. The garden clearing is a project-directed generated illustration. Music and interface sounds are synthesized locally.", 20))
+		_body.add_child(StoryUI.label("The Scout cutout and restoration trees use original project artwork. The garden clearing is a project-directed generated illustration.", 20))
+		_music_credits()
 		_body.add_child(StoryUI.label("Godot Engine", 24, StoryUI.AMBER))
 		_body.add_child(StoryUI.label(Engine.get_license_text(), 18))
 		_body.add_child(StoryUI.label("Engine and third-party notices: https://godotengine.org/license/", 18))
@@ -103,6 +104,36 @@ func _render(id: String) -> void:
 		article.add_child(StoryUI.label(fact.title, 26, StoryUI.INK))
 		article.add_child(StoryUI.label(fact.text, 22, StoryUI.INK))
 		EducationUI.credit_sources(article, catalog, fact.source_ids, StoryUI.INK)
+
+func _music_credits() -> void:
+	_body.add_child(StoryUI.label("Music and Audio Credits", 26, StoryUI.AMBER))
+	var music := Soundtrack.manifest()
+	_body.add_child(StoryUI.label(music.get("attribution_notice", ""), 20))
+	for track: Dictionary in music.get("tracks", []):
+		var card := StoryUI.panel(_body)
+		card.add_child(StoryUI.label(track.title, 22, StoryUI.AMBER))
+		card.add_child(StoryUI.label("%s · %s" % [track.artist, track.mode], 19))
+		_source_link(card, track.source_url, "Track source")
+	var licensing := StoryUI.panel(_body)
+	_source_link(licensing, music.get("license_url", ""), music.get("source_license", "Music license"))
+	_body.add_child(StoryUI.label("Sound effects use edited CC0 recordings credited in the repository. Procedural fallback tones are synthesized locally.", 19))
+
+func _source_link(parent: VBoxContainer, url: String, label: String) -> void:
+	if not url.begins_with("https://"):
+		return
+	var address := StoryUI.label(url, 17, StoryUI.BEIGE)
+	address.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	parent.add_child(address)
+	var clipboard := DisplayServer.has_feature(DisplayServer.FEATURE_CLIPBOARD)
+	var button := EducationUI.large_action(StoryUI.action("Copy %s URL" % label.to_lower() if clipboard else "Open " + label), 64)
+	button.pressed.connect(func() -> void:
+		if clipboard:
+			DisplayServer.clipboard_set(url)
+			button.text = "Copied"
+		else:
+			OS.shell_open(url)
+	)
+	parent.add_child(button)
 
 func _show_references() -> void:
 	_body.add_child(StoryUI.label("Offline references", 28))

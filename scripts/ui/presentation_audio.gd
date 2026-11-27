@@ -5,12 +5,7 @@ signal cue_dispatched(group: String, source: String)
 
 const DEFAULTS := {"master": 80, "music": 45, "sfx": 75, "text": 100}
 const TEXT_SIZES := [100, 115, 130]
-const TRACKS := {
-	"office": [220, 330, 294, 247, 262, 330, 294, 196],
-	"story": [196, 247, 294, 220, 196, 294, 262, 220],
-	"chaos": [165, 220, 196, 247, 165, 233, 220, 196],
-	"quiet": [262, 392, 330, 294, 247, 330, 294, 196],
-}
+const BUS_LAYOUT := preload("res://default_bus_layout.tres")
 const CUES := {
 	"confirm": [494], "deploy": [330, 494], "invalid": [185, 147],
 	"support": [392, 440], "tokens": [659], "skill": [440, 659], "victory": [392, 494, 587], "defeat": [330, 262, 196],
@@ -33,10 +28,12 @@ static var _registry: Dictionary
 static var _streams: Dictionary[String, AudioStreamWAV] = {}
 var path := "user://presentation.json"
 var values := DEFAULTS.duplicate()
-var music := AudioStreamPlayer.new()
+var _soundtrack := Soundtrack.new()
+var music: AudioStreamPlayer:
+	get:
+		return _soundtrack.player()
 var effects := AudioStreamPlayer.new()
 var alerts := AudioStreamPlayer.new()
-var _track := ""
 var _away := false
 var _held := false
 var _voices: Array[Voice] = []
@@ -54,11 +51,14 @@ func _ready() -> void:
 		var value: Variant = saved.get(key)
 		if valid_setting(key, value):
 			values[key] = int(value)
-	add_child(music)
+	if AudioServer.get_bus_index(&"Music") < 0:
+		AudioServer.set_bus_layout(BUS_LAYOUT)
+	add_child(_soundtrack)
 	var voice_count := 8 if OS.has_feature("android") else 12
 	for index in voice_count:
 		var voice := Voice.new()
 		voice.player = effects if index == 0 else (alerts if index == 1 else AudioStreamPlayer.new())
+		voice.player.bus = &"SFX"
 		add_child(voice.player)
 		_voices.append(voice)
 	_mix()
@@ -91,31 +91,21 @@ static func entity_cue(id: StringName, action: String, fallback := "") -> String
 	return str(entities.get(String(id), {}).get(action, fallback))
 
 func _mix() -> void:
-	var master := float(values.master) / 100
-	music.volume_db = linear_to_db(master * float(values.music) / 100)
-	for voice in _voices:
-		_mix_voice(voice)
+	_set_bus_gain(&"Master", float(values.master) / 100.0)
+	_set_bus_gain(&"Music", Soundtrack.slider_gain(values.music))
+	_set_bus_gain(&"SFX", float(values.sfx) / 100.0)
 	if values.master == 0 or values.sfx == 0:
 		_clear_effects()
 
-func _mix_voice(voice: Voice) -> void:
-	var gain := float(values.master * values.sfx) / 10000.0
-	voice.player.volume_db = linear_to_db(gain) + voice.gain_db
+func _set_bus_gain(bus: StringName, gain: float) -> void:
+	var index := AudioServer.get_bus_index(bus)
+	AudioServer.set_bus_mute(index, gain == 0.0)
+	AudioServer.set_bus_volume_db(index, linear_to_db(gain) if gain > 0.0 else 0.0)
 
-func set_route(route: StringName) -> void:
+func set_route(route: StringName, stage_id := &"") -> void:
 	_clear_effects()
 	_last_played.clear()
-	var track := "office"
-	if route in [&"battle", &"sample"]:
-		track = "story"
-	elif String(route).begins_with("chaos"):
-		track = "chaos"
-	elif route in [&"hq_garden", &"records", &"quiz", &"outreach"]:
-		track = "quiet"
-	if track != _track:
-		_track = track
-		music.stream = _sound(track, TRACKS[track], true)
-		_start_player(music)
+	_soundtrack.select(Soundtrack.cue_for(route, stage_id))
 	hold(false)
 
 func hold(paused: bool) -> void:
@@ -127,7 +117,7 @@ func hold(paused: bool) -> void:
 			if voice.group != "combat_messenger_withdrawal" and voice.priority < 75 and voice.category in BATTLE_CATEGORIES:
 				_stop_voice(voice)
 	_held = paused
-	music.stream_paused = _held or _away
+	_soundtrack.hold(_held or _away)
 
 func background(away: bool) -> void:
 	_away = away
@@ -189,7 +179,7 @@ func _dispatch(group: String, spec: Dictionary) -> void:
 	voice.priority = int(spec.priority)
 	voice.gain_db = float(spec.gain_db)
 	voice.player.stream = source.stream
-	_mix_voice(voice)
+	voice.player.volume_db = voice.gain_db
 	_last_played[group] = Time.get_ticks_msec()
 	_start_player(voice.player)
 	cue_dispatched.emit(group, source.path)
@@ -290,8 +280,6 @@ func _start_player(player: AudioStreamPlayer) -> void:
 
 func _exit_tree() -> void:
 	_clear_effects()
-	music.stop()
-	music.stream = null
 
 # Original procedural development audio. Each note starts and ends at silence.
 static func _sound(id: String, notes: Array, loop: bool) -> AudioStreamWAV:

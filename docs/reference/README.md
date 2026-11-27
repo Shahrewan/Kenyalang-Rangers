@@ -10,3 +10,5 @@ Expected design references may include:
 The existing GDD submission includes an academic cover with personal details and signatures. **Do not publish that unredacted PDF to this public GitHub repository.** Use an approved redacted copy, a private approved storage location, or a suitable Git LFS setup if size is a concern. Never assume a placeholder PDF filename means the actual file was uploaded.
 
 For Codex, create precise, approved text specifications in `docs/canon/` and keep the source inventory in `docs/production/SOURCE_INVENTORY.md` up to date.
+
+The soundtrack and sound-effect attribution records are in [Music and audio credits](MUSIC_CREDITS.md). The educational source list remains in `data/education/references.json`.

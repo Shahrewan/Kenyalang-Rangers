@@ -417,3 +417,20 @@ adb install -r build/android/kenyalang-rangers-c36d-debug.apk
 3. Check Story and Chaos receipts, HQ purchases, Outreach grades, Records timeout and Restoration collection. Verify volume and progress after a cold restart. The same name and signer allow testing with an existing profile without resetting it.
 
 [C36-D audit and benchmarks](../docs/qa/C36_AUDIO_INTEGRATION.md)
+
+## C38 soundtrack candidate
+
+Retain `build/android/kenyalang-rangers-c36-rev3-debug.apk` as the previous signed build. The C38 candidate uses the same ARM64 development package and debug certificate. After checking the APK hashes, connect an unlocked phone with USB debugging authorized and install over the existing game.
+
+```sh
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c38-debug.apk
+```
+
+1. Open the existing profile in airplane mode. Check its Funds and Campaign progress, then open the Field Guide from FAQ and from Settings. Read all six music credits, scroll at 130% text, and copy one source link.
+2. Play the Main Menu, Headquarters, any regular Story operation, a Rainforest Chaos battle, C2-10, and Restoration or the education rooms. Compare the six contexts at the same Music setting. Move between Headquarters pages and between combat and Settings to check for avoidable restarts.
+3. Repeat at 0%, 25%, 50%, 75% and 100% Music using phone speakers and headphones. Try SFX mute and Master mute separately, restart the application, and verify saved volume settings. Let two loops pass in each context. Listen for a gap or click at each wrap.
+4. In a dense Story wave, C2-10 and a dense Chaos wave, compare attack, warning, support and result feedback at full volume and at the default mix. Check for distortion, rising volume during transitions, or warnings buried under music.
+5. During active combat, pause, background or lock the phone, then return. Repeat while connected to headphones and during another application's audio interruption. Check that the restored track and volume are correct and no stale SFX play.
+
+Record the phone model, Android version and output device with each result. The APK passed the host payload and save-update rehearsal. No handset was attached for installation or listening. [C38 integration evidence](../docs/qa/C38_SOUNDTRACK_INTEGRATION.md) · [Loudness and mix data](../docs/qa/C38_AUDIO_MIXING.md)
