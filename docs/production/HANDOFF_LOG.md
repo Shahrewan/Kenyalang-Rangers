@@ -367,3 +367,8 @@
 
 - Both revision 2 batches passed independent WAV, hash and provenance checks. All 133 files are accepted, and the canonical manifest records measured properties and import modes. The runtime registry is the only SFX manifest shipped in the player.
 - Production signals drive a bounded SFX pool with semantic placement, tactical warnings and settled receipts. The C35 Campaign fixture results stayed identical. The signed candidate and device checks are in the report. [C36-D verification](../qa/C36_AUDIO_INTEGRATION.md)
+
+### C36 · Revision 3 sound replacement · 2026-11-27
+
+- Both revision 3 archives replaced their 133 exact cue paths with recording-based SFX. The updated measured ledger records the source cuts and the hash-specific Continue/Skip trim exception. The cue registry and import choices are retained.
+- The signed Android candidate is separate from the retained C35 and C36-D builds. [Acceptance, APK comparison and device procedure](../qa/C36_SFX_REVISION_3.md)
