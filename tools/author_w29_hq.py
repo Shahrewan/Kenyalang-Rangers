@@ -19,6 +19,7 @@ from build_cutout_scene import generate as build_cutout
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "assets/source-art/hq"
+RECEPTION_EMBLEM = SOURCE.parent / "ui/w29/brand/hornbill_dark.svg"
 IMPORT = ROOT / "assets/imported/hq"
 REVIEW = ROOT / "docs/production/w29/hq"
 ROOM_W, ROOM_H = 314, 105
@@ -291,6 +292,7 @@ def roof_art() -> str:
 
 
 def lobby_art() -> str:
+    emblem = re.search(r"<path\b[^>]+/>", RECEPTION_EMBLEM.read_text(encoding="utf-8"))[0]
     lobby = [rect(124,615,1032,60,"#8e8a76",INK,3)]
     for x in [128,199,270,341,412,483,718,790,862,934,1006,1078]:
         lobby.append(glass_panel(x,617,69,51))
@@ -298,6 +300,7 @@ def lobby_art() -> str:
         rect(486,610,305,66,"#b1a388",INK,3),
         rect(501,616,272,56,"#e2caa4",INK,1.7),
         lamp(555,620,69),lamp(663,620,63),
+        place(587,623,emblem,.22),
         rect(547,645,185,24,"#ad895f",INK,1.5,3),
         rect(540,644,199,7,"#d1ae7c",INK,1.4,1.5),
         rect(622,630,45,14,"#59655a",INK,1.5,1.7),
@@ -938,6 +941,7 @@ def build():
         "origin":"Original W29 Kenyalang Rangers art. Eyes reference the approved E02 sheet. D-014 release review pending.",
         "references":["UI pp. 12, 38–68, 109–110","GDD §§ M.1–3","data/headquarters/rooms.tres"],
         "shell":plates,"unbuilt":receipt(unbuilt_path),
+        "reception_emblem": RECEPTION_EMBLEM.relative_to(ROOT).as_posix(),
         "overview":receipt(IMPORT/"overview.png"),"opening":receipt(IMPORT/"opening.png"),
         "trophy_anchor":[918,636],"trophy_max_size":[57,48],
         "draw_order":["jungle","roof","frame_back","lobby","room_back","staff","room_front","frame_front","foreground","controls"],

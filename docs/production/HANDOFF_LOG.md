@@ -377,3 +377,8 @@
 
 - The six supplied OGGs play through the Music bus with independent fixed gains and user volume. Godot verified two wraps per track, the finale override and the existing SFX behavior. Music attribution is available offline in the Field Guide. [Credits and publisher records](../reference/MUSIC_CREDITS.md)
 - The full source suite and signed Android payload passed. All 15 fresh Campaign match records agree with the previous fixture. Keep the retained revision 3 APK available until C38 passes handset listening, audio-focus and update checks. [Integration and build evidence](../qa/C38_SOUNDTRACK_INTEGRATION.md)
+
+### C37 · Unified brand and launcher icon · 2026-11-27
+
+- The GDD-inspired hornbill is live in the title, startup and Headquarters reception. The W29 builders consume the supplied masters. The Android preset and private candidate tool use the accepted launcher layers.
+- Source, native layout and signed payload checks passed. The retained C38 APK is available while the physical launcher and in-place update checks are pending. [C37 QA and captures](../qa/C37_UNIFIED_BRANDING.md)

@@ -434,3 +434,19 @@ adb install -r build/android/kenyalang-rangers-c38-debug.apk
 5. During active combat, pause, background or lock the phone, then return. Repeat while connected to headphones and during another application's audio interruption. Check that the restored track and volume are correct and no stale SFX play.
 
 Record the phone model, Android version and output device with each result. The APK passed the host payload and save-update rehearsal. No handset was attached for installation or listening. [C38 integration evidence](../docs/qa/C38_SOUNDTRACK_INTEGRATION.md) · [Loudness and mix data](../docs/qa/C38_AUDIO_MIXING.md)
+
+## C37 branding candidate
+
+Keep `build/android/kenyalang-rangers-c38-debug.apk` available. The C37 candidate uses the same ARM64 application and debug signer. Connect a phone with authorized USB debugging and install over the previous build.
+
+```sh
+adb devices -l
+adb install -r build/android/kenyalang-rangers-c37-debug.apk
+```
+
+1. Check the app drawer and Home icon at the smallest available launcher size. Check a circular and a rounded mask if the launcher allows either.
+2. On an Android launcher with themed icon support, toggle themed icons and verify the new silhouette and system tint. Home shortcuts may need a launcher refresh to show the new icon.
+3. Cold-launch offline and confirm the cream startup mark and Main Menu emblem. Open Headquarters to check the olive reception mark. Review the Main Menu at 100% and 130% text.
+4. Use the existing profile to verify Funds, Story progress and the soundtrack settings after updating. Report the model, OS version, launcher and mask used.
+
+Physical installation and launcher appearance are pending. The signed APK passed the host update rehearsal and packaged icon checks. [C37 QA and captures](../docs/qa/C37_UNIFIED_BRANDING.md)

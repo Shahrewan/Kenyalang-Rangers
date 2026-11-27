@@ -14,6 +14,9 @@ config/name="Kenyalang Rangers"
 run/main_scene="res://scenes/menus/launcher.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/imported/ui/w29/brand/app_icon.svg"
+boot_splash/bg_color=Color(0.207843, 0.27451, 0.129412, 1)
+boot_splash/image="res://assets/imported/ui/w29/brand/splash.png"
+boot_splash/fullsize=false
 
 [display]
 

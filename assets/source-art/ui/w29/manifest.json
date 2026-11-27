@@ -486,18 +486,33 @@
   },
   "brand": {
     "hornbill": "res://assets/imported/ui/w29/brand/hornbill.svg",
+    "hornbill_dark": "res://assets/imported/ui/w29/brand/hornbill_dark.svg",
     "fern": "res://assets/imported/ui/w29/brand/fern.svg",
-    "app_icon": "res://assets/imported/ui/w29/brand/app_icon.svg"
+    "app_icon": "res://assets/imported/ui/w29/brand/app_icon.svg",
+    "splash": "res://assets/imported/ui/w29/brand/splash.png"
+  },
+  "android_launcher": {
+    "main_192x192": "res://assets/imported/ui/w29/brand/android/launcher.png",
+    "adaptive_foreground_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_foreground.png",
+    "adaptive_background_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_background.png",
+    "adaptive_monochrome_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_monochrome.png"
   },
   "provenance": {
-    "frames_glyphs_brand": "Original vector assets authored for Kenyalang Rangers W29. Owner release review pending.",
+    "frames_glyphs": "Original vector assets authored for Kenyalang Rangers W29. Owner release review pending.",
+    "brand": "C37 owner-supplied Kenyalang Rangers Brand Pack, a vector trace inspired by the GDD insignia.",
     "fonts": "Noto Sans and Noto Serif by Google. Included unmodified under SIL OFL 1.1.",
     "reused": "Existing W28/C28-A field/interface assets and C20 restoration clearing."
   },
   "exports": {
-    "assets/imported/ui/w29/brand/app_icon.svg": "5fd0e49afcbaedc324e06671d6b6d7776d9acb6221e6e30b7eb9c0cba6af243b",
+    "assets/imported/ui/w29/brand/android/adaptive_background.png": "de52651d272dba0c56cb2583871410b7d468efbebc5c4c8914bf7766f094ab71",
+    "assets/imported/ui/w29/brand/android/adaptive_foreground.png": "9fc6c09d2d5c50863fe3416b978e6b1755f71597190836b44b0dd64f00e0a0cb",
+    "assets/imported/ui/w29/brand/android/adaptive_monochrome.png": "bb47ca1d900fedc439339ce8668d2192fd2382a90c8df280802cdad28b246858",
+    "assets/imported/ui/w29/brand/android/launcher.png": "7ff5afca5615de4000efbd7f63c4d8ecfc41957f58d4cdb234bb1222f7eb9d6a",
+    "assets/imported/ui/w29/brand/app_icon.svg": "f6d712d65a8122966b1205154e8812d8340066ae029e531afbf4d950db11f83d",
     "assets/imported/ui/w29/brand/fern.svg": "acaaeeafe2b595abbfa6872871cec48c72ba91af566eafdbeeb81d9874c5e8e5",
-    "assets/imported/ui/w29/brand/hornbill.svg": "613457540f853ad2f4ac384dc4ef6dba7264fdeb8e4f46c8d8803abccde13632",
+    "assets/imported/ui/w29/brand/hornbill.svg": "670de2352f06b5d8238f048633e7037b0da883f8137cb71da5a0a95c9e512ab7",
+    "assets/imported/ui/w29/brand/hornbill_dark.svg": "733bbd0f8a785433892da9f0848c4a7afa445d8a57e4d3fc156f6854b1302bbb",
+    "assets/imported/ui/w29/brand/splash.png": "5c31a2869996fa99d3fc98b42a86c111a896887a13243e79fd13bfbebc39115c",
     "assets/imported/ui/w29/fonts/NotoSans-Bold.ttf": "e83493c945848ecd4a9ad0f6d19164541a0d3e23a9c952304a00a46e00272ac5",
     "assets/imported/ui/w29/fonts/NotoSans-Regular.ttf": "89c3c497f618fdaa0b2d1e98fef93582f28c71debd2c4a8cdf41f190ced2909d",
     "assets/imported/ui/w29/fonts/NotoSerif-Bold.ttf": "0af0ff2be8f84910fb21ec5fe1b6b7395e3073250502a334baf6ca2f860c88fe",

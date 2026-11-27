@@ -85,7 +85,8 @@ def resources(catalog, data):
     menu = read(catalog["menu_receipts"])
     art.update(menu["glyphs"][key]["dark"] for key in catalog["modifier_glyphs"].values())
     art.update(menu["glyphs"][key]["light"] for key in ("list", "defense", "finance", "sound", "mute"))
-    art.add(menu["brand"]["app_icon"])
+    # Godot packages the raw boot splash through project.godot.
+    art.update(menu["brand"][key] for key in ("app_icon", "hornbill"))
     manager = read(catalog["portrait_receipts"])["portraits"]["manager"]
     art.update(record["texture"]["path"] for key, record in manager.items() if key.startswith("outreach_"))
     support = read(catalog["support_receipts"])["exports"]

@@ -19,8 +19,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--godot", default="godot")
     parser.add_argument("--package", default="com.shahrewan.kenyalangrangers.dev")
-    parser.add_argument("--icon", default="assets/placeholders/dev_icon.png",
-                        help="Tracked 192px launcher PNG path relative to the project")
+    parser.add_argument("--icon", help="Override the preset with a tracked 192px launcher PNG")
     parser.add_argument("--version-name", default="0.1.0-rc.1")
     parser.add_argument("--version-code", type=int, default=2)
     parser.add_argument("--out", type=Path, default=ROOT / "build/android/c24")
@@ -29,8 +28,8 @@ def main():
         parser.error("Invalid Android application ID")
     if not 0 < args.version_code <= 2100000000 or not re.fullmatch(r"[\w.-]+", args.version_name):
         parser.error("Expected a positive Android version code and a version label")
-    icon = Path(args.icon)
-    if icon.is_absolute() or ".." in icon.parts or icon.suffix.lower() != ".png":
+    icon = Path(args.icon) if args.icon else None
+    if icon is not None and (icon.is_absolute() or ".." in icon.parts or icon.suffix.lower() != ".png"):
         parser.error("Expected a project-relative launcher PNG")
     executable = shutil.which(args.godot)
     if not executable:
@@ -48,9 +47,8 @@ def main():
         subprocess.run(["git", "archive", "-o", archive, revision], cwd=ROOT, check=True)
         with tarfile.open(archive) as source:
             source.extractall(project, filter="data")
-        if not (project / icon).is_file():
+        if icon is not None and not (project / icon).is_file():
             parser.error("Commit the launcher PNG before exporting")
-        icon_path = "res://" + icon.as_posix()
         # Reuse the player resource allowlist and ABI settings from the committed preset.
         cfg = ConfigParser(interpolation=None)
         cfg.optionxform = str
@@ -58,21 +56,20 @@ def main():
         cfg.read(preset)
         cfg["preset.0"]["name"] = '"Android Candidate"'
         options = cfg["preset.0.options"]
+        icon_field = "launcher_icons/main_192x192"
+        if icon is not None:
+            options[icon_field] = json.dumps("res://" + icon.as_posix())
+        icon_path = json.loads(options[icon_field])
         options.update({
             "package/unique_name": json.dumps(args.package), "package/name": '"Kenyalang Rangers"',
             "version/code": str(args.version_code), "version/name": json.dumps(args.version_name),
             "package/signed": "false", "permissions/internet": "false",
-            "launcher_icons/main_192x192": json.dumps(icon_path),
         })
         with preset.open("w") as destination:
             cfg.write(destination, space_around_delimiters=False)
         settings = project / "project.godot"
         # Preserve Godot's top-level config_version and section serialization.
         original = settings.read_text()
-        original, count = re.subn(r'^config/icon=.*$', lambda _: "config/icon=" + json.dumps(icon_path),
-                                   original, count=1, flags=re.MULTILINE)
-        if count != 1:
-            raise SystemExit("Missing application icon setting")
         version = "config/version=" + json.dumps(args.version_name)
         if re.search(r"^config/version=", original, re.MULTILINE):
             original = re.sub(r"^config/version=.*$", version, original, count=1, flags=re.MULTILINE)

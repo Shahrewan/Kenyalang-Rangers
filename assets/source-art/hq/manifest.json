@@ -60,7 +60,7 @@
         1280,
         720
       ],
-      "sha256": "84a552f0428eb47f23787a0b94d1e542b74778bf411f47468a796089d18a6e69",
+      "sha256": "eb175279308f6f7b051b0764a18201cf3fbcedfff256f5d60b66cd8ee40e955a",
       "alpha_bounds_px": [
         122,
         608,
@@ -111,13 +111,14 @@
       210
     ]
   },
+  "reception_emblem": "assets/source-art/ui/w29/brand/hornbill_dark.svg",
   "overview": {
     "texture": "assets/imported/hq/overview.png",
     "dimensions": [
       1280,
       720
     ],
-    "sha256": "82600c627f43b5bc6ecd29717b0f05ff627a5e88039a5538ed037a3488bd1bdd",
+    "sha256": "ec544d828eaf6d788dae491555616ed7d68c6ad024014440087899dde901f23e",
     "alpha_bounds_px": [
       0,
       0,
@@ -131,7 +132,7 @@
       1280,
       720
     ],
-    "sha256": "d7eb21570f5de70be0839f6b2013c182a9be167a360f818bee6881c526d131b3",
+    "sha256": "bfb77d6efe8fa00550173da36bc6d5218cbac0184ceb23e299792e6929e3a06f",
     "alpha_bounds_px": [
       0,
       0,
