@@ -777,6 +777,19 @@
   "portrait_receipts": "res://assets/source-art/portraits/manifest.json",
   "support_receipts": "res://assets/source-art/support-w29/manifest.json",
   "menu_receipts": "res://assets/source-art/ui/w29/manifest.json",
+  "brand": {
+    "hornbill": "res://assets/imported/ui/w29/brand/hornbill.svg",
+    "hornbill_dark": "res://assets/imported/ui/w29/brand/hornbill_dark.svg",
+    "fern": "res://assets/imported/ui/w29/brand/fern.svg",
+    "app_icon": "res://assets/imported/ui/w29/brand/app_icon.svg",
+    "splash": "res://assets/imported/ui/w29/brand/splash.png"
+  },
+  "android_launcher": {
+    "main_192x192": "res://assets/imported/ui/w29/brand/android/launcher.png",
+    "adaptive_foreground_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_foreground.png",
+    "adaptive_background_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_background.png",
+    "adaptive_monochrome_432x432": "res://assets/imported/ui/w29/brand/android/adaptive_monochrome.png"
+  },
   "modifier_glyphs": {
     "B01": "ecology",
     "B02": "ecology",

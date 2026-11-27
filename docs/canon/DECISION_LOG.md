@@ -393,3 +393,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - Use the six supplied, loop-edited 32 kHz stereo OGGs at zero loop offset. Keep their bytes and dynamics. Store fixed playback gains in the soundtrack manifest to reach −18 LUFS-I ±0.5 and at most −1.5 dBTP per track at unity. Keep the 450 ms mode fade separate from each track's baked loop. [Mix evidence](../qa/C38_AUDIO_MIXING.md)
 - Music and SFX use separate buses feeding Master. Use a 1.5-power Music slider, independent hard mutes, and a −1.5 dBFS Master safety limiter. Keep the existing SFX cue balance and priorities. The soundtrack candidate keeps the revision 3 APK available and retains its Android package and signer. Physical audio-focus and listening acceptance are open. [Integration and build evidence](../qa/C38_SOUNDTRACK_INTEGRATION.md)
+
+### C37 unified brand · 2026-11-27
+
+- Use the owner-supplied C37 GDD-inspired hornbill as the project and launcher icon. The mark uses cream `#F6EAD0` on the menu and startup, and olive `#354621` on the pale Headquarters reception wall. The two vectors share geometry. The Main Menu title layout and the HQ building composition retain their approved treatments. [Asset and native evidence](../qa/C37_UNIFIED_BRANDING.md)
+- Use explicit Android classic, adaptive foreground, background and monochrome preset fields. The signed candidate retains the development identity and signer and keeps the signed C38 APK available. Phone launcher and themed appearance acceptance remain open. [Device procedure](../../export/README.md#c37-branding-candidate)

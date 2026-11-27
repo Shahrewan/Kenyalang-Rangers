@@ -140,18 +140,6 @@ REUSE = {
     "garden": "res://assets/imported/restoration/garden_clearing.jpg",
 }
 
-HONGBILL = """<g stroke="#283226" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">
-  <path d="M20 89c8-13 18-23 37-28l-1 18-13 19-22 4-7-6Z" fill="#efe2c1"/>
-  <path d="M23 87c10-14 19-23 34-28L53 78 39 92l-20 7 7-8Z" fill="#39483a"/>
-  <path d="M45 85c-7-7-8-20-2-28 2-4 8-6 12-10-1-10 4-19 12-23 12-6 24 0 29 10l-14 22c-2 12-10 25-25 31l-12-2Z" fill="#323c34"/>
-  <path d="M57 54c8-1 14-7 21-15l9 12-6 8c-5 17-18 22-28 19 3-6 6-14 4-24Z" fill="#f0e5c9"/>
-  <path d="M72 35c7-17 20-23 34-18 4 2 7 4 9 8l-14 8c-7-4-13-3-18 1Z" fill="#e79442"/>
-  <path d="M76 37c9-9 18-13 31-8l17 10c-10 8-28 12-44 11l-7-4Z" fill="#edbd69"/>
-  <path d="M81 41c15-1 27-3 37-5" fill="none" stroke="#a66536" stroke-width="2.8"/>
-  <path d="M42 64c1 8 6 13 13 14-4 7-9 11-14 11-4-8-4-19 1-25Z" fill="#4d5c45" stroke-width="2.8"/>
-  <circle cx="68.5" cy="36" r="3.7" fill="#e6af57" stroke-width="2.4"/>
-</g>"""
-
 FERN = """<g fill="#88916b" stroke="#657254" stroke-width="1.25" stroke-linecap="round">
   <path d="M11 72Q40 35 72 9M22 66q9-21 25-28-2 17-22 29ZM31 52q3-17 12-26 4 15-8 25Z"/>
   <path d="M40 42q5-18 18-26-4 17-16 27Zm13-14q7-14 20-17-6 13-18 18ZM22 64Q15 49 20 38q11 7 5 23Zm12-13q-5-14 3-23 6 10 0 22Z"/>
@@ -397,14 +385,10 @@ def main():
                 f'stroke-linejoin="round">{icon}</g>'
             )
             save_art(f"icons/{family}/{glyph}.svg", svg(32, 32, group, glyph.replace("_", " ").title()))
-    hornbill = HONGBILL.replace('<path d="M20', '<path d="M20')
-    save_art("brand/hornbill.svg", svg(140, 113, hornbill, "Kenyalang Rangers hornbill emblem"))
-    plate = (
-        '<rect x="4" y="4" width="132" height="132" rx="33" fill="#344735" stroke="#273426" stroke-width="6"/>'
-        '<rect x="10" y="10" width="120" height="120" rx="28" fill="none" stroke="#899971" stroke-width="2"/>'
-        f'<g transform="translate(0 12)">{hornbill}</g>'
-    )
-    save_art("brand/app_icon.svg", svg(140, 140, plate, "Kenyalang Rangers app icon candidate"))
+    # These approved C37 masters are owner-supplied art, shared with the HQ authoring tool.
+    for name in ("hornbill", "hornbill_dark", "app_icon"):
+        relative = Path("brand") / f"{name}.svg"
+        (ACTIVE / relative).write_bytes((SOURCE / relative).read_bytes())
     save_art("brand/fern.svg", svg(80, 80, FERN, "Forest fern trim"))
     theme(frame_names)
     manifest = {
@@ -430,16 +414,27 @@ def main():
         "modifier_glyphs": MODIFIER_GLYPHS,
         "modifier_id_glyphs": {id_: MODIFIER_GLYPHS[group] for id_, group in MODIFIER_ID_GROUPS.items()},
         "reuse": REUSE,
-        "brand": {key: texture_path(f"brand/{key}.svg") for key in ("hornbill", "fern", "app_icon")},
+        "brand": {
+            **{key: texture_path(f"brand/{key}.svg") for key in ("hornbill", "hornbill_dark", "fern", "app_icon")},
+            "splash": texture_path("brand/splash.png"),
+        },
+        "android_launcher": {
+            field: texture_path(f"brand/android/{name}.png")
+            for field, name in (
+                ("main_192x192", "launcher"), ("adaptive_foreground_432x432", "adaptive_foreground"),
+                ("adaptive_background_432x432", "adaptive_background"), ("adaptive_monochrome_432x432", "adaptive_monochrome"),
+            )
+        },
         "provenance": {
-            "frames_glyphs_brand": "Original vector assets authored for Kenyalang Rangers W29. Owner release review pending.",
+            "frames_glyphs": "Original vector assets authored for Kenyalang Rangers W29. Owner release review pending.",
+            "brand": "C37 owner-supplied Kenyalang Rangers Brand Pack, a vector trace inspired by the GDD insignia.",
             "fonts": "Noto Sans and Noto Serif by Google. Included unmodified under SIL OFL 1.1.",
             "reused": "Existing W28/C28-A field/interface assets and C20 restoration clearing.",
         },
         "exports": {
             path.relative_to(ROOT).as_posix(): digest(path)
             for path in sorted(ACTIVE.rglob("*"))
-            if path.suffix in {".svg", ".ttf", ".txt"}
+            if path.suffix in {".svg", ".ttf", ".txt", ".png"}
         },
     }
     (SOURCE / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False)+"\n", encoding="utf-8")
