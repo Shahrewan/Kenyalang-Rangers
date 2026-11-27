@@ -372,3 +372,8 @@
 
 - Both revision 3 archives replaced their 133 exact cue paths with recording-based SFX. The updated measured ledger records the source cuts and the hash-specific Continue/Skip trim exception. The cue registry and import choices are retained.
 - The signed Android candidate is separate from the retained C35 and C36-D builds. [Acceptance, APK comparison and device procedure](../qa/C36_SFX_REVISION_3.md)
+
+### C38 · Normalized looping soundtrack · 2026-11-27
+
+- The six supplied OGGs play through the Music bus with independent fixed gains and user volume. Godot verified two wraps per track, the finale override and the existing SFX behavior. Music attribution is available offline in the Field Guide. [Credits and publisher records](../reference/MUSIC_CREDITS.md)
+- The full source suite and signed Android payload passed. All 15 fresh Campaign match records agree with the previous fixture. Keep the retained revision 3 APK available until C38 passes handset listening, audio-focus and update checks. [Integration and build evidence](../qa/C38_SOUNDTRACK_INTEGRATION.md)

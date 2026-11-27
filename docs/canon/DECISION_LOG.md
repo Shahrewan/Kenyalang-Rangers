@@ -388,3 +388,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 ### C36 revision 3 SFX replacement · 2026-11-27
 
 - Both revision 3 deliveries are accepted for the Android candidate at their existing cue identities and import settings. The 110 ms Continue/Skip click retains its supplied PCM and has a hash-specific 69 ms quiet-tail limit. The stable APKs remain available pending handset review. [Revision 3 acceptance evidence](../qa/C36_SFX_REVISION_3.md)
+
+### C38 soundtrack and music mix · 2026-11-27
+
+- Use the six supplied, loop-edited 32 kHz stereo OGGs at zero loop offset. Keep their bytes and dynamics. Store fixed playback gains in the soundtrack manifest to reach −18 LUFS-I ±0.5 and at most −1.5 dBTP per track at unity. Keep the 450 ms mode fade separate from each track's baked loop. [Mix evidence](../qa/C38_AUDIO_MIXING.md)
+- Music and SFX use separate buses feeding Master. Use a 1.5-power Music slider, independent hard mutes, and a −1.5 dBFS Master safety limiter. Keep the existing SFX cue balance and priorities. The soundtrack candidate keeps the revision 3 APK available and retains its Android package and signer. Physical audio-focus and listening acceptance are open. [Integration and build evidence](../qa/C38_SOUNDTRACK_INTEGRATION.md)

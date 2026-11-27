@@ -509,7 +509,7 @@ func _settings_page() -> ProfileSettingsPage:
 	page.preferences = presentation
 	page.developer_progress = _campaign_progress
 	page.text_changed.connect(_restyle)
-	page.help_requested.connect(_open_guide.bind(""))
+	page.help_requested.connect(_open_guide.bind("References"))
 	return page
 
 func _open_battle_settings() -> void:
@@ -644,8 +644,10 @@ func _present(page: Control, route: StringName, back := Callable()) -> void:
 	if page is BattleScene:
 		page.settings_requested.connect(_open_battle_settings)
 		page.controls_requested.connect(_open_guide.bind(FieldGuide.CONTROLS))
-	presentation.set_route(route)
+	var stage_id: StringName = page.stage.stage_id if page is BattleScene and page.stage != null else &""
+	presentation.set_route(route, stage_id)
 	_content.add_child(page)
+	presentation.hold(_activity_held())
 	page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_resize_controls()
 	if route_changed and route not in [&"battle", &"chaos_battle", &"results", &"chaos_results"]:

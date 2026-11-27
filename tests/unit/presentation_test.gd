@@ -18,7 +18,7 @@ func _run() -> void:
 	ProfileFile.replace(path, data, false)
 	var app := _launch()
 	var bank: PresentationAudio = app.presentation
-	_check(bank.music.stream.loop_end > 0, "Menu has a looping local score")
+	_check(bank.music.stream is AudioStreamOggVorbis and bank.music.stream.loop, "Menu has a looping local score")
 	var fixture: EducationCatalog = app.education_catalog
 	app.education_catalog = EducationCatalog.new()
 	app._screen.find_child("OpenFAQ", true, false).pressed.emit()
@@ -62,8 +62,10 @@ func _run() -> void:
 	settings.find_child("MusicVolume", true, false).value = 25
 	settings.find_child("MasterVolume", true, false).value = 50
 	settings.find_child("SfxVolume", true, false).value = 0
-	_check(is_equal_approx(db_to_linear(bank.music.volume_db), 0.125), "Master and Music gains multiply")
-	_check(db_to_linear(bank.effects.volume_db) == 0 and db_to_linear(bank.alerts.volume_db) == 0, "SFX mute includes critical alerts")
+	var music_bus := AudioServer.get_bus_index(&"Music")
+	var master_bus := AudioServer.get_bus_index(&"Master")
+	_check(is_equal_approx(AudioServer.get_bus_volume_linear(master_bus) * AudioServer.get_bus_volume_linear(music_bus), 0.0625), "Master and perceptual Music gains multiply")
+	_check(AudioServer.is_bus_mute(AudioServer.get_bus_index(&"SFX")) and bank.effects.bus == &"SFX" and bank.alerts.bus == &"SFX", "SFX mute includes critical alerts")
 	var text := settings.find_child("TextSize130", true, false) as Button
 	await _touch(text)
 	await process_frame
@@ -87,7 +89,7 @@ func _run() -> void:
 	_check(bank.values == {"master": 50, "music": 25, "sfx": 0, "text": 130}, "Four preferences survive a cold launch")
 	for route: String in ["battle", "chaos_battle", "hq_garden", "menu"]:
 		bank.set_route(route)
-		_check(bank.music.stream.loop_end > 0, "%s has a loop" % route)
+		_check(bank.music.stream is AudioStreamOggVorbis and bank.music.stream.loop, "%s has a loop" % route)
 	bank.change("sfx", 80)
 	for id: String in PresentationAudio.CUES:
 		bank.cue(id)

@@ -104,7 +104,11 @@ func _mixer(mixer: PresentationAudio) -> void:
 	mixer.values.music = 60
 	mixer.values.master = 50
 	mixer._mix()
-	_check(is_equal_approx(db_to_linear(mixer.music.volume_db), 0.30) and db_to_linear(mixer.effects.volume_db) == 0.0, "SFX mute preserves the master-scaled music")
+	var music_bus := AudioServer.get_bus_index(&"Music")
+	var sfx_bus := AudioServer.get_bus_index(&"SFX")
+	var master_bus := AudioServer.get_bus_index(&"Master")
+	_check(not AudioServer.is_bus_mute(music_bus) and AudioServer.is_bus_mute(sfx_bus)
+		and is_equal_approx(AudioServer.get_bus_volume_linear(master_bus) * AudioServer.get_bus_volume_linear(music_bus), 0.5 * pow(0.6, 1.5)), "SFX mute preserves the master-scaled music")
 	_events.clear()
 	mixer.cue("combat_heat_overflow")
 	mixer._process(0.0)
@@ -114,12 +118,12 @@ func _mixer(mixer: PresentationAudio) -> void:
 	mixer._mix()
 	mixer.cue("ui_confirm")
 	mixer._process(0.0)
-	_check(db_to_linear(mixer.music.volume_db) == 0.0 and _events == ["ui_confirm"], "Music mute preserves UI SFX")
+	_check(AudioServer.is_bus_mute(music_bus) and _events == ["ui_confirm"], "Music mute preserves UI SFX")
 	mixer.values.master = 0
 	mixer._mix()
 	mixer.cue("ui_invalid")
 	mixer._process(0.0)
-	_check(_events == ["ui_confirm"] and db_to_linear(mixer.effects.volume_db) == 0.0, "Master mute affects both")
+	_check(_events == ["ui_confirm"] and AudioServer.is_bus_mute(master_bus), "Master mute affects both")
 	mixer.values = PresentationAudio.DEFAULTS.duplicate()
 	mixer._mix()
 
