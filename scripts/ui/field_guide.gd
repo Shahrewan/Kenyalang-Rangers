@@ -9,11 +9,11 @@ signal room_requested(id: StringName)
 const CREDITS := "Credits and engine license"
 const ARTICLE_FRAME := preload("res://assets/imported/education/records/article_frame.png")
 const CONTROLS := "Battle controls"
-const HEADQUARTERS_TUTORIAL := "Headquarters tutorial"
+const HEADQUARTERS_TUTORIAL := "Headquarters tips"
 const DEPLOY_TOPIC := "How do I deploy and retreat?"
 const ESCAPE_TOPIC := "What happens when enemies escape?"
 const TOPICS := {
-	DEPLOY_TOPIC: "Swipe across the tray to browse your loadout. Drag a card to a highlighted tile. After dropping a Ranger that needs a facing direction, choose Face left or Face right to preview its coverage. Tap Deploy to confirm or Cancel to return to the battle. After its cooldown, use the same card to place another copy on a free footprint. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
+	DEPLOY_TOPIC: "Tap a card, then tap a highlighted tile to place it. You can also drag the card straight onto the field. Swipe across the tray to see more cards. For a Ranger that needs a direction, choose Face left or Face right. Tap Deploy to confirm or Cancel to clear the placement. After its cooldown, use the same card to place another copy. Tap a deployed unit to use or arm its skill. Select a tile and confirm targeted skills. Hold a Ranger to reveal Retreat, then release onto it or tap it.",
 	ESCAPE_TOPIC: "Combat enemies that reach the tree-veiled tunnel reduce Operational Integrity. At zero Integrity the operation ends in defeat. Pause to inspect the waves and active enemies.",
 	"Where do I earn and spend Funds?": "Claim stored Funds in Finance. Operations and side activities can pay Funds. Use them for Headquarters rooms and deployable upgrades. Logistic Tokens pay for deployment during a battle.",
 	"How does the garden grow offline?": "Build Ecology to open two plots. Water halfway through the in-game growth time. Collect the mature tree to free the plot. The tree stays in the garden.",
