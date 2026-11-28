@@ -6,8 +6,8 @@ signal room_requested(id: StringName)
 
 const MISSIONS := {
 	&"C1-01": [
-		["Your first three placements", "Drag the Logistics Post card marked Free onto the two marked raised tiles. It earns Tokens every 10 combat seconds. Then place Scout Sniper on the marked raised tile and Patrolman on the marked path tile."],
-		["Drag, release, and face", "Swipe across the tray to see more cards. To place one, drag it up onto the field. The outline shows the tiles it needs. When you drop Patrolman on the path, tap Face left, then Deploy. Enemies enter from the left."],
+		["Your first three placements", "Tap the Logistics Post card marked Free, then tap the left of the two marked raised tiles. The Post earns Tokens every 10 combat seconds. Then place Scout Sniper on the marked raised tile and Patrolman on the marked path tile."],
+		["Tap or drag to place", "Tap a card and tap a highlighted tile, or drag a card up onto the field. Swipe straight across the tray to see more cards. When placing Patrolman, tap Face left, then Deploy. Enemies enter from the left."],
 		["How a battle is won", "Rangers attack automatically. Patrolman holds ground enemies in place so Scout can shoot them. A unit’s HP bar shows how much health is left. Keep enemies away from the wooded tunnel on the right."],
 		["Read the top bar", "Wave counts groups of enemies. Integrity starts at 100 and falls when enemies escape. At zero, you lose. Finish with no escapes for a perfect clear. Pause opens Enemy Intel. Stay at 1× while learning."],
 	],
@@ -38,7 +38,7 @@ const MISSIONS := {
 	],
 }
 const HEADQUARTERS := [
-	["1 · Start with Mechanical", "Tap Open Mechanical, then Build room and confirm the Funds cost. Return to your Story plan to equip the ordinary Logistics Post. The free Starter Post in First Contact was mission supply.", "room.mechanical", "Open Mechanical"],
+	["1 · Build Mechanical first", "Tap Open Mechanical below. Choose Build room, then confirm the Funds cost. Mechanical lets you equip a Logistics Post for Hold the Line. The Starter Post from First Contact was only for that mission.", "room.mechanical", "Open Mechanical"],
 	["2 · Open the next Story region", "Control Room levels reveal more Story operations. Open Control Room to see the exact cost and any gate. Each mission still requires the preceding clear.", "room.control_room", "Open Control Room"],
 	["3 · Equip and improve your teams", "Human Resources manages Ranger slots and permanent Ranger upgrades. Mechanical manages Facility slots and upgrades. Open a unit card, select a target level, compare the stats, then confirm only if the cost fits.", "room.human_resources", "Open Human Resources"],
 	["4 · Earn and spend Funds", "Mission rewards, Finance and activities add Funds to your persistent wallet. Claim stored Funds in Finance. Logistic Tokens are for battle placements and start fresh each operation.", "room.finance_room", "Open Finance"],
@@ -60,6 +60,8 @@ func _ready() -> void:
 	card.add_child(_heading)
 	_body = StoryUI.label("", 20)
 	card.add_child(_body)
+	if pages[0].size() > 2:
+		_open = _button(card, "", "LessonOpenRoom", _open_room, true)
 	var row := StoryUI.row(card, 8)
 	_prev = _button(row, "Previous", "LessonPrevious", _move.bind(-1))
 	_pages_label = StoryUI.label("", 17, StoryUI.BEIGE)
@@ -68,8 +70,6 @@ func _ready() -> void:
 	_pages_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(_pages_label)
 	_next = _button(row, "Next step", "LessonNext", _move.bind(1))
-	if pages[0].size() > 2:
-		_open = _button(card, "", "LessonOpenRoom", _open_room, true)
 	_render()
 
 func _button(row: Container, caption: String, id: String, callback: Callable, primary := false) -> Button:

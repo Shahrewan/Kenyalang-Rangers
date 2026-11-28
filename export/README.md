@@ -450,3 +450,17 @@ adb install -r build/android/kenyalang-rangers-c37-debug.apk
 4. Use the existing profile to verify Funds, Story progress and the soundtrack settings after updating. Report the model, OS version, launcher and mask used.
 
 Physical installation and launcher appearance are pending. The signed APK passed the host update rehearsal and packaged icon checks. [C37 QA and captures](../docs/qa/C37_UNIFIED_BRANDING.md)
+
+## Android quick deployment and HQ tips
+
+Keep the signed C37 APK available. Install the candidate over the existing development package and preserve its save.
+
+```sh
+adb devices -l
+adb install -r build/android/kenyalang-rangers-quick-deploy-debug.apk
+```
+
+1. In First Contact, make a quick upward drag followed by a diagonal drag from the tray. Check that the legal-tile preview responds promptly and that horizontal swipes still browse the tray.
+2. Tap the free Post card, then its highlighted tile. Try an invalid tile, an occupied tile and Android Back. Check the preview and that failed or cancelled placements spend no Tokens. Tap Patrolman, tap a path tile, choose a direction and tap Deploy.
+3. On a profile with unbuilt Mechanical, open Headquarters and look for **Start here · HQ tips** above the rooms. Tap it, then tap **Open Mechanical** before browsing other tips. Verify that Funds are spent only when the room purchase is confirmed.
+4. Repeat at 130% text and record how the gestures feel on the phone. The candidate has passed host touch and save-update tests. [QA evidence](../docs/qa/ANDROID_QUICK_DEPLOY_AND_HQ_TIPS.md)

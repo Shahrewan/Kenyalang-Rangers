@@ -382,3 +382,7 @@
 
 - The GDD-inspired hornbill is live in the title, startup and Headquarters reception. The W29 builders consume the supplied masters. The Android preset and private candidate tool use the accepted launcher layers.
 - Source, native layout and signed payload checks passed. The retained C38 APK is available while the physical launcher and in-place update checks are pending. [C37 QA and captures](../qa/C37_UNIFIED_BRANDING.md)
+
+### Android deployment and Headquarters tips · 2026-11-28
+
+- Short upward drags preview sooner, and players can tap a card and then a tile. The full-width early HQ tips action points directly to the Mechanical lesson. The signed candidate passed host touch and save-update checks. Retain C37 while physical phone playtests are pending. [QA and captures](../qa/ANDROID_QUICK_DEPLOY_AND_HQ_TIPS.md)

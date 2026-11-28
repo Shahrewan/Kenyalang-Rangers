@@ -398,3 +398,8 @@ The owner directed active skill indicators to be compact orbs beside the charact
 
 - Use the owner-supplied C37 GDD-inspired hornbill as the project and launcher icon. The mark uses cream `#F6EAD0` on the menu and startup, and olive `#354621` on the pale Headquarters reception wall. The two vectors share geometry. The Main Menu title layout and the HQ building composition retain their approved treatments. [Asset and native evidence](../qa/C37_UNIFIED_BRANDING.md)
 - Use explicit Android classic, adaptive foreground, background and monochrome preset fields. The signed candidate retains the development identity and signer and keeps the signed C38 APK available. Phone launcher and themed appearance acceptance remain open. [Device procedure](../../export/README.md#c37-branding-candidate)
+
+### Android deployment and Headquarters tips · 2026-11-28
+
+- Start an upward card drag after 4 logical pixels and retain the 14-pixel dead zone for scrolling. A card tap also permits a tile tap. Both methods use the same placement validation and explicit melee confirmation. [Touch and save evidence](../qa/ANDROID_QUICK_DEPLOY_AND_HQ_TIPS.md)
+- Use **Start here · HQ tips** as the first full-width action before Mechanical is built. The first tip names the Mechanical unlock and shows **Open Mechanical** above lesson navigation.

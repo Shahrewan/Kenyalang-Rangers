@@ -20,6 +20,7 @@ const Portrait := preload("res://scripts/ui/deployment_portrait.gd")
 
 const NO_POINTER := -2
 const MOUSE_POINTER := -1
+const CARD_LIFT_SLOP := 4.0
 
 var state: DeploymentState
 var mode := 0
@@ -36,6 +37,7 @@ var _swallow_emulated_mouse := false
 var _retreat_unit: StringName
 var _offered: Dictionary[StringName, DeploymentSpec] = {}
 var _press_at := Vector2.ZERO
+var _pressed_in_tray := false
 var _scroll_start := 0
 var _pan_tray := false
 var _drag_to_field := false
@@ -54,6 +56,8 @@ var _dismiss_facing: Button
 var _pending_spec: DeploymentSpec
 var _pending_cell := DeploymentState.NO_CELL
 var _pending_facing := 0
+var _selected_card: DeploymentSpec
+var _placement_tap_cell := DeploymentState.NO_CELL
 
 func _ready() -> void:
 	_confirm.pressed.connect(_confirm_skill)
@@ -189,7 +193,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	if plan != null and plan.operation.campaign_spec and not plan.operation.hints.is_empty():
 		_hint.text = ""
 	else:
-		_hint.text = "Drag the free Starter Post to two raised tiles." if rules.starter_only else "Drag a card onto the grid."
+		_hint.text = "Tap the free Post, then a raised tile." if rules.starter_only else "Tap a card, then a tile, or drag the card onto the field."
 	var offered: Array[DeploymentSpec] = []
 	offered.assign(_offered.values())
 	if state.clock.is_running() and not state.has_legal_opening(offered):
@@ -198,7 +202,7 @@ func setup(simulation: BattleSimulation, map: BattleMap, plan: OperationPlan = n
 	_refresh()
 
 func selected_card() -> DeploymentSpec:
-	return _gesture.dragging
+	return _gesture.dragging if _drag_to_field else _selected_card
 
 func is_choosing_facing() -> bool:
 	return _pending_spec != null
@@ -215,7 +219,7 @@ func _process(_delta: float) -> void:
 	if state.clock.tick >= _notice_until or not state.clock.is_running():
 		_local_notice.hide()
 	if not state.clock.is_running():
-		if _pointer != NO_POINTER or _pending_spec != null or _retreat.visible or not state.armed.is_empty():
+		if _pointer != NO_POINTER or _pending_spec != null or _selected_card != null or _retreat.visible or not state.armed.is_empty():
 			cancel_interaction()
 	elif _pointer != NO_POINTER and _gesture.reveal_hold(Time.get_ticks_msec()):
 		_show_retreat(_gesture.unit)
@@ -278,7 +282,8 @@ func _handle_emulated_mouse(event: InputEvent) -> void:
 func _is_field_gesture(at: Vector2) -> bool:
 	if _pending_spec != null or (_retreat.visible and _retreat.get_global_rect().has_point(at)):
 		return false
-	return _tray_clip().has_point(at) or not state.interaction_id(_board.cell_at(at)).is_empty() or (
+	var cell := _board.cell_at(at)
+	return _tray_clip().has_point(at) or (_selected_card != null and cell != DeploymentState.NO_CELL) or not state.interaction_id(cell).is_empty() or (
 		not state.armed.is_empty() and _board.get_global_rect().has_point(at))
 
 func _pointer_button(id: int, at: Vector2, pressed: bool) -> bool:
@@ -297,15 +302,22 @@ func _press(id: int, at: Vector2) -> bool:
 		return false
 	_hide_retreat()
 	var cell: Vector2i = _board.cell_at(at)
+	var in_tray := _tray_clip().has_point(at)
+	if _selected_card != null and not in_tray and cell != DeploymentState.NO_CELL:
+		_pointer = id
+		_placement_tap_cell = cell
+		_local_notice.hide()
+		_gesture.press(at, Time.get_ticks_msec(), null, &"", true)
+		_show_placement_preview(_selected_card, cell)
+		return true
 	var actor := state.interaction_id(cell)
 	var card: DeploymentSpec
-	if _tray_clip().has_point(at):
+	if in_tray:
 		for i in _cards.size():
 			if _cards[i].visible and _cards[i].get_global_rect().has_point(at):
 				card = _offered.get(_entries[i].id)
 				break
 	var targeting := card == null and not state.armed.is_empty() and _board.get_global_rect().has_point(at)
-	var in_tray := _tray_clip().has_point(at)
 	if not targeting:
 		_inspected_unit = actor if card == null else &""
 	if card == null and actor.is_empty() and not targeting and not in_tray:
@@ -315,6 +327,7 @@ func _press(id: int, at: Vector2) -> bool:
 		state.cancel_skill()
 	_pointer = id
 	_press_at = at
+	_pressed_in_tray = in_tray
 	_scroll_start = _scroll.scroll_horizontal
 	_gesture.press(at, Time.get_ticks_msec(), card, actor, targeting)
 	return true
@@ -323,26 +336,31 @@ func _pointer_motion(id: int, at: Vector2) -> bool:
 	if _pointer != id:
 		return false
 	_gesture.motion(at)
-	if _gesture.moved and _tray_clip().has_point(_press_at) and not _drag_to_field:
-		var movement := at - _press_at
-		if not _pan_tray and absf(movement.x) > absf(movement.y) and _tray_clip().has_point(at):
-			_pan_tray = true
-		elif not _pan_tray and _gesture.dragging != null:
+	if not _pressed_in_tray:
+		return true
+	var movement := at - _press_at
+	if not _pan_tray and not _drag_to_field:
+		var over_tray := _tray_clip().has_point(at)
+		var lifting := -movement.y >= CARD_LIFT_SLOP and -movement.y >= absf(movement.x)
+		if _gesture.dragging != null and (lifting or (_gesture.moved and not over_tray)):
 			_drag_to_field = true
-		if _pan_tray:
-			_scroll.scroll_horizontal = roundi(_scroll_start - movement.x)
-			return true
-	if _gesture.dragging != null and _gesture.moved:
-		_board.preview_spec = _gesture.dragging
-		_board.preview_cell = _board.cell_at(at)
-		_board.preview_facing = 0
-		_board.preview_badge = null
-		var error := state.placement_error(_gesture.dragging, _board.preview_cell)
-		if not error.is_empty():
-			_hint.text = error
-		else:
-			_hint.text = "Release to choose facing." if _gesture.dragging.is_melee() else "Release to deploy."
+		elif _gesture.moved and over_tray and absf(movement.x) > absf(movement.y) * 1.25:
+			var bar := _scroll.get_h_scroll_bar()
+			_pan_tray = bar.max_value > bar.page
+	if _pan_tray:
+		_scroll.scroll_horizontal = roundi(_scroll_start - movement.x)
+	elif _drag_to_field:
+		_show_placement_preview(_gesture.dragging, _board.cell_at(at))
 	return true
+
+func _show_placement_preview(spec: DeploymentSpec, cell: Vector2i) -> void:
+	_board.preview_spec = spec
+	_board.preview_cell = cell
+	if cell == DeploymentState.NO_CELL:
+		_hint.text = "Aim at a highlighted tile."
+		return
+	var error := state.placement_error(spec, cell)
+	_hint.text = ("Release to choose facing." if spec.is_melee() else "Release to deploy.") if error.is_empty() else error
 
 func _tray_clip() -> Rect2:
 	var clip := _scroll.get_global_rect()
@@ -354,19 +372,22 @@ func _tray_clip() -> Rect2:
 func _release(at: Vector2) -> void:
 	var cell: Vector2i = _board.cell_at(at)
 	var action := _gesture.release(at, Time.get_ticks_msec())
+	if _gesture.dragging != null and not _gesture.moved and _tray_clip().has_point(at):
+		_selected_card = null if _selected_card == _gesture.dragging else _gesture.dragging
+		_hint.text = "Tap a tile for %s. Tap its card again to cancel." % _selected_card.label if _selected_card != null else "Placement cancelled."
+		return
+	if _drag_to_field:
+		_selected_card = null
+		_place_card(_gesture.dragging, cell, at)
+		return
+	if _placement_tap_cell != DeploymentState.NO_CELL:
+		if action == DeploymentGesture.Release.TARGET and cell == _placement_tap_cell:
+			if _place_card(_selected_card, cell, at):
+				_selected_card = null
+		else:
+			_hint.text = "Tap a tile to place %s." % _selected_card.label
+		return
 	match action:
-		DeploymentGesture.Release.DROP:
-			var spec := _gesture.dragging
-			if spec.is_melee():
-				var error := state.placement_error(spec, cell)
-				if error.is_empty():
-					_pending_spec = spec
-					_pending_cell = cell
-					_select_facing(0)
-				else:
-					_placement_failed(error, at)
-			else:
-				_deploy(spec, cell, 1, at)
 		DeploymentGesture.Release.TAP:
 			if state.interaction_id(cell) == _gesture.unit:
 				if state.build_ticks_left(_gesture.unit) > 0:
@@ -384,6 +405,18 @@ func _release(at: Vector2) -> void:
 			else:
 				_show_local_error("Choose a tile in range.", at)
 				_hint.text = "Choose a highlighted tile, then confirm."
+
+func _place_card(spec: DeploymentSpec, cell: Vector2i, at: Vector2) -> bool:
+	if not spec.is_melee():
+		return _deploy(spec, cell, 1, at)
+	var error := state.placement_error(spec, cell)
+	if not error.is_empty():
+		_placement_failed(error, at)
+		return false
+	_pending_spec = spec
+	_pending_cell = cell
+	_select_facing(0)
+	return true
 
 func _select_facing(direction: int) -> void:
 	if _pending_spec == null or not state.clock.is_running():
@@ -410,21 +443,24 @@ func _confirm_deployment() -> void:
 	_deploy(spec, cell, facing, _board.get_global_transform_with_canvas() * _board.cell_center(cell))
 	_refresh()
 
-func _deploy(spec: DeploymentSpec, cell: Vector2i, facing: int, at: Vector2) -> void:
+func _deploy(spec: DeploymentSpec, cell: Vector2i, facing: int, at: Vector2) -> bool:
 	var error := state.deploy(spec, cell, facing)
 	if error.is_empty():
 		_hint.text = "%s deployed." % spec.label
-	else:
-		_placement_failed(error, at)
+		return true
+	_placement_failed(error, at)
+	return false
 
 func _placement_failed(error: String, at: Vector2) -> void:
 	_show_local_error(error, at)
 	_hint.text = "%s No Tokens spent." % error
 
 func cancel_pending_placement() -> bool:
-	if _pending_spec == null:
+	if _pending_spec == null and _selected_card == null:
 		return false
+	_selected_card = null
 	_clear_pending()
+	_cancel_pointer()
 	sound_requested.emit("ui_cancel")
 	_hint.text = "Placement cancelled · no Tokens spent."
 	_refresh()
@@ -439,9 +475,10 @@ func _clear_pending() -> void:
 func cancel_interaction() -> void:
 	if state == null:
 		return
-	if _pending_spec != null or _gesture.dragging != null:
+	if _pending_spec != null or _selected_card != null or _gesture.dragging != null:
 		sound_requested.emit("ui_cancel")
 	_hint.text = "Placement cancelled · no Tokens spent."
+	_selected_card = null
 	_cancel_pointer()
 	_clear_pending()
 	_hide_retreat()
@@ -463,11 +500,14 @@ func _show_local_error(message: String, at: Vector2) -> void:
 
 func _cancel_pointer() -> void:
 	_pointer = NO_POINTER
+	_pressed_in_tray = false
+	_placement_tap_cell = DeploymentState.NO_CELL
 	_pan_tray = false
 	_drag_to_field = false
 	_gesture.reset()
 	if _pending_spec == null:
 		_clear_preview()
+		_board.preview_spec = _selected_card
 
 func _clear_preview() -> void:
 	_board.preview_spec = null

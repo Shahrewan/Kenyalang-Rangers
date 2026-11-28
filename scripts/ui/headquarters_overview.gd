@@ -25,13 +25,18 @@ func _ready() -> void:
 	add_theme_constant_override("separation", 6)
 	var back := StoryUI.header(self, "Headquarters", func() -> void: back_requested.emit(), "%s Funds" % StoryUI.funds(progress.funds()))
 	back.custom_minimum_size.y = 64
-	var tutorial := StoryUI.action("HQ tutorial", true)
+	var start_here := progress.room_level(HeadquartersCatalog.MECHANICAL) == 0
+	var tutorial := StoryUI.action("Start here · HQ tips" if start_here else "HQ tips", true)
 	tutorial.name = "OpenHeadquartersTutorial"
 	tutorial.custom_minimum_size.y = 64
 	tutorial.pressed.connect(func() -> void: tutorial_requested.emit())
-	var header := back.get_parent()
-	header.add_child(tutorial)
-	header.move_child(tutorial, header.get_child_count() - 2)
+	if start_here:
+		tutorial.add_theme_font_size_override("font_size", 24)
+		add_child(tutorial)
+	else:
+		var header := back.get_parent()
+		header.add_child(tutorial)
+		header.move_child(tutorial, header.get_child_count() - 2)
 	_catalog = HeadquartersArt.new()
 	if _catalog.rooms.size() != CampaignProgress.HEADQUARTERS.rooms.size():
 		_show_room_list()

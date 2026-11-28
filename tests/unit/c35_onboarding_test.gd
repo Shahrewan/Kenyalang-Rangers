@@ -159,6 +159,10 @@ func _mechanical_link() -> void:
 func _headquarters() -> void:
 	_app.show_menu()
 	await _tap_named(_app._screen, "OpenHeadquarters")
+	var tips := _app._screen.find_child("OpenHeadquartersTutorial", true, false) as Button
+	_check(tips.text == "Start here · HQ tips" and tips.get_index() == 1 and tips.get_parent() == _app._screen,
+		"A fresh Headquarters presents a full-width Start here action before its rooms")
+	await _capture("headquarters-start-here")
 	await _tap_named(_app._screen, "OpenHeadquartersTutorial")
 	var guide := _app._guide as FieldGuide
 	_check(guide != null, "HQ opens its tutorial from the production overview")
@@ -166,6 +170,8 @@ func _headquarters() -> void:
 		return
 	var tour := guide.find_children("*", "OnboardingGuide", true, false).front() as OnboardingGuide
 	_check(tour != null and tour._open.text == "Open Mechanical", "Tour starts with the first useful room")
+	_check(tour._heading.text.contains("Build Mechanical first") and tour._open.get_index() < tour._next.get_parent().get_index(),
+		"The first tip tells players what to build and shows the room action above lesson navigation")
 	await _capture("headquarters-tour")
 	await _tap(tour._next)
 	_check(tour._open.text == "Open Control Room", "Next tour step points to mission access")

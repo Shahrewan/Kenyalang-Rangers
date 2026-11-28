@@ -29,23 +29,23 @@ func prompt(dragging: DeploymentSpec, choosing_facing: bool) -> String:
 	if dragging != null and _stage.stage_id != &"C1-01":
 		if dragging.logistics_post:
 			if _battle.deployment.posts_deployed == 0:
-				return "Drop over two raised tiles side by side. The first Post is free and instant."
-			return "Drop over two raised tiles side by side. A repeat Post costs Tokens and takes time to build."
+				return "Place on two raised tiles side by side. The first Post is free and instant."
+			return "Place on two raised tiles side by side. A repeat Post costs Tokens and takes time to build."
 		if dragging.kind == DeploymentSpec.Kind.GROUND_PAIR:
 			return "Cover two ground tiles side by side, then choose which way to face."
 		if dragging.is_melee():
-			return "Drop on the path, then choose which way to face."
+			return "Place on the path, then choose which way to face."
 		if dragging.kind == DeploymentSpec.Kind.ELEVATED:
 			return "Use a raised tile. Check that the tinted range covers your target area."
 		if dragging.kind == DeploymentSpec.Kind.FACILITY_PAIR:
 			return "Cover two raised tiles side by side. A Facility starts working when construction finishes."
 	if _stage.stage_id == &"C1-01":
 		if _battle.deployment.posts_deployed == 0:
-			return _placement(POST, Vector2i(1, 0), "1 · Drag the Logistics Post card marked Free onto the two gold tiles.")
+			return _placement(POST, Vector2i(1, 0), "1 · Tap the Logistics Post marked Free, then the left gold tile. You can also drag it there.")
 		if not _on_field(SCOUT):
-			return _placement(SCOUT, Vector2i(5, 2), "2 · Drag Scout Sniper to the marked raised tile by the bend.")
+			return _placement(SCOUT, Vector2i(5, 2), "2 · Tap Scout Sniper, then the marked raised tile by the bend.")
 		if not _on_field(PATROL):
-			return _placement(PATROL, Vector2i(6, 3), "3 · Drag Patrolman to the marked path tile, choose Face left, then Deploy.")
+			return _placement(PATROL, Vector2i(6, 3), "3 · Tap Patrolman, then the marked path tile. Choose Face left, then Deploy.")
 	elif _battle.deployment.posts_deployed == 0 and _offered.has(POST) and not _battle.deployment.rules.fixed_stockpile:
 		return _placement(POST, Vector2i(1, 0), "Place your free first Logistics Post across two raised tiles to earn Tokens.")
 	if _stage.stage_id == &"C1-03":
@@ -91,7 +91,7 @@ func prompt(dragging: DeploymentSpec, choosing_facing: bool) -> String:
 func _formation() -> String:
 	if _can_guide_to(PATROL, Vector2i(6, 3)):
 		cells.assign([Vector2i(6, 3)])
-		return "Drag Patrolman to the marked path tile. Choose Face left and tap Deploy."
+		return "Place Patrolman on the marked path tile. Choose Face left and tap Deploy."
 	if _can_guide_to(SCOUT, Vector2i(5, 2)):
 		cells.assign([Vector2i(5, 2)])
 		return "Place Scout on the marked raised tile so its range covers this bend."
@@ -124,5 +124,5 @@ func _placement(id: StringName, anchor: Vector2i, instruction: String) -> String
 		cells.assign(spec.footprint(anchor))
 		return instruction
 	if spec.kind == DeploymentSpec.Kind.FACILITY_PAIR:
-		return "Drag %s onto two free raised tiles side by side." % spec.label
-	return "Drag %s to a free %s." % [spec.label, "ground tile" if spec.uses_ground() else "raised tile"]
+		return "Place %s on two free raised tiles side by side." % spec.label
+	return "Place %s on a free %s." % [spec.label, "ground tile" if spec.uses_ground() else "raised tile"]
